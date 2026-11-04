@@ -15,7 +15,7 @@ AxeGraft Patcher SHALL be a 32-bit MPQDraft plugin that uses MPQDraft's new-styl
 
 #### Scenario: MPQDraft without the new interface
 - **WHEN** a version of MPQDraft without the new-style interface loads the plugin
-- **THEN** that MPQDraft refuses the plugin rather than running it without its callbacks
+- **THEN** that MPQDraft refuses the plugin rather than running it with its patch MPQs not yet open
 
 ### Requirement: Offered only for supported games
 AxeGraft Patcher SHALL report that it can patch an executable only if that executable is a supported build.
@@ -53,12 +53,16 @@ When first loaded in the game, before game code runs, AxeGraft Patcher SHALL ide
 - **WHEN** a SEMPQ containing AxeGraft Patcher launches an unsupported build
 - **THEN** the user gets an error naming the executable, and the game closes before any game code runs
 
-### Requirement: Applying the mod when patch MPQs are ready
-AxeGraft Patcher SHALL read, validate and apply mods when MPQDraft reports that the patch MPQs are loaded, and only once per process.
+### Requirement: Applying the mod before game code runs
+AxeGraft Patcher SHALL read, validate and apply mods when first loaded in the game, before game code runs, and only once per process. It SHALL rely on MPQDraft having already opened the patch MPQs.
 
 #### Scenario: Normal launch
-- **WHEN** MPQDraft reports that the patch MPQs are loaded
-- **THEN** AxeGraft Patcher reads the inputs, and applies the merged mod before returning control
+- **WHEN** MPQDraft loads AxeGraft Patcher in the game
+- **THEN** AxeGraft Patcher reads the inputs, and applies the merged mod before any game code runs
+
+#### Scenario: Game reopens its archives
+- **WHEN** the game closes all its MPQs and opens them again
+- **THEN** the mod isn't read or applied again
 
 #### Scenario: Run without patch MPQs
 - **WHEN** the only input is the directly supplied file

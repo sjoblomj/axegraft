@@ -97,7 +97,7 @@ A code-site constant SHALL list, for each build where it's available, the bytes 
 - **THEN** each build records its own bytes for that option
 
 ### Requirement: Function tables per build
-The library SHALL give each condition, action and status function a unique name, and SHALL record its address per build and the type of value it reads. A function that doesn't exist on a build SHALL be recorded as absent there.
+The library SHALL give each condition, action and status function a unique name, and SHALL record its address per build and the type of variable it reads. A function that doesn't exist on a build SHALL be recorded as absent there.
 
 #### Scenario: Function shared under one source symbol
 - **WHEN** several distinct game functions share a single symbol in a reference source

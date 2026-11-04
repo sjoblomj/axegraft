@@ -21,6 +21,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 - Importing all data from the reference documents, or deciding how those documents become machine-readable.
 - Warcraft II levels and victory conditions, file names and other tables beyond the four parts.
 - New game behaviour, including plugin functions behind game pointers.
+- Patches inside maps, which needs detecting map starts, undoing changes and patching a running game.
 - Handling problems seen only in menus or from the game overwriting edits, until they're actually observed.
 - Implementing the MPQDraft changes, which are separate work in that repository.
 - CI, because this repository has no remote yet.
@@ -77,7 +78,7 @@ Expected pointers are stored as RVAs and rebased before comparing, which covers 
 | Build identity              | PE timestamp plus fixed product version. The same parser reads a file during setup and the loaded image in the game. |
 | Table locations and layouts | Per-build table RVA, with a layout chosen from a fixed set for each game |
 | Function addresses          | Per-build RVA for each uniquely named function, or absent |
-| Value types                 | Per-function type: none, unit, tech, upgrade, number or button set |
+| Variable types               | Per-function variable type: none, unit, tech, upgrade, number or button set |
 | Set numbering               | Per-build map from each game's own numbering to the build's IDs |
 | Stream references           | Per-build lists of references to the stream base and to base + 2 |
 | Constants                   | Per-build: locations, `not_applicable` or `unknown` |
@@ -102,16 +103,16 @@ The planner first takes a snapshot of each set, meaning its count and pointer, f
 
 Assignments only read the resolved sets, so they can't chain or depend on order. Other fields in an entry, like StarCraft's secondary set ID, aren't changed. Blobs live in writable plugin memory that's never freed, because the game can write to buttons and keeps using them until it exits.
 
-### 8. Two lifecycle steps in the plugin
+### 8. Everything happens in `InitializePlugin`
 
 ```
-InitializePlugin            identify build; unsupported --> error, close
-Patch-MPQs-loaded callback  read inputs --> parse --> merge --> plan
-  (once only)               log plan --> apply --> read back --> flush log
-                            any problem --> log, flush, error, return FALSE
+InitializePlugin    identify build; unsupported --> error, close
+  (patch MPQs open) read inputs --> parse --> merge --> plan
+                    log plan --> apply --> read back --> flush log
+                    any problem --> log, flush, error, return FALSE
 ```
 
-All mods are read in the callback, including the directly supplied file, so there's a single path. The plugin keeps a once-only guard of its own as well, in addition to MPQDraft's. Reading comes from `GetPatchMPQCount` and `ReadPatchFile`, and the direct file through `GetPluginModule` and ordinary file reads.
+MPQDraft opens the patch MPQs before loading plugins, so a single step can read every input and patch before any game code runs. That also means the game can't have read a value before it's patched. *Alternative considered:* a second callback at the game's first archive open, which would have meant patching after some game code had run, plus once-only, locking and "never fired" handling in MPQDraft. Reading comes from `GetPatchMPQCount` and `ReadPatchFile`, and the direct file through `GetPluginModule` and ordinary file reads.
 
 Each ABI entry point wraps its work in `catch_unwind`, so release builds use `panic = "unwind"`. A panic becomes the normal error path.
 
@@ -150,7 +151,8 @@ The first version ships complete structural data for StarCraft 1.16.1, StarCraft
 
 - **Reference data lists rows sharing an offset** → `starcraft.md` has rows that share a location on some builds, such as maximum and minimum supply. The "no shared locations" rule rejects these, so importing them needs a per-row choice: one combined constant, or leaving them out. The starter set avoids them, and the library check catches them.
 - **MPQDraft interfaces don't exist yet** → `axegraft-patcher-core` and `axegraft-patcher-library` don't depend on them. The `abi` module is written last and stays small, so interface changes stay contained.
-- **Some game tables may be read before the callback** → patching in the callback would then be too late for those tables. The end-to-end game test reads values back in a running game. If that's a real issue, the affected writes would move to `InitializePlugin`, which is possible because the plan and apply steps are separate.
+- **Opening patch MPQs early may not work on every game** → a game might set up Storm in its own code before its first open. MPQDraft will spike this on real games first. If some games fail, MPQDraft falls back to an opt-in flag for new-style plugins, which AxeGraft Patcher would set, but a game it supports could still misbehave. The early open has only been seen working under Wine, in runs that stopped during startup, so tasks 10.1-10.4 play real games with it.
+- **The game may overwrite an edit** → patching before game code runs means a table the game fills during startup would lose the edit. Task 10.4 reads values back in a running game.
 - **Rearranging may need more than data** → some game rules may have no data form. Named options in Constants cover code-site checks. Rules needing a plugin function are out of scope, and would be added as named, fixed features.
 - **Wine differs from Windows** → in particular, relocation and error dialogs may not behave the same. Unit tests cover relocation, and the footprint is checked by inspection. Real Windows behaviour remains untested for now.
 - **Antivirus false positives** → MPQDraft's injection is the likelier trigger. AxeGraft Patcher only keeps its own behaviour narrow.

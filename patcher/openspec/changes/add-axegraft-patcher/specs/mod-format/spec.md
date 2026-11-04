@@ -7,11 +7,15 @@ Defines the versioned JSON format mods are written in, and the rules that decide
 ## ADDED Requirements
 
 ### Requirement: Mod header
-A mod SHALL be a JSON object with a `format` version and a `game`, which is `starcraft` or `warcraft2`. It SHALL NOT name a game build.
+A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `format` version and a `game`, which is `starcraft` or `warcraft2`. `patcher` tells anyone opening the file what it is. A mod SHALL NOT name a game build.
 
 #### Scenario: Valid header
-- **WHEN** a mod has `"format": 1` and `"game": "starcraft"`
+- **WHEN** a mod has `"patcher": "AxeGraft"`, `"format": 1` and `"game": "starcraft"`
 - **THEN** its header is accepted
+
+#### Scenario: Missing or wrong patcher value
+- **WHEN** a mod has no `patcher`, or its value isn't exactly `AxeGraft`
+- **THEN** the mod is rejected, with an error saying the file isn't an AxeGraft Patcher mod
 
 #### Scenario: Unsupported format version
 - **WHEN** a mod has a `format` this AxeGraft Patcher doesn't support
@@ -55,7 +59,7 @@ A mod SHALL refer to game content, meaning units, upgrades, techs, orders, butto
 - **THEN** the mod is rejected
 
 ### Requirement: Unit entries
-A `units` entry SHALL have an `id` and at least one of `button_set`, `status_changed` and `status_update`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, and `status_update` SHALL name the function that draws it. These are separate fields.
+A `units` entry SHALL have an `id` and at least one of `button_set`, `status_changed`, `status_update` and, in StarCraft only, `status_unit_type`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, `status_update` SHALL name the function that draws it, and `status_unit_type` SHALL be the unit ID stored in the same status entry.
 
 #### Scenario: Change only the button set
 - **WHEN** a unit entry has an `id` and a `button_set`
@@ -73,6 +77,14 @@ A `units` entry SHALL have an `id` and at least one of `button_set`, `status_cha
 - **WHEN** a unit entry has an `id` outside the game's unit range
 - **THEN** the mod is rejected
 
+#### Scenario: Status unit type out of range
+- **WHEN** a unit entry has a `status_unit_type` outside the game's unit range
+- **THEN** the mod is rejected
+
+#### Scenario: Status unit type in a Warcraft II mod
+- **WHEN** a `warcraft2` mod has a unit entry with a `status_unit_type`
+- **THEN** the mod is rejected, because that game's unit data has no such field
+
 ### Requirement: Button set entries
 A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces that set's buttons entirely. Button set IDs SHALL use one numbering for each game, independent of build. For StarCraft, that is the numbering used from 1.12 onwards.
 
@@ -89,7 +101,7 @@ A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces t
 - **THEN** the mod is rejected
 
 ### Requirement: Button fields
-A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_string`, a `requirement` and an `action`. A `requirement` SHALL name a condition, and an `action` SHALL name an action function. Warcraft II buttons SHALL also state the order they highlight.
+A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_string`, a `condition` and an `action`, and MAY have a `condition_variable` and an `action_variable`. `condition` and `action` SHALL name functions. Warcraft II buttons SHALL also state the order they highlight.
 
 #### Scenario: Position out of range
 - **WHEN** a button's `position` is outside the game's panel, which is 1-9 in StarCraft and 0-8 in Warcraft II
@@ -99,27 +111,39 @@ A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_st
 - **WHEN** a button omits a required field
 - **THEN** the mod is rejected, with an error naming the button and the field
 
+#### Scenario: Condition and action with their variables
+- **WHEN** a button's condition and action each read a variable, and the button has a different valid value for each
+- **THEN** each function is accepted with its own variable
+
 #### Scenario: Icon and string IDs
 - **WHEN** an `icon` or string ID fits the game's field size
 - **THEN** it is accepted, even if it's beyond the game's original data, because an MPQ can extend that data
 
-### Requirement: Typed function values
-A condition or action function SHALL take a `value` only if the library says it reads one, and the value's type SHALL be the one the library gives it: unit, tech, upgrade, number or button set.
+### Requirement: Typed function variables
+A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, number or button set. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
 
-#### Scenario: Value of the wrong kind
-- **WHEN** an action that takes a tech is given a tech ID outside the game's tech range
+#### Scenario: Variable of the wrong kind
+- **WHEN** an action that takes a tech is given an `action_variable` outside the game's tech range
 - **THEN** the mod is rejected
 
-#### Scenario: Missing value
-- **WHEN** a function that reads a value is given none
+#### Scenario: Missing variable
+- **WHEN** a function that reads a variable is given none
 - **THEN** the mod is rejected
 
-#### Scenario: Unexpected value
-- **WHEN** a function that doesn't read a value is given one
+#### Scenario: Variable on a function that doesn't read it
+- **WHEN** a function that doesn't read a variable is given one that fits the game's field
+- **THEN** the variable is accepted, whatever its value
+
+#### Scenario: Variable left out on a function that doesn't read it
+- **WHEN** a function that doesn't read a variable is given none
+- **THEN** the button is accepted, and that variable is 0
+
+#### Scenario: Unread variable too large for its field
+- **WHEN** a function that doesn't read a variable is given one that doesn't fit the game's field
 - **THEN** the mod is rejected
 
-#### Scenario: Value too large for its field
-- **WHEN** a condition value is above 255 in StarCraft, whose condition parameter is read as a byte
+#### Scenario: Variable too large for its field
+- **WHEN** a `condition_variable` is above 255 in StarCraft, whose condition parameter is read as a byte
 - **THEN** the mod is rejected
 
 ### Requirement: Requirement entries
@@ -134,7 +158,7 @@ A `requirements` entry SHALL have a `type`, which is `unit`, `upgrade`, `tech_re
 - **THEN** that item has no requirement record
 
 ### Requirement: Requirement lists
-A `list` SHALL be a flat array in which a string is an opcode name and a number is a parameter or a bare unit ID. The closing end-of-list marker SHALL NOT be written in the list.
+A `list` SHALL be a flat array in which a string is an opcode name and a number is a parameter or a bare unit ID.
 
 #### Scenario: Valid list
 - **WHEN** a list is `["current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]`

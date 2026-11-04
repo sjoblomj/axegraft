@@ -49,8 +49,8 @@ Skipping SHALL apply only to constants. A unit, button set or requirement change
 - **WHEN** a button uses a condition or action that doesn't exist on the running build
 - **THEN** the mod is rejected, with an error naming the function and the build
 
-#### Scenario: Button value refers to an absent set
-- **WHEN** an action's value refers to a button set that doesn't exist on the running build
+#### Scenario: Action variable refers to an absent set
+- **WHEN** a button's `action_variable` refers to a button set that doesn't exist on the running build
 - **THEN** the mod is rejected
 
 ### Requirement: Checking expected bytes
@@ -61,7 +61,7 @@ Before changing anything, AxeGraft Patcher SHALL compare the current bytes at ev
 - **THEN** no memory is changed, and the error names the property, the location, and the expected and actual bytes
 
 ### Requirement: Translating IDs to the running build
-AxeGraft Patcher SHALL translate button set IDs to the running build's own numbering, including those inside button values.
+AxeGraft Patcher SHALL translate button set IDs to the running build's own numbering, including those in `action_variable`.
 
 #### Scenario: Set numbered differently on this build
 - **WHEN** a mod defines a set that the running build numbers differently
@@ -81,6 +81,10 @@ Defining a button set SHALL change only that set. Buttons SHALL be built in the 
 #### Scenario: Set with more buttons than the original
 - **WHEN** a mod defines a set with more buttons than the original
 - **THEN** all its buttons are available in the game
+
+#### Scenario: Variable the game doesn't read
+- **WHEN** a button gives a variable to a function that doesn't read it
+- **THEN** the value is written as given
 
 #### Scenario: Game writes to its buttons
 - **WHEN** the game writes to a button of a replaced set while running
@@ -107,6 +111,13 @@ Setting a unit's `status_changed` or `status_update` SHALL change only that func
 #### Scenario: Different kinds of function
 - **WHEN** a mod sets a unit's `status_changed` and `status_update` to functions of different kinds
 - **THEN** each is applied as given
+
+### Requirement: Status unit type changes
+Setting a unit's `status_unit_type` SHALL change only that value in that unit's status entry, on StarCraft builds.
+
+#### Scenario: Only the unit type set
+- **WHEN** a mod sets a unit's `status_unit_type` and neither of its status functions
+- **THEN** only the stored unit type changes
 
 ### Requirement: Requirement record changes
 A requirement entry SHALL replace only that item's record in the running build's own stream. Records the mod doesn't define SHALL stay as they are on that build, and the game SHALL use the new stream in all places that refer to it.

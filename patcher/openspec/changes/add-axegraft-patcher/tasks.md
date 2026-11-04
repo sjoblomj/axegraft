@@ -14,7 +14,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 2.2 Parse the header and parts with strict fields and ignored labels, and verify the "Mod header", "Mod parts" and "Strict fields" scenarios pass as tests
 - [ ] 2.3 Validate unit entries and ID ranges against a game vocabulary, and verify the "Unit entries" scenarios pass
 - [ ] 2.4 Validate button set entries, button fields and positions, and verify the "Button set entries" and "Button fields" scenarios pass for both games
-- [ ] 2.5 Validate typed function values, and verify the "Typed function values" scenarios pass, including the byte limit on StarCraft conditions
+- [ ] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions
 - [ ] 2.6 Validate requirement entries and lists, and verify the "Requirement entries" and "Requirement lists" scenarios pass, including the Zerg Carapace example
 - [ ] 2.7 Validate constant entries, ranges and options, and verify the "Constant entries" scenarios pass
 - [ ] 2.8 Reject duplicates within a mod and report all problems together, and verify the "No duplicates within a mod" and "All problems reported together" scenarios pass
@@ -42,8 +42,8 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 
 - [ ] 5.1 Define the `Memory` trait and a fake implementation with a non-standard default base, and verify its reads, writes, allocation and write tracking with unit tests
 - [ ] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a build" and "Same validation on every build" scenarios pass
-- [ ] 5.3 Plan button sets, including layouts, function addresses, typed values and set ID translation, and verify the "Button set changes" and "Translating IDs to the running build" scenarios pass
-- [ ] 5.4 Plan unit assignments and status functions, and verify the "Assigning button sets to units" and "Status function changes" scenarios pass, including chained assignments
+- [ ] 5.3 Plan button sets, including layouts, function addresses, typed variables and set ID translation, and verify the "Button set changes" and "Translating IDs to the running build" scenarios pass
+- [ ] 5.4 Plan unit assignments, status functions and status unit types, and verify the "Assigning button sets to units", "Status function changes" and "Status unit type changes" scenarios pass, including chained assignments
 - [ ] 5.5 Decode and re-encode requirement streams, and verify a synthetic stream with upgrade sublists round-trips byte for byte, and that property tests round-trip generated records
 - [ ] 5.6 Plan requirement changes, including replacing, removing and appending records and repointing references, and verify the "Requirement record changes" scenarios pass
 - [ ] 5.7 Reject what can't be applied on the build and compare expected bytes, and verify the "Skipping is limited to constants" and "Checking expected bytes" scenarios pass
@@ -70,7 +70,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 8.1 Spike a minimal plugin exporting the new entry point with its undecorated name, and verify with `i686-w64-mingw32-objdump -p` and a loader test under Wine
 - [ ] 8.2 Implement the `abi` module for the new-style interface, and verify the identification, `CanPatchExecutable` and settings scenarios with a test host under Wine
 - [ ] 8.3 Implement the `win32` module and real `Memory`, with protection restored and instruction cache flushed, and verify under Wine that writes to code and data work and protection is restored
-- [ ] 8.4 Implement `InitializePlugin` and the once-only patch-MPQs-loaded callback, and verify the lifecycle scenarios with the test host, including the unsupported-build case
+- [ ] 8.4 Implement `InitializePlugin`, reading inputs and applying the mod in a single step, and verify the lifecycle scenarios with the test host, including the unsupported-build case and archives being reopened
 - [ ] 8.5 Read inputs through `GetPatchMPQCount`, `ReadPatchFile` and `GetPluginModule`, and verify the "Mods in patch MPQs" and "Directly supplied mod" scenarios with the test host
 - [ ] 8.6 Implement the failure path with `catch_unwind`, error dialog, log flush and `FALSE` return, and verify the "Failing closes the game" and "Internal faults stay contained" scenarios with the test host
 - [ ] 8.7 Write the log to `%TEMP%\AxeGraftPatcher.log`, and verify under Wine that it replaces the old log, survives a forced exit during patching, and that an unwritable log doesn't stop a valid mod
