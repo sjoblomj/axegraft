@@ -55,18 +55,22 @@ A mod SHALL refer to game content, meaning units, upgrades, techs, orders, butto
 - **THEN** the mod is rejected
 
 ### Requirement: Unit entries
-A `units` entry SHALL have an `id` and at least one of `button_set` and `status`. `status` SHALL name the function that decides when the status panel is redrawn, and the function that draws it. The two MAY be set independently.
+A `units` entry SHALL have an `id` and at least one of `button_set`, `status_changed` and `status_update`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, and `status_update` SHALL name the function that draws it. These are separate fields.
 
 #### Scenario: Change only the button set
 - **WHEN** a unit entry has an `id` and a `button_set`
 - **THEN** the entry is accepted, and the unit's status functions are left unchanged
+
+#### Scenario: Change only one status function
+- **WHEN** a unit entry has an `id` and a `status_update`
+- **THEN** the entry is accepted, and the unit's `status_changed` function is left unchanged
 
 #### Scenario: Entry with nothing to change
 - **WHEN** a unit entry has only an `id`
 - **THEN** the mod is rejected
 
 #### Scenario: Unit ID out of range
-- **WHEN** a unit entry has an `id` outside the game's unit range, such as 228 in StarCraft or 110 in Warcraft II
+- **WHEN** a unit entry has an `id` outside the game's unit range
 - **THEN** the mod is rejected
 
 ### Requirement: Button set entries
@@ -172,7 +176,7 @@ A `constants` entry SHALL have a `name` and exactly one of `value` and `option`.
 - **THEN** the mod is rejected, with an error naming the constant
 
 ### Requirement: Stored scale for constants
-A constant's `value` SHALL use the scale the game stores it in, such as 400 for a maximum of 200 supply. Sign and width differences between storage locations SHALL NOT affect the mod's value.
+A constant's `value` SHALL use the scale the game stores it in, not a scale converted for display. Sign and width differences between storage locations SHALL NOT affect the mod's value.
 
 #### Scenario: Value stored in two forms
 - **WHEN** one constant is stored as `50` at one location and `-50` at another, and a mod sets it to 60
@@ -182,7 +186,7 @@ A constant's `value` SHALL use the scale the game stores it in, such as 400 for 
 A single mod SHALL NOT define the same field of the same item twice.
 
 #### Scenario: Same unit twice with different fields
-- **WHEN** a mod has two entries for unit 5, one with `button_set` and one with `status`
+- **WHEN** a mod has two entries for unit 5, one with `button_set` and one with `status_update`
 - **THEN** the mod is accepted
 
 #### Scenario: Same button set twice

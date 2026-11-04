@@ -61,7 +61,11 @@ AxeGraft Patcher SHALL merge all inputs into one mod when they don't overlap. Th
 Two inputs SHALL overlap when both define the same field of the same unit, the same button set, the same requirement record or the same constant. They SHALL overlap even if the values are identical.
 
 #### Scenario: Different fields on one unit
-- **WHEN** one input sets unit 5's `button_set` and another sets unit 5's `status`
+- **WHEN** one input sets unit 5's `button_set` and another sets unit 5's `status_update`
+- **THEN** the inputs don't overlap
+
+#### Scenario: Different status functions on one unit
+- **WHEN** one input sets unit 5's `status_changed` and another sets unit 5's `status_update`
 - **THEN** the inputs don't overlap
 
 #### Scenario: Same button set

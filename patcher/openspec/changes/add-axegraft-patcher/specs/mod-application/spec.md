@@ -63,13 +63,13 @@ Before changing anything, AxeGraft Patcher SHALL compare the current bytes at ev
 ### Requirement: Translating IDs to the running build
 AxeGraft Patcher SHALL translate button set IDs to the running build's own numbering, including those inside button values.
 
-#### Scenario: Set ID on an older build
-- **WHEN** a mod on StarCraft 1.11b defines set 233, which that build numbers 232
-- **THEN** the change is applied to that build's set 232
+#### Scenario: Set numbered differently on this build
+- **WHEN** a mod defines a set that the running build numbers differently
+- **THEN** the change is applied to the running build's ID for that set
 
 #### Scenario: Action that opens a button set
-- **WHEN** a button's action opens set 239 and the running build numbers that set 237
-- **THEN** the written button refers to 237
+- **WHEN** a button's action opens a set that the running build numbers differently
+- **THEN** the written button uses the running build's ID for that set
 
 ### Requirement: Button set changes
 Defining a button set SHALL change only that set. Buttons SHALL be built in the running build's layout, using that build's function addresses and the plugin's own memory, and other sets that shared the old array SHALL be unaffected.
@@ -98,18 +98,22 @@ Setting a unit's `button_set` SHALL give that unit the buttons of the named set,
 - **THEN** unit 0 has set 5's buttons, and unit 5 has set 7's buttons
 
 ### Requirement: Status function changes
-Setting a unit's `status` SHALL change that unit's two status functions to the named functions' addresses on the running build.
+Setting a unit's `status_changed` or `status_update` SHALL change only that function of that unit, to the named function's address on the running build.
 
-#### Scenario: Independent functions
-- **WHEN** a mod sets a unit's redraw function to one kind and its draw function to another
-- **THEN** both are applied, as that unit's status functions
+#### Scenario: Only one function set
+- **WHEN** a mod sets a unit's `status_update` and not its `status_changed`
+- **THEN** only the unit's update function changes
+
+#### Scenario: Different kinds of function
+- **WHEN** a mod sets a unit's `status_changed` and `status_update` to functions of different kinds
+- **THEN** each is applied as given
 
 ### Requirement: Requirement record changes
 A requirement entry SHALL replace only that item's record in the running build's own stream. Records the mod doesn't define SHALL stay as they are on that build, and the game SHALL use the new stream in all places that refer to it.
 
 #### Scenario: Record differs between builds
-- **WHEN** a mod changes another order's requirements on builds with and without order 73's record
-- **THEN** order 73's record stays as each build has it
+- **WHEN** a record the mod doesn't define exists on some builds but not others, and the mod changes a different record
+- **THEN** the undefined record stays as each build has it
 
 #### Scenario: Stream grows
 - **WHEN** a mod's records make a stream larger than its original space
@@ -123,8 +127,8 @@ A requirement entry SHALL replace only that item's record in the running build's
 A constant SHALL be written to every location listed for the running build, using each location's own encoding.
 
 #### Scenario: Several locations
-- **WHEN** a constant has seven locations on the running build
-- **THEN** all seven are written
+- **WHEN** a constant has several locations on the running build
+- **THEN** all of them are written
 
 #### Scenario: Named option
 - **WHEN** a mod selects a named option for a code-site constant
@@ -134,7 +138,7 @@ A constant SHALL be written to every location listed for the running build, usin
 AxeGraft Patcher SHALL work wherever the executable is loaded in memory, including pointers it compares and writes.
 
 #### Scenario: Executable not at its preferred base
-- **WHEN** a build with relocations, such as StarCraft 1.17, loads at a different address
+- **WHEN** a build loads at a different address from its preferred one
 - **THEN** locations, expected pointers and written pointers are all correct for that address
 
 ### Requirement: Restoring memory protection

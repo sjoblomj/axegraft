@@ -14,18 +14,18 @@ The library schema SHALL support StarCraft 1.05-1.17 and Warcraft II BNE 2.00 an
 - **THEN** AxeGraft Patcher reports that build as supported
 
 #### Scenario: Build without data
-- **WHEN** an executable isn't in the library, such as StarCraft 1.18 or a Warcraft II DOS version
+- **WHEN** an executable isn't in the library
 - **THEN** AxeGraft Patcher reports it as unsupported
 
 ### Requirement: Build identification
 AxeGraft Patcher SHALL identify a build from properties of the running executable that are unique across all supported builds, without relying on a version string alone.
 
 #### Scenario: Builds sharing a PE timestamp
-- **WHEN** the executable is StarCraft 1.05 or 1.06, which share a PE timestamp
+- **WHEN** two supported builds have the same PE timestamp
 - **THEN** they're identified as different builds
 
 #### Scenario: Builds sharing a version string
-- **WHEN** the executable is StarCraft 1.08 or 1.08b, which share a `ProductVersion` string
+- **WHEN** two supported builds have the same `ProductVersion` string
 - **THEN** they're identified as different builds
 
 ### Requirement: Complete structural data per build
@@ -79,7 +79,7 @@ No two properties SHALL write to the same location, or to overlapping bytes, on 
 A numeric constant SHALL have one allowed range per game, and every value in that range SHALL fit every location on every build where the constant is available.
 
 #### Scenario: Range too wide for a location
-- **WHEN** a constant's range goes up to 300 but one build stores it in one byte
+- **WHEN** a constant's range includes values that one of its locations can't store
 - **THEN** the library check fails, naming the constant and the build
 
 ### Requirement: Stable scale across builds
@@ -92,8 +92,8 @@ A numeric constant's stored scale SHALL be the same on every build where it's av
 ### Requirement: Named options per build
 A code-site constant SHALL list, for each build where it's available, the bytes that each named option writes. The same option MAY have different bytes on different builds.
 
-#### Scenario: Inverted branch
-- **WHEN** a constant's option replaces a `jne` on one build and a `je` on another
+#### Scenario: Different code on different builds
+- **WHEN** a constant's option replaces different instructions on different builds
 - **THEN** each build records its own bytes for that option
 
 ### Requirement: Function tables per build
@@ -103,20 +103,20 @@ The library SHALL give each condition, action and status function a unique name,
 - **WHEN** several distinct game functions share a single symbol in a reference source
 - **THEN** each has its own unique name in the library
 
-#### Scenario: Function absent on older builds
-- **WHEN** a replay function doesn't exist before StarCraft 1.08
-- **THEN** the library records it as absent on those builds
+#### Scenario: Function absent on a build
+- **WHEN** a function doesn't exist on a supported build
+- **THEN** the library records it as absent on that build
 
 ### Requirement: Button set numbering per build
 The library SHALL map each game's button set numbering to each build's own IDs, and SHALL record which sets are absent on a build.
 
-#### Scenario: Shifted set ID
-- **WHEN** a set is 233 in the numbering from 1.12 on and 232 in 1.11b
-- **THEN** the library maps 233 to 232 on 1.11b
+#### Scenario: Set numbered differently on a build
+- **WHEN** a set has a different ID on a build than in the game's own numbering
+- **THEN** the library maps the game's numbering to that build's ID
 
 #### Scenario: Absent set
-- **WHEN** set 232 doesn't exist before StarCraft 1.12
-- **THEN** the library records it as absent on those builds
+- **WHEN** a set in the game's numbering doesn't exist on a build
+- **THEN** the library records it as absent on that build
 
 ### Requirement: Confirmed data only
 The library SHALL exclude anything marked as unconfirmed in its source data.

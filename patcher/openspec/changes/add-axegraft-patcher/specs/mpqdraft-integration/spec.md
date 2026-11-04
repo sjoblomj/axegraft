@@ -25,7 +25,7 @@ AxeGraft Patcher SHALL report that it can patch an executable only if that execu
 - **THEN** AxeGraft Patcher says it can patch it
 
 #### Scenario: Unsupported executable
-- **WHEN** MPQDraft asks about another executable, such as `StarEdit.exe`
+- **WHEN** MPQDraft asks about an executable that isn't a supported build
 - **THEN** AxeGraft Patcher says it can't patch it
 
 #### Scenario: Unreadable executable

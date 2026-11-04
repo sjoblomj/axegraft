@@ -63,6 +63,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 7.4 Add a small set of constants exercising each encoding, with no shared locations, and verify the library checks and `check` pass
 - [ ] 7.5 Decode every requirement stream in the real StarCraft 1.16.1 and 1.17 executables, and verify re-encoding reproduces the original bytes exactly
 - [ ] 7.6 Plan an example mod for each starter build with memory loaded from the real executable at a non-standard base, and verify the planned writes and expected bytes in a test
+- [ ] 7.7 Add tests asserting real facts about the starter builds, including game ranges, button panel positions and a build loading away from its preferred address, and verify they fail when the matching library data is altered
 
 ## 8. Plugin
 
@@ -93,5 +94,5 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 ## Workflow follow-up
 
 - Complete the MPQDraft changes in `MPQDraft/TODO.md` before starting groups 8-10.
-- Follow up with the full data import, after deciding how the reference documents become machine-readable.
+- Follow up with the full data import, after deciding how the reference documents become machine-readable. Add tests there for the real per-build facts the specs now describe generally: builds sharing a PE timestamp or version string, shifted and absent button sets, functions absent on older builds, and requirement records that differ between builds.
 - Archive the change after review.
