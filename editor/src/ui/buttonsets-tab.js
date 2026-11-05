@@ -285,7 +285,7 @@
       else return;
       e.preventDefault();
     });
-    var listWithHelp = h("div", { class: "button-list-row", style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { flex: "1" } }, [list])].concat([help.described(list, help.text("buttonList"))[1]]));
+    var listWithHelp = h("div", { class: "button-list-row", style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { flex: "1", "min-width": "0" } }, [list])].concat([help.described(list, help.text("buttonList"))[1]]));
 
     function tool(label, action, helpKey, onclick, disabled) {
       return F.withHelp(h("button", { type: "button", class: "small", dataset: { action: action }, disabled: !!disabled, onclick: onclick }, label), help.text(helpKey));
@@ -338,12 +338,13 @@
             return h("div", { class: "problem " + (p.severity === "error" ? "error" : "warning"), text: p.message });
           }))
         : null,
-      usedEl,
       h("div", { class: "buttonset-layout" }, [
-        h("div", null, [h("fieldset", null, [h("legend", { text: "Buttons" }), listWithHelp, toolbar]), form]),
-        h("div", null, [preview(app, key, buttons, sel, editButtons)])
+        h("fieldset", { class: "buttons-box" }, [h("legend", { text: "Buttons" }), listWithHelp, toolbar]),
+        h("div", { class: "preview-box" }, [preview(app, key, buttons, sel, editButtons)])
       ]),
-      setsSection(app, id, key, buttons)
+      form,
+      setsSection(app, id, key, buttons),
+      usedEl
     ]);
   }
 

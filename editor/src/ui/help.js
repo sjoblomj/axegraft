@@ -61,19 +61,44 @@
     var id = "help-" + ++counter;
     var tip = h("span", { class: "tip", role: "tooltip", id: id, text: text });
     var b = h("button", { type: "button", class: "help", "aria-label": "Help", "aria-describedby": id }, ["?", tip]);
-    // CSS shows the text on :hover and :focus; these do the same where a
-    // window without focus doesn't match :focus.
+    // The text is placed in window coordinates, so scrolling panels can't
+    // clip it, and kept inside the window. It hides when anything scrolls,
+    // since it would no longer be beside its button.
     function show() {
       b.classList.add("show");
+      place(b, tip);
+      window.addEventListener("scroll", hide, true);
+      window.addEventListener("resize", hide);
     }
     function hide() {
       b.classList.remove("show");
+      window.removeEventListener("scroll", hide, true);
+      window.removeEventListener("resize", hide);
     }
     b.addEventListener("mouseenter", show);
     b.addEventListener("mouseleave", hide);
     b.addEventListener("focus", show);
     b.addEventListener("blur", hide);
     return b;
+  }
+
+  var MARGIN = 4;
+
+  // Below the button and lined up with its right edge where there's room,
+  // otherwise moved left, or above, to stay in the window.
+  function place(b, tip) {
+    var vw = document.documentElement.clientWidth || window.innerWidth;
+    var vh = document.documentElement.clientHeight || window.innerHeight;
+    tip.style.maxWidth = Math.max(120, Math.min(320, vw - 2 * MARGIN)) + "px";
+    var r = b.getBoundingClientRect();
+    var w = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = Math.max(MARGIN, Math.min(r.right - w, vw - w - MARGIN));
+    var top = r.bottom + 4;
+    if (top + th > vh - MARGIN && r.top - 4 - th >= MARGIN) top = r.top - 4 - th;
+    top = Math.max(MARGIN, Math.min(top, vh - th - MARGIN));
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
   }
 
   // Returns [control, ?-button], with the control described by the help text.

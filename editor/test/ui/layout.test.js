@@ -95,4 +95,54 @@
       });
     });
   }, { dom: true });
+  T.test("menu bar: with a menu open, moving the mouse to another menu opens it and closes the first", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      var file = U.q(app, '.menubar details[data-menu="file"]');
+      var edit = U.q(app, '.menubar details[data-menu="edit"]');
+      edit.querySelector("summary").dispatchEvent(new Event("mouseenter"));
+      T.ok(!edit.open, "hovering opens nothing while every menu is closed");
+      file.open = true;
+      edit.querySelector("summary").dispatchEvent(new Event("mouseenter"));
+      T.ok(edit.open && !file.open, "the menu follows the mouse");
+    });
+  }, { dom: true });
+
+  T.test("menu bar: a click outside the open menu, or Escape, closes it", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      var file = U.q(app, '.menubar details[data-menu="file"]');
+      file.open = true;
+      file.querySelector(".menu").dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      T.ok(file.open, "a click inside the menu leaves it open");
+      U.q(app, ".statusbar").dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      T.ok(!file.open, "a click outside closes it");
+      file.open = true;
+      U.key(file.querySelector("summary"), "Escape");
+      T.ok(!file.open, "Escape closes it");
+    });
+  }, { dom: true });
+
+  T.test("help: the text stays inside the window and isn't clipped by the panel", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      return app.newMod("starcraft").then(function () {
+        app.select("units", "unit:0");
+        var helps = app.root.querySelectorAll(".tabpanel .help");
+        T.ok(helps.length > 0);
+        // The ? buttons nearest the window's right edge and bottom.
+        var right = helps[0], low = helps[0];
+        Array.prototype.forEach.call(helps, function (b) {
+          if (b.getBoundingClientRect().right > right.getBoundingClientRect().right) right = b;
+          if (b.getBoundingClientRect().bottom > low.getBoundingClientRect().bottom) low = b;
+        });
+        [right, low].forEach(function (b) {
+          b.dispatchEvent(new Event("mouseenter"));
+          var tip = b.querySelector(".tip");
+          var r = tip.getBoundingClientRect();
+          T.equal(getComputedStyle(tip).position, "fixed", "placed in window coordinates");
+          T.ok(r.left >= 0 && r.top >= 0, "not off the left or top: " + r.left + "," + r.top);
+          T.ok(r.right <= document.documentElement.clientWidth && r.bottom <= document.documentElement.clientHeight, "not off the right or bottom: " + r.right + "," + r.bottom);
+          b.dispatchEvent(new Event("mouseleave"));
+        });
+      });
+    });
+  }, { dom: true });
 })(AxeGraft);

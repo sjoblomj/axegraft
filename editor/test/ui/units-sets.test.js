@@ -350,6 +350,8 @@
       app.select("button_sets", "set:0");
       T.equal(U.texts(app, "[data-used-by] li"), ["0 Terran Marine", "10 Gui Montag", "20 Jim Raynor", "32 Terran Firebat"]);
       T.ok(/changes all of them/.test(U.q(app, ".used-by").textContent));
+      var panel = U.q(app, ".buttonset-panel");
+      T.ok(panel.lastElementChild === U.q(app, ".used-by"), "the list is at the bottom of the tab");
     });
   }, { dom: true });
 

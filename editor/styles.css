@@ -292,12 +292,14 @@ button.small { padding: 0 6px; }
   line-height: 14px;
   flex: none;
 }
+/* The text is fixed to the window, placed by help.js, so panels that
+   scroll can't clip it. */
 .help .tip {
   display: none;
-  position: absolute;
-  z-index: 30;
-  right: 0;
-  top: 120%;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
   width: max-content;
   max-width: 320px;
   padding: 5px 7px;
@@ -311,7 +313,7 @@ button.small { padding: 0 6px; }
   line-height: 1.35;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
 }
-.help:hover .tip, .help:focus .tip, .help.show .tip { display: block; }
+.help.show .tip { display: block; }
 
 /* Status bar */
 .statusbar {
@@ -330,9 +332,12 @@ button.small { padding: 0 6px; }
 .statusbar button.link { padding: 0; }
 
 /* Button sets */
-.buttonset-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+.buttonset-layout { display: flex; gap: 8px; align-items: flex-start; }
+.buttonset-layout .buttons-box { width: 320px; flex: none; min-width: 0; }
+.buttonset-layout .preview-box { padding-top: 8px; }
 .button-list { list-style: none; margin: 0; padding: 0; background: var(--field-bg); color: var(--field-text); border: 2px solid; border-color: var(--panel-dark) var(--edge-light) var(--edge-light) var(--panel-dark); min-height: 60px; }
 .button-list li { padding: 2px 6px; display: flex; gap: 6px; align-items: center; cursor: default; }
+.button-list li > span:not(.pos):not(.mark) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .button-list li[aria-selected="true"] { background: var(--select-bg); color: var(--select-text); }
 .button-list li .pos { width: 22px; text-align: right; color: var(--field-muted); }
 .button-list li[aria-selected="true"] .pos { color: inherit; }
@@ -446,5 +451,5 @@ progress { width: 100%; }
 .panel-title button { font-size: 12px; font-weight: normal; }
 .panel-title label.sub { display: inline-flex; gap: 3px; align-items: center; }
 .range { font-size: 12px; color: #333; }
-.used-by { margin-bottom: 6px; }
+.used-by { margin-top: 6px; }
 .view { height: 100%; }

@@ -480,43 +480,59 @@
       } }, [h("span", { text: label }), shortcut ? h("span", { class: "shortcut", text: shortcut }) : null]);
     }
 
+    // A menu of the menu bar. Once one is open, moving the mouse over another
+    // menu's title opens that one instead, as in desktop menu bars.
+    function menuDetails(name, label, items) {
+      var summary = h("summary", { text: label });
+      var d = h("details", { dataset: { menu: name } }, [summary, h("div", { class: "menu", role: "menu" }, items)]);
+      d.addEventListener("toggle", function () {
+        if (d.open) closeMenus(d);
+      });
+      summary.addEventListener("mouseenter", function () {
+        var open = root.querySelector(".menubar details[open]");
+        if (open && open !== d) {
+          closeMenus(d);
+          d.open = true;
+          summary.focus({ preventScroll: true });
+        }
+      });
+      return d;
+    }
+
+    function closeMenus(except) {
+      Array.prototype.forEach.call(root.querySelectorAll(".menubar details[open]"), function (d) {
+        if (d !== except) d.open = false;
+      });
+    }
+
     function menu() {
       var hasMod = !!S.history;
       var games = Object.keys(catalogs.games).sort();
       return h("nav", { class: "menubar", "aria-label": "Menu" }, [
-        h("details", { dataset: { menu: "file" } }, [
-          h("summary", { text: "File" }),
-          h(
-            "div",
-            { class: "menu", role: "menu" },
-            games
-              .map(function (g) {
-                return menuItem("New " + catalogs.games[g].title + " mod", "new:" + g);
-              })
-              .concat([
-                h("hr"),
-                menuItem("Open...", "open", "Ctrl+O"),
-                menuItem("Save", "save", "Ctrl+S", !hasMod),
-                menuItem("Save As...", "saveAs", "Ctrl+Shift+S", !hasMod),
-                h("hr"),
-                menuItem("Import game assets...", "import", null, !hasMod),
-                menuItem("Delete imported assets", "deleteAssets", null, !hasMod)
-              ])
-          )
+        menuDetails(
+          "file",
+          "File",
+          games
+            .map(function (g) {
+              return menuItem("New " + catalogs.games[g].title + " mod", "new:" + g);
+            })
+            .concat([
+              h("hr"),
+              menuItem("Open...", "open", "Ctrl+O"),
+              menuItem("Save", "save", "Ctrl+S", !hasMod),
+              menuItem("Save As...", "saveAs", "Ctrl+Shift+S", !hasMod),
+              h("hr"),
+              menuItem("Import game assets...", "import", null, !hasMod),
+              menuItem("Delete imported assets", "deleteAssets", null, !hasMod)
+            ])
+        ),
+        menuDetails("edit", "Edit", [
+          menuItem("Undo", "undo", "Ctrl+Z", !hasMod || !AG.core.history.canUndo(S.history)),
+          menuItem("Redo", "redo", "Ctrl+Y", !hasMod || !AG.core.history.canRedo(S.history))
         ]),
-        h("details", { dataset: { menu: "edit" } }, [
-          h("summary", { text: "Edit" }),
-          h("div", { class: "menu", role: "menu" }, [
-            menuItem("Undo", "undo", "Ctrl+Z", !hasMod || !AG.core.history.canUndo(S.history)),
-            menuItem("Redo", "redo", "Ctrl+Y", !hasMod || !AG.core.history.canRedo(S.history))
-          ])
-        ]),
-        h("details", { dataset: { menu: "view" } }, [
-          h("summary", { text: "View" }),
-          h("div", { class: "menu", role: "menu" }, [
-            menuItem("Problems...", "problems", null, !hasMod),
-            menuItem("Version compatibility...", "report", null, !hasMod)
-          ])
+        menuDetails("view", "View", [
+          menuItem("Problems...", "problems", null, !hasMod),
+          menuItem("Version compatibility...", "report", null, !hasMod)
         ])
       ]);
     }
@@ -853,6 +869,31 @@
       }
     }
     root.ownerDocument.addEventListener("keydown", onKey);
+
+    // An open menu closes on a click anywhere outside it, and on Escape.
+    function onPointerDown(e) {
+      if (!root.isConnected) {
+        root.ownerDocument.removeEventListener("pointerdown", onPointerDown, true);
+        return;
+      }
+      var open = root.querySelector(".menubar details[open]");
+      if (open && !open.contains(e.target)) closeMenus(null);
+    }
+    root.ownerDocument.addEventListener("pointerdown", onPointerDown, true);
+
+    function onMenuKey(e) {
+      if (!root.isConnected) {
+        root.ownerDocument.removeEventListener("keydown", onMenuKey);
+        return;
+      }
+      if (e.key !== "Escape") return;
+      var open = root.querySelector(".menubar details[open]");
+      if (!open) return;
+      e.preventDefault();
+      open.open = false;
+      open.querySelector("summary").focus();
+    }
+    root.ownerDocument.addEventListener("keydown", onMenuKey);
 
     function onBeforeUnload(e) {
       if (!root.isConnected) {
