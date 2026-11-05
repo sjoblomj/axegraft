@@ -2,121 +2,129 @@
 
 ## Purpose
 
-Defines the supported games and builds, what the library records about each property per build, and the guarantees that data must meet before it can ship.
+Defines the supported games and versions, what the library records about each property per version, and the guarantees that data must meet before it can ship.
 
 ## ADDED Requirements
 
-### Requirement: Supported builds
-The library schema SHALL support StarCraft 1.05-1.17 and Warcraft II BNE 2.00 and 2.02. A build SHALL count as supported only once the library has complete data for it, and AxeGraft Patcher SHALL treat every other executable as unsupported.
+### Requirement: Supported versions
+The library schema SHALL support StarCraft 1.05-1.17 and Warcraft II BNE 2.00 and 2.02. A version SHALL count as supported only once the library has complete data for it, and AxeGraft Patcher SHALL treat every other executable as unsupported.
 
-#### Scenario: Build with complete data
-- **WHEN** the library has complete data for a build
-- **THEN** AxeGraft Patcher reports that build as supported
+#### Scenario: Version with complete data
+- **WHEN** the library has complete data for a version
+- **THEN** AxeGraft Patcher reports that version as supported
 
-#### Scenario: Build without data
+#### Scenario: Version without data
 - **WHEN** an executable isn't in the library
 - **THEN** AxeGraft Patcher reports it as unsupported
 
-### Requirement: Build identification
-AxeGraft Patcher SHALL identify a build from properties of the running executable that are unique across all supported builds, without relying on a version string alone.
+### Requirement: Version identification
+AxeGraft Patcher SHALL identify a version from properties of the running executable that are unique across all supported versions, without relying on a version string alone.
 
-#### Scenario: Builds sharing a PE timestamp
-- **WHEN** two supported builds have the same PE timestamp
-- **THEN** they're identified as different builds
+#### Scenario: Versions sharing a PE timestamp
+- **WHEN** two supported versions have the same PE timestamp
+- **THEN** they're identified as different versions
 
-#### Scenario: Builds sharing a version string
-- **WHEN** two supported builds have the same `ProductVersion` string
-- **THEN** they're identified as different builds
+#### Scenario: Versions sharing a `ProductVersion` string
+- **WHEN** two supported versions have the same `ProductVersion` string
+- **THEN** they're identified as different versions
 
-### Requirement: Complete structural data per build
-A supported build SHALL have complete data for its button sets, status functions and, in StarCraft, requirement streams. If any of this is unknown, that build SHALL NOT be supported.
+### Requirement: Complete structural data per version
+A supported version SHALL have complete data for its button sets, status functions and, in StarCraft, requirement streams. If any of this is unknown, that version SHALL NOT be supported.
 
 #### Scenario: Missing structural table
-- **WHEN** the data for a build lacks the location of a structural table
+- **WHEN** the data for a version lacks the location of a structural table
 - **THEN** the library check fails
 
-### Requirement: Constant availability per build
-Every constant SHALL state one of three things for every supported build of its game: its locations, `not_applicable` when the code doesn't exist there, or `unknown` when it hasn't been found. A build SHALL NOT be left out.
+### Requirement: Constant availability per version
+Every constant SHALL state one of three things for every supported version of its game: its locations, `not_applicable` when the code doesn't exist there, or `unknown` when it hasn't been found. A version SHALL NOT be left out.
 
-#### Scenario: Forgotten build
-- **WHEN** a constant has no entry for a supported build
+#### Scenario: Forgotten version
+- **WHEN** a constant has no entry for a supported version
 - **THEN** the library check fails
 
 #### Scenario: Reporting gaps
 - **WHEN** the library's coverage is listed
-- **THEN** each `unknown` and `not_applicable` entry is listed, per constant and per build
+- **THEN** each `unknown` and `not_applicable` entry is listed, per constant and per version
 
 ### Requirement: All locations or none
-A constant's entry for a build SHALL list every location that must change for the edit to work. A constant known to have other locations that haven't been found SHALL be `unknown` for that build.
+A constant's entry for a version SHALL list every location that must change for the edit to work. A constant known to have other locations that haven't been found SHALL be `unknown` for that version.
 
 #### Scenario: Constant with an unlisted copy
-- **WHEN** a constant is known to have a second copy on a build, and that copy's location isn't known
-- **THEN** the constant is `unknown` on that build, and no location is listed
+- **WHEN** a constant is known to have a second copy on a version, and that copy's location isn't known
+- **THEN** the constant is `unknown` on that version, and no location is listed
 
-#### Scenario: Different number of locations per build
-- **WHEN** a constant has two locations on one build and one on another
+#### Scenario: Different number of locations per version
+- **WHEN** a constant has two locations on one version and one on another
 - **THEN** the library records two and one locations respectively, and the mod's constant is unchanged
 
 ### Requirement: Expected original bytes
-Every location the library can change SHALL record the bytes expected there in that build.
+Every location the library can change SHALL record the bytes expected there in that version.
 
 #### Scenario: Entry without expected bytes
 - **WHEN** a location has no expected bytes
 - **THEN** the library check fails
 
-#### Scenario: Value differs between builds
-- **WHEN** a constant's original value is one value on one build and another value on another build
-- **THEN** each build's entry records its own expected bytes
+#### Scenario: Value differs between versions
+- **WHEN** a constant's original value is one value on one version and another value on another version
+- **THEN** each version's entry records its own expected bytes
 
 ### Requirement: No shared locations
-No two properties SHALL write to the same location, or to overlapping bytes, on any build. This SHALL be checked when the library is built, not when a mod runs.
+No two properties SHALL write to the same location, or to overlapping bytes, on any version. This SHALL be checked when the library is built, not when a mod runs.
 
 #### Scenario: Two constants on one offset
-- **WHEN** two constants have overlapping locations on any build
-- **THEN** the library check fails, naming both constants and the build
+- **WHEN** two constants have overlapping locations on any version
+- **THEN** the library check fails, naming both constants and the version
 
 ### Requirement: Value range fits every location
-A numeric constant SHALL have one allowed range per game, and every value in that range SHALL fit every location on every build where the constant is available.
+A numeric constant SHALL have one allowed range per game, and every value in that range SHALL fit every location on every version where the constant is available.
 
 #### Scenario: Range too wide for a location
 - **WHEN** a constant's range includes values that one of its locations can't store
-- **THEN** the library check fails, naming the constant and the build
+- **THEN** the library check fails, naming the constant and the version
 
-### Requirement: Stable scale across builds
-A numeric constant's stored scale SHALL be the same on every build where it's available. Sign and width MAY differ, but a build that stores a different scale SHALL fail the library check until that case has been decided.
+### Requirement: Stable scale across versions
+A numeric constant's stored scale SHALL be the same on every version where it's available. Sign and width MAY differ, but a version that stores a different scale SHALL fail the library check until that case has been decided.
 
-#### Scenario: Scale differs between builds
-- **WHEN** a constant is stored as whole units on one build and half-units on another
-- **THEN** the library check fails, naming the constant and the builds
+#### Scenario: Scale differs between versions
+- **WHEN** a constant is stored as whole units on one version and half-units on another
+- **THEN** the library check fails, naming the constant and the versions
 
-### Requirement: Named options per build
-A code-site constant SHALL list, for each build where it's available, the bytes that each named option writes. The same option MAY have different bytes on different builds.
+### Requirement: Named options per version
+A code-site constant SHALL list, for each version where it's available, the bytes that each named option writes. The same option MAY have different bytes on different versions.
 
-#### Scenario: Different code on different builds
-- **WHEN** a constant's option replaces different instructions on different builds
-- **THEN** each build records its own bytes for that option
+#### Scenario: Different code on different versions
+- **WHEN** a constant's option replaces different instructions on different versions
+- **THEN** each version records its own bytes for that option
 
-### Requirement: Function tables per build
-The library SHALL give each condition, action and status function a unique name, and SHALL record its address per build and the type of variable it reads. A function that doesn't exist on a build SHALL be recorded as absent there.
+### Requirement: Function tables per version
+The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads. A function that doesn't exist on a version SHALL be recorded as absent there.
 
 #### Scenario: Function shared under one source symbol
 - **WHEN** several distinct game functions share a single symbol in a reference source
 - **THEN** each has its own unique name in the library
 
-#### Scenario: Function absent on a build
-- **WHEN** a function doesn't exist on a supported build
-- **THEN** the library records it as absent on that build
+#### Scenario: Function absent on a version
+- **WHEN** a function doesn't exist on a supported version
+- **THEN** the library records it as absent on that version
 
-### Requirement: Button set numbering per build
-The library SHALL map each game's button set numbering to each build's own IDs, and SHALL record which sets are absent on a build.
+### Requirement: Button set numbering per version
+The library SHALL map each game's numbering of button sets and table entries to each version's own numbers, and SHALL record which sets and entries are absent on a version and which table entries point at each set's array.
 
-#### Scenario: Set numbered differently on a build
-- **WHEN** a set has a different ID on a build than in the game's own numbering
-- **THEN** the library maps the game's numbering to that build's ID
+#### Scenario: Set numbered differently on a version
+- **WHEN** a set has a different ID on a version than in the game's own numbering
+- **THEN** the library maps the game's numbering to that version's ID
 
 #### Scenario: Absent set
-- **WHEN** a set in the game's numbering doesn't exist on a build
-- **THEN** the library records it as absent on that build
+- **WHEN** a set in the game's numbering doesn't exist on a version
+- **THEN** the library records it as absent on that version
+
+#### Scenario: Table entry numbered differently on a version
+- **WHEN** a table entry beyond the unit range has a different number on a version
+- **THEN** the library maps the game's numbering to that version's number
+
+#### Scenario: Table entries that don't match
+- **WHEN** the library's list of entries for a set differs from the pointers in a version's table
+- **THEN** the check against that version's executable fails, naming the set
 
 ### Requirement: Confirmed data only
 The library SHALL exclude anything marked as unconfirmed in its source data.
@@ -140,12 +148,12 @@ Library entries SHALL use a fixed set of encodings, and a mod SHALL NOT be able 
 - **THEN** the library build fails
 
 ### Requirement: Checking against real executables
-It SHALL be possible to check all library data for a build against that build's real executable, without storing any game files in the repository.
+It SHALL be possible to check all library data for a version against that version's real executable, without storing any game files in the repository.
 
 #### Scenario: Data matches the executable
-- **WHEN** the check runs with a build's executable available
+- **WHEN** the check runs with a version's executable available
 - **THEN** every expected byte sequence is compared with the file, and any difference fails the check, naming the property and the location
 
 #### Scenario: Executable not available
-- **WHEN** the check is requested for a build whose executable isn't available
-- **THEN** the check reports that build as not checked, and doesn't report it as passed
+- **WHEN** the check is requested for a version whose executable isn't available
+- **THEN** the check reports that version as not checked, and doesn't report it as passed

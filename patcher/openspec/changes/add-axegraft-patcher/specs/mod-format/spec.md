@@ -2,12 +2,12 @@
 
 ## Purpose
 
-Defines the versioned JSON format mods are written in, and the rules that decide whether a mod is valid for a game, independent of any one build.
+Defines the versioned JSON format mods are written in, and the rules that decide whether a mod is valid for a game, independent of any one game version.
 
 ## ADDED Requirements
 
 ### Requirement: Mod header
-A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `format` version and a `game`, which is `starcraft` or `warcraft2`. `patcher` tells anyone opening the file what it is. A mod SHALL NOT name a game build.
+A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `format` version and a `game`, which is `starcraft` or `warcraft2`. `patcher` tells anyone opening the file what it is. A mod SHALL NOT name a game version.
 
 #### Scenario: Valid header
 - **WHEN** a mod has `"patcher": "AxeGraft"`, `"format": 1` and `"game": "starcraft"`
@@ -59,7 +59,7 @@ A mod SHALL refer to game content, meaning units, upgrades, techs, orders, butto
 - **THEN** the mod is rejected
 
 ### Requirement: Unit entries
-A `units` entry SHALL have an `id` and at least one of `button_set`, `status_changed`, `status_update` and, in StarCraft only, `status_unit_type`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, `status_update` SHALL name the function that draws it, and `status_unit_type` SHALL be the unit ID stored in the same status entry.
+A `units` entry SHALL have an `id`, which is an entry of the game's button table, and at least one of `button_set`, `status_changed`, `status_update` and, in StarCraft only, `status_unit_type`. A table entry beyond the game's unit range SHALL have only `button_set`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, `status_update` SHALL name the function that draws it, and `status_unit_type` SHALL be the unit ID stored in the same status entry.
 
 #### Scenario: Change only the button set
 - **WHEN** a unit entry has an `id` and a `button_set`
@@ -73,8 +73,16 @@ A `units` entry SHALL have an `id` and at least one of `button_set`, `status_cha
 - **WHEN** a unit entry has only an `id`
 - **THEN** the mod is rejected
 
+#### Scenario: Table entry that isn't a unit
+- **WHEN** a StarCraft unit entry has `id` 238, a worker build menu, and a `button_set`
+- **THEN** the entry is accepted
+
+#### Scenario: Status function on an entry that isn't a unit
+- **WHEN** a StarCraft unit entry has `id` 238 and a `status_update`
+- **THEN** the mod is rejected
+
 #### Scenario: Unit ID out of range
-- **WHEN** a unit entry has an `id` outside the game's unit range
+- **WHEN** a unit entry has an `id` outside the game's button table
 - **THEN** the mod is rejected
 
 #### Scenario: Status unit type out of range
@@ -86,7 +94,7 @@ A `units` entry SHALL have an `id` and at least one of `button_set`, `status_cha
 - **THEN** the mod is rejected, because that game's unit data has no such field
 
 ### Requirement: Button set entries
-A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces that set's buttons entirely. Button set IDs SHALL use one numbering for each game, independent of build. For StarCraft, that is the numbering used from 1.12 onwards.
+A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces that set's buttons entirely.
 
 #### Scenario: Replace a set
 - **WHEN** a mod defines button set 7 with two buttons
@@ -96,12 +104,53 @@ A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces t
 - **WHEN** a mod defines a button set with an empty `buttons` array
 - **THEN** the mod is accepted, and that set has no buttons
 
+### Requirement: Button set numbering
+A button set SHALL be one array of buttons in the game, which any number of table entries can share. Set IDs SHALL use one numbering for each game, independent of version. An original set's ID is the lowest table entry pointing at its array, with StarCraft's table numbered as it is from 1.12 onwards. A mod's new sets SHALL use IDs from the table's size, which is 250 in StarCraft and 120 in Warcraft II, up to 999.
+
+#### Scenario: Set shared by several entries
+- **WHEN** table entries 0 and 32 point at one array
+- **THEN** that array is set 0, and there is no set 32
+
+#### Scenario: Table entry used as a set ID
+- **WHEN** a mod defines button set 32, and table entry 32 points at set 0's array
+- **THEN** the mod is rejected, with an error saying entry 32 uses set 0
+
+#### Scenario: New set
+- **WHEN** a StarCraft mod defines button set 250
+- **THEN** the entry is accepted as a new set
+
 #### Scenario: Set ID out of range
-- **WHEN** a button set `id` is outside the game's numbering
+- **WHEN** a button set `id` is above 999
+- **THEN** the mod is rejected
+
+### Requirement: Referring to button sets
+A `button_set` SHALL name an original set or a set the mod defines, or be `null`, which means no buttons.
+
+#### Scenario: New set the mod doesn't define
+- **WHEN** a unit's `button_set` is 250, and the mod doesn't define set 250
+- **THEN** the mod is rejected
+
+#### Scenario: Table entry named as a set
+- **WHEN** a unit's `button_set` is 32, and table entry 32 points at set 0's array
+- **THEN** the mod is rejected, with an error saying entry 32 uses set 0
+
+#### Scenario: No buttons
+- **WHEN** a unit's `button_set` is `null`
+- **THEN** the mod is accepted, and that unit has no buttons
+
+### Requirement: Opening a table entry
+A variable of type table entry SHALL be an entry of the game's button table. The game shows the buttons of whichever set that entry has once the mod is applied, so a button reaches a new set through an entry the mod assigns it to.
+
+#### Scenario: Submenu with a new set
+- **WHEN** a button's action opens table entry 228, and the mod assigns new set 250 to entry 228
+- **THEN** the mod is accepted, and the button opens set 250's buttons
+
+#### Scenario: Entry beyond the table
+- **WHEN** a button's action opens table entry 250 in StarCraft
 - **THEN** the mod is rejected
 
 ### Requirement: Button fields
-A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_string`, a `condition` and an `action`, and MAY have a `condition_variable` and an `action_variable`. `condition` and `action` SHALL name functions. Warcraft II buttons SHALL also state the order they highlight.
+A button SHALL have a `position`, an `icon`, a `condition` and an `action`, and MAY have a `condition_variable` and an `action_variable`. `condition` and `action` SHALL name functions. A StarCraft button SHALL also have an `enabled_string` and a `disabled_string`. A Warcraft II button SHALL also have a `string` and a `highlighted`. `highlighted` SHALL be the order the button highlights, as the game's flag value: 0 for none, or exactly one of 1, 2, 4, 8, 16, 32, 64, 128 and 256.
 
 #### Scenario: Position out of range
 - **WHEN** a button's `position` is outside the game's panel, which is 1-9 in StarCraft and 0-8 in Warcraft II
@@ -110,6 +159,18 @@ A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_st
 #### Scenario: Missing field
 - **WHEN** a button omits a required field
 - **THEN** the mod is rejected, with an error naming the button and the field
+
+#### Scenario: Warcraft II button fields
+- **WHEN** a `warcraft2` button has a `string` and a `highlighted` of 8
+- **THEN** those fields are accepted
+
+#### Scenario: Highlighted value that isn't one flag
+- **WHEN** a button's `highlighted` is 3
+- **THEN** the mod is rejected
+
+#### Scenario: Another game's string fields
+- **WHEN** a `warcraft2` button has an `enabled_string`, or a `starcraft` button has a `string` or a `highlighted`
+- **THEN** the mod is rejected, with an error naming the field and where it is
 
 #### Scenario: Condition and action with their variables
 - **WHEN** a button's condition and action each read a variable, and the button has a different valid value for each
@@ -120,7 +181,7 @@ A button SHALL have a `position`, an `icon`, an `enabled_string`, a `disabled_st
 - **THEN** it is accepted, even if it's beyond the game's original data, because an MPQ can extend that data
 
 ### Requirement: Typed function variables
-A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, number or button set. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
+A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, number or table entry. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
 
 #### Scenario: Variable of the wrong kind
 - **WHEN** an action that takes a tech is given an `action_variable` outside the game's tech range

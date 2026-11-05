@@ -18,14 +18,14 @@ AxeGraft Patcher SHALL be a 32-bit MPQDraft plugin that uses MPQDraft's new-styl
 - **THEN** that MPQDraft refuses the plugin rather than running it with its patch MPQs not yet open
 
 ### Requirement: Offered only for supported games
-AxeGraft Patcher SHALL report that it can patch an executable only if that executable is a supported build.
+AxeGraft Patcher SHALL report that it can patch an executable only if that executable is a supported version.
 
 #### Scenario: Supported executable
 - **WHEN** MPQDraft asks about a supported StarCraft or Warcraft II BNE executable
 - **THEN** AxeGraft Patcher says it can patch it
 
 #### Scenario: Unsupported executable
-- **WHEN** MPQDraft asks about an executable that isn't a supported build
+- **WHEN** MPQDraft asks about an executable that isn't a supported version
 - **THEN** AxeGraft Patcher says it can't patch it
 
 #### Scenario: Unreadable executable
@@ -46,11 +46,11 @@ AxeGraft Patcher SHALL report itself as ready to patch even when no mod file is 
 - **WHEN** MPQDraft asks whether AxeGraft Patcher is ready and no mod file is set
 - **THEN** AxeGraft Patcher reports that it's ready
 
-### Requirement: Checking the build before game code runs
-When first loaded in the game, before game code runs, AxeGraft Patcher SHALL identify the running build.
+### Requirement: Checking the version before game code runs
+When first loaded in the game, before game code runs, AxeGraft Patcher SHALL identify the running version.
 
-#### Scenario: Unsupported build at launch
-- **WHEN** a SEMPQ containing AxeGraft Patcher launches an unsupported build
+#### Scenario: Unsupported version at launch
+- **WHEN** a SEMPQ containing AxeGraft Patcher launches an unsupported version
 - **THEN** the user gets an error naming the executable, and the game closes before any game code runs
 
 ### Requirement: Applying the mod before game code runs
@@ -69,7 +69,7 @@ AxeGraft Patcher SHALL read, validate and apply mods when first loaded in the ga
 - **THEN** the mod is still applied
 
 ### Requirement: Failing closes the game
-Any failure to identify the build, or to read, validate or apply a mod, SHALL show the user an error and close the game. The game SHALL NOT continue unmodified.
+Any failure to identify the version, or to read, validate or apply a mod, SHALL show the user an error and close the game. The game SHALL NOT continue unmodified.
 
 #### Scenario: Invalid mod
 - **WHEN** a mod fails validation

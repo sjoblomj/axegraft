@@ -14,11 +14,11 @@ AxeGraft Patcher SHALL write its log to `AxeGraftPatcher.log` in the user's temp
 - **THEN** the new log replaces it
 
 ### Requirement: Log header
-The log SHALL start with AxeGraft Patcher's version, the game, the build and the address the executable is loaded at.
+The log SHALL start with AxeGraft Patcher's version, the game, the game version and the address the executable is loaded at.
 
 #### Scenario: Header contents
-- **WHEN** AxeGraft Patcher identifies the running build
-- **THEN** the log records its own version, the game, the build and the load address
+- **WHEN** AxeGraft Patcher identifies the running version
+- **THEN** the log records its own version, the game, the game version and the load address
 
 ### Requirement: Logging inputs
 The log SHALL list every input with its source, and every MPQ where the mod file wasn't found.
@@ -38,8 +38,8 @@ The log SHALL list each change the mod makes, and every location written, with i
 The log SHALL list each skipped constant with its reason.
 
 #### Scenario: Skipped constant
-- **WHEN** a constant is skipped on the running build
-- **THEN** the log names the constant and the build, and says whether it's `unknown` or `not_applicable`
+- **WHEN** a constant is skipped on the running version
+- **THEN** the log names the constant and the version, and says whether it's `unknown` or `not_applicable`
 
 ### Requirement: Logging errors
 The log SHALL contain every error, even when the on-screen message shows only some of them.
