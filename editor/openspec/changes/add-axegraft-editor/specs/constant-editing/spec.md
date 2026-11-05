@@ -15,7 +15,7 @@ The Constants tab SHALL edit a numeric constant as a number, and SHALL show its 
 
 #### Scenario: Value out of range
 - **WHEN** a user enters a value outside the range
-- **THEN** the field shows a problem that names the range
+- **THEN** the field shows an error that names the range
 
 ### Requirement: Stored scale
 The editor SHALL edit and save a constant's value in the scale the game stores it in. It MAY show a catalog-supplied note explaining that scale, and SHALL NOT convert the saved value.
@@ -39,11 +39,11 @@ The tab SHALL edit an option constant as a choice among its named options, and S
 - **THEN** the saved entry has that `option`, and no `value`
 
 ### Requirement: Showing availability
-Each constant SHALL show which builds have it, which it doesn't apply to, and which are unknown, along with its original value on each build where that varies.
+Each constant SHALL show which versions have it, which it doesn't apply to, and which are unknown, along with its original value on each version where that varies.
 
-#### Scenario: Constant unknown on a build
-- **WHEN** a constant is `unknown` on a build
-- **THEN** the tab lists that build as unknown, and says the patcher will skip the constant there
+#### Scenario: Constant unknown on a version
+- **WHEN** a constant is `unknown` on a version
+- **THEN** the tab lists that version as unknown, and says the patcher will skip the constant there
 
 ### Requirement: Grouped display
 Constants SHALL appear in the list under the catalog's groups, using the catalog's display names, while the saved entry SHALL use the constant's `name`.

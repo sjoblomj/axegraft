@@ -7,11 +7,11 @@ Defines how AxeGraft Editor edits StarCraft's requirement records for units, upg
 ## ADDED Requirements
 
 ### Requirement: Record editor
-The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit, each with its parameter, and SHALL let the user add, remove and reorder rows.
+The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit. An opcode and its parameter SHALL share one row. The tab SHALL let the user add, remove and reorder rows.
 
 #### Scenario: Showing a record
 - **WHEN** a record's list is `["current_unit_is", 106, "not_lifted_off"]`
-- **THEN** there are two rows: one for the opcode with its unit, and one for the other opcode
+- **THEN** there are two rows: one holding the first opcode and its unit, and one holding the other opcode
 
 #### Scenario: Saving rows
 - **WHEN** a user edits the rows
@@ -25,11 +25,15 @@ A row's parameter SHALL be offered by the kind the catalog gives for its opcode,
 - **THEN** the row shows a unit field, and a problem until it's filled
 
 ### Requirement: Bare units
-The editor SHALL show a bare unit ID in a list as a "must have this unit" row, and SHALL write it as a number.
+Rows SHALL match what the game stores. A bare unit ID, which requires a completed unit of that type, SHALL be its own kind of row, and SHALL be written as a number. The `must_have` opcode, which also counts a unit still in progress, SHALL be a separate kind of row. The editor SHALL NOT convert one into the other, or offer rows the game doesn't have.
 
 #### Scenario: Adding a bare unit
-- **WHEN** a user adds a must-have row for unit 112
+- **WHEN** a user adds a completed-unit row for unit 112
 - **THEN** the saved `list` holds the number 112 at that place
+
+#### Scenario: Both kinds in one record
+- **WHEN** a record's list is `[132, "or", "must_have", 133]`
+- **THEN** unit 132 is shown as a completed-unit row, unit 133 as a `must_have` row, and the list saves unchanged
 
 ### Requirement: Showing structure
 Rows SHALL be shown with `or` alternatives and upgrade level sublists visibly grouped.
@@ -40,7 +44,7 @@ Rows SHALL be shown with `or` alternatives and upgrade level sublists visibly gr
 
 #### Scenario: Structural problem
 - **WHEN** a row order leaves a dangling `or` or an unbalanced sublist
-- **THEN** the affected row shows the problem
+- **THEN** the affected row shows an error
 
 ### Requirement: Opcodes limited by record type
 The rows offered SHALL be those the catalog allows for the record's type.
@@ -72,4 +76,4 @@ The tab SHALL be able to show the item's original record alongside the edited on
 
 #### Scenario: Comparing
 - **WHEN** a user has edited a record and asks to see the original
-- **THEN** both are visible, and the original differs by build where the catalog says so
+- **THEN** both are visible, and the original differs by version where the catalog says so

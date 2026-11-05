@@ -24,37 +24,68 @@ The editor SHALL open a JSON mod file chosen by the user, and SHALL select the g
 - **WHEN** a user opens a file while the current mod has unsaved changes
 - **THEN** the editor asks before discarding them
 
-### Requirement: Rejecting invalid files
-The editor SHALL NOT load a file that fails validation, and SHALL list every problem it finds with the location of each. Malformed input SHALL NOT crash the editor or disturb the current mod.
+### Requirement: Refusing malformed files
+The editor SHALL NOT load a malformed file, and SHALL list every problem it finds with the location of each. A file is malformed if it isn't valid JSON, if its `patcher`, `format` or `game` is missing or wrong, if any object has a property name the format doesn't define, or if a part, a `buttons` array or a `list` doesn't have the format's shape. Malformed input SHALL NOT crash the editor or disturb the current mod.
 
-#### Scenario: File with several mistakes
-- **WHEN** a file has an unknown field and an out-of-range unit ID
-- **THEN** both are listed with their locations, and the current mod is unchanged
+#### Scenario: File with an unknown property
+- **WHEN** a file has an unknown property and an out-of-range unit ID
+- **THEN** the file isn't loaded, both are listed with their locations, and the current mod is unchanged
+
+#### Scenario: Part with the wrong shape
+- **WHEN** a file's `units` isn't an array of objects
+- **THEN** the file isn't loaded, and the problem is listed with its location
 
 #### Scenario: Not a mod at all
 - **WHEN** a user opens arbitrary bytes, invalid JSON, deeply nested JSON or a very large file
 - **THEN** the editor reports an error naming the file, and stays usable
 
+### Requirement: Opening a file with errors
+The editor SHALL load any file that isn't malformed, even if it breaks other format rules. Each bad value SHALL be kept as written and shown as an error. An entry the item list can't show, such as one with an out-of-range ID or a second entry for the same item, SHALL be listed with the errors, and the user SHALL be able to remove it there.
+
+#### Scenario: Value out of bounds
+- **WHEN** a user opens a file where a button's `position` is out of range
+- **THEN** the file loads, and the field shows that value with an error
+
+#### Scenario: Entry with no matching item
+- **WHEN** a user opens a file with an entry for a unit ID outside the game's range
+- **THEN** the file loads, and the error list names the entry and offers to remove it
+
 ### Requirement: Same rules as the patcher
-The editor SHALL apply the rules of the patcher's `mod-format` spec for format 1, using the limits in the catalog. A mod the editor accepts SHALL be accepted by the format rules, and a mod they reject SHALL be rejected by the editor.
+The editor SHALL apply the rules of the patcher's `mod-format` spec for format 1, using the limits in the catalog. A mod with no errors in the editor SHALL be accepted by the format rules, and a mod they reject SHALL be refused by the editor or have errors.
 
 #### Scenario: Shared example mods
 - **WHEN** the repository's example valid and invalid mods are validated
 - **THEN** each has the expected result, including every scenario in `mod-format`
 
-### Requirement: Validating while editing
-The editor SHALL show problems in the current mod as they arise, and SHALL allow an invalid mod to stay open and be edited.
+### Requirement: Errors and warnings
+The editor SHALL show problems in the current mod as they arise, each as an error or a warning, and SHALL allow a mod with problems to stay open and be edited. Anything the format rules reject SHALL be an error. A value the format rules accept but that looks wrong SHALL be a warning.
 
 #### Scenario: Problem while editing
 - **WHEN** a user's edit leaves a button without a required variable
-- **THEN** the problem is shown beside the field and in a problem list, and selecting it in the list goes to the field
+- **THEN** an error is shown beside the field and in a problem list, and selecting it in the list goes to the field
 
-### Requirement: Saving only valid mods
-The editor SHALL NOT write a mod file that fails validation.
+#### Scenario: Bad requirement list
+- **WHEN** a user's edit ends a requirement list with `or`
+- **THEN** that is an error
 
-#### Scenario: Saving with problems
-- **WHEN** a user saves a mod that has problems
+#### Scenario: String ID beyond the loaded table
+- **WHEN** a user enters a string ID that fits the game's field but is beyond the loaded `stat_txt.tbl`
+- **THEN** that is a warning
+
+#### Scenario: No string table loaded
+- **WHEN** a user enters a string ID that fits the game's field, and no string table is loaded
+- **THEN** there's no warning
+
+### Requirement: Saving only mods without errors
+The editor SHALL NOT write a mod file that has errors. Warnings SHALL NOT prevent saving.
+
+#### Scenario: Saving with errors
+- **WHEN** a user saves a mod that has errors
 - **THEN** no file is written, and the problem list is shown
+
+#### Scenario: Saving with warnings
+- **WHEN** a user saves a mod that has warnings and no errors
+- **THEN** the file is written
 
 ### Requirement: Saving
 The editor SHALL always be able to save by downloading a file. Where the browser allows, it SHALL also be able to save directly to the file that was opened or last saved.
@@ -79,19 +110,16 @@ A saved mod SHALL contain only what the user changed: individual unit fields, wh
 - **THEN** the file's entry for that unit holds that field and not the others
 
 #### Scenario: Edited back to the original
-- **WHEN** a user edits an item so it again matches its original value on every build
+- **WHEN** a user edits an item so it again matches its original value on every version
 - **THEN** that entry is removed from the mod
 
-#### Scenario: Value matching only some builds
-- **WHEN** a user sets a constant to the original value of only some builds
+#### Scenario: Value matching only some versions
+- **WHEN** a user sets a constant to the original value of only some versions
 - **THEN** the entry stays in the mod
 
-### Requirement: Explicit entries from a file are kept
-An entry in an opened file that equals the original SHALL stay in the mod until the user changes or reverts it, because defining a value matters when mods are merged.
-
-#### Scenario: File sets a constant to its original value
-- **WHEN** a file sets a constant to its original value, and the user opens and saves it without touching that constant
-- **THEN** the saved file still sets it
+#### Scenario: File sets a value to its original
+- **WHEN** a file sets a constant to its original value on every game version, and the user opens and saves it
+- **THEN** the saved file doesn't set that constant
 
 ### Requirement: Reverting
 The editor SHALL let the user revert a field or a whole item to its original.

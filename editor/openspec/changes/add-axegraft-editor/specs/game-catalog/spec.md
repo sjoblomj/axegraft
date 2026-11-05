@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Defines the per-game data AxeGraft Editor reads: game content, engine behaviour names, limits, original values and per-build availability, and how bad catalogs are handled.
+Defines the per-game data AxeGraft Editor reads: game content, engine behaviour names, limits, original values and per-version availability, and how bad catalogs are handled.
 
 ## ADDED Requirements
 
@@ -14,22 +14,38 @@ The editor SHALL get everything specific to a game from that game's catalog, and
 - **THEN** the editor shows the new data with no other change
 
 ### Requirement: Catalog contents
-A catalog SHALL state its catalog format version, the mod format version and `game` it applies to, its builds, ID ranges, field limits, button fields, and which mod parts the game has.
+A catalog SHALL state its catalog format version, the mod format version and `game` it applies to, its versions, ID ranges, field limits, button fields, and which mod parts the game has. Beside its format version, it SHOULD have `application` with the value `AxeGraft`, to tell anyone reading the file what it's for. The editor SHALL NOT act on that value.
 
 #### Scenario: Game without requirements
 - **WHEN** a catalog says its game has no requirement data
 - **THEN** the editor shows no Requirements tab for that game
 
 #### Scenario: Game-specific button field
-- **WHEN** a catalog defines an additional button field, such as Warcraft II's highlighted order
+- **WHEN** a catalog defines a button field only its game has, such as Warcraft II's `highlighted`
 - **THEN** the button editor shows that field and writes it to the mod under the name the catalog gives
 
+#### Scenario: Catalog without an application value
+- **WHEN** a catalog has no `application`, or a different value
+- **THEN** the editor uses the catalog as normal
+
 ### Requirement: Game content in the catalog
-A catalog SHALL list units, button sets, upgrades, techs and orders by ID, with display names and tree positions. It SHALL list icon names and string names where they are known.
+A catalog SHALL list every entry of the game's button table, units and others, and the button sets, upgrades, techs and orders, by ID, with display names and tree positions. Each button set SHALL be one array of buttons in the game, with the mod format's ID and a list of the table entries that point at it. It SHALL list icon names and string names where they are known.
 
 #### Scenario: ID with no known name
 - **WHEN** a valid ID has no entry in the catalog, such as an icon added by an MPQ
 - **THEN** the editor shows and accepts the numeric ID
+
+#### Scenario: Set shared by several units
+- **WHEN** the Marine and the Firebat use one array of buttons in the game
+- **THEN** the catalog lists one set, with both units' original `button_set` naming it
+
+#### Scenario: Table entry that isn't a unit
+- **WHEN** StarCraft's catalog lists table entry 238, a worker build menu
+- **THEN** it has only an original `button_set`
+
+#### Scenario: Set and units that disagree
+- **WHEN** a unit's original `button_set` names a set whose list of table entries doesn't include that unit
+- **THEN** the catalog is treated as malformed
 
 ### Requirement: Engine behaviour in the catalog
 A catalog SHALL list conditions, actions, status functions and opcodes by the names mods use, with a display name and any variable or parameter type.
@@ -45,15 +61,15 @@ A catalog SHALL hold the original value of every editable property: each unit's 
 - **WHEN** an item is shown
 - **THEN** the editor can tell which of its values differ from the original, without any game file
 
-#### Scenario: Original value differs between builds
-- **WHEN** a property's original value differs between builds
-- **THEN** the catalog records each build's value, and the editor shows them
+#### Scenario: Original value differs between versions
+- **WHEN** a property's original value differs between versions
+- **THEN** the catalog records each version's value, and the editor shows them
 
-### Requirement: Per-build availability in the catalog
-A catalog SHALL record which builds lack each button set and function, and for each constant whether each build has it, doesn't apply, or is unknown.
+### Requirement: Per-version availability in the catalog
+A catalog SHALL record which versions lack each button set, table entry and function, and for each constant whether each version has it, doesn't apply, or is unknown.
 
-#### Scenario: Forgotten build
-- **WHEN** a constant's entry doesn't cover one of the catalog's builds
+#### Scenario: Forgotten version
+- **WHEN** a constant's entry doesn't cover one of the catalog's versions
 - **THEN** the catalog is treated as malformed
 
 ### Requirement: No addresses in the catalog
@@ -62,6 +78,13 @@ A catalog SHALL NOT need addresses, expected bytes or any other data that only t
 #### Scenario: Reviewing a catalog
 - **WHEN** a mod is edited using a catalog
 - **THEN** no part of the editing relies on where a value is stored in any executable
+
+### Requirement: Help text in the catalog
+A catalog SHALL give a help text for each button field, unit field and constant, and for the bare unit row where the game has requirements. It MAY give one for each function and opcode.
+
+#### Scenario: Missing help text
+- **WHEN** a constant in a catalog has no help text
+- **THEN** the catalog is treated as malformed
 
 ### Requirement: Malformed catalogs
 The editor SHALL check a catalog before offering its game. A catalog that is malformed, or of an unsupported format version, SHALL NOT be used, and the error SHALL name the catalog and each problem.

@@ -26,7 +26,11 @@ The form SHALL show every button field the catalog lists for the game, including
 
 #### Scenario: Warcraft II button
 - **WHEN** a Warcraft II button is selected
-- **THEN** the form also shows the highlighted order field
+- **THEN** the form shows `string` and `highlighted`, and not `enabled_string` or `disabled_string`
+
+#### Scenario: StarCraft button
+- **WHEN** a StarCraft button is selected
+- **THEN** the form shows `enabled_string` and `disabled_string`, and not `string` or `highlighted`
 
 ### Requirement: Fields with a name and an ID
 Icon and string fields SHALL accept a typed ID or a selection by name, and SHALL accept any ID within the field's limit, even one with no known name.
@@ -35,12 +39,20 @@ Icon and string fields SHALL accept a typed ID or a selection by name, and SHALL
 - **WHEN** a user types an icon ID the catalog doesn't name, within the field's limit
 - **THEN** the ID is accepted, and the preview shows a placeholder if no image is available
 
+#### Scenario: String beyond the loaded table
+- **WHEN** a user types a string ID within the field's limit but beyond the loaded string table
+- **THEN** the ID is accepted, with a warning that says how many strings the table holds
+
 ### Requirement: Variables follow their function
-Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, number, button set or none.
+Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, number, table entry or none.
 
 #### Scenario: Action reading a tech
 - **WHEN** a user chooses an action that reads a tech
 - **THEN** the variable field lists techs
+
+#### Scenario: Action opening a table entry
+- **WHEN** a user chooses an action that opens a table entry, such as a worker build menu
+- **THEN** the variable field lists table entries, each with the set it has in the mod
 
 #### Scenario: Function that reads no variable
 - **WHEN** a user chooses a function that reads no variable
@@ -51,7 +63,7 @@ Choosing a condition or action SHALL change its variable field to suit that func
 - **THEN** the field shows a problem until a valid value is chosen
 
 ### Requirement: Variable omitted when unset
-A variable on a function that doesn't read one SHALL be left out of the saved button when it's 0, unless the opened file stated it.
+A variable on a function that doesn't read one SHALL be left out of the saved button when it's 0.
 
 #### Scenario: Default variable
 - **WHEN** a button's action reads no variable, and the variable is 0
@@ -79,29 +91,48 @@ The icon field SHALL offer a visual picker when game assets are imported, and a 
 - **WHEN** no game assets are imported
 - **THEN** the preview and icon field show names and IDs, and all editing works
 
-### Requirement: String preview
-The form SHALL show the enabled and disabled text of the selected button when game assets are imported, with a choice of which to preview. Text formatting codes SHALL NOT appear as raw bytes.
+### Requirement: String text
+Where a string table is available, the form SHALL show each string field's text verbatim as stored, with no preview of how the game formats it. Control bytes, which have no visible form, SHALL appear as their number, such as `<3>`.
 
 #### Scenario: String with a hotkey
 - **WHEN** a button's string has a hotkey and colour codes
-- **THEN** the preview shows the readable text, with the hotkey highlighted
+- **THEN** the form shows the stored text, with those bytes as numbers and no formatting applied
+
+#### Scenario: No string table
+- **WHEN** no string table is available
+- **THEN** the field shows the ID, and all editing works
 
 ### Requirement: Showing who uses a set
-The tab SHALL list the units the mod assigns to this set, and the sets that share this one's original buttons in the game.
+The tab SHALL list the table entries that use this set, counting what the mod assigns, and SHALL say that editing the set changes all of them.
+
+#### Scenario: Set shared by several units
+- **WHEN** set 0 is selected, and units 0, 10, 20 and 32 use it
+- **THEN** the tab lists all four, and says that editing the set changes all of them
 
 #### Scenario: Unit assigned in the mod
 - **WHEN** a mod assigns set 5 to unit 0
-- **THEN** set 5's list includes unit 0
+- **THEN** set 5's list includes unit 0, and unit 0's original set no longer lists it
 
-#### Scenario: Sets sharing original buttons
-- **WHEN** a set shares its original buttons with others
-- **THEN** the tab lists those sets, and says that editing changes only this set
+#### Scenario: Going to a unit
+- **WHEN** a user follows a unit in the list
+- **THEN** the Units tab opens on that unit
+
+### Requirement: New sets
+The tab SHALL let the user add a set, and remove one the mod added. A new set SHALL take the lowest unused new set ID unless the user picks another. The item list SHALL show each set the mod adds alongside the original sets.
+
+#### Scenario: Adding a set
+- **WHEN** a user adds a set to a StarCraft mod with no new sets
+- **THEN** it's set 250, with no buttons
+
+#### Scenario: Removing a set still in use
+- **WHEN** a user removes a new set that a table entry is assigned to
+- **THEN** that entry shows an error until it's given another set
 
 ### Requirement: Copying buttons
-The tab SHALL let the user copy the current buttons of this set to chosen other sets, including the sets that share its original buttons.
+The tab SHALL let the user copy the current buttons of this set to chosen other sets, and copy another set's buttons into this one.
 
-#### Scenario: Keeping shared sets in step
-- **WHEN** a user edits a set and copies it to the sets that originally shared its buttons
+#### Scenario: Copying to other sets
+- **WHEN** a user copies a set's buttons to chosen other sets
 - **THEN** each of those sets is defined in the mod with the same buttons
 
 #### Scenario: Copying from another set

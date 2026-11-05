@@ -35,7 +35,8 @@ editor/
   catalog/          One script per game
   src/core/         Catalog check, mod model, validation, file output, history, compatibility. No DOM
   src/assets/       MPQ, implode, GRP, TBL and palette decoding, cached in browser storage. No DOM
-  src/ui/           Rendering and events
+  src/ui/           Rendering, events and help text for game-independent controls
+  assets/           Optional shipped icons and strings, one folder per game
   test/             Test page, Node runner, fixtures
   docs/             Catalog format and architecture notes
 ```
@@ -56,50 +57,56 @@ A catalog file is a single call: `AxeGraft.registerCatalog({ ...JSON... });`. It
 Outline of the format, which `docs/catalog-format.md` documents fully:
 
 ```
-catalogFormat, modFormat, game, title, sample
+application, catalogFormat, modFormat, game, title, sample
 parts:        which mod parts the game has
-builds:       [{ id, label }]
-limits:       unit, tech, upgrade, order, buttonSet, icon, string, position, conditionVariable, actionVariable
-buttonFields: name, kind, required, for each button field
-functions:    conditions, actions, statusChanged, statusUpdate: { name, label, variable, absentOn }
-opcodes:      { name, label, parameter, allowedIn }
+versions:     [{ id, label }]
+limits:       unit, tableEntry, tech, upgrade, order, buttonSet, newButtonSet, icon, string, position, conditionVariable, actionVariable
+buttonFields: name, kind, required, help, for each button field
+unitFields:   name, help, for each unit field
+functions:    conditions, actions, statusChanged, statusUpdate: { name, label, variable, absentOn, help? }
+opcodes:      { name, label, parameter, allowedIn, help? }
+bareUnit:     { label, help }
 units:        { id, name, tree, original: { button_set, status_changed, status_update, status_unit_type } }
-buttonSets:   { id, name, tree, sharesOriginalWith, absentOn, original: [button] }
+buttonSets:   { id, name, tree, entries, absentOn, original: [button] }
 upgrades, techs, orders: { id, name, tree }
-requirements: { type, id, original: { default, perBuild } }
-constants:    { name, label, group, note, kind, range or options, refers, availability: { build: value or state } }
+requirements: { type, id, original: { default, perVersion } }
+constants:    { name, label, group, note, help, kind, range or options, refers, availability: { version: value or state } }
 icons, strings: { id: name }
 assets:       archive priority, icon file, string file, palette
 ```
 
+`units` lists every entry of the game's button table, including those that aren't units, such as StarCraft's worker build menus, which have only `button_set`. A set is one array of buttons in the game. An original set's `id` is the lowest table entry pointing at it, and `entries` lists every table entry pointing at it. An entry with no buttons has a `button_set` of `null`. A mod's new sets take IDs in the `newButtonSet` range, which starts at the table's size, so a set's ID is never mistaken for a unit's.
+
 Original buttons and lists use the same shape as mod entries. Comparing and copying are therefore plain JSON comparisons, with no conversion.
 
-Button fields are data, not code. The patcher spec's two gaps for Warcraft II, the highlighted-order field's name and the single string, then only affect that game's catalog.
+Button fields are data, not code. Warcraft II's `string` and `highlighted`, and StarCraft's `enabled_string` and `disabled_string`, are only different lists in each catalog.
+
+`application` is always `AxeGraft`. It's there to tell anyone reading the file what it's for, so the catalog check ignores it, and a catalog without it still loads.
 
 ### 3. One immutable mod document, with derived views
 
 ```
 Mod document    Parsed JSON shape of the mod, never mutated
   edit(doc, change) --> new doc
-  validate(doc, catalog) --> problems with paths
+  validate(doc, catalog, assets) --> errors and warnings, each with a path
   effective(doc, catalog, item) --> original or mod value
-  compatibility(doc, catalog) --> per-build result
+  compatibility(doc, catalog) --> per-version result
   serialize(doc) --> canonical bytes
 ```
 
 The document is what's saved, with no parallel "editor model" to keep in sync. Undo is a bounded stack of earlier documents, which is cheap because unchanged parts are shared. A problem's path, like `button_sets[3].buttons[2].action_variable`, is also what links a problem to its field.
 
-*Alternatives considered:* a full copy of the game state with a diff at save time. That loses the difference between "the file set this to its original value" and "not set", which `mod-files` needs to keep.
+*Alternatives considered:* a full copy of the game state with a diff at save time. That adds a second model, with no natural place for a value the catalog can't represent, such as an out-of-range ID from an opened file.
 
 ### 4. Removing entries that match the original
 
-An edit that makes an entry match its original on every build removes it. Entries from an opened file aren't touched until the user edits them, because `edit` runs only on what the user changes. This gives "Edited back to the original" and "Explicit entries from a file are kept" one simple rule, with no flags on entries.
+An entry that matches its original on every version is removed. This applies when an edit makes it match, and once when a file is opened, so a mod never holds an entry that changes nothing. A variable of 0 on a function that doesn't read one is dropped in the same way.
 
-A constant whose original varies between builds is removed only by an explicit revert.
+A constant whose original varies between versions is removed only by an explicit revert.
 
 ### 5. Validation is table-driven and tested with shared mods
 
-`validate` takes the catalog and reports all problems. Each `mod-format` rule has at least one mod in `test/fixtures/mods/valid` or `invalid`, with the expected problem paths beside it. These fixtures are plain JSON with their own small fixture catalog, independent of any language.
+`validate` takes the catalog and reports all problems. Each `mod-format` rule has at least one mod in `test/fixtures/mods/valid` or `invalid`, with the expected problem paths, and whether the editor refuses the file, beside it. These fixtures are plain JSON with their own small fixture catalog, independent of any language.
 
 *Alternative considered:* compiling the patcher's Rust validation to WebAssembly. One implementation is attractive, but it would add a compiler and binary to a project meant to have neither, and that code doesn't exist yet.
 
@@ -135,6 +142,10 @@ Decoding yields to the event loop between steps, so the page stays responsive wi
 
 Only icons are cached as images, so the UI uses ordinary `<img>` tags with object URLs. Warcraft II's terrain-specific icons use the forest set for preview, as the catalog's `assets` names.
 
+A `stat_txt.tbl` selected by itself goes straight to the TBL decoder, with no archive involved.
+
+Shipped assets live in `assets/<game>/`: icons as image files, and strings as a classic script for the same `file://` reason as catalogs. Each lookup tries imported assets, then shipped ones, then a placeholder. A missing script or image only leads to the next step, so deleting the folder needs no other change.
+
 ### 9. Tests with no dependencies
 
 A small harness provides `test`, `assertEqual` and a result list. `test/index.html` loads the app's scripts and all tests, including DOM tests against the real UI. This is the runner that needs nothing installed.
@@ -147,6 +158,22 @@ Work is test-first, as in the patcher.
 
 Because the app is static files that never call out, any later wrapper only has to open `index.html` in a web view. Nothing in the app assumes a wrapper, so none needs designing now.
 
+### 11. Refused files, errors and warnings
+
+Reading a file has two stages. The first checks the structure the editor needs in order to hold the file: JSON, header, property names and the shapes of arrays. Failing it refuses the file. Everything else goes into the document as written, so a bad value can be seen and fixed where it is, and `validate` reports it.
+
+An error is anything the patcher's format rules reject, so errors block saving. A warning is valid for the format but looks wrong: an ID beyond the loaded assets, or something a game version lacks. Only warnings may depend on assets, which keeps a mod's validity independent of what's loaded.
+
+### 12. Help text lives with what it describes
+
+Game-specific help is in the catalog, because its wording depends on the game. Help for controls that are the same in every game is a table in `src/ui`, so it isn't repeated in each catalog or generated by the conversion tool. Each field and constant needs a help text. A function or opcode may add one for the current choice.
+
+The `?` is a real `button` that shows the text on hover and on focus, which keeps it usable from the keyboard.
+
+### 13. Keeping a later TUI possible
+
+A terminal front end isn't planned, but this design shouldn't rule one out, as long as that doesn't make it clumsier. Two choices that are sensible anyway keep the option open: `src/core` holds what isn't about rendering, including building and filtering the tree, marking and selection, and storage sits behind a small wrapper. There's no generic UI description layer, because nothing needs one yet.
+
 ## Risks / Trade-offs
 
 - **Two implementations of the mod format can drift** → The shared fixtures cover every `mod-format` scenario. The patcher running them is follow-up work, and until then, drift is caught only on the editor side.
@@ -158,10 +185,12 @@ Because the app is static files that never call out, any later wrapper only has 
 - **Browser storage can be cleared** → Assets can be imported again, and drafts are only a safety net: the saved file is the real copy.
 - **Blizzard's MPQ variants may hold surprises** → Decoders are checked against the real archives during implementation, and failures are contained and named.
 - **Icon colours may be wrong without the right palette** → This affects only the preview. See the open question.
+- **Shipped assets aren't ours to license** → They stay optional and in one folder, so removing them means deleting that folder.
+- **A mod's MPQ can extend the string table, so the loaded table may be too short** → That's why an ID beyond it is a warning, never an error, and users can import their own table.
 
 ## Open Questions
 
 These can be answered during implementation without changing the specs, approach or tasks:
 
 - **Palette source:** which game file gives the command icons their correct colours in each game. FireGraft ships its own `ticon.pal`, so the game may build this palette from another file. Task 8.6 checks this against real files, and the answer goes in the catalog's `assets`.
-- **Exact archive set:** whether every supported build has all the archives listed in Context, or whether older builds need others. This is also catalog data.
+- **Exact archive set:** whether every supported version has all the archives listed in Context, or whether older versions need others. This is also catalog data.

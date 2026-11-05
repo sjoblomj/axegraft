@@ -18,7 +18,7 @@ The editor SHALL run fully when `index.html` is opened directly from disk in a c
 - **THEN** the editor behaves the same way
 
 ### Requirement: No third-party dependencies
-The editor SHALL contain no third-party library, framework, font or tool, and running it SHALL NOT need any package manager or compiler. What runs in the browser SHALL be the same files that are in the source tree.
+The editor SHALL contain no third-party library, framework, font or tool, and running it SHALL NOT need any package manager or compiler. What runs in the browser SHALL be the same files that are in the source tree. Optional shipped game assets are data, not a dependency.
 
 #### Scenario: Reviewing the source tree
 - **WHEN** the source tree is inspected

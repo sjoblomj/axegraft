@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Defines how users move around AxeGraft Editor: the menu, the tabs, the item tree, sorting and searching, and how changed items are marked.
+Defines how users move around AxeGraft Editor: the menu, the tabs, the item tree and its filters, help for controls, and how changes and problems are marked.
 
 ## ADDED Requirements
 
@@ -18,11 +18,11 @@ The editor SHALL show a menu bar, an item list on the left, a tab for each mod p
 - **THEN** the tabs are Units, Button Sets and Constants
 
 ### Requirement: Item list per tab
-The item list SHALL show what the current tab edits. Units and Button Sets SHALL share a selection where the same ID exists in both, so switching between them stays on the same item.
+The item list SHALL show what the current tab edits. Each tab SHALL keep its own selection. An ID SHALL NOT link items between tabs: a unit and a button set with the same ID are unrelated, and a unit's set is whichever one its `button_set` says.
 
-#### Scenario: From a unit to its buttons
-- **WHEN** unit 51 is selected in Units, and the user switches to Button Sets
-- **THEN** button set 51 is selected
+#### Scenario: Switching tabs
+- **WHEN** a unit is selected in Units, and the user switches to Button Sets
+- **THEN** Button Sets shows the set last selected there
 
 #### Scenario: Requirements list
 - **WHEN** the Requirements tab is open
@@ -32,23 +32,31 @@ The item list SHALL show what the current tab edits. Units and Button Sets SHALL
 - **WHEN** the Constants tab is open
 - **THEN** the list shows constants, grouped as the catalog says
 
-### Requirement: Sorting
-The item list SHALL offer tree, ID and alphabetical views. Tree view SHALL use the catalog's groups, and groups SHALL expand and collapse.
+### Requirement: Item labels and order
+The item list SHALL be a tree using the catalog's groups, which SHALL expand and collapse. An item with an ID SHALL have a label that starts with its ID, and items in a group SHALL be sorted numerically by ID. Constants have no ID, and SHALL stay in catalog order.
 
-#### Scenario: Changing view
-- **WHEN** a user switches from tree view to ID view
-- **THEN** the items are listed by ID, and the selected item stays selected and visible
+#### Scenario: Label
+- **WHEN** unit 32, named Terran Firebat, is listed
+- **THEN** its label is `32 Terran Firebat`
 
-### Requirement: Jumping and searching
-The item list SHALL let the user jump to an ID and search by name.
+#### Scenario: Numeric order
+- **WHEN** a group holds items 2, 10 and 32
+- **THEN** they're listed as 2, 10, 32
 
-#### Scenario: Jump to an ID
-- **WHEN** a user enters an ID and jumps
-- **THEN** that item is selected, or the editor says it doesn't exist
+### Requirement: Filtering the tree
+The item list SHALL have a search box that shows only the items whose label contains the text, ignoring case, along with the groups that hold them. Those groups SHALL be shown expanded.
 
 #### Scenario: Search by name
 - **WHEN** a user searches for `kerrigan`
-- **THEN** the list shows each item whose name contains that text, ignoring case
+- **THEN** the tree shows each item whose label contains that text
+
+#### Scenario: Search by ID
+- **WHEN** a user searches for `51`
+- **THEN** the tree shows unit 51, along with every other item whose label contains `51`
+
+#### Scenario: Clearing the search
+- **WHEN** a user clears the search box
+- **THEN** the whole tree is shown again, and the selected item is still selected
 
 ### Requirement: Marking changes
 Each item the mod changes SHALL be marked in the item list, along with the groups that contain it and its tab. Each changed field SHALL be marked in the form.
@@ -62,11 +70,33 @@ Each item the mod changes SHALL be marked in the item list, along with the group
 - **THEN** the list holds only what the mod changes
 
 ### Requirement: Marking problems
-Each item with a problem SHALL be marked in the item list and its tab, differently from a change.
+Each item with an error or a warning SHALL be marked in the item list, along with the groups that contain it and its tab. Errors, warnings and changes SHALL look different from each other.
 
-#### Scenario: Invalid item
-- **WHEN** an item has a validation problem
-- **THEN** the item and its tab show the problem marker
+#### Scenario: Item with an error
+- **WHEN** an item has an error
+- **THEN** the item and its tab show the error marker
+
+### Requirement: Filtering by problem
+While the mod has errors or warnings, the item list SHALL offer a filter that shows only the items with errors, and one that shows only the items with warnings. These SHALL combine with the search box.
+
+#### Scenario: Showing only warnings
+- **WHEN** a mod has warnings on two items, and a user chooses to show only warnings
+- **THEN** the tree holds only those two items
+
+#### Scenario: No problems
+- **WHEN** a mod has no errors or warnings
+- **THEN** these filters aren't offered
+
+### Requirement: Help for every control
+Every control SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog.
+
+#### Scenario: Reading help
+- **WHEN** a user hovers over or focuses a control's `?` button
+- **THEN** that control's help text is shown
+
+#### Scenario: Help that depends on the game
+- **WHEN** a user opens the help for a button field that only one game has
+- **THEN** the text comes from that game's catalog
 
 ### Requirement: Following references
 Where a field refers to a unit, button set or requirement record, the editor SHALL offer a way to go to that item.
@@ -83,7 +113,7 @@ Every feature SHALL be usable from the keyboard, and the item list SHALL support
 - **THEN** the selection moves through visible items, and left and right collapse and expand groups
 
 ### Requirement: Status bar
-The status bar SHALL show the current file name, whether there are unsaved changes, the number of problems and the build compatibility summary.
+The status bar SHALL show the current file name, whether there are unsaved changes, the number of errors and warnings and the version compatibility summary.
 
 #### Scenario: Unsaved mod
 - **WHEN** a mod has unsaved changes
