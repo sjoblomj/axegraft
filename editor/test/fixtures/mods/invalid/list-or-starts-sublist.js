@@ -1,0 +1,27 @@
+AxeGraft.registerModFixture({
+  "scenario": "Requirement lists: Dangling or",
+  "mod": {
+    "patcher": "AxeGraft",
+    "format": 1,
+    "game": "starcraft",
+    "requirements": [
+      {
+        "type": "upgrade",
+        "id": 3,
+        "list": [
+          "upgrade_level_1",
+          "or",
+          132,
+          "end_sublist"
+        ]
+      }
+    ]
+  },
+  "expect": {
+    "refused": false,
+    "errors": [
+      "requirements[0].list[1]"
+    ],
+    "warnings": []
+  }
+});

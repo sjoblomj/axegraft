@@ -1,0 +1,1 @@
+AxeGraft.registerShippedAssets({ "game": "starcraft" });

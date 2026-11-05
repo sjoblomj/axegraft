@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AxeGraft Editor</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app"></div>
+<noscript>AxeGraft Editor needs JavaScript.</noscript>
+
+<!-- Every script, in load order. A test checks that this list is complete. -->
+<script src="src/core/namespace.js"></script>
+<script src="src/core/util.js"></script>
+<script src="src/core/catalog.js"></script>
+<script src="src/core/validate.js"></script>
+<script src="src/core/modfile.js"></script>
+<script src="src/core/document.js"></script>
+<script src="src/core/serialize.js"></script>
+<script src="src/core/history.js"></script>
+<script src="src/core/compat.js"></script>
+<script src="src/core/storage.js"></script>
+<script src="src/core/tree.js"></script>
+<script src="src/core/requirements.js"></script>
+<script src="src/assets/explode.js"></script>
+<script src="src/assets/decompress.js"></script>
+<script src="src/assets/mpq.js"></script>
+<script src="src/assets/images.js"></script>
+<script src="src/assets/importer.js"></script>
+<script src="src/ui/h.js"></script>
+<script src="src/ui/help.js"></script>
+<script src="src/ui/dialogs.js"></script>
+<script src="src/ui/platform.js"></script>
+<script src="src/ui/fields.js"></script>
+<script src="src/ui/tree-view.js"></script>
+<script src="src/ui/app.js"></script>
+<script src="src/ui/units-tab.js"></script>
+<script src="src/ui/buttonsets-tab.js"></script>
+<script src="src/ui/requirements-tab.js"></script>
+<script src="src/ui/constants-tab.js"></script>
+<script src="src/ui/report.js"></script>
+<script src="src/ui/import-dialog.js"></script>
+<script src="catalog/sample-starcraft.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
+<script src="catalog/sample-warcraft2.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
+<script src="assets/starcraft/assets.js"></script>
+<script src="assets/warcraft2/assets.js"></script>
+
+<script>AxeGraft.ui.start(document.getElementById("app"));</script>
+</body>
+</html>

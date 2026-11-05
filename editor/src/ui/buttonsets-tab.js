@@ -1,0 +1,631 @@
+// The Button Sets tab: a set's buttons, the form for the selected button,
+// a preview of the command panel, who uses the set, new sets and copying.
+"use strict";
+
+(function (AG) {
+  var h = AG.ui.h;
+  var help = AG.ui.help;
+  var F = AG.ui.fields;
+  var D = AG.core.doc;
+  var util = AG.util;
+  var tree = AG.core.tree;
+
+  // ---- Names and media
+
+  function iconName(cat, id) {
+    return cat.icons[id] || null;
+  }
+
+  // An icon's image if assets are loaded, otherwise a placeholder with its
+  // name or ID.
+  function iconEl(app, id) {
+    var url = app.assets && app.assets.iconURL ? app.assets.iconURL(app.state.game, id) : null;
+    if (url) return h("img", { class: "icon-img", src: url, alt: iconName(app.cat(), id) || "Icon " + id, dataset: { icon: id } });
+    var name = util.isInt(id) ? iconName(app.cat(), id) : null;
+    return h("span", { class: "icon-ph", title: name || "Icon " + id, dataset: { icon: id, placeholder: "" }, text: name ? name.slice(0, 8) : util.isInt(id) ? String(id) : "?" });
+  }
+
+  function stringText(app, id) {
+    return app.assets && app.assets.string ? app.assets.string(app.state.game, id) : null;
+  }
+
+  // ---- Lists offered by name
+
+  function namedItems(list) {
+    return (list || [])
+      .map(function (x) {
+        return { id: x.id, label: x.id + " " + x.name };
+      })
+      .sort(function (a, b) {
+        return a.id - b.id;
+      });
+  }
+
+  function mapItems(obj) {
+    return Object.keys(obj || {})
+      .map(function (k) {
+        return { id: +k, label: k + " " + obj[k] };
+      })
+      .sort(function (a, b) {
+        return a.id - b.id;
+      });
+  }
+
+  // Table entries, each with the set it has in the mod.
+  function entryItems(app) {
+    var cat = app.cat();
+    var bs = cat.unitKind.buttonSet.name;
+    return cat.raw.units
+      .map(function (u) {
+        var s = D.effectiveUnit(app.doc(), cat, u.id)[bs].value;
+        return { id: u.id, label: u.id + " " + u.name + " — " + (s === null ? "no buttons" : "set " + s) };
+      })
+      .sort(function (a, b) {
+        return a.id - b.id;
+      });
+  }
+
+  function variableItems(app, type) {
+    var cat = app.cat();
+    if (type === "unit") return AG.ui.unitsTab.unitItems(cat);
+    if (type === "tech") return namedItems(cat.raw.techs);
+    if (type === "upgrade") return namedItems(cat.raw.upgrades);
+    if (type === "tableEntry") return entryItems(app);
+    return null;
+  }
+
+  // Where a variable of a type refers to.
+  function variableTarget(type, v) {
+    if (!util.isInt(v)) return null;
+    if (type === "unit") return { tab: "requirements", key: tree.key.req("unit", v), label: "Requirements of unit " + v };
+    if (type === "tech") return { tab: "requirements", key: tree.key.req("tech_research", v), label: "Research requirements of tech " + v };
+    if (type === "upgrade") return { tab: "requirements", key: tree.key.req("upgrade", v), label: "Requirements of upgrade " + v };
+    if (type === "tableEntry") return { tab: "units", key: tree.key.unit(v), label: "Table entry " + v };
+    return null;
+  }
+
+  function functionOptions(cat, list) {
+    var out = [];
+    cat.functions[list].forEach(function (fn) {
+      out.push({ value: fn.name, label: fn.label + " (" + fn.name + ")" });
+    });
+    return out;
+  }
+
+  function positionOptions(cat) {
+    var r = cat.limits.position;
+    var cols = cat.panel.columns;
+    var out = [];
+    for (var p = r.min; p <= r.max; p++) {
+      var i = p - r.min;
+      out.push({ value: p, label: p + " (row " + (Math.floor(i / cols) + 1) + ", column " + ((i % cols) + 1) + ")" });
+    }
+    return out;
+  }
+
+  // ---- Who uses a set
+
+  // Table entries showing this set, counting what the mod assigns. Includes
+  // entries the catalog doesn't name but the mod assigns.
+  function usedBy(app, setId) {
+    var cat = app.cat();
+    var bs = cat.unitKind.buttonSet.name;
+    var ids = {};
+    cat.raw.units.forEach(function (u) {
+      ids[u.id] = true;
+    });
+    D.entries(app.doc(), "units").forEach(function (e) {
+      if (util.isObject(e) && util.isInt(e.id) && util.inRange(e.id, cat.limits.tableEntry)) ids[e.id] = true;
+    });
+    return Object.keys(ids)
+      .map(Number)
+      .sort(util.byNumber)
+      .filter(function (id) {
+        return D.effectiveUnit(app.doc(), cat, id)[bs].value === setId;
+      });
+  }
+
+  // Defaults for a new button: valid values the user can change.
+  function newButton(cat, buttons, position) {
+    var r = cat.limits.position;
+    if (position === undefined) {
+      position = r.min;
+      var used = buttons.map(function (b) {
+        return b && b[cat.buttonKind.position.name];
+      });
+      for (var p = r.min; p <= r.max; p++)
+        if (used.indexOf(p) < 0) {
+          position = p;
+          break;
+        }
+    }
+    function plain(list) {
+      var fn = null;
+      cat.functions[list].forEach(function (f) {
+        if (!fn && !f.variable) fn = f;
+      });
+      return (fn || cat.functionLists[list][0]).name;
+    }
+    var b = {};
+    cat.buttonFields.forEach(function (f) {
+      if (f.kind === "position") b[f.name] = position;
+      else if (f.kind === "icon") b[f.name] = cat.limits.icon.min;
+      else if (f.kind === "string") b[f.name] = cat.limits.string.min;
+      else if (f.kind === "condition") b[f.name] = plain("conditions");
+      else if (f.kind === "action") b[f.name] = plain("actions");
+      else if (f.kind === "choice") b[f.name] = f.options[0].value;
+    });
+    return b;
+  }
+
+  // ---- The panel
+
+  function panel(app, key) {
+    var cat = app.cat();
+    var doc = app.doc();
+    var id = tree.parseKey(key).id;
+    var set = cat.sets.get(id);
+    var eff = D.effectiveButtons(doc, cat, id);
+    var buttons = eff.buttons;
+    var sel = app.state.button[key];
+    if (!util.isInt(sel) || sel >= buttons.length) sel = buttons.length ? 0 : null;
+    if (sel !== null && sel < 0) sel = 0;
+    app.state.button[key] = sel;
+
+    function editButtons(fn) {
+      app.edit(function (d) {
+        var list = D.effectiveButtons(d, cat, id).buttons.slice();
+        var next = fn(list);
+        return D.setButtons(d, cat, id, next || list);
+      });
+    }
+    function selectButton(i) {
+      app.state.button[key] = i;
+      app.render();
+    }
+
+    var problems = app.problemsAt(function (l) {
+      return l.key === key;
+    });
+    function buttonProblems(i, field) {
+      return problems.filter(function (p) {
+        var l = tree.locate(doc, cat, p.path);
+        return l.button === i && (field === undefined || l.field === field);
+      });
+    }
+    var setProblems = problems.filter(function (p) {
+      var l = tree.locate(doc, cat, p.path);
+      return l.button === null || l.button === undefined;
+    });
+
+    // Header
+    var title = set ? id + " " + set.name : id + " " + (eff.defined && D.entries(doc, "button_sets").filter(function (e) {
+      return e.id === id;
+    })[0].label || "New set");
+    var header = h("h2", { class: "panel-title" }, [
+      title,
+      h("span", { class: "sub", text: eff.isNew ? "New set, added by this mod" : eff.defined ? "Original set, replaced by this mod" : "Original set" }),
+      set && eff.defined
+        ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "revert-set" }, onclick: function () {
+            app.edit(function (d) {
+              return D.revertSet(d, cat, id);
+            });
+          } }, "Revert set"), help.text("revertItem"))
+        : null,
+      eff.isNew
+        ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "remove-set" }, onclick: function () {
+            app.edit(function (d) {
+              return D.revertSet(d, cat, id);
+            });
+            app.state.selection.button_sets = null;
+            app.render();
+          } }, "Remove set"), help.text("removeSet"))
+        : null
+    ]);
+
+    // Who uses it
+    var users = usedBy(app, id);
+    var usedEl = h("div", { class: "used-by", dataset: { field: "set:" + id + ":used" } }, [
+      h("div", null, [
+        h("strong", { text: users.length ? "Used by " + users.length + (users.length === 1 ? " table entry" : " table entries") : "No table entry uses this set." }),
+        users.length > 1 ? h("span", { text: " Editing this set changes all of them." }) : users.length === 1 ? h("span", { text: " Editing this set changes it." }) : null,
+        " ",
+        help.button(help.text("usedBy"))
+      ]),
+      users.length
+        ? h(
+            "ul",
+            { dataset: { usedBy: "" } },
+            users.map(function (u) {
+              var unit = cat.units.get(u);
+              return h("li", null, [
+                h("button", { type: "button", class: "link", dataset: { unit: u }, "aria-describedby": null, onclick: function () {
+                  app.select("units", tree.key.unit(u));
+                } }, u + (unit ? " " + unit.name : ""))
+              ]);
+            })
+          )
+        : null
+    ]);
+    Array.prototype.forEach.call(usedEl.querySelectorAll("button.link"), function (b) {
+      b.setAttribute("aria-describedby", usedEl.querySelector(".help").getAttribute("aria-describedby"));
+    });
+
+    // Button list and toolbar
+    var list = h(
+      "ul",
+      { class: "button-list", role: "listbox", tabindex: "0", "aria-label": "Buttons", dataset: { focus: "buttons:" + id } },
+      buttons.length
+        ? buttons.map(function (b, i) {
+            var pos = util.isObject(b) ? b[cat.buttonKind.position.name] : "?";
+            var actionFn = util.isObject(b) ? cat.functions.actions.get(b[cat.buttonKind.action.name]) : null;
+            var firstString = cat.buttonFields.filter(function (f) {
+              return f.kind === "string";
+            })[0];
+            var text = firstString && util.isObject(b) ? stringText(app, b[firstString.name]) : null;
+            var hasProblem = buttonProblems(i).length > 0;
+            return h("li", { role: "option", "aria-selected": String(i === sel), dataset: { index: i }, onclick: function () {
+              selectButton(i);
+            } }, [
+              h("span", { class: "pos", text: String(pos) }),
+              util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
+              h("span", { text: (actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?") + (text ? " — " + firstLine(text) : "") }),
+              hasProblem ? h("span", { class: "mark error", text: "!" }) : null
+            ]);
+          })
+        : [h("li", { class: "empty", text: "No buttons." })]
+    );
+    list.addEventListener("keydown", function (e) {
+      if (!buttons.length) return;
+      var cur = sel === null ? 0 : sel;
+      if (e.key === "ArrowDown") selectButton(Math.min(cur + 1, buttons.length - 1));
+      else if (e.key === "ArrowUp") selectButton(Math.max(cur - 1, 0));
+      else if (e.key === "Home") selectButton(0);
+      else if (e.key === "End") selectButton(buttons.length - 1);
+      else return;
+      e.preventDefault();
+    });
+    var listWithHelp = h("div", { class: "button-list-row", style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { flex: "1" } }, [list])].concat([help.described(list, help.text("buttonList"))[1]]));
+
+    function tool(label, action, helpKey, onclick, disabled) {
+      return F.withHelp(h("button", { type: "button", class: "small", dataset: { action: action }, disabled: !!disabled, onclick: onclick }, label), help.text(helpKey));
+    }
+    var toolbar = h("div", { class: "toolbar" }, [
+      tool("Add", "add-button", "addButton", function () {
+        var at = buttons.length;
+        editButtons(function (l) {
+          l.push(newButton(cat, l));
+        });
+        app.state.button[key] = at;
+        app.render();
+      }),
+      tool("Remove", "remove-button", "removeButton", function () {
+        editButtons(function (l) {
+          l.splice(sel, 1);
+        });
+      }, sel === null),
+      tool("Up", "move-up", "moveUp", function () {
+        editButtons(function (l) {
+          var b = l[sel];
+          l[sel] = l[sel - 1];
+          l[sel - 1] = b;
+        });
+        app.state.button[key] = sel - 1;
+        app.render();
+      }, !sel),
+      tool("Down", "move-down", "moveDown", function () {
+        editButtons(function (l) {
+          var b = l[sel];
+          l[sel] = l[sel + 1];
+          l[sel + 1] = b;
+        });
+        app.state.button[key] = sel + 1;
+        app.render();
+      }, sel === null || sel >= buttons.length - 1),
+      tool("Clear set", "clear-set", "clearSet", function () {
+        editButtons(function () {
+          return [];
+        });
+      }, !buttons.length)
+    ]);
+
+    var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons);
+
+    return h("div", { class: "buttonset-panel", dataset: { set: id } }, [
+      header,
+      setProblems.length
+        ? h("div", { class: "field" }, setProblems.map(function (p) {
+            return h("div", { class: "problem " + (p.severity === "error" ? "error" : "warning"), text: p.message });
+          }))
+        : null,
+      usedEl,
+      h("div", { class: "buttonset-layout" }, [
+        h("div", null, [h("fieldset", null, [h("legend", { text: "Buttons" }), listWithHelp, toolbar]), form]),
+        h("div", null, [preview(app, key, buttons, sel, editButtons)])
+      ]),
+      setsSection(app, id, key, buttons)
+    ]);
+  }
+
+  function firstLine(text) {
+    var s = String(text).split("\n")[0];
+    return s.length > 40 ? s.slice(0, 40) + "…" : s;
+  }
+
+  // Control bytes, which have no visible form, are shown as their number.
+  function showString(text) {
+    var out = [];
+    var plain = "";
+    for (var i = 0; i < text.length; i++) {
+      var c = text.charCodeAt(i);
+      if (c < 32 && c !== 10) {
+        if (plain) out.push(plain);
+        plain = "";
+        out.push(h("span", { class: "ctrl", text: "<" + c + ">" }));
+      } else plain += text[i];
+    }
+    if (plain) out.push(plain);
+    return out;
+  }
+
+  function buttonForm(app, id, key, i, b, buttonProblems, editButtons) {
+    var cat = app.cat();
+    var original = D.effectiveButtons(D.create(cat.game), cat, id).buttons;
+    if (!util.isObject(b)) return h("p", { class: "notice error", text: "This button isn't an object." });
+    function setField(name, v) {
+      editButtons(function (l) {
+        var copy = Object.assign({}, l[i]);
+        if (v === undefined) delete copy[name];
+        else copy[name] = v;
+        l[i] = copy;
+      });
+    }
+    var fns = {
+      condition: cat.functions.conditions.get(b[cat.buttonKind.condition.name]) || null,
+      action: cat.functions.actions.get(b[cat.buttonKind.action.name]) || null
+    };
+    var rows = cat.buttonFields.map(function (f) {
+      var v = b[f.name];
+      var fieldKey = "set:" + id + ":" + i + ":" + f.name;
+      var probs = buttonProblems(i, f.name);
+      var controls;
+      var extra = [];
+      var helpText = f.help;
+      var note = null;
+      var set = function (x) {
+        setField(f.name, x);
+      };
+      if (f.kind === "position") {
+        controls = [F.select(positionOptions(cat), v, set, { class: "ctl", "aria-label": f.label })];
+      } else if (f.kind === "icon") {
+        controls = F.idPicker(mapItems(cat.icons), v, set, { label: f.label });
+        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        extra.push(h("span", { class: "icon-preview" }, [iconEl(app, v)]));
+        if (AG.ui.iconPicker && app.assets && app.assets.hasIcons && app.assets.hasIcons(app.state.game)) {
+          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "pick-icon" }, onclick: function () {
+            AG.ui.iconPicker.show(app, v, set);
+          } }, "Choose icon..."), help.text("pickIcon")));
+        }
+      } else if (f.kind === "string") {
+        controls = F.idPicker(mapItems(cat.strings), v, set, { label: f.label });
+        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+      } else if (f.kind === "condition" || f.kind === "action") {
+        var list = f.kind === "condition" ? "conditions" : "actions";
+        controls = [F.select(functionOptions(cat, list), v, set, { class: "ctl wide", "aria-label": f.label })];
+        var fn = fns[f.kind];
+        if (fn && fn.help) helpText += " " + fn.help;
+        if (fn && fn.absentOn && fn.absentOn.length) note = "Not in " + AG.core.compat.versionText(cat, fn.absentOn) + ".";
+      } else if (f.kind === "conditionVariable" || f.kind === "actionVariable") {
+        var owner = fns[f.kind === "conditionVariable" ? "condition" : "action"];
+        var type = owner ? owner.variable : null;
+        var items = type ? variableItems(app, type) : null;
+        if (items) {
+          controls = F.idPicker(items, v, function (x) {
+            set(x === "" ? undefined : x);
+          }, { label: f.label });
+          helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        } else {
+          controls = [F.numberInput(v, set, { "aria-label": f.label, placeholder: "0" })];
+        }
+        if (owner && !type) {
+          probs = probs.concat([{ severity: "info", kind: "unused", message: owner.name + " doesn't read this variable. It may hold any value that fits the field, " + util.rangeText(cat.limits[f.kind]) + ", and is left out of the file when it's 0." }]);
+        } else if (type) {
+          helpText += " " + owner.name + " reads a " + AG.core.validate.VARIABLE_NAME[type] + ".";
+        }
+        var target = type ? variableTarget(type, v) : null;
+        if (target) {
+          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "jump" }, title: target.label, onclick: function () {
+            app.select(target.tab, target.key);
+          } }, "Go to →"), help.text("jump")));
+        }
+      } else if (f.kind === "choice") {
+        controls = [F.select(f.options.map(function (o) {
+          return { value: o.value, label: o.value + " " + o.label };
+        }), v, set, { class: "ctl", "aria-label": f.label })];
+      }
+      var origB = original && original[i];
+      var origText = null;
+      if (util.isObject(origB) && util.has(origB, f.name)) origText = F.showValue(origB[f.name]);
+      var row = F.field({
+        label: f.label,
+        help: helpText,
+        controls: controls,
+        extra: extra,
+        key: fieldKey,
+        changed: !!(origB && !util.equal(origB[f.name], v)) || (!origB && v !== undefined),
+        problems: probs,
+        original: origText,
+        note: note
+      });
+      if (f.kind === "string" && util.isInt(v)) {
+        var t = stringText(app, v);
+        if (t !== null && t !== undefined) row.appendChild(h("div", { class: "string-text", dataset: { stringText: v } }, showString(t)));
+      }
+      return row;
+    });
+    var general = buttonProblems(i).filter(function (p) {
+      var l = tree.locate(app.doc(), cat, p.path);
+      return !l.field;
+    });
+    return h("fieldset", { class: "button-form", dataset: { field: "set:" + id + ":" + i + ":" } }, [h("legend", { text: "Button " + i })]
+      .concat(general.map(function (p) {
+        return h("div", { class: "problem error", role: "alert", text: p.message });
+      }))
+      .concat(rows));
+  }
+
+  function preview(app, key, buttons, sel, editButtons) {
+    var cat = app.cat();
+    var r = cat.limits.position;
+    var posField = cat.buttonKind.position.name;
+    var cells = [];
+    for (var p = r.min; p <= r.max; p++) {
+      (function (pos) {
+        var at = [];
+        buttons.forEach(function (b, i) {
+          if (util.isObject(b) && b[posField] === pos) at.push(i);
+        });
+        var first = at.length ? buttons[at[0]] : null;
+        var cell = h("button", {
+          type: "button",
+          class: ["slot", at.length ? "filled" : null, at.indexOf(sel) >= 0 ? "selected" : null],
+          dataset: { position: pos, buttons: at.join(",") },
+          "aria-label": "Position " + pos + (at.length ? ": " + at.length + (at.length === 1 ? " button" : " buttons") : ", empty"),
+          title: at.length > 1 ? "Buttons " + at.join(", ") + " share this position" : null
+        }, [
+          first ? iconEl(app, first[cat.buttonKind.icon.name]) : null,
+          at.length > 1 ? h("span", { class: "count", text: String(at.length) }) : null,
+          h("span", { class: "slotpos", text: String(pos) })
+        ]);
+        cell.addEventListener("click", function () {
+          if (!at.length) return;
+          // Clicking again cycles through buttons that share the position.
+          var next = at.indexOf(sel) >= 0 ? at[(at.indexOf(sel) + 1) % at.length] : at[0];
+          app.state.button[key] = next;
+          app.render();
+        });
+        function create() {
+          var index = buttons.length;
+          editButtons(function (l) {
+            l.push(newButton(cat, l, pos));
+          });
+          app.state.button[key] = index;
+          app.render();
+        }
+        cell.addEventListener("dblclick", function () {
+          if (!at.length) create();
+        });
+        cell.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && !at.length) {
+            e.preventDefault();
+            create();
+          }
+        });
+        cells.push(cell);
+      })(p);
+    }
+    var grid = h("div", { class: "preview", style: { "--cols": String(cat.panel.columns) }, role: "group", "aria-label": "Command panel preview" }, cells);
+    var helpBtn = help.button(help.text("preview"));
+    cells.forEach(function (c) {
+      c.setAttribute("aria-describedby", helpBtn.getAttribute("aria-describedby"));
+    });
+    return h("fieldset", null, [h("legend", null, ["Preview ", helpBtn]), grid]);
+  }
+
+  // Adding sets, and copying buttons between sets.
+  function setsSection(app, id, key, buttons) {
+    var cat = app.cat();
+    var doc = app.doc();
+    var all = AG.ui.unitsTab.setItems(app).filter(function (s) {
+      return s.id !== id;
+    });
+
+    var nextId = D.nextNewSet(doc, cat);
+    var idInput = F.numberInput(nextId === null ? "" : nextId, function () {}, { "aria-label": "New set ID", dataset: { role: "new-set-id" } });
+    var addBtn = h("button", { type: "button", class: "small", dataset: { action: "add-set" }, disabled: nextId === null, onclick: function () {
+      var want = F.parseNumber(idInput.value);
+      if (!util.inRange(want, cat.limits.newButtonSet) || D.effectiveButtons(app.doc(), cat, want).defined) want = null;
+      var made = null;
+      app.edit(function (d) {
+        made = D.addSet(d, cat, want);
+        return made.doc;
+      });
+      if (made) app.select("button_sets", tree.key.set(made.id));
+    } }, "Add set");
+
+    var checks = all.map(function (s) {
+      return h("label", { style: { display: "block" } }, [h("input", { type: "checkbox", value: String(s.id), dataset: { copyTo: s.id } }), " " + s.label]);
+    });
+    var copyToBtn = h("button", { type: "button", class: "small", dataset: { action: "copy-to" }, onclick: function (e) {
+      var box = e.target.closest("fieldset");
+      var targets = Array.prototype.filter.call(box.querySelectorAll("input[data-copy-to]"), function (c) {
+        return c.checked;
+      }).map(function (c) {
+        return +c.value;
+      });
+      if (!targets.length) return;
+      app.edit(function (d) {
+        var src = D.effectiveButtons(d, cat, id).buttons;
+        targets.forEach(function (t) {
+          d = D.setButtons(d, cat, t, src.slice());
+        });
+        return d;
+      });
+    } }, "Copy to chosen sets");
+
+    // The copy source and option are kept across renders.
+    var copy = app.state.copy || (app.state.copy = { source: null, original: false });
+    var source = all.some(function (s) {
+      return s.id === copy.source;
+    }) ? copy.source : all.length ? all[0].id : undefined;
+    var sourceSel = F.select(all.map(function (s) {
+      return { value: s.id, label: s.label };
+    }), source, function (v) {
+      copy.source = v;
+    }, { class: "ctl wide", "aria-label": "Copy from set", dataset: { role: "copy-source" } });
+    var originalBox = h("input", { type: "checkbox", checked: copy.original, dataset: { role: "copy-original" } });
+    originalBox.addEventListener("change", function () {
+      copy.original = originalBox.checked;
+    });
+    var copyFromBtn = h("button", { type: "button", class: "small", dataset: { action: "copy-from" }, onclick: function () {
+      var srcId = copy.source === null || copy.source === undefined ? source : copy.source;
+      if (srcId === undefined) return;
+      app.edit(function (d) {
+        var from = copy.original ? D.effectiveButtons(D.create(cat.game), cat, srcId).buttons : D.effectiveButtons(d, cat, srcId).buttons;
+        return D.setButtons(d, cat, id, from.slice());
+      });
+    } }, "Copy into this set");
+
+    return h("div", null, [
+      h("fieldset", { dataset: { field: "set:" + id + ":new" } }, [
+        h("legend", { text: "New sets" }),
+        h("div", { class: "toolbar" }, [F.withHelp(idInput, help.text("newSetId")), F.withHelp(addBtn, help.text("addSet"))])
+      ]),
+      h("details", null, [
+        h("summary", { text: "Copy buttons" }),
+        h("fieldset", { dataset: { field: "set:" + id + ":copy-to" } }, [
+          h("legend", { text: "Copy this set's buttons to" }),
+          (function () {
+            var hb = help.button(help.text("copyTo"));
+            checks.forEach(function (c) {
+              c.querySelector("input").setAttribute("aria-describedby", hb.getAttribute("aria-describedby"));
+            });
+            return h("div", { style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { "max-height": "180px", overflow: "auto", flex: "1" } }, checks), hb]);
+          })(),
+          F.withHelp(copyToBtn, help.text("copyTo"))
+        ]),
+        h("fieldset", { dataset: { field: "set:" + id + ":copy-from" } }, [
+          h("legend", { text: "Copy into this set from" }),
+          h("div", { class: "toolbar" }, [
+            F.withHelp(sourceSel, help.text("copySource")),
+            h("label", null, [F.withHelp(originalBox, help.text("copyOriginal")), " Original buttons"]),
+            F.withHelp(copyFromBtn, help.text("copyFrom"))
+          ])
+        ])
+      ])
+    ]);
+  }
+
+  AG.ui.panels.button_sets = panel;
+  AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, showString: showString, entryItems: entryItems };
+})(AxeGraft);

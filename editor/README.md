@@ -1,0 +1,66 @@
+# AxeGraft Editor
+
+A visual editor for AxeGraft Patcher mods, in the spirit of FireGraft. It edits a mod's units, button sets, requirements and constants for StarCraft: Brood War and Warcraft II: Battle.net Edition, and saves a mod file that holds only what differs from the original game.
+
+It's plain JavaScript, HTML and CSS. There's no server, build step, framework, library or package manager, so a web browser is all it needs.
+
+## Running the editor
+
+Open `index.html` in a current Firefox, Chromium-based browser or Safari. Opening the file straight from disk works: double-click it, or drag it into a browser window.
+
+The same files can also be served by any static web server, for example `python3 -m http.server` run in this folder, and then opened at `http://localhost:8000/`. The editor behaves the same way either way.
+
+The editor makes no network requests. Mods you open and game files you import stay on your machine.
+
+## Running the tests
+
+**In a browser.** Open `test/index.html`. Every test runs, and the page lists passes, failures and tests that weren't checked.
+
+Two kinds of test read files that a page opened from disk can't read by itself. They're listed as not checked until you choose a folder at the top of the page:
+
+- **Editor folder:** choose this folder to check the source tree itself, for example that every script is listed in `index.html`.
+- **Game folder:** choose a StarCraft or Warcraft II folder to run read-only checks against real game files. The tests never change these files.
+
+**From the command line.** This is optional, and needs Node.js 22 or later. It runs every test that doesn't need a browser, using only Node's standard library:
+
+```sh
+node test/run-node.js        # add -v to list passing tests too
+AXEGRAFT_EDITOR_GAME_DIR="/path/to/StarCraft" node test/run-node.js
+```
+
+Without `AXEGRAFT_EDITOR_GAME_DIR`, the game file tests are reported as not checked. The command exits with status 1 if any test fails.
+
+## Layout
+
+```
+index.html        Lists every script in load order
+styles.css
+catalog/          One catalog per game, the game data the editor reads
+src/core/         Catalog check, mod model, validation, file output, history, compatibility. No DOM
+src/assets/       MPQ, implode, GRP and TBL decoding, and the asset cache. No DOM
+src/ui/           Rendering, events and help text for game-independent controls
+assets/           Optional shipped icons and strings, one folder per game
+test/             Test page, Node runner, tests and fixtures
+docs/             Catalog format and architecture notes
+```
+
+Scripts are classic `<script>` tags that each add to one global, `AxeGraft`, because browsers load neither ES modules nor local data with `fetch` from `file://`. When you add a script, list it in `index.html` and in the same place in `test/index.html`. A test checks this.
+
+## Browsers checked
+
+On 2026-11-05 the whole test page was run, opened from disk and served by a static server, with the network cut off and every request logged. The results were the same in each, and no request left the machine:
+
+| Browser                        | From disk         | Served statically | Notes                                                                                                                               |
+| ------------------------------ | ----------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Chromium 156 (Linux)           | 382 of 382 passed | 382 of 382 passed | The editor and game folders were chosen, so the source tree and real game file tests ran too                                        |
+| Firefox 159 (Linux)            | 377 passed, 5 not checked | 377 passed, 5 not checked | The 5 not checked are the source tree and game file tests, whose folders couldn't be chosen by the automation; every other test passed |
+| Safari                         | Not checked       | Not checked       | No Safari was available                                                                                                             |
+
+### Checked by hand
+
+Some behaviour depends on the browser's own dialogs, so it can't be checked by the test page:
+
+- **Saving straight to the opened file**, through the browser's file picker, where it has one (Chromium). Not yet checked by hand. The code path is covered by a test with a stand-in file handle, and saving by download works everywhere.
+- **Restoring unsaved work after the browser closes**: checked in Chromium by killing the browser after an edit and starting it again on the same profile. The editor offered the work back.
+- **Importing from a real game folder**: checked in Chromium with a StarCraft folder of 120 MB. It took about half a second, the page never stalled for more than 133 ms, and checksums of all 243 files were the same before and after.
+- **Looking at FireGraft side by side**: not yet done. `docs/architecture.md` compares the two from FireGraft's documented layout and behaviour.

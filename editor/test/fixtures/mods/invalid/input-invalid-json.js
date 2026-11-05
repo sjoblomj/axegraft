@@ -1,0 +1,11 @@
+AxeGraft.registerModFixture({
+  "scenario": "Untrusted input safety: Malformed input",
+  "text": "{\"patcher\": \"AxeGraft\", \"format\": 1,",
+  "expect": {
+    "refused": true,
+    "errors": [
+      ""
+    ],
+    "warnings": []
+  }
+});

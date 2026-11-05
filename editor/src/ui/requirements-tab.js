@@ -1,0 +1,259 @@
+// The Requirements tab: a record as rows, one for each opcode with its
+// parameter, or each completed unit. Rows inside an upgrade level and
+// alternatives joined by or are grouped. The mod saves the whole record.
+"use strict";
+
+(function (AG) {
+  var h = AG.ui.h;
+  var help = AG.ui.help;
+  var F = AG.ui.fields;
+  var D = AG.core.doc;
+  var R = AG.core.requirements;
+  var tree = AG.core.tree;
+  var util = AG.util;
+
+  var TYPE_TEXT = { unit: "Unit", upgrade: "Upgrade", tech_research: "Tech research", tech_use: "Tech use", order: "Order" };
+  var KIND_OF_TYPE = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
+
+  function items(cat, kind) {
+    if (kind === "unit") return AG.ui.unitsTab.unitItems(cat);
+    var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders }[kind] || [];
+    return list
+      .map(function (x) {
+        return { id: x.id, label: x.id + " " + x.name };
+      })
+      .sort(function (a, b) {
+        return a.id - b.id;
+      });
+  }
+
+  function opText(cat, name) {
+    var op = cat.opcodes.get(name);
+    return op ? op.label + " (" + name + ")" : String(name);
+  }
+
+  function itemName(cat, type, id) {
+    return D.requirementName(cat, type, id);
+  }
+
+  // A read-only line for a row, as in the original record.
+  function rowText(cat, r) {
+    if (r.kind === "unit") {
+      var n = itemName(cat, "unit", r.unit);
+      return (cat.bareUnit ? cat.bareUnit.label : "Unit") + ": " + r.unit + (n ? " " + n : "");
+    }
+    var op = cat.opcodes.get(r.op);
+    var text = opText(cat, r.op);
+    if (op && op.parameter && r.param !== undefined) {
+      var pn = D.itemName(cat, op.parameter, r.param);
+      text += ": " + r.param + (pn ? " " + pn : "");
+    }
+    return text;
+  }
+
+  function rowClasses(s, problems) {
+    return [
+      "req-row",
+      s.role === "or" ? "or-row" : null,
+      s.role === "level" ? "level-row" : null,
+      s.level && s.role !== "level" ? "in-level" : null,
+      s.alternative ? "alt" : null,
+      problems && problems.length ? "has-error" : null
+    ];
+  }
+
+  function originalView(cat, type, id) {
+    var groups = [];
+    cat.versionIds.forEach(function (v) {
+      var rec = D.originalRecord(cat, type, id, v);
+      var last = groups[groups.length - 1];
+      if (last && util.equal(last.rec, rec)) last.versions.push(v);
+      else groups.push({ rec: rec, versions: [v] });
+    });
+    return h(
+      "div",
+      { class: "req-original", dataset: { original: "" } },
+      groups.map(function (g) {
+        var rows = g.rec ? R.toRows(cat, g.rec) : [];
+        var s = R.structure(cat, rows);
+        return h("div", null, [
+          h("h3", { style: { "font-size": "13px", margin: "4px 0" }, text: (groups.length > 1 ? AG.core.compat.versionText(cat, g.versions) : "All versions") + ":" }),
+          g.rec === null
+            ? h("p", { text: "No requirement record." })
+            : !rows.length
+            ? h("p", { text: "An empty record." })
+            : h(
+                "ol",
+                { class: "rows" },
+                rows.map(function (r, i) {
+                  return h("li", { class: rowClasses(s[i]) }, [h("span", { class: "idx", text: String(i) }), h("span", { text: rowText(cat, r) })]);
+                })
+              )
+        ]);
+      })
+    );
+  }
+
+  function panel(app, key) {
+    var cat = app.cat();
+    var k = tree.parseKey(key);
+    var type = k.type;
+    var id = k.id;
+    var doc = app.doc();
+    var eff = D.effectiveRequirement(doc, cat, type, id);
+    var rows = R.toRows(cat, eff.list);
+    var s = R.structure(cat, rows);
+    var probs = R.rowProblems(cat, type, rows);
+    var hasOriginal = cat.versionIds.some(function (v) {
+      return D.originalRecord(cat, type, id, v) !== null;
+    });
+    var name = itemName(cat, type, id);
+    var fieldKey = "req:" + type + ":" + id;
+
+    function setRows(next) {
+      app.edit(function (d) {
+        return D.setRequirement(d, cat, type, id, R.toList(next));
+      });
+    }
+
+    // Row kinds offered: a completed unit, and the opcodes allowed here.
+    var kindOptions = [{ value: "#unit", label: (cat.bareUnit ? cat.bareUnit.label : "Completed unit") + " (bare unit ID)" }];
+    cat.opcodeList.forEach(function (op) {
+      if (op.allowedIn.indexOf(type) >= 0) kindOptions.push({ value: op.name, label: op.label + " (" + op.name + ")" });
+    });
+
+    function rowEl(r, i) {
+      var op = r.kind === "op" ? cat.opcodes.get(r.op) : null;
+      function update(fn) {
+        var next = rows.map(function (x) {
+          return Object.assign({}, x);
+        });
+        fn(next);
+        setRows(R.reindex(next));
+      }
+      var kindHelp = help.text("rowKind") + (cat.bareUnit ? " " + cat.bareUnit.label + ": " + cat.bareUnit.help : "") + (op && op.help ? " " + op.label + ": " + op.help : "");
+      var kindSel = F.select(kindOptions, r.kind === "unit" ? "#unit" : r.op, function (v) {
+        update(function (next) {
+          var old = next[i];
+          if (v === "#unit") {
+            var u = old.kind === "op" && util.isInt(old.param) && cat.opcodes.get(old.op) && cat.opcodes.get(old.op).parameter === "unit" ? old.param : cat.limits.unit.min;
+            next[i] = { kind: "unit", unit: u };
+          } else {
+            var newOp = cat.opcodes.get(v);
+            var row = { kind: "op", op: v };
+            var oldKind = old.kind === "unit" ? "unit" : cat.opcodes.get(old.op) ? cat.opcodes.get(old.op).parameter : null;
+            var oldValue = old.kind === "unit" ? old.unit : old.param;
+            // Keep the value when the new opcode takes the same kind; otherwise
+            // the row shows an empty parameter, and a problem until it's filled.
+            if (newOp && newOp.parameter && newOp.parameter === oldKind && oldValue !== undefined) row.param = oldValue;
+            next[i] = row;
+          }
+        });
+      }, { class: "ctl", "aria-label": "Row " + i + " kind" });
+      var parts = [h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
+      if (r.kind === "unit") {
+        parts.push(paramControl("unit", r.unit, function (v) {
+          update(function (next) {
+            next[i] = { kind: "unit", unit: v };
+          });
+        }));
+      } else if (op && op.parameter) {
+        parts.push(paramControl(op.parameter, r.param, function (v) {
+          update(function (next) {
+            next[i] = { kind: "op", op: r.op, param: v };
+            if (v === undefined || v === "") delete next[i].param;
+          });
+        }));
+      } else if (r.kind === "op" && util.has(r, "param")) {
+        parts.push(h("span", { text: String(r.param) }));
+      }
+      parts.push(
+        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-up" }, disabled: i === 0, "aria-label": "Move row " + i + " up", onclick: function () {
+          update(function (next) {
+            var x = next[i];
+            next[i] = next[i - 1];
+            next[i - 1] = x;
+          });
+        } }, "↑"), help.text("rowUp")),
+        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-down" }, disabled: i === rows.length - 1, "aria-label": "Move row " + i + " down", onclick: function () {
+          update(function (next) {
+            var x = next[i];
+            next[i] = next[i + 1];
+            next[i + 1] = x;
+          });
+        } }, "↓"), help.text("rowDown")),
+        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-remove" }, "aria-label": "Remove row " + i, onclick: function () {
+          update(function (next) {
+            next.splice(i, 1);
+          });
+        } }, "Remove"), help.text("removeRow"))
+      );
+      probs[i].forEach(function (m) {
+        parts.push(h("span", { class: "row-problem", role: "alert", text: m }));
+      });
+      return h("li", { class: rowClasses(s[i], probs[i]), dataset: { token: r.at, row: i, field: fieldKey + ":row" + i } }, parts);
+    }
+
+    function paramControl(kind, value, onChange) {
+      var ctl = F.idPicker(items(cat, kind), value, function (v) {
+        onChange(v === "" ? undefined : v);
+      }, { label: kind });
+      return h("span", { class: "with-help" }, ctl.concat([help.described(ctl[0], help.text("rowParameter") + " This one takes a " + kind + ". " + help.text("nameSelect") + " " + help.text("idInput"))[1]]));
+    }
+
+    // The ID boxes of a picker share the select's help.
+    var list = h(
+      "ol",
+      { class: "rows", dataset: { field: fieldKey } },
+      rows.map(rowEl)
+    );
+    Array.prototype.forEach.call(list.querySelectorAll("input[data-role=id]"), function (inp) {
+      var sel = inp.parentNode.querySelector("select");
+      if (sel && sel.getAttribute("aria-describedby")) inp.setAttribute("aria-describedby", sel.getAttribute("aria-describedby"));
+    });
+
+    var showOriginal = h("input", { type: "checkbox", checked: !!app.state.showOriginal, dataset: { action: "show-original" } });
+    showOriginal.addEventListener("change", function () {
+      app.state.showOriginal = showOriginal.checked;
+      app.render();
+    });
+
+    var addRow = F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "add-row" }, onclick: function () {
+      setRows(R.reindex(rows.concat([{ kind: "unit", unit: cat.limits.unit.min }])));
+    } }, "Add row"), help.text("addRow"));
+
+    var status;
+    if (!eff.defined && !hasOriginal) status = "This item has no requirement record. Add a row to create one.";
+    else if (eff.defined && !rows.length) status = hasOriginal ? "This mod empties the record, which removes it from the game." : "An empty record.";
+    else if (!eff.defined && !rows.length) status = "The original record is empty.";
+
+    var edited = h("div", null, [
+      status ? h("p", { class: "empty-panel", dataset: { status: "" }, text: status }) : null,
+      rows.length ? list : h("ol", { class: "rows", dataset: { field: fieldKey } }),
+      h("div", { class: "toolbar" }, [addRow])
+    ]);
+
+    return h("div", { class: "requirements-panel", dataset: { record: fieldKey } }, [
+      h("h2", { class: "panel-title" }, [
+        TYPE_TEXT[type] + " " + id + (name ? " " + name : ""),
+        h("span", { class: "sub", text: eff.defined ? "This mod replaces the whole record" : hasOriginal ? "Original record" : "No original record" }),
+        eff.defined
+          ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "revert-record" }, onclick: function () {
+              app.edit(function (d) {
+                return D.revertRequirement(d, cat, type, id);
+              });
+            } }, "Revert record"), help.text("revertItem"))
+          : null,
+        h("label", { class: "sub" }, [F.withHelp(showOriginal, help.text("showOriginal")), " Show original"])
+      ]),
+      app.state.showOriginal
+        ? h("div", { class: "req-columns" }, [
+            h("fieldset", null, [h("legend", { text: eff.defined ? "Edited" : "Record" }), edited]),
+            h("fieldset", null, [h("legend", { text: "Original" }), originalView(cat, type, id)])
+          ])
+        : h("fieldset", null, [h("legend", { text: "Rows" }), edited])
+    ]);
+  }
+
+  AG.ui.panels.requirements = panel;
+})(AxeGraft);

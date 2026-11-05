@@ -136,7 +136,7 @@ Selected files --> find archives by name --> read needed files, in catalog prior
 
 `File.slice` reads only the archive header, tables and needed sectors, so large archives don't need to be loaded into memory. A folder comes from `<input webkitdirectory>`, which is widely supported, and picking individual files also works.
 
-The decoders handle the MPQ header, encrypted hash and block tables, per-sector files and encrypted files. Zlib uses the browser's `DecompressionStream`, and PKWARE implode is a small hand-written decoder. Any other compression is a named error, unless checking real files shows it's needed.
+The decoders handle the MPQ header, encrypted hash and block tables, per-sector files and encrypted files. StarCraft and Warcraft II compress everything the editor reads with PKWARE implode, which is a small hand-written decoder. Any other compression is a named error, unless checking real files shows it's needed.
 
 Decoding yields to the event loop between steps, so the page stays responsive without a Web Worker, since workers are restricted on `file://`. Every length and offset read from a file is bounds-checked, so a bad file gives an error rather than a hang or huge allocation.
 
