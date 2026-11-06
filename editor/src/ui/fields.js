@@ -71,7 +71,7 @@
     var known = opts.some(function (o) {
       return o.value === value;
     });
-    if (!known && util.isInt(value)) opts.push({ value: value, label: value + " (no name in the catalog)" });
+    if (!known && util.isInt(value)) opts.push({ value: value, label: value + " " + (options.unknownLabel || "(no name in the catalog)") });
     var input = numberInput(value === null ? "" : value, function (v) {
       if (v === undefined && options.allowNone) onChange(null);
       else onChange(v === undefined ? "" : v);

@@ -94,5 +94,6 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 
 - Propose the separate change converting `starcraft.md` and `w2_exe.md` into complete catalogs and library data, using one set of names for both.
 - Have the patcher run the shared mod fixtures once its validation exists.
+- Show a breakdown under a string field's raw text: hotkey, cost type and lines.
 - Consider a native wrapper once the browser version is in use.
 - Archive the change after review.

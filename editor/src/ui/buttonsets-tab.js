@@ -29,6 +29,28 @@
     return app.assets && app.assets.string ? app.assets.string(app.state.game, id) : null;
   }
 
+  // The choices for a string field: 0 for no string, then every string of
+  // the table in use by its clean name. Without a table, the catalog's names.
+  // Kept per table, since a table holds over a thousand strings.
+  var stringItemCache = typeof WeakMap !== "undefined" ? new WeakMap() : null;
+  function stringItems(app) {
+    var cat = app.cat();
+    var list = app.assets && app.assets.strings ? app.assets.strings(app.state.game) : null;
+    if (!list) return mapItems(cat.strings);
+    if (stringItemCache && stringItemCache.has(list)) return stringItemCache.get(list);
+    var lim = cat.limits.string;
+    var items = [];
+    if (util.inRange(0, lim)) items.push({ id: 0, label: "0 (no string)" });
+    list.forEach(function (text, i) {
+      var id = i + 1;
+      if (!util.inRange(id, lim)) return;
+      var n = AG.core.tbl.name(text);
+      items.push({ id: id, label: id + " " + (n || "(empty)") });
+    });
+    if (stringItemCache) stringItemCache.set(list, items);
+    return items;
+  }
+
   // ---- Lists offered by name
 
   function namedItems(list) {
@@ -269,7 +291,7 @@
             } }, [
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
-              h("span", { text: (actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?") + (text ? " — " + firstLine(text) : "") }),
+              h("span", { text: (actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?") + (text ? " — " + shortName(text) : "") }),
               hasProblem ? h("span", { class: "mark error", text: "!" }) : null
             ]);
           })
@@ -348,25 +370,17 @@
     ]);
   }
 
-  function firstLine(text) {
-    var s = String(text).split("\n")[0];
+  function shortName(text) {
+    var s = AG.core.tbl.name(text);
     return s.length > 40 ? s.slice(0, 40) + "…" : s;
   }
 
-  // Control bytes, which have no visible form, are shown as their number.
+  // The string as stored. Control bytes, newlines included, and a literal <
+  // are shown as their number, such as <3>.
   function showString(text) {
-    var out = [];
-    var plain = "";
-    for (var i = 0; i < text.length; i++) {
-      var c = text.charCodeAt(i);
-      if (c < 32 && c !== 10) {
-        if (plain) out.push(plain);
-        plain = "";
-        out.push(h("span", { class: "ctrl", text: "<" + c + ">" }));
-      } else plain += text[i];
-    }
-    if (plain) out.push(plain);
-    return out;
+    return AG.core.tbl.tokens(text).map(function (t) {
+      return t.text !== undefined ? t.text : h("span", { class: "ctrl", text: "<" + t.code + ">" });
+    });
   }
 
   function buttonForm(app, id, key, i, b, buttonProblems, editButtons) {
@@ -408,7 +422,8 @@
           } }, "Choose icon..."), help.text("pickIcon")));
         }
       } else if (f.kind === "string") {
-        controls = F.idPicker(mapItems(cat.strings), v, set, { label: f.label });
+        var hasTable = !!(app.assets && app.assets.strings && app.assets.strings(app.state.game));
+        controls = F.idPicker(stringItems(app), v, set, { label: f.label, unknownLabel: hasTable ? "(not in the string table)" : null });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
       } else if (f.kind === "condition" || f.kind === "action") {
         var list = f.kind === "condition" ? "conditions" : "actions";

@@ -398,6 +398,27 @@
     });
   }, { dom: true });
 
+  T.test("string choices: a string field lists every string of the table by its clean name, and shows the stored text with <10>", function (ctx) {
+    var strings = ["Terran Marine\u0000*\u0000Ground Units", "t\u0003Use S\u0003t\u0001im Packs\n(Marine ability)", "\u001b\u0000\u0003ESC\u0001 - Cancel"];
+    var svc = service(AG.core.storage.memory(), { shipped: { starcraft: { game: "starcraft", strings: strings } } });
+    return startEditor(ctx, svc).then(function (app) {
+      app.edit(function (d) {
+        return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 2, disabled_string: 9 }]);
+      });
+      app.select("button_sets", "set:0");
+      var sel = T.ui.q(app, '[data-field="set:0:0:enabled_string"] select');
+      T.equal(Array.prototype.map.call(sel.options, function (o) {
+        return o.textContent;
+      }), ["0 (no string)", "1 Terran Marine", "2 Use Stim Packs (Marine ability)", "3 ESC - Cancel"]);
+      T.equal(sel.options[sel.selectedIndex].textContent, "2 Use Stim Packs (Marine ability)");
+      var beyond = T.ui.q(app, '[data-field="set:0:0:disabled_string"] select');
+      T.equal(beyond.options[beyond.selectedIndex].textContent, "9 (not in the string table)");
+      T.equal(T.ui.q(app, '[data-string-text="2"]').textContent, "t<3>Use S<3>t<1>im Packs<10>(Marine ability)");
+      var row = T.ui.q(app, '.button-list li[data-index="0"]').textContent;
+      T.ok(row.indexOf("— Use Stim Packs (Marine ability)") >= 0, "the button list uses the clean name: " + row);
+    });
+  }, { dom: true });
+
   T.test("assets are optional: shipped icons and strings are shown, and imported ones take priority", function (ctx) {
     var shipped = { starcraft: { game: "starcraft", strings: ["One", "Two"], icons: { count: 2, path: "icons/" } } };
     var svc = service(AG.core.storage.memory(), { shipped: shipped, shippedBase: "fixtures/shipped/" });

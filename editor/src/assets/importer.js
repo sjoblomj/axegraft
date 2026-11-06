@@ -281,10 +281,15 @@
         if (sh && sh.icons && id < sh.icons.count) return (options.shippedBase || AG.assets.shippedBase) + game + "/" + (sh.icons.path || "icons/") + id + ".png";
         return null;
       },
-      string: function (game, id) {
+      // The string table in use, imported or shipped: an array where ID n
+      // is element n - 1, or null if there's none.
+      strings: function (game) {
         var im = imported[game];
         var sh = shippedFor(game);
-        var list = (im && im.strings) || (sh && sh.strings) || null;
+        return (im && im.strings) || (sh && sh.strings) || null;
+      },
+      string: function (game, id) {
+        var list = svc.strings(game);
         if (!list || typeof id !== "number" || id < 1 || id > list.length) return null;
         return list[id - 1];
       },

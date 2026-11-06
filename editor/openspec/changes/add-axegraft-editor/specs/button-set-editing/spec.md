@@ -39,6 +39,10 @@ Icon and string fields SHALL accept a typed ID or a selection by name, and SHALL
 - **WHEN** a user types an icon ID the catalog doesn't name, within the field's limit
 - **THEN** the ID is accepted, and the preview shows a placeholder if no image is available
 
+#### Scenario: Choosing a string by name
+- **WHEN** a string table is available and a user opens a string field's list
+- **THEN** it offers 0 for no string and every string of the table within the field's limit, each by its ID and clean name, and without a table it offers the catalog's names
+
 #### Scenario: String beyond the loaded table
 - **WHEN** a user types a string ID within the field's limit but beyond the loaded string table
 - **THEN** the ID is accepted, with a warning that says how many strings the table holds
@@ -92,11 +96,17 @@ The icon field SHALL offer a visual picker when game assets are imported, and a 
 - **THEN** the preview and icon field show names and IDs, and all editing works
 
 ### Requirement: String text
-Where a string table is available, the form SHALL show each string field's text verbatim as stored, with no preview of how the game formats it. Control bytes, which have no visible form, SHALL appear as their number, such as `<3>`.
+Where a string table is available, the form SHALL show each string field's text verbatim as stored, with no preview of how the game formats it. Every control byte, newlines included, SHALL appear as its number, such as `<3>` or `<10>`, and a literal `<` as `<60>`.
+
+Lists, such as a string field's choices and the button list, SHALL instead show a clean name on one line: a button string without its hotkey, cost type and colour codes, and a unit name without its map editor group.
 
 #### Scenario: String with a hotkey
-- **WHEN** a button's string has a hotkey and colour codes
-- **THEN** the form shows the stored text, with those bytes as numbers and no formatting applied
+- **WHEN** a button's string is `t<4>Research S<3>t<1>im Pack Tech<10>(Marine and Firebat ability)` as stored
+- **THEN** the form shows exactly that, and lists show `Research Stim Pack Tech (Marine and Firebat ability)`
+
+#### Scenario: Unit name
+- **WHEN** a string is `Sarah Kerrigan<0>Ghost<0>Heroes` as stored
+- **THEN** lists show `Sarah Kerrigan (Ghost)`
 
 #### Scenario: No string table
 - **WHEN** no string table is available
