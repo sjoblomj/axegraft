@@ -26,18 +26,22 @@ A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `form
 - **THEN** the mod is rejected, with an error naming the game
 
 ### Requirement: Mod information
-A mod MAY contain `mod_name` and `mod_version`, each a string, and `mod_authors`, an array of strings. They describe the mod for people and SHALL have no effect on the result. Any of them MAY be absent or empty.
+A mod MAY contain a `mod` object, after `game`, describing the mod for people. In it, `name` and `version` MAY each be a string, and `authors` MAY be an array of strings. Any of them MAY be absent or empty. `mod` MAY also contain other properties, of any type, which SHALL be accepted. Nothing in `mod` SHALL have any effect on the result.
 
 #### Scenario: Mod with information
-- **WHEN** a mod has `"mod_name": "Faster Marines"`, `"mod_version": "1.2"` and `"mod_authors": ["Alice", "Bob"]`
+- **WHEN** a mod has `"mod": {"name": "Faster Marines", "version": "1.2", "authors": ["Alice", "Bob"]}`
 - **THEN** the mod is accepted, and produces the same changes as without them
 
 #### Scenario: Mod without information
-- **WHEN** a mod has none of `mod_name`, `mod_version` and `mod_authors`
+- **WHEN** a mod has no `mod`, or a `mod` without `name`, `version` and `authors`
 - **THEN** the mod is accepted
 
+#### Scenario: Other properties in the information
+- **WHEN** a mod's `mod` has `"website": "example.org"` beside its name
+- **THEN** the mod is accepted, and produces the same changes as without it
+
 #### Scenario: Information of the wrong type
-- **WHEN** a mod's `mod_name` or `mod_version` isn't a string, or its `mod_authors` isn't an array of strings
+- **WHEN** a mod's `mod` isn't an object, or its `name` or `version` isn't a string, or its `authors` isn't an array of strings
 - **THEN** the mod is rejected, with an error naming the field
 
 ### Requirement: Mod parts
@@ -52,7 +56,7 @@ A mod SHALL contain at most these parts, each an array: `units`, `button_sets`, 
 - **THEN** the mod is rejected
 
 ### Requirement: Strict fields
-Every object in a mod SHALL contain only the fields defined for it. Any object MAY also contain a string `label`, which SHALL have no effect on the result.
+Every object in a mod SHALL contain only the fields defined for it, apart from the `mod` object, which MAY contain others (see "Mod information"). Any object MAY also contain a string `label`, which SHALL have no effect on the result.
 
 #### Scenario: Unknown field
 - **WHEN** a mod contains a field that isn't defined for that object
