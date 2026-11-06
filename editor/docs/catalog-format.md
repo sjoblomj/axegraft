@@ -189,7 +189,7 @@ Each constant is:
 - `name` is the name mods use, and `label` the name the editor shows, under the groups in `group`.
 - `kind` is `"number"`, with a `range`, or `"option"`, with at least two `options`, each `{ "name", "label", "help" }`. `help` is optional for an option.
 - `refers`, optional for a number, says the value is an ID: `"unit"`, `"tech"`, `"upgrade"`, `"order"` or `"tableEntry"`. The editor then offers those items by name.
-- `note`, optional, explains the stored scale, such as half supply units. Values are always edited and saved in the stored scale.
+- `note`, optional, explains the stored scale, such as half supply units, or how the game stores the value where some places hold it negated or offset. Values are always edited and saved in the stored scale; converting them for those places is the patcher's business.
 - `availability` must name every version. Its value is the original value there, the original option's name for an option, `"unknown"` when the constant hasn't been found on that version, or `"not_applicable"` when the code doesn't exist there. The patcher skips the constant on those last two.
 
 A catalog holds no addresses, expected bytes or encodings. Those are the patcher's library's business.

@@ -42,7 +42,7 @@
     rowUp: "Moves this row one place earlier.",
     rowDown: "Moves this row one place later.",
     showOriginal: "Shows the original record beside the edited one, for each version where it differs.",
-    constantValue: "The value in the scale the game stores it in. It's saved exactly as entered.",
+    constantValue: "The value in the scale the game stores it in. It's saved as entered; where the game stores it negated or offset, the patcher converts it.",
     constantOption: "The named behaviour to use.",
     removeEntry: "Removes this entry from the mod. Use it for entries the item list can't show.",
     goToProblem: "Shows the field with this problem.",
