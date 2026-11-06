@@ -50,7 +50,7 @@ Skipping SHALL apply only to constants. A unit, button set or requirement change
 - **THEN** the mod is rejected, with an error naming the function and the version
 
 #### Scenario: Table entry absent on this version
-- **WHEN** a button's `action_variable`, or a unit entry's `id`, is a table entry that doesn't exist on the running version
+- **WHEN** a button's `action_variable`, a unit entry's `id`, or a unit entry's `equivalent_entry`, is a table entry that doesn't exist on the running version
 - **THEN** the mod is rejected, with an error naming the entry and the version
 
 ### Requirement: Checking expected bytes
@@ -61,7 +61,7 @@ Before changing anything, AxeGraft Patcher SHALL compare the current bytes at ev
 - **THEN** no memory is changed, and the error names the property, the location, and the expected and actual bytes
 
 ### Requirement: Translating IDs to the running version
-AxeGraft Patcher SHALL translate button set IDs and table entries to the running version's own numbering, including table entries in `action_variable`.
+AxeGraft Patcher SHALL translate button set IDs and table entries to the running version's own numbering, including table entries in `action_variable` and `equivalent_entry`.
 
 #### Scenario: Set numbered differently on this version
 - **WHEN** a mod defines a set that the running version numbers differently
@@ -138,6 +138,28 @@ Setting a unit's `status_unit_type` SHALL change only that value in that unit's 
 #### Scenario: Only the unit type set
 - **WHEN** a mod sets a unit's `status_unit_type` and neither of its status functions
 - **THEN** only the stored unit type changes
+
+### Requirement: Unit Data changes
+Setting a unit's `icon`, `stats_frame` or `name_string` SHALL change only that value in that unit's Unit Data entry, on Warcraft II versions, in the entry's layout on the running version: 14 bytes in 1.3, 1.33 and 1.5, and 16 bytes in 2.00 and 2.02. The other values in the entry SHALL stay as they are unless the mod sets them.
+
+#### Scenario: Only the icon set
+- **WHEN** a mod sets a Warcraft II unit's `icon` and nothing else
+- **THEN** only the unit's icon changes, and the buttons that train it keep their own icons
+
+#### Scenario: Name string set
+- **WHEN** a mod sets a Warcraft II unit's `name_string`
+- **THEN** the unit's name shown in the stats panel changes, and its icon, frame and status functions are unchanged
+
+### Requirement: Equivalent entry changes
+Setting a unit's `equivalent_entry` SHALL change only that value in the unit's button table entry, on StarCraft versions, writing `0xFFFF` for `null`. The entry's button count and button pointer SHALL be set only by `button_set` and button set changes.
+
+#### Scenario: Equivalent entry cleared
+- **WHEN** a mod sets unit 16's `equivalent_entry` to `null`
+- **THEN** unit 16's entry stores `0xFFFF`, and its buttons are unchanged
+
+#### Scenario: Button set changed without the equivalent entry
+- **WHEN** a mod sets unit 16's `button_set` and not its `equivalent_entry`
+- **THEN** the entry keeps its original equivalent entry, 1
 
 ### Requirement: Requirement record changes
 A requirement entry SHALL replace only that item's record in the running version's own stream. Records the mod doesn't define SHALL stay as they are on that version, and the game SHALL use the new stream in all places that refer to it.

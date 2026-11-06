@@ -33,11 +33,15 @@ AxeGraft Patcher SHALL identify a version from properties of the running executa
 - **THEN** they're identified as different versions
 
 ### Requirement: Complete structural data per version
-A supported version SHALL have complete data for its button sets, status functions and, in StarCraft, requirement streams. If any of this is unknown, that version SHALL NOT be supported.
+A supported version SHALL have complete data for its button sets, status functions, unit entries and, in StarCraft, requirement streams. Unit entries means the location and layout of the button table's entries and of each unit's status entry: in StarCraft `gCards`, with its equivalent entry, and the status table; in Warcraft II the command lists and the Unit Data, with its icon, stats panel frame and name string. If any of this is unknown, that version SHALL NOT be supported.
 
 #### Scenario: Missing structural table
 - **WHEN** the data for a version lacks the location of a structural table
 - **THEN** the library check fails
+
+#### Scenario: Entry layouts that differ by version
+- **WHEN** a table's entries have different layouts on different versions, such as Warcraft II's Unit Data, 14 bytes in 1.3, 1.33 and 1.5 and 16 bytes in 2.00 and 2.02
+- **THEN** the library records each version's layout, and a field is written at its offset in the running version's layout
 
 ### Requirement: Constant availability per version
 Every constant SHALL state one of three things for every supported version of its game: its locations, `not_applicable` when the code doesn't exist there, or `unknown` when it hasn't been found. A version SHALL NOT be left out.

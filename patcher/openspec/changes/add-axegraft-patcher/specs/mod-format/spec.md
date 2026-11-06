@@ -78,7 +78,7 @@ A mod SHALL refer to game content, meaning units, upgrades, techs, orders, butto
 - **THEN** the mod is rejected
 
 ### Requirement: Unit entries
-A `units` entry SHALL have an `id`, which is an entry of the game's button table, and at least one of `button_set`, `status_changed`, `status_update` and, in StarCraft only, `status_unit_type`. A table entry beyond the game's unit range SHALL have only `button_set`. `status_changed` SHALL name the function that decides whether the status panel needs redrawing, `status_update` SHALL name the function that draws it, and `status_unit_type` SHALL be the unit ID stored in the same status entry.
+A `units` entry SHALL have an `id`, which is an entry of the game's button table, and at least one of `button_set`, `status_changed`, `status_update`, in StarCraft only `equivalent_entry` and `status_unit_type`, and in Warcraft II only `icon`, `stats_frame` and `name_string`. A table entry beyond the game's unit range SHALL have only `button_set`.
 
 #### Scenario: Change only the button set
 - **WHEN** a unit entry has an `id` and a `button_set`
@@ -104,13 +104,57 @@ A `units` entry SHALL have an `id`, which is an entry of the game's button table
 - **WHEN** a unit entry has an `id` outside the game's button table
 - **THEN** the mod is rejected
 
+#### Scenario: Status unit type in a Warcraft II mod
+- **WHEN** a `warcraft2` mod has a unit entry with a `status_unit_type`
+- **THEN** the mod is rejected, because that game's unit data has no such field
+
+#### Scenario: Unit icon in a StarCraft mod
+- **WHEN** a `starcraft` mod has a unit entry with an `icon`
+- **THEN** the mod is rejected, because that game's status entry has no icon
+
+#### Scenario: Unit icon on an entry that isn't a unit
+- **WHEN** a `warcraft2` unit entry has `id` 111, the Human Basic Build menu, and an `icon`
+- **THEN** the mod is rejected
+
+#### Scenario: Unit data fields in a StarCraft mod
+- **WHEN** a `starcraft` mod has a unit entry with a `stats_frame` or a `name_string`
+- **THEN** the mod is rejected
+
+#### Scenario: Equivalent entry in a Warcraft II mod
+- **WHEN** a `warcraft2` mod has a unit entry with an `equivalent_entry`
+- **THEN** the mod is rejected, because that game's command list entries have no such field
+
+### Requirement: Unit entry fields
+Each field of a unit entry SHALL hold this value:
+
+- `status_changed`: the function that decides whether the status panel needs redrawing. `status_update`: the function that draws it.
+- `equivalent_entry`: the table entry treated as the same in a mixed group (`wSecondaryCard`), or `null` for none.
+- `status_unit_type`: the unit ID in the unit's status entry.
+- `icon`, `stats_frame`, `name_string`: the unit's Unit Data icon, stats panel frame (0 to 3) and name string.
+
 #### Scenario: Status unit type out of range
 - **WHEN** a unit entry has a `status_unit_type` outside the game's unit range
 - **THEN** the mod is rejected
 
-#### Scenario: Status unit type in a Warcraft II mod
-- **WHEN** a `warcraft2` mod has a unit entry with a `status_unit_type`
-- **THEN** the mod is rejected, because that game's unit data has no such field
+#### Scenario: Unit icon ID
+- **WHEN** a `warcraft2` unit entry has an `icon` that fits the game's field size
+- **THEN** it is accepted, even if it's beyond the game's original icons, because an MPQ can add icons
+
+#### Scenario: Unit name string ID
+- **WHEN** a `warcraft2` unit entry has a `name_string` that fits the game's field size
+- **THEN** it is accepted, even if it's beyond the game's original strings, because an MPQ can add strings
+
+#### Scenario: Stats panel frame out of range
+- **WHEN** a `warcraft2` unit entry has a `stats_frame` of 4
+- **THEN** the mod is rejected, because the stats panel graphic has frames 0 to 3
+
+#### Scenario: No equivalent entry
+- **WHEN** a `starcraft` unit entry has an `equivalent_entry` of `null`
+- **THEN** it is accepted, and means none
+
+#### Scenario: Equivalent entry out of range
+- **WHEN** a `starcraft` unit entry has an `equivalent_entry` outside the game's button table
+- **THEN** the mod is rejected
 
 ### Requirement: Button set entries
 A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces that set's buttons entirely.
