@@ -319,6 +319,17 @@
     });
   }, { dom: true });
 
+  T.test("button list: a button's string is left out of its title when it only repeats the action", function (ctx) {
+    var strings = { 664: "MOVE", 334: "s\u0001Stim Packs" };
+    var assets = { string: function (g, id) {
+      return strings[id] || null;
+    } };
+    return start(ctx, "starcraft", { assets: assets }).then(function (app) {
+      app.select("button_sets", "set:0");
+      T.equal(U.texts(app, ".button-list li > span:not(.pos):not(.marks):not(.icon-ph)"), ["Move", "Move — Stim Packs"]);
+    });
+  }, { dom: true });
+
   // ---- Button sets: 6.5
 
   T.test("variables follow their function: an action reading a tech lists techs", function (ctx) {

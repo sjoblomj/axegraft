@@ -325,7 +325,7 @@
             } }, [
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
-              h("span", { text: (actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?") + (text ? " — " + shortName(text) : "") }),
+              h("span", { text: buttonTitle(actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?", text) }),
               buttonChanged(b) || hasError || hasWarning
                 ? h("span", { class: "marks" }, [
                     buttonChanged(b) ? h("span", { class: "mark changed", title: "Changed", "aria-label": "changed", text: "•" }) : null,
@@ -438,7 +438,7 @@
       return [
         h("span", { class: "pos", text: String(b[cat.buttonKind.position.name]) }),
         iconEl(app, b[cat.buttonKind.icon.name]),
-        h("span", { text: (fn ? fn.label : String(b[cat.buttonKind.action.name])) + (text ? " — " + shortName(text) : "") })
+        h("span", { text: buttonTitle(fn ? fn.label : String(b[cat.buttonKind.action.name]), text) })
       ];
     }
     var body;
@@ -488,6 +488,15 @@
       h("summary", { text: groups.length > 1 ? "Original buttons, which differ between versions" : "Original buttons" }),
       body
     ]);
+  }
+
+  // A button's title in a list: its action, then its string's name, which is
+  // left out when it only repeats the action.
+  function buttonTitle(action, text) {
+    if (!text) return action;
+    var name = AG.core.tbl.name(text);
+    if (name.trim().toLowerCase() === action.trim().toLowerCase()) return action;
+    return action + " — " + shortName(text);
   }
 
   function shortName(text) {
