@@ -38,6 +38,7 @@ AxeGraft.registerFixtureCatalog({
   ],
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The set of buttons the entry shows." },
+    { "name": "equivalent_entry", "label": "Equivalent entry", "kind": "tableEntry", "help": "The entry treated as the same in a mixed group." },
     { "name": "status_changed", "label": "Status changed", "kind": "statusChanged", "help": "Decides whether to redraw the status panel." },
     { "name": "status_update", "label": "Status update", "kind": "statusUpdate", "help": "Draws the status panel." },
     { "name": "status_unit_type", "label": "Status unit type", "kind": "unit", "help": "Unit ID in the status entry." }
@@ -82,13 +83,13 @@ AxeGraft.registerFixtureCatalog({
   ],
   "bareUnit": { "label": "Completed unit", "help": "A unit of this type must exist and be complete." },
   "units": [
-    { "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } },
-    { "id": 4, "name": "Goliath Turret", "tree": ["Terran", "Special"], "original": { "button_set": null, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_none", "status_unit_type": 4 } },
-    { "id": 5, "name": "Terran Siege Tank", "tree": ["Terran", "Ground Units"], "original": { "button_set": 5, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 5 } },
-    { "id": 7, "name": "Terran SCV", "tree": ["Terran", "Ground Units"], "original": { "button_set": 7, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 7 } },
-    { "id": 10, "name": "Gui Montag", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 10 } },
-    { "id": 20, "name": "Jim Raynor", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 20 } },
-    { "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32 } },
+    { "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } },
+    { "id": 4, "name": "Goliath Turret", "tree": ["Terran", "Special"], "original": { "button_set": null, "equivalent_entry": null, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_none", "status_unit_type": 4 } },
+    { "id": 5, "name": "Terran Siege Tank", "tree": ["Terran", "Ground Units"], "original": { "button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 5 } },
+    { "id": 7, "name": "Terran SCV", "tree": ["Terran", "Ground Units"], "original": { "button_set": 7, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 7 } },
+    { "id": 10, "name": "Gui Montag", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 10 } },
+    { "id": 20, "name": "Jim Raynor", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 20 } },
+    { "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32 } },
     { "id": 228, "name": "No unit", "tree": ["Other"], "original": { "button_set": null } },
     { "id": 232, "name": "Cancel building with rally", "tree": ["Other"], "absentOn": ["1.07"], "original": { "button_set": 232 } },
     { "id": 238, "name": "Zerg basic buildings", "tree": ["Other"], "original": { "button_set": 238 } }

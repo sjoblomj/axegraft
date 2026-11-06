@@ -109,6 +109,12 @@ AxeGraft.registerCatalog({
       "help": "The set of buttons this table entry shows. Several entries can share a set, so editing a set changes all of them. Choose no buttons to show none."
     },
     {
+      "name": "equivalent_entry",
+      "label": "Equivalent entry",
+      "kind": "tableEntry",
+      "help": "The table entry whose buttons the game treats as the same as this entry's own when a mixed group is selected (wSecondaryCard). Sarah Kerrigan's is 1, the Ghost, and Jim Raynor's Vulture's is 2, the Vulture. Choose none for no equivalent."
+    },
+    {
       "name": "status_changed",
       "label": "Status changed",
       "kind": "statusChanged",
@@ -403,77 +409,77 @@ AxeGraft.registerCatalog({
       "name": "Terran Marine",
       "icon": 0,
       "tree": ["Terran", "Ground Units"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0}
+      "original": {"button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0}
     },
     {
       "id": 4,
       "name": "Goliath Turret",
       "icon": 4,
       "tree": ["Terran", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_none", "status_unit_type": 4}
+      "original": {"button_set": null, "equivalent_entry": null, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_none", "status_unit_type": 4}
     },
     {
       "id": 5,
       "name": "Terran Siege Tank",
       "icon": 5,
       "tree": ["Terran", "Ground Units"],
-      "original": {"button_set": 5, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 5}
+      "original": {"button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 5}
     },
     {
       "id": 7,
       "name": "Terran SCV",
       "icon": 7,
       "tree": ["Terran", "Ground Units"],
-      "original": {"button_set": 7, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 7}
+      "original": {"button_set": 7, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 7}
     },
     {
       "id": 10,
       "name": "Gui Montag",
       "icon": 10,
       "tree": ["Terran", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 10}
+      "original": {"button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 10}
     },
     {
       "id": 20,
       "name": "Jim Raynor",
       "icon": 20,
       "tree": ["Terran", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 20}
+      "original": {"button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 20}
     },
     {
       "id": 23,
       "name": "Edmund Duke",
       "icon": 23,
       "tree": ["Terran", "Heroes"],
-      "original": {"button_set": 5, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 23}
+      "original": {"button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 23}
     },
     {
       "id": 25,
       "name": "Edmund Duke",
       "icon": 25,
       "tree": ["Terran", "Heroes"],
-      "original": {"button_set": 5, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 25}
+      "original": {"button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 25}
     },
     {
       "id": 30,
       "name": "Terran Siege Tank",
       "icon": 30,
       "tree": ["Terran", "Ground Units"],
-      "original": {"button_set": 5, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 30}
+      "original": {"button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 30}
     },
     {
       "id": 32,
       "name": "Terran Firebat",
       "icon": 32,
       "tree": ["Terran", "Ground Units"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32}
+      "original": {"button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32}
     },
     {
       "id": 41,
       "name": "Zerg Drone",
       "icon": 41,
       "tree": ["Zerg", "Ground Units"],
-      "original": {"button_set": 41, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 41}
+      "original": {"button_set": 41, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 41}
     },
     {"id": 228, "name": "No buttons (entry 228)", "tree": ["Other", "Menus"], "original": {"button_set": null}},
     {

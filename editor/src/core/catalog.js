@@ -28,7 +28,7 @@
   var LIMITS_OPTIONAL = ["tech", "upgrade", "order"];
   var BUTTON_KINDS = ["position", "icon", "string", "condition", "conditionVariable", "action", "actionVariable", "choice"];
   var BUTTON_KINDS_ONCE = ["position", "icon", "condition", "conditionVariable", "action", "actionVariable"];
-  var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon"];
+  var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon", "string", "choice", "tableEntry"];
   var FUNCTION_LISTS = ["conditions", "actions", "statusChanged", "statusUpdate"];
   var VARIABLE_TYPES = ["unit", "tech", "upgrade", "number", "tableEntry"];
   var PARAMETER_TYPES = ["unit", "tech", "upgrade", "order"];
@@ -225,6 +225,13 @@
       unitFieldKinds[f.kind] = f;
       if (!isText(f.label)) problem(where + " needs a label");
       if (!isText(f.help)) problem(where + " has no help text");
+      if (f.kind === "choice") {
+        if (!Array.isArray(f.options) || !f.options.length) problem(where + " needs options");
+        else
+          f.options.forEach(function (o, j) {
+            if (!isObject(o) || !isInt(o.value) || !isText(o.label)) problem(where + " option " + j + " needs a whole number value and a label");
+          });
+      }
     });
     if (!unitFieldKinds.buttonSet) problem("unitFields must have a field of kind buttonSet");
 
@@ -482,8 +489,15 @@
           if (!fnByList[f.kind] || !fnByList[f.kind][v]) problem(where + " has an original " + f.name + " " + util.show(v) + ", which the catalog doesn't list");
         } else if (f.kind === "unit") {
           if (range("unit") && !util.inRange(v, range("unit"))) problem(where + " has an original " + f.name + " outside limits.unit");
-        } else if (f.kind === "icon") {
-          if (!isInt(v) || (range("icon") && !util.inRange(v, range("icon")))) problem(where + " has an original " + f.name + " that isn't an icon ID within limits.icon");
+        } else if (f.kind === "icon" || f.kind === "string") {
+          if (!isInt(v) || (range(f.kind) && !util.inRange(v, range(f.kind)))) problem(where + " has an original " + f.name + " that isn't an ID within limits." + f.kind);
+        } else if (f.kind === "choice") {
+          var known = Array.isArray(f.options) && f.options.some(function (o) {
+            return isObject(o) && o.value === v;
+          });
+          if (!known) problem(where + " has an original " + f.name + " " + util.show(v) + ", which isn't one of its options");
+        } else if (f.kind === "tableEntry") {
+          if (v !== null && (!isInt(v) || (range("tableEntry") && !util.inRange(v, range("tableEntry"))))) problem(where + " has an original " + f.name + " that is neither null nor within limits.tableEntry");
         }
       });
     });

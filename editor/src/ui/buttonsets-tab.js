@@ -808,5 +808,5 @@
   }
 
   AG.ui.panels.button_sets = panel;
-  AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, mapItems: mapItems, showString: showString, entryItems: entryItems };
+  AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, mapItems: mapItems, stringItems: stringItems, showString: showString, entryItems: entryItems };
 })(AxeGraft);

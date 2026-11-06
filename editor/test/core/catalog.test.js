@@ -35,7 +35,25 @@
 
   expectProblem("a unit's original icon outside limits.icon", function (raw) {
     raw.units[0].original.icon = 70000;
-  }, /table entry 0 has an original icon that isn.t an icon ID/, "warcraft2");
+  }, /table entry 0 has an original icon that isn.t an ID within limits.icon/, "warcraft2");
+
+  expectProblem("a unit's original name string outside limits.string", function (raw) {
+    raw.units[0].original.name_string = 70000;
+  }, /table entry 0 has an original name_string that isn.t an ID within limits.string/, "warcraft2");
+
+  expectProblem("a unit's original choice that isn't an option", function (raw) {
+    raw.units[0].original.stats_frame = 7;
+  }, /table entry 0 has an original stats_frame 7, which isn.t one of its options/, "warcraft2");
+
+  expectProblem("a unit choice field without options", function (raw) {
+    raw.unitFields.forEach(function (f) {
+      if (f.kind === "choice") delete f.options;
+    });
+  }, /unit field stats_frame needs options/, "warcraft2");
+
+  expectProblem("a unit's original equivalent entry outside the button table", function (raw) {
+    raw.units[0].original.equivalent_entry = 400;
+  }, /table entry 0 has an original equivalent_entry that is neither null nor within limits.tableEntry/);
 
   T.test("catalog check: the documented example passes", function () {
     T.equal(C.check(T.exampleCatalog(), "catalog-example.js"), []);
@@ -251,7 +269,7 @@
     raw.buttonFields[2].help = " ";
   }, /button field condition has no help text/);
   expectProblem("a unit field without help", function (raw) {
-    delete raw.unitFields[1].help;
+    delete raw.unitFields[2].help;
   }, /unit field status_changed has no help text/);
   expectProblem("a bare unit row without help", function (raw) {
     delete raw.bareUnit.help;

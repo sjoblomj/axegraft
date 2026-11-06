@@ -97,7 +97,17 @@ There must be exactly one field of each kind except `string` and `choice`. Every
 
 ### Unit fields
 
-`unitFields` lists the fields of a unit entry, each `{ "name", "label", "kind", "help" }`. `kind` is `buttonSet`, `statusChanged`, `statusUpdate`, `unit` or `icon`, each at most once, and `buttonSet` is required. A table entry outside `limits.unit` has only the `buttonSet` field.
+`unitFields` lists the fields of a unit entry, each `{ "name", "label", "kind", "help" }`. `kind` is one of these, each at most once, and `buttonSet` is required:
+
+- `buttonSet`: the set of buttons the entry shows, or `null` for none.
+- `tableEntry`: another table entry, or `null` for none, such as the entry StarCraft treats as equivalent in a mixed group.
+- `statusChanged`, `statusUpdate`: a status function, by name.
+- `unit`: a unit ID.
+- `icon`: an icon ID, within `limits.icon`.
+- `string`: a string ID, within `limits.string`.
+- `choice`: one of the field's `options`, each `{ "value", "label" }` with a whole number value.
+
+A table entry outside `limits.unit` has only the `buttonSet` field. The editor shows `buttonSet` and `tableEntry` fields as the button table entry, and the others as the status panel.
 
 ### Functions
 

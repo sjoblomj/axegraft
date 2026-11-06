@@ -44,6 +44,8 @@ AxeGraft.registerFixtureCatalog({
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The set of buttons the entry shows." },
     { "name": "icon", "label": "Icon", "kind": "icon", "help": "The icon that stands for the unit." },
+    { "name": "name_string", "label": "Name", "kind": "string", "help": "The unit's name." },
+    { "name": "stats_frame", "label": "Stats panel frame", "kind": "choice", "options": [{ "value": 0, "label": "Frame 0" }, { "value": 1, "label": "Frame 1" }, { "value": 2, "label": "Frame 2" }, { "value": 3, "label": "Frame 3" }], "help": "The frame behind the stats." },
     { "name": "status_changed", "label": "Stats changed", "kind": "statusChanged", "help": "Decides whether to redraw the stats." },
     { "name": "status_update", "label": "Stats update", "kind": "statusUpdate", "help": "Draws the stats." }
   ],
@@ -61,8 +63,8 @@ AxeGraft.registerFixtureCatalog({
     "statusUpdate": [{ "name": "w2_stats_update_unit", "label": "Unit", "variable": null }]
   },
   "units": [
-    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "icon": 2, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
-    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "icon": 0, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
+    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "icon": 2, "stats_frame": 1, "name_string": 2, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
+    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "icon": 0, "stats_frame": 1, "name_string": 4, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
     { "id": 110, "name": "Blank", "tree": ["Other"], "original": { "button_set": null } },
     { "id": 111, "name": "Human Basic Build", "tree": ["Other"], "original": { "button_set": 111 } }
   ],

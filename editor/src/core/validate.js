@@ -268,10 +268,22 @@
       else if (f.kind === "unit") {
         if (!isInt(v)) problems.error(fp, f.name + " must be a unit ID, but it's " + util.show(v) + ".");
         else if (!util.inRange(v, cat.limits.unit)) problems.error(fp, f.name + " " + v + " is outside the unit range, " + rangeText(cat.limits.unit) + ".");
-      } else if (f.kind === "icon") {
-        if (!isInt(v)) problems.error(fp, f.name + " must be an icon ID, but it's " + util.show(v) + ".");
-        else if (!util.inRange(v, cat.limits.icon)) problems.error(fp, f.name + " " + v + " is outside its range, " + rangeText(cat.limits.icon) + ".");
-        else checkIconAsset(ctx, v, fp);
+      } else if (f.kind === "icon" || f.kind === "string") {
+        if (!isInt(v)) problems.error(fp, f.name + " must be a whole number, but it's " + util.show(v) + ".");
+        else if (!util.inRange(v, cat.limits[f.kind])) problems.error(fp, f.name + " " + v + " is outside its range, " + rangeText(cat.limits[f.kind]) + ".");
+        else if (f.kind === "icon") checkIconAsset(ctx, v, fp);
+        else checkStringAsset(ctx, v, fp, f.name);
+      } else if (f.kind === "choice") {
+        var ok = f.options.some(function (o) {
+          return o.value === v;
+        });
+        if (!ok) problems.error(fp, f.name + " " + util.show(v) + " isn't one of " + f.options.map(function (o) {
+          return o.value;
+        }).join(", ") + ".");
+      } else if (f.kind === "tableEntry") {
+        if (v === null) return;
+        if (!isInt(v)) problems.error(fp, f.name + " must be a table entry ID or null for none, but it's " + util.show(v) + ".");
+        else if (!util.inRange(v, cat.limits.tableEntry)) problems.error(fp, f.name + " " + v + " is outside the game's button table, " + rangeText(cat.limits.tableEntry) + ".");
       }
     });
   }

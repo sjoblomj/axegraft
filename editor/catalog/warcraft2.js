@@ -109,6 +109,24 @@ AxeGraft.registerCatalog({
       "help": "The icon shown for this unit in the stats panel when it is selected. It is the unit's own icon, not the one on the button that trains it, though the two are usually the same."
     },
     {
+      "name": "name_string",
+      "label": "Name",
+      "kind": "string",
+      "help": "The string shown as this unit's name when it is selected. Several units can share a name, such as the two Oil Tankers."
+    },
+    {
+      "name": "stats_frame",
+      "label": "Stats panel frame",
+      "kind": "choice",
+      "options": [
+        {"value": 0, "label": "Frame 0"},
+        {"value": 1, "label": "Frame 1, most units"},
+        {"value": 2, "label": "Frame 2, spellcasters"},
+        {"value": 3, "label": "Frame 3, buildings: with a progress bar while busy"}
+      ],
+      "help": "The frame of the stats panel graphic shown behind the stats when this unit is selected. With 3, the panel shows frame 3, which has a progress bar, only while the building is busy, and frame 1 otherwise."
+    },
+    {
       "name": "status_changed",
       "label": "Stats changed",
       "kind": "statusChanged",
@@ -824,6 +842,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 2,
+        "stats_frame": 1,
+        "name_string": 2,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -835,6 +855,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 3,
+        "stats_frame": 1,
+        "name_string": 3,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -846,6 +868,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 2,
         "icon": 0,
+        "stats_frame": 1,
+        "name_string": 4,
         "status_changed": "statdraw_query_peon",
         "status_update": "statdraw_draw_peon"
       }
@@ -857,6 +881,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 3,
         "icon": 1,
+        "stats_frame": 1,
+        "name_string": 5,
         "status_changed": "statdraw_query_peon",
         "status_update": "statdraw_draw_peon"
       }
@@ -868,6 +894,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 16,
+        "stats_frame": 1,
+        "name_string": 6,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_catapult"
       }
@@ -879,6 +907,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 17,
+        "stats_frame": 1,
+        "name_string": 7,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_catapult"
       }
@@ -890,6 +920,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 6,
         "icon": 8,
+        "stats_frame": 1,
+        "name_string": 8,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -901,6 +933,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 7,
         "icon": 9,
+        "stats_frame": 1,
+        "name_string": 9,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -912,6 +946,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 8,
         "icon": 4,
+        "stats_frame": 1,
+        "name_string": 10,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -923,6 +959,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 9,
         "icon": 5,
+        "stats_frame": 1,
+        "name_string": 11,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -934,6 +972,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 10,
         "icon": 14,
+        "stats_frame": 2,
+        "name_string": 12,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -945,6 +985,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 11,
         "icon": 15,
+        "stats_frame": 2,
+        "name_string": 13,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -956,6 +998,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 12,
         "icon": 10,
+        "stats_frame": 2,
+        "name_string": 14,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -967,6 +1011,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 13,
         "icon": 11,
+        "stats_frame": 2,
+        "name_string": 15,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -978,6 +1024,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 14,
         "icon": 12,
+        "stats_frame": 1,
+        "name_string": 244,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -989,6 +1037,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 15,
         "icon": 13,
+        "stats_frame": 1,
+        "name_string": 17,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1000,6 +1050,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 16,
         "icon": 0,
+        "stats_frame": 1,
+        "name_string": 4,
         "status_changed": "statdraw_query_peon",
         "status_update": "statdraw_draw_peon"
       }
@@ -1011,6 +1063,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 17,
         "icon": 1,
+        "stats_frame": 1,
+        "name_string": 5,
         "status_changed": "statdraw_query_peon",
         "status_update": "statdraw_draw_peon"
       }
@@ -1022,6 +1076,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 8,
         "icon": 6,
+        "stats_frame": 1,
+        "name_string": 20,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -1033,6 +1089,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 9,
         "icon": 7,
+        "stats_frame": 1,
+        "name_string": 21,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -1044,6 +1102,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 8,
         "icon": 187,
+        "stats_frame": 1,
+        "name_string": 22,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -1055,6 +1115,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 11,
         "icon": 189,
+        "stats_frame": 2,
+        "name_string": 23,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1066,6 +1128,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 191,
+        "stats_frame": 1,
+        "name_string": 24,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1077,6 +1141,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 13,
         "icon": 194,
+        "stats_frame": 1,
+        "name_string": 25,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1088,6 +1154,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 10,
         "icon": 193,
+        "stats_frame": 2,
+        "name_string": 26,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1099,6 +1167,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 190,
+        "stats_frame": 1,
+        "name_string": 27,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1110,6 +1180,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 26,
         "icon": 18,
+        "stats_frame": 1,
+        "name_string": 245,
         "status_changed": "statdraw_query_tanker",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1121,6 +1193,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 27,
         "icon": 19,
+        "stats_frame": 1,
+        "name_string": 246,
         "status_changed": "statdraw_query_tanker",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1132,6 +1206,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 28,
         "icon": 20,
+        "stats_frame": 1,
+        "name_string": 247,
         "status_changed": "statdraw_query_transport",
         "status_update": "statdraw_draw_transport"
       }
@@ -1143,6 +1219,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 29,
         "icon": 21,
+        "stats_frame": 1,
+        "name_string": 248,
         "status_changed": "statdraw_query_transport",
         "status_update": "statdraw_draw_transport"
       }
@@ -1154,6 +1232,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 30,
         "icon": 22,
+        "stats_frame": 1,
+        "name_string": 32,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1165,6 +1245,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 31,
         "icon": 23,
+        "stats_frame": 1,
+        "name_string": 33,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1176,6 +1258,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 30,
         "icon": 24,
+        "stats_frame": 1,
+        "name_string": 34,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1187,6 +1271,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 31,
         "icon": 25,
+        "stats_frame": 1,
+        "name_string": 35,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1198,6 +1284,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 30,
         "icon": 0,
+        "stats_frame": 1,
+        "name_string": 5,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_unit"
       }
@@ -1209,6 +1297,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 192,
+        "stats_frame": 1,
+        "name_string": 37,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1220,6 +1310,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 0,
+        "stats_frame": 1,
+        "name_string": 5,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_unit"
       }
@@ -1231,6 +1323,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 0,
+        "stats_frame": 1,
+        "name_string": 5,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_unit"
       }
@@ -1242,6 +1336,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 38,
         "icon": 26,
+        "stats_frame": 1,
+        "name_string": 40,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1253,6 +1349,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 39,
         "icon": 27,
+        "stats_frame": 1,
+        "name_string": 41,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1264,6 +1362,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 40,
         "icon": 28,
+        "stats_frame": 1,
+        "name_string": 42,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1275,6 +1375,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 41,
         "icon": 29,
+        "stats_frame": 1,
+        "name_string": 43,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1286,6 +1388,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 30,
+        "stats_frame": 1,
+        "name_string": 44,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1297,6 +1401,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 31,
+        "stats_frame": 1,
+        "name_string": 45,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1308,6 +1414,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 12,
         "icon": 195,
+        "stats_frame": 1,
+        "name_string": 46,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1319,6 +1427,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 41,
         "icon": 111,
+        "stats_frame": 1,
+        "name_string": 267,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1330,6 +1440,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 0,
         "icon": 188,
+        "stats_frame": 1,
+        "name_string": 48,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1341,6 +1453,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 186,
+        "stats_frame": 1,
+        "name_string": 49,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1352,6 +1466,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 0,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -1363,6 +1479,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 49,
         "icon": 36,
+        "stats_frame": 1,
+        "name_string": 51,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1374,6 +1492,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 12,
         "icon": 32,
+        "stats_frame": 1,
+        "name_string": 52,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1385,6 +1505,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 11,
         "icon": 33,
+        "stats_frame": 1,
+        "name_string": 53,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1396,6 +1518,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 12,
         "icon": 34,
+        "stats_frame": 1,
+        "name_string": 54,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1407,6 +1531,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 9,
         "icon": 35,
+        "stats_frame": 1,
+        "name_string": 55,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_archer"
       }
@@ -1418,6 +1544,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 0,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -1429,6 +1557,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 114,
+        "stats_frame": 1,
+        "name_string": 57,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_grunt"
       }
@@ -1440,6 +1570,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 1,
         "icon": 37,
+        "stats_frame": 1,
+        "name_string": 58,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_unit"
       }
@@ -1451,6 +1583,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 115,
+        "stats_frame": 1,
+        "name_string": 59,
         "status_changed": "statdraw_query_unit",
         "status_update": "statdraw_draw_unit"
       }
@@ -1462,6 +1596,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 38,
+        "stats_frame": 1,
+        "name_string": 60,
         "status_changed": "statdraw_query_farm",
         "status_update": "statdraw_draw_farm"
       }
@@ -1473,6 +1609,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 39,
+        "stats_frame": 1,
+        "name_string": 61,
         "status_changed": "statdraw_query_farm",
         "status_update": "statdraw_draw_farm"
       }
@@ -1484,6 +1622,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 60,
         "icon": 42,
+        "stats_frame": 3,
+        "name_string": 249,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1495,6 +1635,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 61,
         "icon": 43,
+        "stats_frame": 3,
+        "name_string": 250,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1506,6 +1648,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 62,
         "icon": 62,
+        "stats_frame": 3,
+        "name_string": 64,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_church"
       }
@@ -1517,6 +1661,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 63,
         "icon": 63,
+        "stats_frame": 3,
+        "name_string": 65,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_church"
       }
@@ -1528,6 +1674,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 64,
         "icon": 60,
+        "stats_frame": 3,
+        "name_string": 66,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_scout_tower"
       }
@@ -1539,6 +1687,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 65,
         "icon": 61,
+        "stats_frame": 3,
+        "name_string": 67,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_scout_tower"
       }
@@ -1550,6 +1700,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 56,
+        "stats_frame": 3,
+        "name_string": 68,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1561,6 +1713,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 57,
+        "stats_frame": 3,
+        "name_string": 69,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1572,6 +1726,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 68,
         "icon": 58,
+        "stats_frame": 3,
+        "name_string": 70,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1583,6 +1739,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 69,
         "icon": 59,
+        "stats_frame": 3,
+        "name_string": 71,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1594,6 +1752,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 70,
         "icon": 72,
+        "stats_frame": 3,
+        "name_string": 72,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1605,6 +1765,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 71,
         "icon": 73,
+        "stats_frame": 3,
+        "name_string": 73,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1616,6 +1778,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 72,
         "icon": 48,
+        "stats_frame": 3,
+        "name_string": 251,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_shipyard"
       }
@@ -1627,6 +1791,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 73,
         "icon": 49,
+        "stats_frame": 3,
+        "name_string": 252,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_shipyard"
       }
@@ -1638,6 +1804,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 74,
         "icon": 40,
+        "stats_frame": 3,
+        "name_string": 76,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1649,6 +1817,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 75,
         "icon": 41,
+        "stats_frame": 3,
+        "name_string": 77,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1660,6 +1830,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 76,
         "icon": 44,
+        "stats_frame": 3,
+        "name_string": 78,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mill"
       }
@@ -1671,6 +1843,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 77,
         "icon": 45,
+        "stats_frame": 3,
+        "name_string": 79,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mill"
       }
@@ -1682,6 +1856,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 78,
         "icon": 52,
+        "stats_frame": 3,
+        "name_string": 253,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_smith"
       }
@@ -1693,6 +1869,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 79,
         "icon": 53,
+        "stats_frame": 3,
+        "name_string": 254,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_smith"
       }
@@ -1704,6 +1882,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 80,
         "icon": 64,
+        "stats_frame": 3,
+        "name_string": 261,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mage_tower"
       }
@@ -1715,6 +1895,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 81,
         "icon": 65,
+        "stats_frame": 3,
+        "name_string": 262,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mage_tower"
       }
@@ -1726,6 +1908,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 82,
         "icon": 46,
+        "stats_frame": 3,
+        "name_string": 255,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_smith"
       }
@@ -1737,6 +1921,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 83,
         "icon": 47,
+        "stats_frame": 3,
+        "name_string": 256,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_smith"
       }
@@ -1748,6 +1934,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 50,
+        "stats_frame": 3,
+        "name_string": 257,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_refinery"
       }
@@ -1759,6 +1947,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 51,
+        "stats_frame": 3,
+        "name_string": 258,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_refinery"
       }
@@ -1770,6 +1960,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 54,
+        "stats_frame": 3,
+        "name_string": 259,
         "status_changed": "statdraw_query_oilrig",
         "status_update": "statdraw_draw_oilrig"
       }
@@ -1781,6 +1973,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 55,
+        "stats_frame": 3,
+        "name_string": 260,
         "status_changed": "statdraw_query_oilrig",
         "status_update": "statdraw_draw_oilrig"
       }
@@ -1792,6 +1986,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 74,
         "icon": 66,
+        "stats_frame": 3,
+        "name_string": 90,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1803,6 +1999,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 75,
         "icon": 67,
+        "stats_frame": 3,
+        "name_string": 91,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1814,6 +2012,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 74,
         "icon": 70,
+        "stats_frame": 3,
+        "name_string": 92,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1825,6 +2025,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 75,
         "icon": 71,
+        "stats_frame": 3,
+        "name_string": 93,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1836,6 +2038,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 74,
+        "stats_frame": 1,
+        "name_string": 94,
         "status_changed": "statdraw_query_mine",
         "status_update": "statdraw_draw_mine"
       }
@@ -1847,6 +2051,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 79,
+        "stats_frame": 3,
+        "name_string": 95,
         "status_changed": "statdraw_query_oilrig",
         "status_update": "statdraw_draw_oilrig"
       }
@@ -1858,6 +2064,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 0,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -1869,6 +2077,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 0,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -1880,6 +2090,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 64,
         "icon": 75,
+        "stats_frame": 3,
+        "name_string": 263,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1891,6 +2103,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 65,
         "icon": 77,
+        "stats_frame": 3,
+        "name_string": 264,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1902,6 +2116,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 64,
         "icon": 76,
+        "stats_frame": 3,
+        "name_string": 265,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1913,6 +2129,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": 65,
         "icon": 78,
+        "stats_frame": 3,
+        "name_string": 266,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1924,6 +2142,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 81,
+        "stats_frame": 1,
+        "name_string": 102,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1935,6 +2155,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 80,
+        "stats_frame": 3,
+        "name_string": 103,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1946,6 +2168,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 82,
+        "stats_frame": 1,
+        "name_string": 104,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1957,6 +2181,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 92,
+        "stats_frame": 3,
+        "name_string": 105,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1968,6 +2194,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 93,
+        "stats_frame": 3,
+        "name_string": 105,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_bldg"
       }
@@ -1979,6 +2207,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 5,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -1990,6 +2220,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 5,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -2001,6 +2233,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 5,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -2012,6 +2246,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 5,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }
@@ -2023,6 +2259,8 @@ AxeGraft.registerCatalog({
       "original": {
         "button_set": null,
         "icon": 0,
+        "stats_frame": 0,
+        "name_string": 5,
         "status_changed": "statdraw_query_none",
         "status_update": "statdraw_draw_none"
       }

@@ -77,6 +77,8 @@
         var f = cat.unitKind[kind];
         if (f && typeof e[f.name] === "string") add(p + "." + f.name, absentOn(cat.functions[kind].get(e[f.name])), e[f.name]);
       });
+      var te = cat.unitKind.tableEntry;
+      if (te && isInt(e[te.name])) add(p + "." + te.name, absentOn(cat.units.get(e[te.name])), "table entry " + e[te.name]);
     });
     AG.core.doc.entries(doc, "button_sets").forEach(function (e, i) {
       if (!isObject(e) || !isInt(e.id)) return;

@@ -50,6 +50,12 @@
     return cat.icons[id] ? id + " " + cat.icons[id] : String(id);
   }
 
+  function stringLabel(app, id) {
+    var text = app.assets && app.assets.string ? app.assets.string(app.state.game, id) : null;
+    var name = text !== null && text !== undefined ? AG.core.tbl.name(text) : app.cat().strings[id];
+    return name ? id + " " + name : String(id);
+  }
+
   function setLabel(app, id) {
     if (id === null) return "no buttons";
     if (id === undefined) return "not in the catalog";
@@ -136,6 +142,35 @@
             AG.ui.iconPicker.show(app, e.value, set);
           } }, "Choose icon..."), help.text("pickIcon")));
         }
+      } else if (f.kind === "string") {
+        var hasTable = !!(app.assets && app.assets.strings && app.assets.strings(app.state.game));
+        controls = F.idPicker(AG.ui.buttonSets.stringItems(app), e.value, set, { label: f.label, unknownLabel: hasTable ? "(not in the string table)" : null });
+        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        original = e.hasOriginal ? stringLabel(app, e.original) : null;
+      } else if (f.kind === "choice") {
+        var choices = f.options.map(function (o) {
+          return { value: o.value, label: o.value + " " + o.label };
+        });
+        controls = [F.select(choices, e.value, set, { class: "ctl wide", "aria-label": f.label })];
+        var origChoice = e.hasOriginal ? choices.filter(function (o) {
+          return o.value === e.original;
+        })[0] : null;
+        original = e.hasOriginal ? (origChoice ? origChoice.label : String(e.original)) : null;
+      } else if (f.kind === "tableEntry") {
+        controls = F.idPicker(AG.ui.buttonSets.entryItems(app), e.value, set, { allowNone: true, noneLabel: "None", label: f.label });
+        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        var origEntry = e.hasOriginal && util.isInt(e.original) ? cat.units.get(e.original) : null;
+        original = e.hasOriginal ? (e.original === null ? "none" : e.original + (origEntry ? " " + origEntry.name : "")) : null;
+        if (util.isInt(e.value) && e.value !== id && cat.units.has(e.value)) {
+          extra.push(
+            F.withHelp(
+              h("button", { type: "button", class: "small", dataset: { action: "go-to-entry" }, onclick: function () {
+                app.select("units", AG.core.tree.key.unit(e.value));
+              } }, "Go to entry " + e.value),
+              help.text("jump")
+            )
+          );
+        }
       } else {
         controls = F.idPicker(unitItems(cat), e.value, set, { label: f.label });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
@@ -152,6 +187,14 @@
         original: original,
         revert: revert
       });
+    });
+
+    // The button set and the equivalent entry are in the button table's
+    // entry; the other fields are in the status panel's.
+    var entryFields = [];
+    var statusFields = [];
+    D.unitFieldsFor(cat, id).forEach(function (f, i) {
+      (f.kind === "buttonSet" || f.kind === "tableEntry" ? entryFields : statusFields).push(fields[i]);
     });
 
     // Problems of the entry as a whole, such as one with nothing to change.
@@ -189,8 +232,8 @@
             })
           )
         : null,
-      h("fieldset", null, [h("legend", { text: "Button table entry" })].concat(fields.slice(0, 1))),
-      fields.length > 1 ? h("fieldset", null, [h("legend", { text: "Status panel" })].concat(fields.slice(1))) : null
+      h("fieldset", null, [h("legend", { text: "Button table entry" })].concat(entryFields)),
+      statusFields.length ? h("fieldset", null, [h("legend", { text: "Status panel" })].concat(statusFields)) : null
     ]);
   }
 

@@ -39,7 +39,7 @@
   T.test("unit fields: a StarCraft unit shows all four fields", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:0");
-      T.equal(labels(app), ["Button set", "Status changed", "Status update", "Status unit type"]);
+      T.equal(labels(app), ["Button set", "Equivalent entry", "Status changed", "Status update", "Status unit type"]);
       T.ok(!/Original/.test(field(app, "unit:0:button_set").textContent), "an unchanged field shows no original value");
       T.ok(!field(app, "unit:0:button_set").querySelector(".changed-mark"));
     });
@@ -48,7 +48,7 @@
   T.test("unit fields: a Warcraft II unit has no status unit type", function (ctx) {
     return start(ctx, "warcraft2").then(function (app) {
       app.select("units", "unit:2");
-      T.equal(labels(app), ["Button set", "Icon", "Stats changed", "Stats update"]);
+      T.equal(labels(app), ["Button set", "Icon", "Stats panel frame", "Name", "Stats changed", "Stats update"]);
     });
   }, { dom: true });
 
@@ -67,6 +67,40 @@
       T.ok(/Original/.test(field(app, "unit:0:icon").textContent), "the original is shown");
       U.change(idBox(app, "unit:0:icon"), "70000");
       T.ok(app.errors().length > 0, "an icon beyond limits.icon is an error");
+    });
+  }, { dom: true });
+
+  function boxOf(app, key) {
+    return field(app, key).closest("fieldset").querySelector("legend").textContent;
+  }
+
+  T.test("unit fields: a Warcraft II unit's stats panel frame and name can be changed", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      app.select("units", "unit:0");
+      T.equal(boxOf(app, "unit:0:stats_frame"), "Status panel");
+      T.equal(boxOf(app, "unit:0:name_string"), "Status panel");
+      U.change(field(app, "unit:0:stats_frame").querySelector("select"), "2 Frame 2");
+      U.change(idBox(app, "unit:0:name_string"), "4");
+      T.equal(app.doc().units, [{ id: 0, label: "Footman", stats_frame: 2, name_string: 4 }]);
+      T.equal(app.errors(), []);
+      U.change(idBox(app, "unit:0:name_string"), "70000");
+      T.ok(app.errors().length > 0, "a string beyond limits.string is an error");
+    });
+  }, { dom: true });
+
+  T.test("unit fields: a StarCraft unit's equivalent entry is in the button table entry, and can be set and cleared", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("units", "unit:0");
+      T.equal(boxOf(app, "unit:0:equivalent_entry"), "Button table entry");
+      T.equal(idBox(app, "unit:0:equivalent_entry").value, "");
+      U.change(idBox(app, "unit:0:equivalent_entry"), "5");
+      T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", equivalent_entry: 5 }]);
+      T.equal(app.errors(), []);
+      T.ok(field(app, "unit:0:equivalent_entry").querySelector('[data-action="go-to-entry"]'), "it offers to go to entry 5");
+      U.change(idBox(app, "unit:0:equivalent_entry"), "");
+      T.equal(app.doc().units || [], [], "back to none, the original, leaves nothing to save");
+      U.change(idBox(app, "unit:0:equivalent_entry"), "400");
+      T.ok(app.errors().length > 0, "an entry beyond the button table is an error");
     });
   }, { dom: true });
 
