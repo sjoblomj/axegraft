@@ -7,7 +7,7 @@ Defines how AxeGraft Editor changes a unit's fields in a mod: its button set, it
 ## ADDED Requirements
 
 ### Requirement: Unit fields
-The Units tab SHALL list every entry of the game's button table. It SHALL show the selected unit's `button_set`, `status_changed`, `status_update` and, for StarCraft, `status_unit_type`, each with its original value, and only `button_set` for an entry that isn't a unit.
+The Units tab SHALL list every entry of the game's button table. It SHALL show the selected unit's `button_set`, `status_changed`, `status_update` and, for StarCraft, `status_unit_type`, with the original value of each changed field as `editor-navigation`'s "Marking changes" describes, and only `button_set` for an entry that isn't a unit.
 
 #### Scenario: StarCraft unit
 - **WHEN** a StarCraft unit is selected

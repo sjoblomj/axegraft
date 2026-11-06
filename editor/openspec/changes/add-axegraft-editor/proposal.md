@@ -12,7 +12,7 @@ AxeGraft Patcher applies mods written as JSON, but writing that JSON by hand mea
 - Create, open, validate and save format 1 mod files. A saved file contains only what differs from the original game. A malformed file is refused, while a file with bad values opens with those values marked as errors. A mod with errors is never saved.
 - Show the original values, what the mod changes and, for each version, whether the mod would apply, be rejected or have constants skipped.
 - Show real icons and strings, from assets shipped with the editor or read from the user's own game MPQs in the browser. The editor stays fully usable without any of them.
-- Give every control a help text, shown from a `?` button beside it.
+- Give each control in the tab panels a help text, shown from a `?` button beside it.
 - Define the catalog format the editor reads. A small hand-written sample catalog for each game lets the editor be built and tested.
 
 Out of scope:

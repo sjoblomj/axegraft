@@ -165,6 +165,23 @@
 
   // ---- Keyboard
 
+  T.test("tree navigation: moving onto a group shows where the cursor is, while the selected item stays selected", function (ctx) {
+    return sc(ctx).then(function (app) {
+      ["dark", "classic"].forEach(function (theme) {
+        app.setTheme(theme);
+        app.select("units", "unit:0");
+        U.key(U.q(app, ".tree"), "ArrowUp");
+        T.equal(app.state.cursor.units, "group:/Terran/Ground Units");
+        T.equal(app.state.selection.units, "unit:0", "the item stays selected");
+        var cur = U.q(app, ".tree .cursor");
+        T.equal(cur.dataset.key, "group:/Terran/Ground Units");
+        var groupLook = getComputedStyle(cur.querySelector(".row")).outlineStyle;
+        var plain = getComputedStyle(row(app, "unit:5").querySelector(".row")).outlineStyle;
+        T.ok(groupLook !== "none" && plain === "none", theme + ": the cursor row is outlined: " + groupLook + " / " + plain);
+      });
+    });
+  }, { dom: true });
+
   T.test("tree navigation: the arrow keys move the selection through visible items, and Left and Right close and open groups", function (ctx) {
     return sc(ctx).then(function (app) {
       var treeEl = U.q(app, ".tree");

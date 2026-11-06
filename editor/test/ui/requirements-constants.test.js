@@ -187,9 +187,10 @@
   T.test("numeric constants: a value in range is saved; one outside shows an error naming the range", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("constants", "const:max_supply");
-      T.ok(/Range 0-65535/.test(valueField(app).textContent) && /Original: 400/.test(valueField(app).textContent));
+      T.ok(/Range 0-65535/.test(valueField(app).textContent));
       U.change(valueField(app).querySelector("input"), "600");
       T.equal(app.doc().constants, [{ name: "max_supply", label: "Maximum supply", value: 600 }]);
+      T.equal(valueField(app).querySelector(".changed-mark .tip").textContent, "Value changed. Original: 400");
       U.change(valueField(app).querySelector("input"), "70000");
       T.ok(/0-65535/.test(valueField(app).querySelector(".problem.error").textContent));
     });
@@ -243,7 +244,6 @@
       }), ["1.07Doesn't apply—", "1.12Unknown—", "1.16.1Yes400"]);
       T.ok(/skip it there/.test(U.q(app, "[data-skip-note]").textContent));
       app.select("constants", "const:web_duration");
-      T.ok(/differs between versions/.test(valueField(app).textContent));
       T.equal(U.texts(app, "[data-availability] tbody tr td:last-child"), ["900", "360"]);
     });
   }, { dom: true });

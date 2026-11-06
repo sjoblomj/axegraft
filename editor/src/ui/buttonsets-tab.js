@@ -468,7 +468,7 @@
       var l = tree.locate(app.doc(), cat, p.path);
       return !l.field;
     });
-    return h("fieldset", { class: "button-form", dataset: { field: "set:" + id + ":" + i + ":" } }, [h("legend", { text: "Button " + i })]
+    return h("fieldset", { class: "button-form", dataset: { field: "set:" + id + ":" + i + ":" } }, [h("legend", { text: "Button " + (i + 1) })]
       .concat(general.map(function (p) {
         return h("div", { class: "problem error", role: "alert", text: p.message });
       }))

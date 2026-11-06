@@ -118,7 +118,11 @@ There's no framework. A small `h(tag, attrs, children)` helper builds elements, 
 
 Standard controls do most of the work: `select`, `input`, `fieldset`, `dialog` and `details`. They bring keyboard behaviour and accessibility, and they're the least likely to change. The tree follows the WAI-ARIA tree pattern with its own arrow-key handling.
 
-The styling is close to FireGraft's: grey panels with `fieldset` groups, black list and field backgrounds, and a coloured selected item, using system fonts. Colours are CSS variables. The layout targets desktop windows and scrolls below its minimum size.
+There are two themes. Dark, the default, is near-black and bluish, with a soft glow, flat borders and monospaced data in lists and fields. Classic is close to FireGraft's look: grey bevelled panels with `fieldset` groups, black list and field backgrounds, a coloured selected item and system fonts. Every colour, border and bevel is a CSS variable, so the rules are shared and each theme mostly sets variables. The editor sets `data-theme` on its root element, and on `<html>` on the editor page. The choice is a per-browser preference, not part of the mod, so it's kept in `localStorage`, and if that can't be used, Dark is used.
+
+The layout targets desktop windows. It's at most 1200 pixels wide, centred in wider windows, and scrolls below its minimum size. Fields have a maximum width, so dropdowns don't stretch across the panel.
+
+Help texts and the changed mark's tooltip are placed in window coordinates by script, so panels that scroll can't clip them, and they're moved to stay inside the window.
 
 ### 7. Saving, drafts and storage
 

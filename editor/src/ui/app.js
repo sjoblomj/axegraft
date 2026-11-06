@@ -27,6 +27,9 @@
   //   idb:       the IndexedDB factory to open, when `storage` isn't given
   //   platform:  replacements for AG.ui.platform's functions
   //   assets:    the asset service (default: AG.assets.service if present)
+  //   prefs:     { get(key), set(key, value) } for settings kept per browser,
+  //              such as the theme (default: localStorage, where it works)
+  //   page:      true to theme the whole page, not only `root`
   function createApp(root, options) {
     options = options || {};
     var catalogs = options.catalogs || { games: {}, errors: [] };
@@ -59,6 +62,29 @@
     };
     var S = app.state;
     var draftTimer = null;
+
+    // ---- Theme
+
+    // "dark" (the default) is dark and bluish; "classic" is close to
+    // Windows 9x. The choice is kept in this browser only.
+    var THEMES = { dark: "Dark", classic: "Classic" };
+    var THEME_KEY = "axegraft-editor.theme";
+    var prefs = options.prefs || localPrefs();
+    S.theme = THEMES[prefs.get(THEME_KEY)] ? prefs.get(THEME_KEY) : "dark";
+
+    function applyTheme() {
+      root.dataset.theme = S.theme;
+      if (options.page) root.ownerDocument.documentElement.dataset.theme = S.theme;
+    }
+    app.themes = THEMES;
+    app.setTheme = function (name) {
+      if (!THEMES[name]) throw new Error("unknown theme " + name);
+      S.theme = name;
+      prefs.set(THEME_KEY, name);
+      applyTheme();
+      app.render();
+    };
+    applyTheme();
 
     // ---- Derived state
 
@@ -532,14 +558,22 @@
         ]),
         menuDetails("view", "View", [
           menuItem("Problems...", "problems", null, !hasMod),
-          menuItem("Version compatibility...", "report", null, !hasMod)
-        ])
+          menuItem("Version compatibility...", "report", null, !hasMod),
+          h("hr")
+        ].concat(Object.keys(THEMES).map(function (t) {
+          var item = menuItem(THEMES[t] + " theme", "theme:" + t);
+          item.setAttribute("role", "menuitemradio");
+          item.setAttribute("aria-checked", String(S.theme === t));
+          return item;
+        })))
       ]);
     }
 
     app.command = function (command) {
       var m = /^new:(.+)$/.exec(command);
       if (m) return app.newMod(m[1]);
+      var t = /^theme:(.+)$/.exec(command);
+      if (t) return app.setTheme(t[1]);
       switch (command) {
         case "open":
           return app.open();
@@ -653,7 +687,6 @@
         S.filter[tab] = v;
         app.render();
       }, { "aria-label": "Show", dataset: { focus: "filter" } });
-      var filterHelp = help.text("filterChanged") + (hasErrors ? " " + help.text("filterErrors") : "") + (hasWarnings ? " " + help.text("filterWarnings") : "");
       var selected = app.selected(tab);
       var nodes = tree.filter(app.nodes(tab), S.search[tab], only || null);
       var treeEl = AG.ui.treeView.render({
@@ -684,11 +717,12 @@
           app.render();
         }
       });
-      var treeHelp = help.described(treeEl, help.text("tree"))[1];
+      // The search, filter, item list and tabs explain themselves, so they
+      // have no ? button.
       return h("aside", { class: "sidebar", "aria-label": "Item list" }, [
-        h("div", { class: "search-row" }, help.described(search, help.text("search"))),
-        h("div", { class: "search-row" }, [h("label", { text: "Show" })].concat(help.described(filterSel, filterHelp))),
-        h("div", { class: "search-row tree-row" }, [h("span", { class: "grow", text: "Items" }), treeHelp]),
+        h("div", { class: "search-row" }, [search]),
+        h("div", { class: "search-row" }, [h("label", { text: "Show" }), filterSel]),
+        h("div", { class: "search-row tree-row" }, [h("span", { class: "grow", text: "Items" })]),
         treeEl
       ]);
     }
@@ -732,12 +766,6 @@
         var b = root.querySelector('[data-tab="' + tabs[next].id + '"]');
         if (b) b.focus();
       });
-      Array.prototype.forEach.call(tablist.querySelectorAll('[role="tab"]'), function (b) {
-        b.setAttribute("aria-describedby", "tabs-help-tip");
-      });
-      var tabsHelp = help.button(help.text("tabs"));
-      tabsHelp.querySelector(".tip").id = "tabs-help-tip";
-      tabsHelp.setAttribute("aria-describedby", "tabs-help-tip");
       var panelFn = AG.ui.panels[current];
       var key = app.selected(current);
       var panel;
@@ -748,7 +776,7 @@
         if (typeof console !== "undefined") console.error(e);
       }
       return h("section", { class: "tabs-area" }, [
-        h("div", { class: "tablist-row", style: { display: "flex", "align-items": "end", gap: "6px" } }, [tablist, tabsHelp]),
+        h("div", { class: "tablist-row", style: { display: "flex", "align-items": "end", gap: "6px" } }, [tablist]),
         h("div", { class: "tabpanel", role: "tabpanel", id: "panel-" + current, "aria-labelledby": "tab-" + current, dataset: { panel: current } }, [panel])
       ]);
     }
@@ -938,10 +966,31 @@
     return app;
   }
 
+  // Settings kept in localStorage. It can be missing or throw, as in a
+  // private window or with site data blocked; then nothing is remembered.
+  function localPrefs() {
+    return {
+      get: function (key) {
+        try {
+          return window.localStorage.getItem(key);
+        } catch (e) {
+          return null;
+        }
+      },
+      set: function (key, value) {
+        try {
+          window.localStorage.setItem(key, value);
+        } catch (e) {
+          // Not remembered.
+        }
+      }
+    };
+  }
+
   AG.ui.createApp = createApp;
   AG.ui.start = function (root) {
     // Kept for people inspecting the editor from the browser's console.
-    AG.ui.current = createApp(root, { catalogs: AG.core.catalog.loadRegistered() });
+    AG.ui.current = createApp(root, { catalogs: AG.core.catalog.loadRegistered(), page: true });
     return AG.ui.current;
   };
 })(AxeGraft);

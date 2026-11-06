@@ -47,7 +47,10 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 - [ ] 5.7 Implement New, Open, Save and Save As, with a download fallback, and verify with DOM tests the "Creating a mod", "Opening a mod", "Refusing malformed files", "Opening a file with errors" and "Saving only mods without errors" scenarios, and check direct saving by hand in Chromium
 - [x] 5.8 Add the problem list, and undo and redo in the menu and on the keyboard, and verify the "Problem while editing" and "Undo across tabs" scenarios through the UI
 - [x] 5.9 Add drafts and the warning on closing, and verify the "Drafts" scenarios with DOM tests, and check by hand that a closed browser offers the work back
-- [x] 5.10 Add the `?` button and the help table for game-independent controls, and verify the "Help for every control" scenarios, including a DOM test that every control in every panel has a help text
+- [x] 5.10 Add the `?` button and the help table for game-independent controls, and verify the "Help for controls" scenarios, including a DOM test that every control in every tab panel has a help text, that the item list and tabs have none, and that help text stays inside the window
+- [x] 5.11 Add the Dark and Classic themes, chosen from the View menu and remembered per browser, and verify the "Themes" scenarios
+- [x] 5.12 Make an open menu follow the pointer to another menu, and close on a click outside it or Escape, and verify the "Menu bar" scenarios
+- [x] 5.13 Show a changed field's original value in its mark's tooltip instead of under the field, show the item list's keyboard cursor on groups, and verify the "Original value of a changed field" and "Moving onto a group" scenarios
 
 ## 6. Units and button sets
 

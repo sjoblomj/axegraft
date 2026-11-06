@@ -145,4 +145,40 @@
       });
     });
   }, { dom: true });
+  T.test("theme: dark is the default, and choosing Classic from the View menu switches and is remembered", function (ctx) {
+    var prefs = U.memoryPrefs();
+    return U.start(ctx, { prefs: prefs }).then(function (app) {
+      T.equal(app.root.dataset.theme, "dark");
+      var classic = U.q(app, '.menubar [data-command="theme:classic"]');
+      T.equal(U.q(app, '.menubar [data-command="theme:dark"]').getAttribute("aria-checked"), "true");
+      T.equal(classic.getAttribute("aria-checked"), "false");
+      U.q(app, '.menubar details[data-menu="view"]').open = true;
+      classic.click();
+      T.equal(app.root.dataset.theme, "classic");
+      T.equal(U.q(app, '.menubar [data-command="theme:classic"]').getAttribute("aria-checked"), "true");
+      T.ok(!U.q(app, '.menubar details[data-menu="view"]').open, "the menu closes");
+      T.equal(prefs.values["axegraft-editor.theme"], "classic");
+      T.ok(getComputedStyle(U.q(app, ".app")).backgroundColor !== "", "styled");
+    });
+  }, { dom: true });
+
+  T.test("theme: a remembered choice is used at start, and an unknown one falls back to dark", function (ctx) {
+    return U.start(ctx, { prefs: U.memoryPrefs({ "axegraft-editor.theme": "classic" }) }).then(function (app) {
+      T.equal(app.root.dataset.theme, "classic");
+      return U.start(ctx, { prefs: U.memoryPrefs({ "axegraft-editor.theme": "neon" }) });
+    }).then(function (app) {
+      T.equal(app.root.dataset.theme, "dark");
+    });
+  }, { dom: true });
+
+  T.test("theme: the two themes look different", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      var looks = function () {
+        return getComputedStyle(U.q(app, ".menubar")).backgroundColor + "/" + getComputedStyle(U.q(app, ".app")).color;
+      };
+      var dark = looks();
+      app.setTheme("classic");
+      T.ok(looks() !== dark, dark + " vs " + looks());
+    });
+  }, { dom: true });
 })(AxeGraft);

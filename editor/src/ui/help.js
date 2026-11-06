@@ -8,11 +8,6 @@
   var h = AG.ui.h;
 
   var TEXT = {
-    search: "Shows only the items whose label contains this text, ignoring case. Labels start with the item's ID, so you can search by ID or by name.",
-    tree: "The items of this tab. Use the arrow keys to move, Right and Left to open and close groups. The yellow mark shows changed items, the red mark errors and the orange mark warnings.",
-    filterChanged: "Shows only the items this mod changes.",
-    filterErrors: "Shows only the items with errors. A mod with errors can't be saved.",
-    filterWarnings: "Shows only the items with warnings. Warnings don't stop a mod being saved.",
     revertField: "Puts this field back to its original value.",
     revertItem: "Removes every change this mod makes to this item, so it's as in the original game.",
     goToSet: "Opens the Button Sets tab on the set this entry shows, as the mod currently assigns it.",
@@ -50,36 +45,53 @@
     removeEntry: "Removes this entry from the mod. Use it for entries the item list can't show.",
     goToProblem: "Shows the field with this problem.",
     importFolder: "Choose your game folder. The editor finds the game's archives in it by name and reads only the icons and strings. Nothing is changed or sent anywhere.",
-    importFiles: "Choose the game's archive files, or a stat_txt.tbl file on its own.",
-    tabs: "The parts of the mod this game has. Use Left and Right to move between tabs."
+    importFiles: "Choose the game's archive files, or a stat_txt.tbl file on its own."
   };
 
   var counter = 0;
 
-  // A `?` button that shows `text`.
-  function helpButton(text) {
-    var id = "help-" + ++counter;
-    var tip = h("span", { class: "tip", role: "tooltip", id: id, text: text });
-    var b = h("button", { type: "button", class: "help", "aria-label": "Help", "aria-describedby": id }, ["?", tip]);
-    // The text is placed in window coordinates, so scrolling panels can't
-    // clip it, and kept inside the window. It hides when anything scrolls,
-    // since it would no longer be beside its button.
+  // Shows `tip` beside `host` while the host is hovered or focused.
+  // The text is placed in window coordinates, so scrolling panels can't
+  // clip it, and kept inside the window. It hides when anything scrolls,
+  // since it would no longer be beside its host.
+  function attachTip(host, tip) {
     function show() {
-      b.classList.add("show");
-      place(b, tip);
+      host.classList.add("show");
+      place(host, tip);
       window.addEventListener("scroll", hide, true);
       window.addEventListener("resize", hide);
     }
     function hide() {
-      b.classList.remove("show");
+      host.classList.remove("show");
       window.removeEventListener("scroll", hide, true);
       window.removeEventListener("resize", hide);
     }
-    b.addEventListener("mouseenter", show);
-    b.addEventListener("mouseleave", hide);
-    b.addEventListener("focus", show);
-    b.addEventListener("blur", hide);
+    host.addEventListener("mouseenter", show);
+    host.addEventListener("mouseleave", hide);
+    host.addEventListener("focus", show);
+    host.addEventListener("blur", hide);
+  }
+
+  function tipEl(text) {
+    return h("span", { class: "tip", role: "tooltip", id: "help-" + ++counter, text: text });
+  }
+
+  // A `?` button that shows `text`.
+  function helpButton(text) {
+    var tip = tipEl(text);
+    var b = h("button", { type: "button", class: "help", "aria-label": "Help", "aria-describedby": tip.id }, ["?", tip]);
+    attachTip(b, tip);
     return b;
+  }
+
+  // The mark beside a changed field's label. Hovering or focusing it says
+  // the value changed, and what it was, when that's known.
+  function changedMark(original) {
+    var text = "Value changed." + (original !== undefined && original !== null ? " Original: " + original : "");
+    var tip = tipEl(text);
+    var m = h("span", { class: "changed-mark", tabindex: "0", role: "img", "aria-label": text, "aria-describedby": tip.id }, [tip]);
+    attachTip(m, tip);
+    return m;
   }
 
   var MARGIN = 4;
@@ -117,6 +129,7 @@
     TEXT: TEXT,
     text: text,
     button: helpButton,
+    changedMark: changedMark,
     described: described
   };
 })(AxeGraft);

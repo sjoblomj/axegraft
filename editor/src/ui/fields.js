@@ -83,7 +83,8 @@
 
   // A field row. Options:
   //   label, help (text), controls (elements), key (data-field),
-  //   changed, problems ([{ severity, message }]), original (text),
+  //   changed, problems ([{ severity, message }]), original (text, shown
+  //   by the changed mark's tooltip),
   //   note (text), revert (function), extra (elements after the controls)
   function field(o) {
     var controls = [].concat(o.controls || []);
@@ -110,7 +111,12 @@
       class: ["field", o.changed ? "changed" : null, errors.length ? "has-error" : null, !errors.length && warnings.length ? "has-warning" : null],
       dataset: { field: o.key || null }
     });
-    row.appendChild(firstId ? h("label", { for: firstId, text: o.label }) : h("span", { class: "label", text: o.label }));
+    row.appendChild(
+      h("div", { class: "label-cell" }, [
+        o.changed ? help.changedMark(o.original) : null,
+        firstId ? h("label", { for: firstId, text: o.label }) : h("span", { class: "label", text: o.label })
+      ])
+    );
     var ctlBox = h("div", { class: "controls" }, controls);
     (o.extra || []).forEach(function (x) {
       ctlBox.appendChild(x);
@@ -125,7 +131,6 @@
     }
     row.appendChild(ctlBox);
     row.appendChild(helpBtn);
-    if (o.original !== undefined && o.original !== null) row.appendChild(h("div", { class: "original", text: "Original: " + o.original }));
     if (o.note) row.appendChild(h("div", { class: "note", text: o.note }));
     problems.forEach(function (p) {
       row.appendChild(h("div", { class: "problem " + (p.severity === "error" ? "error" : p.kind === "unused" ? "unused" : "warning"), role: p.severity === "error" ? "alert" : null, text: p.message }));

@@ -1,4 +1,4 @@
-// The problem list, undo and redo through the UI, and help for every control.
+// The problem list, undo and redo through the UI, and help for controls.
 "use strict";
 
 (function (AG) {
@@ -95,11 +95,11 @@
     });
   }, { dom: true });
 
-  // Every control in the item list and the tab panels is described by a ?
-  // button with text.
+  // Every control in the tab panels is described by a ? button with text.
+  // The search, filter, item list and tabs explain themselves and have none.
   function undescribed(app) {
     var bad = [];
-    var controls = app.root.querySelectorAll(".sidebar input, .sidebar select, .sidebar textarea, .sidebar button, .tabpanel input, .tabpanel select, .tabpanel textarea, .tabpanel button, .tablist [role=tab], .sidebar .tree");
+    var controls = app.root.querySelectorAll(".tabpanel input, .tabpanel select, .tabpanel textarea, .tabpanel button");
     Array.prototype.forEach.call(controls, function (c) {
       if (c.classList.contains("help")) return;
       var id = c.getAttribute("aria-describedby");
@@ -109,6 +109,14 @@
     });
     return bad;
   }
+
+  T.test("help: the search, filter, item list and tabs have no ? button", function (ctx) {
+    return start(ctx, "starcraft").then(function (app) {
+      T.equal(app.root.querySelectorAll(".sidebar .help, .tablist-row .help").length, 0);
+      T.ok(!U.q(app, '[role="tab"]').getAttribute("aria-describedby"));
+      T.ok(!U.q(app, ".sidebar .tree").getAttribute("aria-describedby"));
+    });
+  }, { dom: true });
 
   function everyItem(app, check) {
     app.tabs().forEach(function (t) {
@@ -144,7 +152,7 @@
   }
 
   ["starcraft", "warcraft2"].forEach(function (game) {
-    T.test("help for every control: every control in every panel of a " + game + " mod has a help text", function (ctx) {
+    T.test("help for controls: every control in every tab panel of a " + game + " mod has a help text", function (ctx) {
       return start(ctx, game).then(function (app) {
         var problems = [];
         function check(where) {
@@ -172,7 +180,7 @@
     }, { dom: true, timeout: 60000 });
   });
 
-  T.test("help for every control: game-independent help is in the editor's table, game-specific help in the catalog", function () {
+  T.test("help for controls: game-independent help is in the editor's table, game-specific help in the catalog", function () {
     T.ok(Object.keys(AG.ui.help.TEXT).length > 30);
     Object.keys(AG.ui.help.TEXT).forEach(function (k) {
       T.ok(AG.ui.help.TEXT[k].length > 10, k);

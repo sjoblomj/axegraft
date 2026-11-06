@@ -15,7 +15,7 @@
   }
 
   function labels(app) {
-    return U.texts(app, ".tabpanel .field > label, .tabpanel .field > .label");
+    return U.texts(app, ".tabpanel .field > .label-cell > label, .tabpanel .field > .label-cell > .label");
   }
 
   function field(app, key) {
@@ -40,7 +40,8 @@
     return start(ctx).then(function (app) {
       app.select("units", "unit:0");
       T.equal(labels(app), ["Button set", "Status changed", "Status update", "Status unit type"]);
-      T.ok(/Original: 0 Marine/.test(field(app, "unit:0:button_set").textContent));
+      T.ok(!/Original/.test(field(app, "unit:0:button_set").textContent), "an unchanged field shows no original value");
+      T.ok(!field(app, "unit:0:button_set").querySelector(".changed-mark"));
     });
   }, { dom: true });
 
@@ -97,6 +98,18 @@
       U.change(field(app, "unit:7:status_update").querySelector("select"), "None (statdraw_draw_none)");
       T.equal(app.doc().units, [{ id: 7, label: "Terran SCV", status_update: "statdraw_draw_none" }]);
       T.ok(field(app, "unit:7:status_update").classList.contains("changed"), "the changed field is marked");
+      var mark = field(app, "unit:7:status_update").querySelector(".changed-mark");
+      T.ok(mark && mark.tabIndex === 0, "with a mark that takes focus");
+      var tip = mark.querySelector(".tip");
+      T.ok(/^Value changed\. Original: /.test(tip.textContent), tip.textContent);
+      T.equal(getComputedStyle(tip).display, "none");
+      mark.dispatchEvent(new Event("mouseenter"));
+      T.equal(getComputedStyle(tip).display, "block", "shown on hover");
+      mark.dispatchEvent(new Event("mouseleave"));
+      mark.dispatchEvent(new Event("focus"));
+      T.equal(getComputedStyle(tip).display, "block", "shown on focus");
+      mark.dispatchEvent(new Event("blur"));
+      T.ok(!/Original/.test(field(app, "unit:7:status_changed").textContent), "no original shown on an unchanged field");
       T.ok(!field(app, "unit:7:status_changed").classList.contains("changed"));
     });
   }, { dom: true });
@@ -165,7 +178,7 @@
       var b = app.doc().button_sets[0].buttons[1];
       T.equal(b, { position: 1, icon: 0, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 });
       T.equal(app.errors(), []);
-      T.equal(U.q(app, ".button-form legend").textContent, "Button 1", "the new button is selected");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 2", "the new button is selected, counting from 1");
     });
   }, { dom: true });
 
@@ -189,7 +202,7 @@
   // ---- Button sets: 6.4
 
   function formLabels(app) {
-    return U.texts(app, ".button-form .field > label, .button-form .field > .label");
+    return U.texts(app, ".button-form .field > .label-cell > label, .button-form .field > .label-cell > .label");
   }
 
   T.test("button fields: a Warcraft II button shows string and highlighted, and not the StarCraft string fields", function (ctx) {
@@ -308,7 +321,7 @@
       app.select("button_sets", "set:0");
       U.q(app, '.slot[data-position="7"]').click();
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "1");
-      T.equal(U.q(app, ".button-form legend").textContent, "Button 1");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 2");
       T.ok(U.q(app, '.slot[data-position="7"]').classList.contains("selected"));
     });
   }, { dom: true });
@@ -319,7 +332,7 @@
       U.q(app, '.slot[data-position="9"]').dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
       var b = app.doc().button_sets[0].buttons[2];
       T.equal(b.position, 9);
-      T.equal(U.q(app, ".button-form legend").textContent, "Button 2");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 3");
       T.ok(U.q(app, '.slot[data-position="9"]').classList.contains("filled"));
       // From the keyboard, Enter on an empty position does the same.
       U.key(U.q(app, '.slot[data-position="8"]'), "Enter");
@@ -339,7 +352,7 @@
       U.q(app, '.slot[data-position="7"]').click();
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0", "and on round to the first");
       U.q(app, '.button-list [data-index="0"]').click();
-      T.equal(U.q(app, ".button-form legend").textContent, "Button 0");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 1");
     });
   }, { dom: true });
 

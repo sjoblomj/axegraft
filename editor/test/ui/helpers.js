@@ -44,6 +44,21 @@
     };
   }
 
+  // Settings that last only for one test, so tests don't change the
+  // theme of the editor opened in the same browser.
+  function memoryPrefs(values) {
+    var v = Object.assign({}, values || {});
+    return {
+      values: v,
+      get: function (k) {
+        return Object.prototype.hasOwnProperty.call(v, k) ? v[k] : null;
+      },
+      set: function (k, x) {
+        v[k] = x;
+      }
+    };
+  }
+
   // Starts an editor in the test sandbox. Resolves once it has started.
   function start(ctx, options) {
     options = options || {};
@@ -53,7 +68,8 @@
       storage: options.storage || AG.core.storage.memory(),
       idb: options.idb,
       platform: options.platform || platform(),
-      assets: options.assets
+      assets: options.assets,
+      prefs: options.prefs || memoryPrefs()
     });
     app.testPlatform = app.platform;
     return app.ready.then(function () {
@@ -110,5 +126,5 @@
     });
   }
 
-  T.ui = { catalogs: catalogs, platform: platform, file: file, start: start, wait: wait, key: key, change: change, q: q, texts: texts, answer: answer };
+  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, q: q, texts: texts, answer: answer };
 })(AxeGraft);

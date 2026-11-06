@@ -7,7 +7,7 @@ Defines how AxeGraft Editor edits numeric constants and named options, using the
 ## ADDED Requirements
 
 ### Requirement: Numeric constants
-The Constants tab SHALL edit a numeric constant as a number, and SHALL show its allowed range and original value.
+The Constants tab SHALL edit a numeric constant as a number, and SHALL show its allowed range and, once changed, its original value, as `editor-navigation`'s "Marking changes" describes.
 
 #### Scenario: Value in range
 - **WHEN** a user enters a value within the constant's range
