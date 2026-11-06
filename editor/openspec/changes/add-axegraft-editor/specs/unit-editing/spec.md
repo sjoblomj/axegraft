@@ -2,38 +2,50 @@
 
 ## Purpose
 
-Defines how AxeGraft Editor changes a unit's fields in a mod: its button set, its status functions and, in StarCraft, its status unit type. The same tab sets the button set of table entries that aren't units.
+Defines how AxeGraft Editor changes a unit's fields in a mod: its button set and its status functions; in StarCraft, its equivalent entry and status unit type; in Warcraft II, its icon, stats panel frame and name. The same tab sets the button set of table entries that aren't units.
 
 ## ADDED Requirements
 
 ### Requirement: Unit fields
-The Units tab SHALL list every entry of the game's button table. It SHALL show the selected unit's `button_set`, `status_changed`, `status_update` and, for StarCraft, `status_unit_type`, with the original value of each changed field as `editor-navigation`'s "Marking changes" describes, and only `button_set` for an entry that isn't a unit.
+The Units tab SHALL list every entry of the game's button table. It SHALL show the selected unit's fields that its catalog's `unitFields` list, with the original value of each changed field as `editor-navigation`'s "Marking changes" describes, and only `button_set` for an entry that isn't a unit. The fields SHALL be shown in two boxes, following the game's structures: the button table entry, holding `button_set` and, in StarCraft, `equivalent_entry`; and the status panel, holding the rest.
 
 #### Scenario: StarCraft unit
 - **WHEN** a StarCraft unit is selected
-- **THEN** all four fields are shown
+- **THEN** `button_set` and `equivalent_entry` are shown as the button table entry, and `status_changed`, `status_update` and `status_unit_type` as the status panel
 
 #### Scenario: Warcraft II unit
 - **WHEN** a Warcraft II unit is selected
-- **THEN** `status_unit_type` isn't shown
+- **THEN** `button_set` is shown as the button table entry, and `icon`, `stats_frame`, `name_string`, `status_changed` and `status_update` as the status panel, in the order of the game's Unit Data entry
+
+#### Scenario: Fields of the other game
+- **WHEN** a Warcraft II unit is selected
+- **THEN** `equivalent_entry` and `status_unit_type` aren't shown, and for a StarCraft unit `icon`, `stats_frame` and `name_string` aren't shown
 
 #### Scenario: Table entry that isn't a unit
 - **WHEN** StarCraft's table entry 238, a worker build menu, is selected
 - **THEN** only `button_set` is shown
 
 ### Requirement: Unit icon
-Beside the selected unit's name, the Units tab SHALL show the unit's icon when its catalog entry names one and that icon's image is available. Without either, the name SHALL be shown alone.
+For a game whose units have no `icon` field, the Units tab SHALL show the unit's icon beside the selected unit's name when its catalog entry names one and that icon's image is available. Without either, the name SHALL be shown alone. For a game whose units have an `icon` field, the icon SHALL be shown with that field instead, as an image beside the ID, with the same icon picker as a button's icon.
 
 #### Scenario: Unit with an icon
 - **WHEN** a StarCraft unit whose catalog entry has an `icon` is selected, with icons available
 - **THEN** its icon is shown beside its name
+
+#### Scenario: Unit with an icon field
+- **WHEN** a Warcraft II unit is selected, with icons available
+- **THEN** no icon is shown beside its name, and its `icon` field shows the icon and offers to choose one by sight
+
+#### Scenario: Changing a unit's icon
+- **WHEN** a user changes a Warcraft II unit's icon
+- **THEN** the saved entry holds only `icon`, and the buttons that train the unit keep their own icons
 
 #### Scenario: No icons
 - **WHEN** no icons are shipped or imported
 - **THEN** the unit's name is shown without an icon, and all editing works
 
 ### Requirement: Choosing by name or ID
-Button set and unit type fields SHALL accept either a selection from a named list or a typed ID, and the two SHALL stay in step. The button set field SHALL also offer no buttons, saved as `null`.
+Button set, table entry, unit type, icon and string fields SHALL accept either a selection from a named list or a typed ID, and the two SHALL stay in step. The button set field SHALL also offer no buttons, and the equivalent entry field none, each saved as `null`. A field with a fixed set of values, such as the stats panel frame, SHALL be chosen from a list.
 
 #### Scenario: Typing a set ID
 - **WHEN** a user types a set ID
@@ -46,6 +58,14 @@ Button set and unit type fields SHALL accept either a selection from a named lis
 #### Scenario: Removing a unit's buttons
 - **WHEN** a user chooses no buttons for a unit
 - **THEN** the saved entry has a `button_set` of `null`
+
+#### Scenario: Choosing an equivalent entry
+- **WHEN** a user types 5 as a StarCraft unit's equivalent entry
+- **THEN** the named list shows entry 5 with the set it currently has, and the field offers to go to entry 5
+
+#### Scenario: Name from the string table
+- **WHEN** a user picks a Warcraft II unit's name, with a string table loaded
+- **THEN** the list shows the table's strings, and the saved entry holds the string's ID as `name_string`
 
 ### Requirement: Status functions by name
 Status functions SHALL be chosen from the catalog's list by name. `status_changed` SHALL offer only the catalog's functions for that field, and `status_update` likewise.

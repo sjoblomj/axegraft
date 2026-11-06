@@ -62,6 +62,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 - [x] 6.6 Build the panel preview on the Button Sets tab and connect it to the button list, and verify the "Panel preview" scenarios, including creating a button and several buttons at one position
 - [x] 6.7 Add the used-by list with links to its units, new sets, and copying between sets, and verify the "Showing who uses a set", "New sets" and "Copying buttons" scenarios
 - [x] 6.8 Add links from reference fields to their items, and verify the "Jump from a variable" scenario
+- [x] 6.9 Add the icon, string, choice and table entry kinds of unit field, show the fields as the button table entry and the status panel, and verify the "Unit fields", "Unit icon" and "Choosing by name or ID" scenarios, including Warcraft II's icon, stats panel frame and name, and StarCraft's equivalent entry
 
 ## 7. Requirements, constants and the compatibility report
 

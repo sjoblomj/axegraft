@@ -62,11 +62,11 @@ parts:        which mod parts the game has
 versions:     [{ id, label }]
 limits:       unit, tableEntry, tech, upgrade, order, buttonSet, newButtonSet, icon, string, position, conditionVariable, actionVariable
 buttonFields: name, kind, required, help, for each button field
-unitFields:   name, help, for each unit field
+unitFields:   name, kind, label, help, options for a choice, for each unit field
 functions:    conditions, actions, statusChanged, statusUpdate: { name, label, variable, absentOn, help? }
 opcodes:      { name, label, parameter, allowedIn, help? }
 bareUnit:     { label, help }
-units:        { id, name, tree, original: { button_set, status_changed, status_update, status_unit_type } }
+units:        { id, name, tree, icon, original: { value of each unit field, such as button_set, status_changed, status_update } }
 buttonSets:   { id, name, tree, entries, absentOn, original: [button] }
 upgrades, techs, orders: { id, name, tree }
 requirements: { type, id, original: { default, perVersion } }
