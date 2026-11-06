@@ -60,7 +60,7 @@
         marks: null,
         report: [],
         // What's typed on the start screen for the next new mod.
-        newInfo: { mod_name: "", mod_version: "", authors: "" }
+        newInfo: { name: "", version: "", authors: "" }
       }
     };
     var S = app.state;
@@ -203,9 +203,9 @@
     // The document's information from what's typed in the form.
     function infoValues(typed) {
       return {
-        mod_name: typed.mod_name.trim(),
-        mod_version: typed.mod_version.trim(),
-        mod_authors: AG.core.doc.parseAuthors(typed.authors)
+        name: typed.name.trim(),
+        version: typed.version.trim(),
+        authors: AG.core.doc.parseAuthors(typed.authors)
       };
     }
 
@@ -222,13 +222,13 @@
           help: help.text(helpKey),
           controls: [el],
           problems: (problems || []).filter(function (p) {
-            return p.path === key || p.path.indexOf(key + "[") === 0 || (key === "authors" && /^mod_authors/.test(p.path));
+            return p.path === "mod." + key || p.path.indexOf("mod." + key + "[") === 0;
           })
         });
       }
       return h("div", { class: "mod-info" }, [
-        input("mod_name", "Mod name", "modName"),
-        input("mod_version", "Version", "modVersion"),
+        input("name", "Mod name", "modName"),
+        input("version", "Version", "modVersion"),
         input("authors", "Authors", "modAuthors", { placeholder: "Separated by commas" })
       ]);
     }
@@ -242,12 +242,12 @@
         return typeof v === "string" ? v : AG.ui.fields.showValue(v);
       }
       var typed = {
-        mod_name: text(current.mod_name),
-        mod_version: text(current.mod_version),
-        authors: Array.isArray(current.mod_authors) ? current.mod_authors.map(text).join(", ") : text(current.mod_authors)
+        name: text(current.name),
+        version: text(current.version),
+        authors: Array.isArray(current.authors) ? current.authors.map(text).join(", ") : text(current.authors)
       };
       var problems = S.problems.filter(function (p) {
-        return /^mod_/.test(p.path || "");
+        return /^mod\b/.test(p.path || "");
       });
       var body = [h("p", { text: "This information is for people using the mod. It doesn't change what the mod does." }), infoFields(typed, problems)];
       return dialogs.show(root, "Mod information", body, [{ label: "OK", value: "ok" }, { label: "Cancel", value: "cancel" }], {
@@ -544,7 +544,7 @@
                   } }, "Go to"),
                   help.text("goToProblem")
                 );
-              } else if (/^mod_/.test(p.path || "")) {
+              } else if (/^mod\b/.test(p.path || "")) {
                 action = h("button", { type: "button", class: "small", dataset: { editInfo: p.path }, onclick: function () {
                   dlgClose(null);
                   app.editInfo();

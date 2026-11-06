@@ -9,7 +9,7 @@
   var MOVE = { position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 };
 
   T.test("stable file output: a new mod holds only its header", function () {
-    T.equal(ser(D.create("starcraft"), T.catalog("starcraft")), '{\n  "patcher": "AxeGraft",\n  "format": 1,\n  "game": "starcraft",\n  "mod_name": "",\n  "mod_version": "",\n  "mod_authors": []\n}\n');
+    T.equal(ser(D.create("starcraft"), T.catalog("starcraft")), '{\n  "patcher": "AxeGraft",\n  "format": 1,\n  "game": "starcraft",\n  "mod": {\n    "name": "",\n    "version": "",\n    "authors": []\n  }\n}\n');
   });
 
   T.test("stable file output: the layout of a mod with every part", function () {
@@ -26,9 +26,11 @@
         '  "patcher": "AxeGraft",',
         '  "format": 1,',
         '  "game": "starcraft",',
-        '  "mod_name": "",',
-        '  "mod_version": "",',
-        '  "mod_authors": [],',
+        '  "mod": {',
+        '    "name": "",',
+        '    "version": "",',
+        '    "authors": []',
+        "  },",
         '  "units": [',
         '    { "id": 32, "label": "Terran Firebat", "button_set": 7 }',
         "  ],",

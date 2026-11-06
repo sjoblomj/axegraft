@@ -11,9 +11,10 @@
   var isObject = util.isObject;
   var isInt = util.isInt;
 
-  // The mod's name, version and authors. They're informational only, and
-  // every saved mod has them, empty if not given.
-  var INFO = ["mod_name", "mod_version", "mod_authors"];
+  // The mod's name, version and authors, in the "mod" object. They're
+  // informational only, and every saved mod has them, empty if not given.
+  // Other properties of "mod" are kept as they are.
+  var INFO = ["name", "version", "authors"];
 
   function create(game, info) {
     return withInfo({ patcher: "AxeGraft", format: 1, game: game }, info || {});
@@ -21,10 +22,11 @@
 
   // The information of a mod, with missing values as empty ones.
   function info(doc) {
+    var mod = isObject(doc.mod) ? doc.mod : {};
     return {
-      mod_name: util.has(doc, "mod_name") ? doc.mod_name : "",
-      mod_version: util.has(doc, "mod_version") ? doc.mod_version : "",
-      mod_authors: util.has(doc, "mod_authors") ? doc.mod_authors : []
+      name: util.has(mod, "name") ? mod.name : "",
+      version: util.has(mod, "version") ? mod.version : "",
+      authors: util.has(mod, "authors") ? mod.authors : []
     };
   }
 
@@ -32,14 +34,20 @@
   // missing information added empty.
   function withInfo(doc, values) {
     var current = info(doc);
+    var mod = {};
+    if (isObject(doc.mod)) Object.keys(doc.mod).forEach(function (k) {
+      mod[k] = doc.mod[k];
+    });
+    INFO.forEach(function (k) {
+      mod[k] = util.has(values, k) ? values[k] : current[k];
+    });
+    if (isObject(doc.mod) && util.equal(mod, doc.mod) && Object.keys(mod).length === Object.keys(doc.mod).length) return doc;
     var out = {};
     Object.keys(doc).forEach(function (k) {
       out[k] = doc[k];
     });
-    INFO.forEach(function (k) {
-      out[k] = util.has(values, k) ? values[k] : current[k];
-    });
-    return util.equal(out, doc) && Object.keys(out).length === Object.keys(doc).length ? doc : out;
+    out.mod = mod;
+    return out;
   }
 
   // Authors typed separated by commas, as a list.

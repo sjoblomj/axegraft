@@ -19,7 +19,6 @@
 
   var HEADER = ["patcher", "format", "game"];
   var PARTS = ["units", "button_sets", "requirements", "constants"];
-  var INFO = ["mod_name", "mod_version", "mod_authors"];
   var FORMATS = [1];
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var TYPE_LIMIT = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
@@ -96,8 +95,8 @@
     // Properties at the top level, and the shape of each part.
     Object.keys(mod).forEach(function (k) {
       if (HEADER.indexOf(k) >= 0) return;
-      if (INFO.indexOf(k) >= 0) {
-        checkInfo(mod, k, problems);
+      if (k === "mod") {
+        checkInfo(mod.mod, problems);
         return;
       }
       if (k === "label") {
@@ -183,20 +182,27 @@
     return ids;
   }
 
-  // The mod's name, version and authors only need the right type. Authors
-  // that aren't an array can't be shown, so the file is refused.
-  function checkInfo(mod, k, problems) {
-    var v = mod[k];
-    var what = { mod_name: "The mod's name", mod_version: "The mod's version", mod_authors: "The mod's authors" }[k];
-    if (k !== "mod_authors") {
-      if (typeof v !== "string") problems.error(k, what + " must be text, but it's " + util.typeName(v) + ".");
-    } else if (!Array.isArray(v)) {
-      problems.refuse(k, what + " must be an array of names, but it's " + util.typeName(v) + ".");
-    } else {
-      v.forEach(function (a, i) {
-        if (typeof a !== "string") problems.error(k + "[" + i + "]", "Each of the mod's authors must be text, but this is " + util.typeName(a) + ".");
-      });
+  // The mod's name, version and authors only need the right type, and other
+  // properties of "mod" are accepted as they are. Authors that aren't an
+  // array can't be shown, so the file is refused.
+  function checkInfo(info, problems) {
+    if (!isObject(info)) {
+      problems.refuse("mod", "mod must be an object, but it's " + util.typeName(info) + ".");
+      return;
     }
+    [["name", "The mod's name"], ["version", "The mod's version"]].forEach(function (f) {
+      if (util.has(info, f[0]) && typeof info[f[0]] !== "string") {
+        problems.error("mod." + f[0], f[1] + " must be text, but it's " + util.typeName(info[f[0]]) + ".");
+      }
+    });
+    if (!util.has(info, "authors")) return;
+    if (!Array.isArray(info.authors)) {
+      problems.refuse("mod.authors", "The mod's authors must be an array of names, but it's " + util.typeName(info.authors) + ".");
+      return;
+    }
+    info.authors.forEach(function (a, i) {
+      if (typeof a !== "string") problems.error("mod.authors[" + i + "]", "Each of the mod's authors must be text, but this is " + util.typeName(a) + ".");
+    });
   }
 
   function checkLabel(obj, path, problems) {

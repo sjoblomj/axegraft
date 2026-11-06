@@ -59,7 +59,8 @@
     var unitOrder = ["id", "label"].concat(cat ? cat.unitFields.map(function (f) {
       return f.name;
     }) : []);
-    var out = ordered(doc, ["patcher", "format", "game", "mod_name", "mod_version", "mod_authors", "label"].concat(PARTS));
+    var out = ordered(doc, ["patcher", "format", "game", "mod", "label"].concat(PARTS));
+    if (isObject(out.mod)) out.mod = ordered(out.mod, ["name", "version", "authors"]);
     PARTS.forEach(function (p) {
       if (!util.has(out, p)) return;
       if (!Array.isArray(out[p]) || !out[p].length) {

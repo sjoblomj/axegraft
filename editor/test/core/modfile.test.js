@@ -11,10 +11,22 @@
   }
 
   T.test("mod information: name, version and authors are accepted and change nothing", function () {
-    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod_name": "Faster Marines", "mod_version": "1.2", "mod_authors": ["Alice", "Bob"]}', catalogs());
+    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": {"name": "Faster Marines", "version": "1.2", "authors": ["Alice", "Bob"]}}', catalogs());
     T.ok(!r.refused);
     T.equal(r.problems, []);
     T.ok(AG.core.doc.isEmpty(r.mod));
+  });
+
+  T.test("mod information: unknown properties of mod are accepted, kept and saved after the known ones", function () {
+    var cat = T.catalog("starcraft");
+    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": {"website": "example.org", "name": "X", "notes": {"a": 1}}}', catalogs());
+    T.ok(!r.refused);
+    T.equal(r.problems, []);
+    var doc = AG.core.doc.normalize(r.mod, cat);
+    T.equal(doc.mod, { website: "example.org", name: "X", notes: { a: 1 }, version: "", authors: [] });
+    doc = AG.core.doc.withInfo(doc, { name: "Y" });
+    T.equal(doc.mod.website, "example.org", "editing the information keeps them");
+    T.equal(Object.keys(JSON.parse(AG.core.serialize(doc, cat)).mod), ["name", "version", "authors", "notes", "website"]);
   });
 
   T.test("mod information: a file without it opens, and is saved with it empty", function () {
@@ -23,19 +35,22 @@
     T.ok(!r.refused);
     T.equal(r.problems, []);
     var doc = AG.core.doc.normalize(r.mod, cat);
-    T.equal(AG.core.doc.info(doc), { mod_name: "", mod_version: "", mod_authors: [] });
-    T.ok(/"mod_authors": \[\]/.test(AG.core.serialize(doc, cat)));
+    T.equal(doc.mod, { name: "", version: "", authors: [] });
+    T.ok(/"mod": \{\n    "name": "",\n    "version": "",\n    "authors": \[\]\n  \}/.test(AG.core.serialize(doc, cat)));
   });
 
   T.test("mod information: values of the wrong type are errors, and authors that aren't an array are refused", function () {
-    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod_name": 3, "mod_version": null, "mod_authors": ["Alice", 7]}', catalogs());
+    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": {"name": 3, "version": null, "authors": ["Alice", 7]}}', catalogs());
     T.ok(!r.refused);
     T.equal(r.problems.map(function (p) {
       return p.path;
-    }).sort(), ["mod_authors[1]", "mod_name", "mod_version"]);
-    r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod_authors": "Alice"}', catalogs());
+    }).sort(), ["mod.authors[1]", "mod.name", "mod.version"]);
+    r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": {"authors": "Alice"}}', catalogs());
     T.ok(r.refused);
-    T.equal(r.problems[0].path, "mod_authors");
+    T.equal(r.problems[0].path, "mod.authors");
+    r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": ["Alice"]}', catalogs());
+    T.ok(r.refused);
+    T.equal(r.problems[0].path, "mod");
   });
 
   T.test("reading: a very large file is refused without being parsed", function () {
