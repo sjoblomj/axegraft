@@ -398,6 +398,50 @@
     });
   }, { dom: true });
 
+  T.test("unit icons: a unit's panel shows the icon its catalog entry names, when icons are available", function (ctx) {
+    // Unit 0 with the given icon, or none.
+    function withUnitIcon(icon) {
+      var raw = T.rawCatalog("starcraft");
+      raw.units.forEach(function (u) {
+        delete u.icon;
+        if (u.id === 0 && icon !== undefined) u.icon = icon;
+      });
+      T.equal(AG.core.catalog.check(raw, "icons"), []);
+      return { games: { starcraft: AG.core.catalog.index(raw) }, errors: [] };
+    }
+    var shipped = { starcraft: { game: "starcraft", icons: { count: 2, path: "icons/" } } };
+    function open(icon, svc) {
+      return T.ui.start(ctx, { catalogs: withUnitIcon(icon), assets: svc }).then(function (app) {
+        return app.newMod("starcraft").then(function () {
+          app.select("units", "unit:0");
+          return app;
+        });
+      });
+    }
+    function iconSrc(app) {
+      var img = app.root.querySelector(".panel-title img.unit-icon");
+      return img ? img.getAttribute("src") : null;
+    }
+    var svc = service(AG.core.storage.memory(), { shipped: shipped, shippedBase: "fixtures/shipped/" });
+    return open(1, svc)
+      .then(function (app) {
+        T.equal(iconSrc(app), "fixtures/shipped/starcraft/icons/1.png");
+        return open(5, svc);
+      })
+      .then(function (app) {
+        T.equal(iconSrc(app), null, "an icon beyond the available ones isn't shown");
+        return open(undefined, svc);
+      })
+      .then(function (app) {
+        T.equal(iconSrc(app), null, "a unit without an icon has none");
+        return open(1, service(AG.core.storage.memory(), { shipped: {} }));
+      })
+      .then(function (app) {
+        T.equal(iconSrc(app), null, "without icons there's no image");
+        T.ok(/^0 /.test(T.ui.q(app, ".panel-title").textContent), "the title is still shown");
+      });
+  }, { dom: true });
+
   T.test("start screen logos: a game with a shipped logo gets a logo button, one without gets text, and a logo that doesn't load falls back to text", function (ctx) {
     var shipped = {
       starcraft: { game: "starcraft", logo: "logo.png" },

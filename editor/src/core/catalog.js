@@ -418,6 +418,7 @@
       if (!isText(u.name)) problem(where + " needs a name");
       if (!Array.isArray(u.tree)) problem(where + " needs a tree");
       if (range("tableEntry") && !util.inRange(u.id, range("tableEntry"))) problem(where + " is outside limits.tableEntry");
+      if (u.icon !== undefined && (!isInt(u.icon) || (range("icon") && !util.inRange(u.icon, range("icon"))))) problem(where + " has an icon that isn't an icon ID within limits.icon");
       checkVersions(u.absentOn, where + " absentOn");
       if (!isObject(u.original)) {
         problem(where + " needs its original values");

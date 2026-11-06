@@ -117,9 +117,11 @@ There must be exactly one field of each kind except `string` and `choice`. Every
 `units` lists every entry of the button table, including those that aren't units:
 
 ```json
-{ "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "absentOn": [],
+{ "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "icon": 0, "absentOn": [],
   "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } }
 ```
+
+`icon`, optional, is the icon that shows the unit, such as on the button that trains it. The editor shows it beside the unit's name when icons are available. In StarCraft it's the unit's ID; in Warcraft II it isn't.
 
 `original` holds the original value of each unit field, by the field's name. An entry outside `limits.unit` has only the button set field. A `button_set` of `null` means no buttons. `absentOn`, optional, lists the versions that lack the entry.
 

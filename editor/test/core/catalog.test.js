@@ -53,6 +53,13 @@
     T.equal(check(raw), []);
   });
 
+  expectProblem("a unit icon that isn't an icon ID", function (raw) {
+    raw.units[0].icon = -1;
+  }, /table entry \d+ has an icon that isn't an icon ID/);
+  expectProblem("a unit icon that isn't a number", function (raw) {
+    raw.units[0].icon = "Marine";
+  }, /has an icon that isn't an icon ID/);
+
   // Format versions
   expectProblem("an unsupported catalog format", function (raw) {
     raw.catalogFormat = 2;

@@ -21,6 +21,17 @@ The Units tab SHALL list every entry of the game's button table. It SHALL show t
 - **WHEN** StarCraft's table entry 238, a worker build menu, is selected
 - **THEN** only `button_set` is shown
 
+### Requirement: Unit icon
+Beside the selected unit's name, the Units tab SHALL show the unit's icon when its catalog entry names one and that icon's image is available. Without either, the name SHALL be shown alone.
+
+#### Scenario: Unit with an icon
+- **WHEN** a StarCraft unit whose catalog entry has an `icon` is selected, with icons available
+- **THEN** its icon is shown beside its name
+
+#### Scenario: No icons
+- **WHEN** no icons are shipped or imported
+- **THEN** the unit's name is shown without an icon, and all editing works
+
 ### Requirement: Choosing by name or ID
 Button set and unit type fields SHALL accept either a selection from a named list or a typed ID, and the two SHALL stay in step. The button set field SHALL also offer no buttons, saved as `null`.
 

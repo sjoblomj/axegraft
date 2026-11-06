@@ -146,8 +146,12 @@
       return !l.field || l.field === "id" || l.field === "label";
     });
 
+    // The unit's icon, when the catalog names one and its image is available.
+    var iconUrl = unit && util.isInt(unit.icon) && app.assets && app.assets.iconURL ? app.assets.iconURL(app.state.game, unit.icon) : null;
+
     return h("div", { class: "units-panel", dataset: { unit: id } }, [
       h("h2", { class: "panel-title" }, [
+        iconUrl ? h("img", { class: "unit-icon", src: iconUrl, alt: "", dataset: { unitIcon: unit.icon } }) : null,
         unit ? id + " " + unit.name : "Table entry " + id,
         h("span", { class: "sub", text: isUnit ? "Unit" : "Table entry that isn't a unit, so it has only a button set" }),
         changed

@@ -406,6 +406,7 @@ button, input, select, textarea { font: inherit; }
 }
 .panel-title { margin: 0 0 10px; font-size: 15px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .panel-title .sub { font-weight: normal; color: var(--text-muted); font-size: 12px; }
+.panel-title .unit-icon { width: 36px; height: 34px; image-rendering: pixelated; background: #000; }
 .empty-panel { color: var(--text-muted); padding: 16px; }
 
 fieldset {

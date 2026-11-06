@@ -160,12 +160,14 @@ AxeGraft.registerCatalog({
     {
       "id": 0,
       "name": "Footman",
+      "icon": 2,
       "tree": ["Human", "Land Units"],
       "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
     },
     {
       "id": 4,
       "name": "Ballista",
+      "icon": 16,
       "tree": ["Human", "Land Units"],
       "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_ballista"}
     },
@@ -184,6 +186,7 @@ AxeGraft.registerCatalog({
     {
       "id": 42,
       "name": "Gryphon Rider",
+      "icon": 30,
       "tree": ["Human", "Air Units"],
       "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
     },
@@ -196,18 +199,21 @@ AxeGraft.registerCatalog({
     {
       "id": 2,
       "name": "Peasant",
+      "icon": 0,
       "tree": ["Human", "Land Units"],
       "original": {"button_set": 2, "status_changed": "stats_changed_worker", "status_update": "stats_update_worker"}
     },
     {
       "id": 3,
       "name": "Peon",
+      "icon": 1,
       "tree": ["Orc", "Land Units"],
       "original": {"button_set": 3, "status_changed": "stats_changed_worker", "status_update": "stats_update_worker"}
     },
     {
       "id": 58,
       "name": "Farm",
+      "icon": 38,
       "tree": ["Human", "Buildings"],
       "original": {"button_set": null, "status_changed": "stats_changed_farm", "status_update": "stats_update_farm"}
     },
