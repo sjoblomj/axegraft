@@ -40,6 +40,7 @@ src/core/         Catalog check, mod model, validation, file output, history, co
 src/assets/       MPQ, implode, GRP and TBL decoding, and the asset cache. No DOM
 src/ui/           Rendering, events and help text for game-independent controls
 assets/           Optional shipped icons and strings, one folder per game
+images/           The editor's own images, such as the logo
 test/             Test page, Node runner, tests and fixtures
 docs/             Catalog format and architecture notes
 ```

@@ -69,7 +69,8 @@
       idb: options.idb,
       platform: options.platform || platform(),
       assets: options.assets,
-      prefs: options.prefs || memoryPrefs()
+      prefs: options.prefs || memoryPrefs(),
+      logo: "../images/axegraft.png"
     });
     app.testPlatform = app.platform;
     return app.ready.then(function () {

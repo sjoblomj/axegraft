@@ -30,6 +30,7 @@
   //   prefs:     { get(key), set(key, value) } for settings kept per browser,
   //              such as the theme (default: localStorage, where it works)
   //   page:      true to theme the whole page, not only `root`
+  //   logo:      the URL of the start screen's logo (default: images/axegraft.png)
   function createApp(root, options) {
     options = options || {};
     var catalogs = options.catalogs || { games: {}, errors: [] };
@@ -725,7 +726,7 @@
     function welcome() {
       var games = app.games();
       return h("div", { class: "welcome" }, [
-        h("h1", { text: "AxeGraft Editor" }),
+        h("h1", null, [h("img", { class: "logo", src: options.logo || "images/axegraft.png", alt: "AxeGraft" }), h("span", { class: "subtitle", text: "Editor" })]),
         games.length ? infoFields(S.newInfo) : null,
         games.length
           ? h("div", { class: "actions" }, games.map(function (cat) {

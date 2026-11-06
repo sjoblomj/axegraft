@@ -309,7 +309,8 @@ button, input, select, textarea { font: inherit; }
   text-align: center;
   gap: 10px;
 }
-.welcome h1 { font-size: 20px; margin: 0; }
+.welcome h1 { font-size: 20px; margin: 0; display: grid; justify-items: center; gap: 2px; }
+.welcome .logo { width: min(480px, 80vw); height: auto; }
 .welcome .actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .welcome .mod-info { text-align: left; justify-self: center; }
 
