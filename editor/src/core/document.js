@@ -11,8 +11,47 @@
   var isObject = util.isObject;
   var isInt = util.isInt;
 
-  function create(game) {
-    return { patcher: "AxeGraft", format: 1, game: game };
+  // The mod's name, version and authors. They're informational only, and
+  // every saved mod has them, empty if not given.
+  var INFO = ["mod_name", "mod_version", "mod_authors"];
+
+  function create(game, info) {
+    return withInfo({ patcher: "AxeGraft", format: 1, game: game }, info || {});
+  }
+
+  // The information of a mod, with missing values as empty ones.
+  function info(doc) {
+    return {
+      mod_name: util.has(doc, "mod_name") ? doc.mod_name : "",
+      mod_version: util.has(doc, "mod_version") ? doc.mod_version : "",
+      mod_authors: util.has(doc, "mod_authors") ? doc.mod_authors : []
+    };
+  }
+
+  // A copy of the document with the information in `values` set, and any
+  // missing information added empty.
+  function withInfo(doc, values) {
+    var current = info(doc);
+    var out = {};
+    Object.keys(doc).forEach(function (k) {
+      out[k] = doc[k];
+    });
+    INFO.forEach(function (k) {
+      out[k] = util.has(values, k) ? values[k] : current[k];
+    });
+    return util.equal(out, doc) && Object.keys(out).length === Object.keys(doc).length ? doc : out;
+  }
+
+  // Authors typed separated by commas, as a list.
+  function parseAuthors(text) {
+    return String(text)
+      .split(",")
+      .map(function (a) {
+        return a.trim();
+      })
+      .filter(function (a) {
+        return a !== "";
+      });
   }
 
   function entries(doc, part) {
@@ -497,7 +536,7 @@
   // Applied once when a file is opened: removes everything that matches the
   // original on every version, and variables of 0 that no function reads.
   function normalize(doc, cat) {
-    var out = doc;
+    var out = withInfo(doc, {});
     var unitIds = [];
     entries(doc, "units").forEach(function (e) {
       if (isObject(e) && isInt(e.id) && unitIds.indexOf(e.id) < 0) unitIds.push(e.id);
@@ -568,6 +607,10 @@
 
   AG.core.doc = {
     create: create,
+    INFO: INFO,
+    info: info,
+    withInfo: withInfo,
+    parseAuthors: parseAuthors,
     entries: entries,
     itemName: itemName,
     requirementName: requirementName,

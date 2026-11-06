@@ -19,10 +19,57 @@
           T.ok(ok);
           var saved = app.platform.saved;
           T.equal(saved.length, 1);
-          T.equal(JSON.parse(saved[0].text), { patcher: "AxeGraft", format: 1, game: "starcraft" });
+          T.equal(JSON.parse(saved[0].text), { patcher: "AxeGraft", format: 1, game: "starcraft", mod_name: "", mod_version: "", mod_authors: [] });
           T.equal(saved[0].name, "starcraft-mod.json");
           T.equal(U.q(app, '[data-status="dirty"]').textContent, "No unsaved changes");
         });
+    });
+  }, { dom: true });
+
+  T.test("mod information: what's typed on the start screen goes into the new mod", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      function type(key, text) {
+        var input = U.q(app, '.welcome [data-info="' + key + '"]');
+        input.value = text;
+        input.dispatchEvent(new Event("input"));
+      }
+      type("mod_name", " Faster Marines ");
+      type("mod_version", "1.2");
+      type("authors", "Alice, Bob ,, ");
+      U.q(app, '.welcome [data-new-mod="starcraft"]').click();
+      return U.wait(0).then(function () {
+        var doc = app.doc();
+        T.equal([doc.mod_name, doc.mod_version, doc.mod_authors], ["Faster Marines", "1.2", ["Alice", "Bob"]]);
+        T.equal(U.q(app, '[data-status="dirty"]').textContent, "No unsaved changes");
+      });
+    });
+  }, { dom: true });
+
+  T.test("mod information: the File menu changes it as one undoable change", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      return app.newMod("starcraft").then(function () {
+        T.ok(!U.q(app, '[data-command="modInfo"]').disabled);
+        U.q(app, '[data-command="modInfo"]').click();
+        return U.wait(0);
+      }).then(function () {
+        var dlg = U.q(app, 'dialog[data-dialog="modInfo"]');
+        var name = dlg.querySelector('[data-info="mod_name"]');
+        name.value = "Renamed";
+        name.dispatchEvent(new Event("input"));
+        var authors = dlg.querySelector('[data-info="authors"]');
+        authors.value = "Carol";
+        authors.dispatchEvent(new Event("input"));
+        return U.answer(app, "modInfo", "ok");
+      }).then(function () {
+        return U.wait(0);
+      }).then(function () {
+        T.equal(app.doc().mod_name, "Renamed");
+        T.equal(app.doc().mod_authors, ["Carol"]);
+        T.ok(app.isDirty());
+        app.undo();
+        T.equal(app.doc().mod_name, "");
+        T.equal(app.doc().mod_authors, []);
+      });
     });
   }, { dom: true });
 

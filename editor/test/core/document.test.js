@@ -14,7 +14,7 @@
 
   T.test("document: a new mod changes nothing", function () {
     var doc = D.create("starcraft");
-    T.equal(doc, { patcher: "AxeGraft", format: 1, game: "starcraft" });
+    T.equal(doc, { patcher: "AxeGraft", format: 1, game: "starcraft", mod_name: "", mod_version: "", mod_authors: [] });
     T.ok(D.isEmpty(doc));
   });
 
@@ -127,6 +127,9 @@
       patcher: "AxeGraft",
       format: 1,
       game: "starcraft",
+      mod_name: "",
+      mod_version: "",
+      mod_authors: [],
       units: [{ id: 5 }, { id: 300, button_set: 1 }],
       constants: [{ name: "max_supply", value: 400, option: "x" }, { name: "gravity", value: 1 }]
     };

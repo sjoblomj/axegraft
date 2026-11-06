@@ -44,6 +44,9 @@
     constantOption: "The named behaviour to use.",
     removeEntry: "Removes this entry from the mod. Use it for entries the item list can't show.",
     goToProblem: "Shows the field with this problem.",
+    modName: "The mod's name, for people using it. It doesn't change what the mod does.",
+    modVersion: "The mod's version, written as you like, such as 1.0. It doesn't change what the mod does.",
+    modAuthors: "Who made the mod, separated by commas. It doesn't change what the mod does.",
     importFolder: "Choose your game folder. The editor finds the game's archives in it by name and reads only the icons and strings. Nothing is changed or sent anywhere.",
     importFiles: "Choose the game's archive files, or a stat_txt.tbl file on its own."
   };

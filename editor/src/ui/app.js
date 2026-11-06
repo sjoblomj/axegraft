@@ -57,7 +57,9 @@
         showOriginal: false,
         problems: [],
         marks: null,
-        report: []
+        report: [],
+        // What's typed on the start screen for the next new mod.
+        newInfo: { mod_name: "", mod_version: "", authors: "" }
       }
     };
     var S = app.state;
@@ -182,11 +184,88 @@
       return dialogs.confirm(root, "Unsaved changes", "The current mod has unsaved changes. Discard them?", "Discard changes", "Keep editing", "discard");
     }
 
+    // Creates a mod. While the start screen shows, the new mod takes the
+    // information typed there.
     app.newMod = function (game) {
       if (!catalogs.games[game]) return Promise.reject(new Error("no catalog for " + game));
+      var fromStart = !S.history;
       return confirmDiscard().then(function (ok) {
         if (!ok) return false;
-        load(game, AG.core.doc.create(game), null, null);
+        var info = fromStart ? infoValues(S.newInfo) : {};
+        load(game, AG.core.doc.create(game, info), null, null);
+        return true;
+      });
+    };
+
+    // ---- Mod information
+
+    // The document's information from what's typed in the form.
+    function infoValues(typed) {
+      return {
+        mod_name: typed.mod_name.trim(),
+        mod_version: typed.mod_version.trim(),
+        mod_authors: AG.core.doc.parseAuthors(typed.authors)
+      };
+    }
+
+    // The name, version and authors fields. `typed` is changed as the user
+    // types, so nothing is lost on a render.
+    function infoFields(typed, problems) {
+      function input(key, label, helpKey, attrs) {
+        var el = h("input", Object.assign({ type: "text", class: "ctl wide", value: typed[key], autocomplete: "off", dataset: { info: key } }, attrs || {}));
+        el.addEventListener("input", function () {
+          typed[key] = el.value;
+        });
+        return AG.ui.fields.field({
+          label: label,
+          help: help.text(helpKey),
+          controls: [el],
+          problems: (problems || []).filter(function (p) {
+            return p.path === key || p.path.indexOf(key + "[") === 0 || (key === "authors" && /^mod_authors/.test(p.path));
+          })
+        });
+      }
+      return h("div", { class: "mod-info" }, [
+        input("mod_name", "Mod name", "modName"),
+        input("mod_version", "Version", "modVersion"),
+        input("authors", "Authors", "modAuthors", { placeholder: "Separated by commas" })
+      ]);
+    }
+
+    // Shows the current mod's information for editing. OK applies it as one
+    // undoable change.
+    app.editInfo = function () {
+      if (!S.history) return Promise.resolve(false);
+      var current = AG.core.doc.info(app.doc());
+      function text(v) {
+        return typeof v === "string" ? v : AG.ui.fields.showValue(v);
+      }
+      var typed = {
+        mod_name: text(current.mod_name),
+        mod_version: text(current.mod_version),
+        authors: Array.isArray(current.mod_authors) ? current.mod_authors.map(text).join(", ") : text(current.mod_authors)
+      };
+      var problems = S.problems.filter(function (p) {
+        return /^mod_/.test(p.path || "");
+      });
+      var body = [h("p", { text: "This information is for people using the mod. It doesn't change what the mod does." }), infoFields(typed, problems)];
+      return dialogs.show(root, "Mod information", body, [{ label: "OK", value: "ok" }, { label: "Cancel", value: "cancel" }], {
+        name: "modInfo",
+        onOpen: function (dlg, close) {
+          var first = dlg.querySelector("input");
+          if (first) first.focus();
+          dlg.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && e.target.matches("input")) {
+              e.preventDefault();
+              close("ok");
+            }
+          });
+        }
+      }).then(function (v) {
+        if (v !== "ok") return false;
+        app.edit(function (d) {
+          return AG.core.doc.withInfo(d, infoValues(typed));
+        });
         return true;
       });
     };
@@ -464,6 +543,11 @@
                   } }, "Go to"),
                   help.text("goToProblem")
                 );
+              } else if (/^mod_/.test(p.path || "")) {
+                action = h("button", { type: "button", class: "small", dataset: { editInfo: p.path }, onclick: function () {
+                  dlgClose(null);
+                  app.editInfo();
+                } }, "Edit");
               } else if (entry) {
                 action = AG.ui.fields.withHelp(
                   h("button", { type: "button", class: "small", dataset: { remove: entry[0] }, onclick: function () {
@@ -548,6 +632,8 @@
               menuItem("Save", "save", "Ctrl+S", !hasMod),
               menuItem("Save As...", "saveAs", "Ctrl+Shift+S", !hasMod),
               h("hr"),
+              menuItem("Mod information...", "modInfo", null, !hasMod),
+              h("hr"),
               menuItem("Import game assets...", "import", null, !hasMod),
               menuItem("Delete imported assets", "deleteAssets", null, !hasMod)
             ])
@@ -589,6 +675,8 @@
           return app.showProblems();
         case "report":
           return app.showReport();
+        case "modInfo":
+          return app.editInfo();
         case "import":
           return AG.ui.importDialog ? AG.ui.importDialog.show(app) : null;
         case "deleteAssets":
@@ -638,6 +726,7 @@
       var games = app.games();
       return h("div", { class: "welcome" }, [
         h("h1", { text: "AxeGraft Editor" }),
+        games.length ? infoFields(S.newInfo) : null,
         games.length
           ? h("div", { class: "actions" }, games.map(function (cat) {
               return h("button", { type: "button", dataset: { newMod: cat.game }, onclick: function () {

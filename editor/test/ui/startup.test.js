@@ -38,7 +38,7 @@
     root.querySelector('[data-new-mod="warcraft2"]').click();
     return T.ui.wait(0).then(function () {
       T.equal(app.state.game, "warcraft2");
-      T.equal(app.doc(), { patcher: "AxeGraft", format: 1, game: "warcraft2" });
+      T.equal(app.doc(), { patcher: "AxeGraft", format: 1, game: "warcraft2", mod_name: "", mod_version: "", mod_authors: [] });
       T.ok(root.querySelector('[data-catalog-error="sample-starcraft.js"]'), "the notice stays while editing");
       T.equal(T.ui.texts({ root: root }, '[role="tab"]'), ["Units", "Button Sets", "Constants"], "the game can be edited");
     });

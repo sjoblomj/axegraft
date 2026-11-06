@@ -11,7 +11,22 @@ The editor SHALL let the user create a new mod for a game they choose. A new mod
 
 #### Scenario: New StarCraft mod
 - **WHEN** a user creates a new mod for StarCraft and saves it right away
-- **THEN** the file holds only `"patcher": "AxeGraft"`, `"format": 1` and `"game": "starcraft"`
+- **THEN** the file holds only `"patcher": "AxeGraft"`, `"format": 1`, `"game": "starcraft"`, `"mod_name": ""`, `"mod_version": ""` and `"mod_authors": []`
+
+### Requirement: Mod information
+The editor SHALL always write `mod_name`, `mod_version` and `mod_authors` into a saved mod, empty when the user hasn't given them. The start screen SHALL have fields for them above the buttons that create a mod, and a new mod SHALL take what is in those fields. The File menu SHALL open a dialog for changing them in the current mod, as one undoable change. Authors SHALL be typed separated by commas. The information SHALL have no effect on validation, apart from its type, or on what the mod changes.
+
+#### Scenario: Information on the start screen
+- **WHEN** a user types a name, a version and the authors `Alice, Bob` on the start screen and creates a StarCraft mod
+- **THEN** the new mod has that name and version, and `"mod_authors": ["Alice", "Bob"]`
+
+#### Scenario: Changing the information
+- **WHEN** a user changes the mod's name from the File menu and then undoes
+- **THEN** the mod has its earlier name
+
+#### Scenario: File without information
+- **WHEN** a user opens a mod that has no `mod_name`, `mod_version` or `mod_authors`
+- **THEN** the mod opens unchanged, and saving it writes them empty
 
 ### Requirement: Opening a mod
 The editor SHALL open a JSON mod file chosen by the user, and SHALL select the game the file names.
@@ -25,7 +40,7 @@ The editor SHALL open a JSON mod file chosen by the user, and SHALL select the g
 - **THEN** the editor asks before discarding them
 
 ### Requirement: Refusing malformed files
-The editor SHALL NOT load a malformed file, and SHALL list every problem it finds with the location of each. A file is malformed if it isn't valid JSON, if its `patcher`, `format` or `game` is missing or wrong, if any object has a property name the format doesn't define, or if a part, a `buttons` array or a `list` doesn't have the format's shape. Malformed input SHALL NOT crash the editor or disturb the current mod.
+The editor SHALL NOT load a malformed file, and SHALL list every problem it finds with the location of each. A file is malformed if it isn't valid JSON, if its `patcher`, `format` or `game` is missing or wrong, if any object has a property name the format doesn't define, if `mod_authors` isn't an array, or if a part, a `buttons` array or a `list` doesn't have the format's shape. Malformed input SHALL NOT crash the editor or disturb the current mod.
 
 #### Scenario: File with an unknown property
 - **WHEN** a file has an unknown property and an out-of-range unit ID
