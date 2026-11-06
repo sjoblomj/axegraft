@@ -245,6 +245,19 @@
         : null
     ]);
 
+    // A set whose original differs by version can match some and not others.
+    var differs = null;
+    if (set && eff.defined && eff.differsOn.length && eff.differsOn.length < cat.versionIds.length) {
+      var same = cat.versionIds.filter(function (v) {
+        return eff.differsOn.indexOf(v) < 0;
+      });
+      differs = h("p", {
+        class: "differs-on",
+        dataset: { differsOn: eff.differsOn.join(",") },
+        text: "Differs from the original on " + AG.core.compat.versionText(cat, eff.differsOn) + ". The same as the original on " + AG.core.compat.versionText(cat, same) + "."
+      });
+    }
+
     // Who uses it
     var users = usedBy(app, id);
     var usedEl = h("div", { class: "used-by", dataset: { field: "set:" + id + ":used" } }, [
@@ -348,13 +361,21 @@
         editButtons(function () {
           return [];
         });
-      }, !buttons.length)
+      }, !buttons.length),
+      cat.panel.ascending
+        ? tool("Sort by position", "sort-buttons", "sortButtons", function () {
+            app.edit(function (d) {
+              return D.sortButtons(d, cat, id);
+            });
+          }, AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) < 0)
+        : null
     ]);
 
     var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons);
 
     return h("div", { class: "buttonset-panel", dataset: { set: id } }, [
       header,
+      differs,
       setProblems.length
         ? h("div", { class: "field" }, setProblems.map(function (p) {
             return h("div", { class: "problem " + (p.severity === "error" ? "error" : "warning"), text: p.message });
@@ -365,8 +386,80 @@
         h("div", { class: "preview-box" }, [preview(app, key, buttons, sel, editButtons)])
       ]),
       form,
+      set ? originalSection(app, id) : null,
       setsSection(app, id, key, buttons),
       usedEl
+    ]);
+  }
+
+  // The original buttons of a catalog set. Where they differ between
+  // versions, each group of versions that shares a list gets a column, with
+  // the buttons lined up: a button missing from a group is red, one that only
+  // some groups have is green, and one that differs between groups is yellow.
+  function originalSection(app, id) {
+    var cat = app.cat();
+    var originals = D.originalButtonsByVersion(cat, id);
+    var groups = AG.core.compat.groupVersions(cat, function (v) {
+      return originals[v];
+    });
+    var firstString = cat.buttonFields.filter(function (f) {
+      return f.kind === "string";
+    })[0];
+    function buttonContent(b) {
+      var fn = cat.functions.actions.get(b[cat.buttonKind.action.name]);
+      var text = firstString ? stringText(app, b[firstString.name]) : null;
+      return [
+        h("span", { class: "pos", text: String(b[cat.buttonKind.position.name]) }),
+        iconEl(app, b[cat.buttonKind.icon.name]),
+        h("span", { text: (fn ? fn.label : String(b[cat.buttonKind.action.name])) + (text ? " — " + shortName(text) : "") })
+      ];
+    }
+    var body;
+    if (groups.length > 1) {
+      var rows = D.alignButtons(cat, groups.map(function (g) {
+        return g.value;
+      }));
+      var cls = { same: function () {
+        return null;
+      }, changed: function () {
+        return "diff-changed";
+      }, partial: function (b) {
+        return b ? "diff-added" : "diff-missing";
+      } };
+      body = h("div", { class: "original-diff-wrap" }, [
+        h("table", { class: "original-diff" }, [
+          h("thead", null, [h("tr", null, groups.map(function (g) {
+            return h("th", { scope: "col", dataset: { versions: g.versions.join(",") }, text: AG.core.compat.groupLabel(cat, groups, g) });
+          }))]),
+          h("tbody", null, rows.map(function (r) {
+            return h("tr", { dataset: { state: r.state } }, r.cells.map(function (b, k) {
+              var label = r.state === "partial" ? (b ? "Only in some versions" : "Not in " + AG.core.compat.versionText(cat, groups[k].versions)) : r.state === "changed" ? "Differs between versions" : null;
+              return h("td", { class: cls[r.state](b), title: label }, b ? [h("div", { class: "cell" }, buttonContent(b))] : []);
+            }));
+          }))
+        ]),
+        h("p", { class: "diff-key" }, [
+          h("span", { class: "diff-added", text: "Only in some versions" }),
+          " ",
+          h("span", { class: "diff-missing", text: "Missing" }),
+          " ",
+          h("span", { class: "diff-changed", text: "Differs" })
+        ])
+      ]);
+    } else {
+      var g = groups[0];
+      body = h("div", { dataset: { versions: g.versions.join(",") } }, [
+        h("h3", { style: { "font-size": "13px", margin: "4px 0" }, text: AG.core.compat.groupLabel(cat, groups, g) + ":" }),
+        g.value.length
+          ? h("ol", { class: "original-list" }, g.value.map(function (b) {
+              return h("li", null, buttonContent(b));
+            }))
+          : h("p", { text: "No buttons." })
+      ]);
+    }
+    return h("details", { class: "original-buttons", open: groups.length > 1, dataset: { originalButtons: "" } }, [
+      h("summary", { text: groups.length > 1 ? "Original buttons, which differ between versions" : "Original buttons" }),
+      body
     ]);
   }
 
@@ -590,7 +683,7 @@
     } }, "Copy to chosen sets");
 
     // The copy source and option are kept across renders.
-    var copy = app.state.copy || (app.state.copy = { source: null, original: false });
+    var copy = app.state.copy || (app.state.copy = { source: null, original: false, version: null, open: false });
     var source = all.some(function (s) {
       return s.id === copy.source;
     }) ? copy.source : all.length ? all[0].id : undefined;
@@ -598,16 +691,38 @@
       return { value: s.id, label: s.label };
     }), source, function (v) {
       copy.source = v;
-    }, { class: "ctl wide", "aria-label": "Copy from set", dataset: { role: "copy-source" } });
-    var originalBox = h("input", { type: "checkbox", checked: copy.original, dataset: { role: "copy-original" } });
+      copy.version = null;
+      copy.open = true;
+      app.render();
+    }, { class: "ctl wide", "aria-label": "Copy from set", dataset: { role: "copy-source", focus: "copy-source" } });
+    var originalBox = h("input", { type: "checkbox", checked: copy.original, dataset: { role: "copy-original", focus: "copy-original" } });
     originalBox.addEventListener("change", function () {
       copy.original = originalBox.checked;
+      copy.open = true;
+      app.render();
     });
+
+    // A source whose original differs by version: which version's to copy,
+    // the default's first.
+    var versionSel = null;
+    var groups = source !== undefined && copy.original && cat.setOriginals.has(source) ? versionChoices(cat, source) : [];
+    if (groups.length > 1) {
+      if (!groups.some(function (g) {
+        return g.versions[0] === copy.version;
+      })) copy.version = groups[0].versions[0];
+      versionSel = F.select(groups.map(function (g) {
+        return { value: g.versions[0], label: AG.core.compat.versionText(cat, g.versions) + (g.isDefault ? " (default)" : "") };
+      }), copy.version, function (v) {
+        copy.version = v;
+      }, { class: "ctl", "aria-label": "Original of version", dataset: { role: "copy-version", focus: "copy-version" } });
+    }
     var copyFromBtn = h("button", { type: "button", class: "small", dataset: { action: "copy-from" }, onclick: function () {
       var srcId = copy.source === null || copy.source === undefined ? source : copy.source;
       if (srcId === undefined) return;
       app.edit(function (d) {
-        var from = copy.original ? D.effectiveButtons(D.create(cat.game), cat, srcId).buttons : D.effectiveButtons(d, cat, srcId).buttons;
+        var from = copy.original
+          ? cat.setOriginals.has(srcId) ? D.originalButtons(cat, srcId, versionSel ? copy.version : null) : D.effectiveButtons(D.create(cat.game), cat, srcId).buttons
+          : D.effectiveButtons(d, cat, srcId).buttons;
         return D.setButtons(d, cat, id, from.slice());
       });
     } }, "Copy into this set");
@@ -617,7 +732,9 @@
         h("legend", { text: "New sets" }),
         h("div", { class: "toolbar" }, [F.withHelp(idInput, help.text("newSetId")), F.withHelp(addBtn, help.text("addSet"))])
       ]),
-      h("details", null, [
+      h("details", { open: !!copy.open, dataset: { copy: "" }, ontoggle: function (e) {
+        copy.open = e.target.open;
+      } }, [
         h("summary", { text: "Copy buttons" }),
         h("fieldset", { dataset: { field: "set:" + id + ":copy-to" } }, [
           h("legend", { text: "Copy this set's buttons to" }),
@@ -635,11 +752,32 @@
           h("div", { class: "toolbar" }, [
             F.withHelp(sourceSel, help.text("copySource")),
             h("label", null, [F.withHelp(originalBox, help.text("copyOriginal")), " Original buttons"]),
+            versionSel ? F.withHelp(versionSel, help.text("copyVersion")) : null,
             F.withHelp(copyFromBtn, help.text("copyFrom"))
           ])
         ])
       ])
     ]);
+  }
+
+  // The groups of versions that share an original list of a set, with the
+  // group holding the default list first.
+  function versionChoices(cat, id) {
+    var originals = D.originalButtonsByVersion(cat, id);
+    var def = D.originalButtons(cat, id, null);
+    var groups = [];
+    cat.versionIds.forEach(function (v) {
+      var same = groups.filter(function (g) {
+        return util.equal(originals[g.versions[0]], originals[v]);
+      })[0];
+      if (same) same.versions.push(v);
+      else groups.push({ versions: [v], isDefault: util.equal(originals[v], def) });
+    });
+    return groups.filter(function (g) {
+      return g.isDefault;
+    }).concat(groups.filter(function (g) {
+      return !g.isDefault;
+    }));
   }
 
   AG.ui.panels.button_sets = panel;

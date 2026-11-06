@@ -37,6 +37,25 @@
     return parts.join(", ");
   }
 
+  // Consecutive versions that share a value, as [{ value, versions }], in
+  // the catalog's order. `valueOf` gives the value on one version.
+  function groupVersions(cat, valueOf) {
+    var groups = [];
+    cat.versionIds.forEach(function (v) {
+      var value = valueOf(v);
+      var last = groups[groups.length - 1];
+      if (last && util.equal(last.value, value)) last.versions.push(v);
+      else groups.push({ value: value, versions: [v] });
+    });
+    return groups;
+  }
+
+  // The heading of one of those groups: its versions, or "All versions"
+  // when there's only one group.
+  function groupLabel(cat, groups, g) {
+    return groups.length > 1 ? versionText(cat, g.versions) : "All versions";
+  }
+
   function absentOn(item) {
     return item && Array.isArray(item.absentOn) ? item.absentOn : [];
   }
@@ -145,6 +164,8 @@
     warnings: warnings,
     summary: summary,
     versionText: versionText,
+    groupVersions: groupVersions,
+    groupLabel: groupLabel,
     absentOn: absentOn
   };
 

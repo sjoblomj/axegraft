@@ -95,6 +95,99 @@
     T.equal(none.requirements.length, 1);
   });
 
+  // StarCraft's fixture with set 7's original different on 1.07: MOVE there,
+  // its usual button elsewhere.
+  function perVersionCatalog() {
+    var raw = T.rawCatalog("starcraft");
+    raw.buttonSets[2].original = { "default": raw.buttonSets[2].original, perVersion: { "1.07": [MOVE] } };
+    return AG.core.catalog.index(raw, "per-version");
+  }
+
+  T.test("original buttons by version: each version's own list, or the default", function () {
+    var cat = perVersionCatalog();
+    var usual = cat.setOriginals.get(7)["default"];
+    T.equal(D.originalButtons(cat, 7, "1.07"), [MOVE]);
+    T.equal(D.originalButtons(cat, 7, "1.12"), usual);
+    T.equal(D.originalButtons(cat, 7, null), usual, "no version gives the default");
+    T.equal(D.originalButtonsByVersion(cat, 7), { "1.07": [MOVE], "1.12": usual, "1.16.1": usual });
+    T.equal(D.originalButtons(cat, 250, "1.07"), null, "a new set has no original");
+    var eff = D.effectiveButtons(D.create("starcraft"), cat, 7);
+    T.equal(eff.buttons, usual);
+    T.equal(eff.original, usual);
+    T.equal(eff.originals, { "1.07": [MOVE], "1.12": usual, "1.16.1": usual });
+    T.equal(eff.differsOn, []);
+  });
+
+  T.test("aligning lists side by side: equal buttons share a row, an extra one gets its own, a changed one at the same position pairs up", function () {
+    var cat = T.catalog("warcraft2");
+    function btn(p, icon, cond) {
+      return { position: p, icon: icon, condition: cond || "w2_always", action: "w2_move", string: 400, highlighted: 0 };
+    }
+    var dos = [btn(0, 1), btn(1, 2), btn(8, 9)];
+    var bne = [btn(0, 1), btn(1, 2, "w2_has_upgrade"), btn(3, 4), btn(8, 9)];
+    var rows = D.alignButtons(cat, [dos, bne]);
+    T.equal(
+      rows.map(function (r) {
+        return [r.state, r.cells.map(function (c) {
+          return c ? c.icon : null;
+        })];
+      }),
+      [["same", [1, 1]], ["changed", [2, 2]], ["partial", [null, 4]], ["same", [9, 9]]]
+    );
+    T.equal(D.alignButtons(cat, [dos]).length, 3, "one list is its own rows");
+    T.equal(
+      D.alignButtons(cat, [[btn(0, 1)], [], [btn(0, 1)]]).map(function (r) {
+        return r.state;
+      }),
+      ["partial"]
+    );
+  });
+
+  T.test("only differences are saved: a set edited to one version's original stays defined", function () {
+    var cat = perVersionCatalog();
+    var usual = cat.setOriginals.get(7)["default"];
+    var doc = D.setButtons(D.create("starcraft"), cat, 7, usual);
+    T.equal(doc.button_sets, [{ id: 7, label: "SCV", buttons: usual }]);
+    T.equal(D.effectiveButtons(doc, cat, 7).differsOn, ["1.07"]);
+    doc = D.setButtons(D.create("starcraft"), cat, 7, [MOVE]);
+    T.equal(doc.button_sets.length, 1, "matching only 1.07 stays too");
+    T.equal(D.effectiveButtons(doc, cat, 7).differsOn, ["1.12", "1.16.1"]);
+    T.equal(D.revertSet(doc, cat, 7), D.create("starcraft"), "reverting removes it, so each version keeps its own");
+  });
+
+  T.test("only differences are saved: an opened file's set is dropped only if it matches every version", function () {
+    var cat = perVersionCatalog();
+    var opened = {
+      patcher: "AxeGraft",
+      format: 1,
+      game: "starcraft",
+      mod: { name: "", version: "", authors: [] },
+      button_sets: [{ id: 5, buttons: cat.sets.get(5).original }, { id: 7, buttons: cat.setOriginals.get(7)["default"] }]
+    };
+    T.equal(D.normalize(opened, cat).button_sets, [{ id: 7, buttons: cat.setOriginals.get(7)["default"] }]);
+  });
+
+  T.test("sorting by position: a stable sort, as one change that undo takes back", function () {
+    var cat = T.catalog("warcraft2");
+    function btn(p, icon) {
+      return { position: p, icon: icon, condition: "w2_always", action: "w2_move", string: 400, highlighted: 0 };
+    }
+    var doc = D.setButtons(D.create("warcraft2"), cat, 0, [btn(5, 1), btn(1, 2), btn(1, 3), btn(3, 4)]);
+    var h = AG.core.history.create(doc);
+    var sorted = D.sortButtons(doc, cat, 0);
+    h = AG.core.history.push(h, sorted);
+    T.equal(
+      D.effectiveButtons(sorted, cat, 0).buttons.map(function (b) {
+        return [b.position, b.icon];
+      }),
+      [[1, 2], [1, 3], [3, 4], [5, 1]],
+      "the two at position 1 keep their order"
+    );
+    T.equal(sorted.button_sets[0].label, "Footman", "the entry keeps its label");
+    T.equal(AG.core.history.undo(h).present, doc);
+    T.equal(D.sortButtons(sorted, cat, 0), sorted, "sorting a sorted set changes nothing");
+  });
+
   T.test("only differences are saved: emptying an item that has no record matches the original", function () {
     var cat = sc();
     var doc = D.setRequirement(D.create("starcraft"), cat, "unit", 4, [111]);
@@ -139,7 +232,16 @@
     var doc = D.setButtons(D.create("starcraft"), cat, 5, []);
     T.equal(D.effectiveButtons(doc, cat, 5).buttons, []);
     doc = D.revertSet(doc, cat, 5);
-    T.equal(D.effectiveButtons(doc, cat, 5), { buttons: cat.sets.get(5).original, original: cat.sets.get(5).original, defined: false, isNew: false, path: null });
+    var o = cat.sets.get(5).original;
+    T.equal(D.effectiveButtons(doc, cat, 5), {
+      buttons: o,
+      original: o,
+      originals: { "1.07": o, "1.12": o, "1.16.1": o },
+      differsOn: [],
+      defined: false,
+      isNew: false,
+      path: null
+    });
     T.equal(doc.button_sets, undefined);
   });
 

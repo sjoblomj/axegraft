@@ -442,6 +442,146 @@
     });
   }, { dom: true });
 
+  // ---- Original buttons that differ by version
+
+  // The Warcraft II fixture with the DOS versions added, and the Peasant
+  // set (2) with only its second button on them.
+  function dosCatalogs() {
+    var raw = T.rawCatalog("warcraft2");
+    raw.versions = ["1.3", "1.33", "1.5"].map(function (v) {
+      return { id: v, label: v };
+    }).concat(raw.versions);
+    raw.constants[0].availability = { "1.3": 40, "1.33": 40, "1.5": 40, "2.00": 40, "2.02": 40 };
+    var peasant = raw.buttonSets[1].original;
+    var dos = [peasant[1]];
+    raw.buttonSets[1].original = { "default": peasant, perVersion: { "1.3": dos, "1.33": dos, "1.5": dos } };
+    var problems = AG.core.catalog.check(raw, "dos");
+    if (problems.length) throw new Error(problems.join("\n"));
+    return { games: { starcraft: T.catalog("starcraft"), warcraft2: AG.core.catalog.index(raw, "dos") }, errors: [] };
+  }
+
+  function startDos(ctx) {
+    return start(ctx, "warcraft2", { catalogs: dosCatalogs() });
+  }
+
+  function originalGroups(app) {
+    return Array.prototype.map.call(app.root.querySelectorAll("[data-original-buttons] [data-versions]"), function (g) {
+      return [g.querySelector("h3").textContent, g.querySelectorAll("li").length];
+    });
+  }
+
+  T.test("original buttons by version: a set that differs shows each group of versions side by side, lined up", function (ctx) {
+    return startDos(ctx).then(function (app) {
+      app.select("button_sets", "set:2");
+      var table = U.q(app, "[data-original-buttons] table.original-diff");
+      T.equal(U.texts(app, "[data-original-buttons] table.original-diff thead th"), ["1.3–1.5", "2.00–2.02"]);
+      var rows = Array.prototype.map.call(table.querySelectorAll("tbody tr"), function (tr) {
+        return Array.prototype.map.call(tr.querySelectorAll("td"), function (td) {
+          return td.className;
+        });
+      });
+      // The Move button only 2.00 and 2.02 have, then the build button all have.
+      T.equal(rows, [["diff-missing", "diff-added"], ["", ""]]);
+    });
+  }, { dom: true });
+
+  T.test("original buttons by version: a button that differs between versions is marked as changed", function (ctx) {
+    var catalogs = dosCatalogs();
+    var raw = JSON.parse(JSON.stringify(catalogs.games.warcraft2.raw));
+    var dos = raw.buttonSets[1].original.perVersion["1.3"];
+    dos[0] = Object.assign({}, dos[0], { icon: 99 });
+    raw.buttonSets[1].original.perVersion = { "1.3": dos, "1.33": dos, "1.5": dos };
+    catalogs.games.warcraft2 = AG.core.catalog.index(raw, "dos");
+    return start(ctx, "warcraft2", { catalogs: catalogs }).then(function (app) {
+      app.select("button_sets", "set:2");
+      T.equal(U.texts(app, "table.original-diff tbody tr:last-child td.diff-changed .pos"), ["6", "6"]);
+    });
+  }, { dom: true });
+
+  T.test("original buttons by version: a set that never differs shows its original once", function (ctx) {
+    return startDos(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      T.equal(originalGroups(app), [["All versions:", 1]]);
+    });
+  }, { dom: true });
+
+  T.test("original buttons by version: a set with 2.02's buttons is changed only on the DOS versions", function (ctx) {
+    return startDos(ctx).then(function (app) {
+      var cat = app.cat();
+      app.edit(function (d) {
+        return D.setButtons(d, cat, 2, D.originalButtons(cat, 2, "2.02"));
+      });
+      T.equal(app.doc().button_sets.length, 1, "the mod still defines the set");
+      app.select("button_sets", "set:2");
+      T.equal(U.q(app, "[data-differs-on]").textContent, "Differs from the original on 1.3–1.5. The same as the original on 2.00–2.02.");
+      app.select("button_sets", "set:0");
+      T.equal(app.root.querySelector("[data-differs-on]"), null, "nothing to say for a set the mod doesn't define");
+    });
+  }, { dom: true });
+
+  T.test("original buttons by version: reverting removes the set, so every version keeps its own", function (ctx) {
+    return startDos(ctx).then(function (app) {
+      var cat = app.cat();
+      app.edit(function (d) {
+        return D.setButtons(d, cat, 2, []);
+      });
+      app.select("button_sets", "set:2");
+      U.q(app, '[data-action="revert-set"]').click();
+      T.equal(app.doc().button_sets, undefined);
+    });
+  }, { dom: true });
+
+  T.test("copying buttons: the original of a set that differs by version, chosen by version, starting with the default", function (ctx) {
+    return startDos(ctx).then(function (app) {
+      var cat = app.cat();
+      app.select("button_sets", "set:0");
+      U.q(app, "details[data-copy] summary").click();
+      U.change(U.q(app, 'select[data-role="copy-source"]'), "2 Peasant");
+      T.equal(app.root.querySelector('select[data-role="copy-version"]'), null, "no version to choose without the original");
+      U.change(U.q(app, 'input[data-role="copy-original"]'), true);
+      var picker = U.q(app, 'select[data-role="copy-version"]');
+      T.ok(U.q(app, "details[data-copy]").open, "the copy section stays open");
+      T.equal(Array.prototype.map.call(picker.options, function (o) {
+        return o.textContent;
+      }), ["2.00–2.02 (default)", "1.3–1.5"]);
+      U.q(app, '[data-action="copy-from"]').click();
+      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons, D.originalButtons(cat, 2, "2.02"));
+      U.change(U.q(app, 'select[data-role="copy-version"]'), "1.3–1.5");
+      U.q(app, '[data-action="copy-from"]').click();
+      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons, D.originalButtons(cat, 2, "1.5"));
+      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons.length, 1);
+      U.change(U.q(app, 'select[data-role="copy-source"]'), "111 Human Basic Build");
+      T.equal(app.root.querySelector('select[data-role="copy-version"]'), null, "no choice for a set with one original");
+    });
+  }, { dom: true });
+
+  // ---- Position order
+
+  T.test("sort by position: offered for Warcraft II, and it fixes the order error", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      var cat = app.cat();
+      var peasant = cat.sets.get(2).original;
+      app.edit(function (d) {
+        return D.setButtons(d, cat, 2, [peasant[1], peasant[0]]);
+      });
+      T.equal(app.errors().length, 1, "out of order is an error");
+      app.select("button_sets", "set:2");
+      var sort = U.q(app, '[data-action="sort-buttons"]');
+      T.ok(!sort.disabled);
+      sort.click();
+      T.equal(app.errors(), []);
+      T.equal(app.doc().button_sets, undefined, "sorted, the set matches the original");
+      T.ok(U.q(app, '[data-action="sort-buttons"]').disabled, "nothing to sort");
+    });
+  }, { dom: true });
+
+  T.test("sort by position: not offered for StarCraft", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:5");
+      T.equal(app.root.querySelector('[data-action="sort-buttons"]'), null);
+    });
+  }, { dom: true });
+
   // ---- 6.8
 
   T.test("jump from a variable: a unit in an action variable leads to that unit's requirement record", function (ctx) {

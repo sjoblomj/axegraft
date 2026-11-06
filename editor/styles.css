@@ -78,6 +78,12 @@
   --row-alt-line: #9a6ad8;
   --row-error-bg: #ffdcdc;
   --row-original-bg: #d0d0d0;
+  --diff-added-bg: #c6efc0;
+  --diff-added-text: #0a3a00;
+  --diff-missing-bg: #ffc6c6;
+  --diff-missing-text: #5a0000;
+  --diff-changed-bg: #fff0a0;
+  --diff-changed-text: #4a3800;
   --row-idx: #555555;
   --avail-unknown-bg: #ffe9c4;
   --avail-na-bg: #dedede;
@@ -173,6 +179,12 @@
   --row-alt-line: #9a6ad8;
   --row-error-bg: #26101a;
   --row-original-bg: #0a1220;
+  --diff-added-bg: #143d1c;
+  --diff-added-text: #c4f5c4;
+  --diff-missing-bg: #4d161b;
+  --diff-missing-text: #ffcfcf;
+  --diff-changed-bg: #4a3d0c;
+  --diff-changed-text: #ffeaa6;
   --row-idx: #56709a;
   --avail-unknown-bg: rgba(245, 197, 66, 0.1);
   --avail-na-bg: #0a1220;
@@ -553,6 +565,22 @@ button.small { padding: var(--button-small-pad, 0 6px); }
 .button-list li .pos { width: 22px; text-align: right; color: var(--field-muted); }
 .button-list li[aria-selected="true"] .pos { color: inherit; }
 .button-list:focus { outline: 1px dotted var(--select-bg); outline-offset: -3px; }
+.original-list { list-style: none; margin: 0 0 6px; padding: 0; font-family: var(--data-font); }
+.original-list li { padding: 1px 6px; display: flex; gap: 6px; align-items: center; }
+.original-list li .pos { width: 22px; text-align: right; color: var(--field-muted); }
+.original-buttons { margin: 6px 0; }
+.differs-on { margin: 2px 0 6px; color: var(--field-muted); }
+.original-diff-wrap { overflow-x: auto; max-width: 100%; }
+.original-diff { border-collapse: collapse; font-family: var(--data-font); }
+.original-diff th { text-align: left; font-size: 13px; padding: 2px 8px; border-bottom: 1px solid var(--line); }
+.original-diff td { padding: 1px 8px; min-width: 200px; height: 30px; border-bottom: 1px solid var(--line); }
+.original-diff .cell { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
+.original-diff .cell .pos { width: 22px; text-align: right; }
+.diff-added { background: var(--diff-added-bg); color: var(--diff-added-text); }
+.diff-missing { background: var(--diff-missing-bg); color: var(--diff-missing-text); }
+.diff-changed { background: var(--diff-changed-bg); color: var(--diff-changed-text); }
+.diff-key { margin: 4px 0; font-size: 12px; }
+.diff-key span { padding: 1px 6px; border-radius: var(--radius); }
 .toolbar { display: flex; gap: var(--gap-x); flex-wrap: wrap; margin: 8px 0 2px; align-items: center; }
 
 .preview {

@@ -39,7 +39,7 @@ The editor reads `catalogFormat` 1 for mods of `modFormat` 1. A catalog of anoth
 | `parts`         | Yes                        | The mod parts the game has, from `"units"`, `"button_sets"`, `"requirements"` and `"constants"`. One tab is shown for each. |
 | `versions`      | Yes                        | Every version, oldest first, as `{ "id", "label" }`. Mods never name a version; the editor uses these for its compatibility report. |
 | `limits`        | Yes                        | ID ranges and field limits. See [Limits](#limits).                                                                        |
-| `panel`         | Yes                        | `{ "columns": n }`: the command panel's width. Positions fill it row by row, from the lowest position.                     |
+| `panel`         | Yes                        | `{ "columns": n, "ascending": true }`: the command panel's width, and whether the game needs each set's buttons in ascending position order. Positions fill it row by row, from the lowest position. See [Button sets](#button-sets). |
 | `buttonFields`  | Yes                        | The fields of a button. See [Button fields](#button-fields).                                                              |
 | `unitFields`    | Yes                        | The fields of a unit entry. See [Unit fields](#unit-fields).                                                              |
 | `functions`     | Yes                        | Conditions, actions and status functions. See [Functions](#functions).                                                    |
@@ -140,6 +140,16 @@ A button set is one array of buttons in the game. Any number of table entries ca
 - Each entry in `entries` must be in `units`, with this set as its original button set, and every unit's original set must list it back.
 - `original` holds the buttons in the same shape as a mod's buttons, so comparing and copying are plain JSON comparisons. A variable of 0 on a function that reads none is left out.
 - `absentOn`, optional, lists the versions that lack the set.
+
+When the original buttons differ between versions, `original` takes the same form as a requirement record's, instead of a list:
+
+```json
+"original": { "default": [ ... ], "perVersion": { "1.07": [ ... ] } }
+```
+
+`default` is the list on every version that `perVersion` doesn't name. `perVersion`, optional, gives a different list for the versions it names, which must be listed in `versions`. A plain list means the same as `{ "default": list }`. Mods don't change: a mod's set holds one list, applied on every version, and it counts as unchanged only if it matches the original on every version.
+
+`panel.ascending`, optional, is `true` for a game whose command panel fills from a set in list order and needs its buttons in ascending position order, such as Warcraft II. Buttons may share a position. Every original list must then be in that order, and the editor treats a mod's set out of order as an error. It defaults to `false`, and buttons may be in any order.
 
 ### Requirements
 
@@ -297,10 +307,17 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
   "buttonSets": [
     {
       "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 32],
-      "original": [
-        { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
-        { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
-      ]
+      "original": {
+        "default": [
+          { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
+          { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
+        ],
+        "perVersion": {
+          "1.07": [
+            { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 }
+          ]
+        }
+      }
     }
   ],
   "techs": [{ "id": 0, "name": "Stim Packs", "tree": ["Terran"] }],

@@ -30,6 +30,8 @@
     copyFrom: "Replaces the buttons of this set with those of the chosen set, as the mod has it or as in the original game. The source isn't changed.",
     copySource: "The set to copy buttons from.",
     copyOriginal: "Copy the source set's original buttons, ignoring what this mod changes in it.",
+    copyVersion: "The source set's original buttons differ between versions. Choose the version whose original to copy. The first choice is the catalog's default list.",
+    sortButtons: "Sorts this set's buttons by position, lowest first. Buttons at the same position keep their order. This game needs each set's buttons in that order.",
     jump: "Goes to the item this field refers to.",
     pickIcon: "Shows the icons, to choose one by sight.",
     rowList: "The rows of this requirement record. A row holds an opcode and its parameter, or a completed unit. Rows between a level and its end, and alternatives joined by or, are grouped.",

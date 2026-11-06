@@ -6,7 +6,13 @@ AxeGraft.registerCatalog({
   "title": "Warcraft II: Battle.net Edition",
   "sample": true,
   "parts": ["units", "button_sets", "constants"],
-  "versions": [{"id": "2.00", "label": "2.00"}, {"id": "2.02", "label": "2.02"}],
+  "versions": [
+    {"id": "1.3", "label": "1.3"},
+    {"id": "1.33", "label": "1.33"},
+    {"id": "1.5", "label": "1.5"},
+    {"id": "2.00", "label": "2.00"},
+    {"id": "2.02", "label": "2.02"}
+  ],
   "limits": {
     "unit": {"min": 0, "max": 109},
     "tableEntry": {"min": 0, "max": 119},
@@ -18,7 +24,7 @@ AxeGraft.registerCatalog({
     "conditionVariable": {"min": 0, "max": 255},
     "actionVariable": {"min": 0, "max": 255}
   },
-  "panel": {"columns": 3},
+  "panel": {"columns": 3, "ascending": true},
   "buttonFields": [
     {
       "name": "position",
@@ -99,61 +105,69 @@ AxeGraft.registerCatalog({
   ],
   "functions": {
     "conditions": [
-      {"name": "always", "label": "Always", "variable": null, "help": "Always shows the button."},
+      {"name": "bf_always", "label": "Always", "variable": null, "help": "Always shows the button."},
       {
-        "name": "armor_level",
+        "name": "bf_has_Shields",
         "label": "Armor upgrade level",
         "variable": "number",
         "help": "Shows the button only at the armor upgrade level given as the variable: 0 before any upgrade, 1 after the first and 2 after the second. The shield icons use it."
       },
       {
-        "name": "weapon_level",
+        "name": "bf_has_Swords",
         "label": "Weapon upgrade level",
         "variable": "number",
         "help": "Shows the button only at the weapon upgrade level given as the variable: 0, 1 or 2. The sword icons use it."
       },
-      {"name": "can_attack_ground", "label": "Can attack ground", "variable": null},
-      {"name": "can_harvest", "label": "Can harvest", "variable": null},
-      {"name": "carries_goods", "label": "Carries goods", "variable": null},
-      {"name": "can_build_basic", "label": "Can build basic structures", "variable": null},
-      {"name": "can_build_advanced", "label": "Can build advanced structures", "variable": null},
-      {"name": "can_build_farm", "label": "Can build a Farm", "variable": null},
-      {"name": "can_build_barracks", "label": "Can build Barracks", "variable": null},
-      {"name": "can_build_town_hall", "label": "Can build a Town Hall", "variable": null},
-      {"name": "can_build_lumber_mill", "label": "Can build a Lumber Mill", "variable": null},
-      {"name": "can_build_blacksmith", "label": "Can build a Blacksmith", "variable": null},
-      {"name": "can_build_tower", "label": "Can build a Scout Tower", "variable": null},
-      {"name": "can_build_wall", "label": "Can build a Wall", "variable": null}
+      {"name": "bf_attack_ground", "label": "Can attack ground", "variable": null},
+      {"name": "bf_no_load", "label": "Can harvest", "variable": null},
+      {"name": "bf_load", "label": "Carries goods", "variable": null},
+      {"name": "bf_wood", "label": "Can build basic structures", "variable": null},
+      {"name": "bf_stone", "label": "Can build advanced structures", "variable": null},
+      {"name": "bf_farm_ok", "label": "Can build a Farm", "variable": null},
+      {"name": "bf_barrack_ok", "label": "Can build Barracks", "variable": null},
+      {"name": "bf_thall_ok", "label": "Can build a Town Hall", "variable": null},
+      {"name": "bf_mill_ok", "label": "Can build a Lumber Mill", "variable": null},
+      {"name": "bf_smith_ok", "label": "Can build a Blacksmith", "variable": null},
+      {"name": "bf_tower_ok", "label": "Can build a Scout Tower", "variable": null},
+      {"name": "bf_wall_ok", "label": "Can build a Wall", "variable": null},
+      {
+        "name": "bf_enhanced_mode",
+        "label": "Enhanced mode",
+        "variable": null,
+        "absentOn": ["1.3", "1.33", "1.5"],
+        "help": "Shows the button only in Enhanced mode. 2.00 and 2.02 use it for the Patrol button they add to the Dwarven Demolition Squad, Goblin Sappers, Gnomish Flying Machine, Goblin Zeppelin and Eye of Kilrogg."
+      }
     ],
     "actions": [
-      {"name": "move", "label": "Move", "variable": null},
-      {"name": "stop", "label": "Stop", "variable": null},
-      {"name": "attack", "label": "Attack", "variable": null},
-      {"name": "patrol", "label": "Patrol", "variable": null},
-      {"name": "stand_ground", "label": "Stand Ground", "variable": null},
-      {"name": "attack_ground", "label": "Attack Ground", "variable": null},
-      {"name": "repair", "label": "Repair", "variable": null},
-      {"name": "harvest", "label": "Harvest", "variable": null},
-      {"name": "return_goods", "label": "Return with Goods", "variable": null},
+      {"name": "order_move", "label": "Move", "variable": null},
+      {"name": "order_guard", "label": "Stop", "variable": null},
+      {"name": "order_attack", "label": "Attack", "variable": null},
+      {"name": "order_patrol", "label": "Patrol", "variable": null},
+      {"name": "order_stand_ground", "label": "Stand Ground", "variable": null},
+      {"name": "order_attack_ground", "label": "Attack Ground", "variable": null},
+      {"name": "order_repair", "label": "Repair", "variable": null},
+      {"name": "order_harvest", "label": "Harvest", "variable": null},
+      {"name": "order_return", "label": "Return with Goods", "variable": null},
+      {"name": "order_demolish", "label": "Demolish", "variable": null},
       {
-        "name": "show_table_entry",
+        "name": "status_set_card",
         "label": "Show table entry",
         "variable": "tableEntry",
         "help": "Shows the buttons of the table entry given as the variable instead, such as a build menu. Entry 110, Blank, shows the selected unit's own buttons again."
       },
-      {"name": "build", "label": "Build", "variable": "unit", "help": "Starts placing the building whose unit number is given as the variable."}
+      {"name": "order_place", "label": "Build", "variable": "unit", "help": "Starts placing the building whose unit number is given as the variable."}
     ],
     "statusChanged": [
-      {"name": "stats_changed_unit", "label": "Most units", "variable": null},
-      {"name": "stats_changed_worker", "label": "As the Peasant", "variable": null},
-      {"name": "stats_changed_farm", "label": "As the Farm", "variable": null}
+      {"name": "statdraw_query_unit", "label": "Most units", "variable": null},
+      {"name": "statdraw_query_peon", "label": "As the Peasant", "variable": null},
+      {"name": "statdraw_query_farm", "label": "As the Farm", "variable": null}
     ],
     "statusUpdate": [
-      {"name": "stats_update_soldier", "label": "As the Footman", "variable": null},
-      {"name": "stats_update_ballista", "label": "As the Ballista", "variable": null},
-      {"name": "stats_update_plain", "label": "As unit 34", "variable": null},
-      {"name": "stats_update_worker", "label": "As the Peasant", "variable": null},
-      {"name": "stats_update_farm", "label": "As the Farm", "variable": null}
+      {"name": "statdraw_draw_grunt", "label": "As the Footman", "variable": null},
+      {"name": "statdraw_draw_catapult", "label": "As the Ballista", "variable": null},
+      {"name": "statdraw_draw_unit", "label": "As unit 34", "variable": null},
+      {"name": "statdraw_draw_peon", "label": "As the Peasant", "variable": null},
+      {"name": "statdraw_draw_farm", "label": "As the Farm", "variable": null}
     ]
   },
   "units": [
@@ -162,60 +176,78 @@ AxeGraft.registerCatalog({
       "name": "Footman",
       "icon": 2,
       "tree": ["Human", "Land Units"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
     },
     {
       "id": 4,
       "name": "Ballista",
       "icon": 16,
       "tree": ["Human", "Land Units"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_ballista"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_catapult"}
     },
     {
       "id": 22,
       "name": "Kurdran and Sky'ree",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
     },
     {
       "id": 36,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_plain"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
     },
     {
       "id": 42,
       "name": "Gryphon Rider",
       "icon": 30,
       "tree": ["Human", "Air Units"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
     },
     {
       "id": 46,
       "name": "Danath",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "stats_changed_unit", "status_update": "stats_update_soldier"}
+      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
     },
     {
       "id": 2,
       "name": "Peasant",
       "icon": 0,
       "tree": ["Human", "Land Units"],
-      "original": {"button_set": 2, "status_changed": "stats_changed_worker", "status_update": "stats_update_worker"}
+      "original": {"button_set": 2, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
     },
     {
       "id": 3,
       "name": "Peon",
       "icon": 1,
       "tree": ["Orc", "Land Units"],
-      "original": {"button_set": 3, "status_changed": "stats_changed_worker", "status_update": "stats_update_worker"}
+      "original": {"button_set": 3, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
+    },
+    {
+      "id": 14,
+      "name": "Dwarven Demolition Squad",
+      "tree": ["Human", "Land Units"],
+      "original": {"button_set": 14, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+    },
+    {
+      "id": 41,
+      "name": "Goblin Zeppelin",
+      "tree": ["Orc", "Air Units"],
+      "original": {"button_set": 41, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+    },
+    {
+      "id": 45,
+      "name": "Eye of Kilrogg",
+      "tree": ["Orc", "Summoned"],
+      "original": {"button_set": 41, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
     },
     {
       "id": 58,
       "name": "Farm",
       "icon": 38,
       "tree": ["Human", "Buildings"],
-      "original": {"button_set": null, "status_changed": "stats_changed_farm", "status_update": "stats_update_farm"}
+      "original": {"button_set": null, "status_changed": "statdraw_query_farm", "status_update": "statdraw_draw_farm"}
     },
     {"id": 110, "name": "Blank", "tree": ["Other", "Menus"], "original": {"button_set": null}},
     {"id": 111, "name": "Human Basic Build", "tree": ["Other", "Menus"], "original": {"button_set": 111}}
@@ -227,16 +259,16 @@ AxeGraft.registerCatalog({
       "tree": ["Human"],
       "entries": [0, 4, 22, 36, 42, 46],
       "original": [
-        {"position": 0, "icon": 83, "condition": "always", "action": "move", "string": 392, "highlighted": 2},
-        {"position": 1, "icon": 164, "condition": "armor_level", "condition_variable": 0, "action": "stop", "string": 393, "highlighted": 1},
-        {"position": 1, "icon": 165, "condition": "armor_level", "condition_variable": 1, "action": "stop", "string": 393, "highlighted": 1},
-        {"position": 1, "icon": 166, "condition": "armor_level", "condition_variable": 2, "action": "stop", "string": 393, "highlighted": 1},
-        {"position": 2, "icon": 116, "condition": "weapon_level", "condition_variable": 0, "action": "attack", "string": 394, "highlighted": 8},
-        {"position": 2, "icon": 117, "condition": "weapon_level", "condition_variable": 1, "action": "attack", "string": 394, "highlighted": 8},
-        {"position": 2, "icon": 118, "condition": "weapon_level", "condition_variable": 2, "action": "attack", "string": 394, "highlighted": 8},
-        {"position": 3, "icon": 178, "condition": "always", "action": "patrol", "string": 404, "highlighted": 4},
-        {"position": 4, "icon": 180, "condition": "always", "action": "stand_ground", "string": 403, "highlighted": 16},
-        {"position": 5, "icon": 182, "condition": "can_attack_ground", "action": "attack_ground", "string": 402, "highlighted": 32}
+        {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+        {"position": 1, "icon": 164, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+        {"position": 1, "icon": 165, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+        {"position": 1, "icon": 166, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+        {"position": 2, "icon": 116, "condition": "bf_has_Swords", "condition_variable": 0, "action": "order_attack", "string": 394, "highlighted": 8},
+        {"position": 2, "icon": 117, "condition": "bf_has_Swords", "condition_variable": 1, "action": "order_attack", "string": 394, "highlighted": 8},
+        {"position": 2, "icon": 118, "condition": "bf_has_Swords", "condition_variable": 2, "action": "order_attack", "string": 394, "highlighted": 8},
+        {"position": 3, "icon": 178, "condition": "bf_always", "action": "order_patrol", "string": 404, "highlighted": 4},
+        {"position": 4, "icon": 180, "condition": "bf_always", "action": "order_stand_ground", "string": 403, "highlighted": 16},
+        {"position": 5, "icon": 182, "condition": "bf_attack_ground", "action": "order_attack_ground", "string": 402, "highlighted": 32}
       ]
     },
     {
@@ -245,14 +277,14 @@ AxeGraft.registerCatalog({
       "tree": ["Human"],
       "entries": [2],
       "original": [
-        {"position": 0, "icon": 83, "condition": "always", "action": "move", "string": 392, "highlighted": 2},
-        {"position": 1, "icon": 164, "condition": "always", "action": "stop", "string": 393, "highlighted": 1},
-        {"position": 2, "icon": 116, "condition": "always", "action": "attack", "string": 394, "highlighted": 8},
-        {"position": 3, "icon": 85, "condition": "always", "action": "repair", "string": 395, "highlighted": 256},
-        {"position": 4, "icon": 86, "condition": "can_harvest", "action": "harvest", "string": 396, "highlighted": 64},
-        {"position": 5, "icon": 89, "condition": "carries_goods", "action": "return_goods", "string": 401, "highlighted": 128},
-        {"position": 6, "icon": 87, "condition": "can_build_basic", "action": "show_table_entry", "action_variable": 111, "string": 398, "highlighted": 0},
-        {"position": 7, "icon": 88, "condition": "can_build_advanced", "action": "show_table_entry", "action_variable": 112, "string": 399, "highlighted": 0}
+        {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+        {"position": 1, "icon": 164, "condition": "bf_always", "action": "order_guard", "string": 393, "highlighted": 1},
+        {"position": 2, "icon": 116, "condition": "bf_always", "action": "order_attack", "string": 394, "highlighted": 8},
+        {"position": 3, "icon": 85, "condition": "bf_always", "action": "order_repair", "string": 395, "highlighted": 256},
+        {"position": 4, "icon": 86, "condition": "bf_no_load", "action": "order_harvest", "string": 396, "highlighted": 64},
+        {"position": 5, "icon": 89, "condition": "bf_load", "action": "order_return", "string": 401, "highlighted": 128},
+        {"position": 6, "icon": 87, "condition": "bf_wood", "action": "status_set_card", "action_variable": 111, "string": 398, "highlighted": 0},
+        {"position": 7, "icon": 88, "condition": "bf_stone", "action": "status_set_card", "action_variable": 112, "string": 399, "highlighted": 0}
       ]
     },
     {
@@ -261,15 +293,101 @@ AxeGraft.registerCatalog({
       "tree": ["Orc"],
       "entries": [3],
       "original": [
-        {"position": 0, "icon": 84, "condition": "always", "action": "move", "string": 392, "highlighted": 2},
-        {"position": 1, "icon": 167, "condition": "always", "action": "stop", "string": 393, "highlighted": 1},
-        {"position": 2, "icon": 119, "condition": "always", "action": "attack", "string": 394, "highlighted": 8},
-        {"position": 3, "icon": 85, "condition": "always", "action": "repair", "string": 395, "highlighted": 256},
-        {"position": 4, "icon": 86, "condition": "can_harvest", "action": "harvest", "string": 396, "highlighted": 64},
-        {"position": 5, "icon": 90, "condition": "carries_goods", "action": "return_goods", "string": 401, "highlighted": 128},
-        {"position": 6, "icon": 87, "condition": "can_build_basic", "action": "show_table_entry", "action_variable": 113, "string": 398, "highlighted": 0},
-        {"position": 7, "icon": 88, "condition": "can_build_advanced", "action": "show_table_entry", "action_variable": 114, "string": 399, "highlighted": 0}
+        {"position": 0, "icon": 84, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+        {"position": 1, "icon": 167, "condition": "bf_always", "action": "order_guard", "string": 393, "highlighted": 1},
+        {"position": 2, "icon": 119, "condition": "bf_always", "action": "order_attack", "string": 394, "highlighted": 8},
+        {"position": 3, "icon": 85, "condition": "bf_always", "action": "order_repair", "string": 395, "highlighted": 256},
+        {"position": 4, "icon": 86, "condition": "bf_no_load", "action": "order_harvest", "string": 396, "highlighted": 64},
+        {"position": 5, "icon": 90, "condition": "bf_load", "action": "order_return", "string": 401, "highlighted": 128},
+        {"position": 6, "icon": 87, "condition": "bf_wood", "action": "status_set_card", "action_variable": 113, "string": 398, "highlighted": 0},
+        {"position": 7, "icon": 88, "condition": "bf_stone", "action": "status_set_card", "action_variable": 114, "string": 399, "highlighted": 0}
       ]
+    },
+    {
+      "id": 14,
+      "name": "Dwarven Demolition Squad",
+      "tree": ["Human"],
+      "entries": [14],
+      "original": {
+        "default": [
+          {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+          {"position": 1, "icon": 164, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 1, "icon": 165, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 1, "icon": 166, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 2, "icon": 116, "condition": "bf_has_Swords", "condition_variable": 0, "action": "order_attack", "string": 394, "highlighted": 8},
+          {"position": 2, "icon": 117, "condition": "bf_has_Swords", "condition_variable": 1, "action": "order_attack", "string": 394, "highlighted": 8},
+          {"position": 2, "icon": 118, "condition": "bf_has_Swords", "condition_variable": 2, "action": "order_attack", "string": 394, "highlighted": 8},
+          {"position": 3, "icon": 184, "condition": "bf_enhanced_mode", "action": "order_patrol", "string": 404, "highlighted": 4},
+          {"position": 8, "icon": 142, "condition": "bf_always", "action": "order_demolish", "string": 406, "highlighted": 32}
+        ],
+        "perVersion": {
+          "1.3": [
+            {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 164, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 165, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 166, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 2, "icon": 116, "condition": "bf_has_Swords", "condition_variable": 0, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 117, "condition": "bf_has_Swords", "condition_variable": 1, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 118, "condition": "bf_has_Swords", "condition_variable": 2, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 8, "icon": 142, "condition": "bf_always", "action": "order_demolish", "string": 406, "highlighted": 32}
+          ],
+          "1.33": [
+            {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 164, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 165, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 166, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 2, "icon": 116, "condition": "bf_has_Swords", "condition_variable": 0, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 117, "condition": "bf_has_Swords", "condition_variable": 1, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 118, "condition": "bf_has_Swords", "condition_variable": 2, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 8, "icon": 142, "condition": "bf_always", "action": "order_demolish", "string": 406, "highlighted": 32}
+          ],
+          "1.5": [
+            {"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 164, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 165, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 166, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 2, "icon": 116, "condition": "bf_has_Swords", "condition_variable": 0, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 117, "condition": "bf_has_Swords", "condition_variable": 1, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 2, "icon": 118, "condition": "bf_has_Swords", "condition_variable": 2, "action": "order_attack", "string": 394, "highlighted": 8},
+            {"position": 8, "icon": 142, "condition": "bf_always", "action": "order_demolish", "string": 406, "highlighted": 32}
+          ]
+        }
+      }
+    },
+    {
+      "id": 41,
+      "name": "Goblin Zeppelin and Eye of Kilrogg",
+      "tree": ["Orc"],
+      "entries": [41, 45],
+      "original": {
+        "default": [
+          {"position": 0, "icon": 84, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+          {"position": 1, "icon": 167, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 1, "icon": 168, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 1, "icon": 169, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1},
+          {"position": 3, "icon": 185, "condition": "bf_enhanced_mode", "action": "order_patrol", "string": 404, "highlighted": 4}
+        ],
+        "perVersion": {
+          "1.3": [
+            {"position": 0, "icon": 84, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 167, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 168, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 169, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1}
+          ],
+          "1.33": [
+            {"position": 0, "icon": 84, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 167, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 168, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 169, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1}
+          ],
+          "1.5": [
+            {"position": 0, "icon": 84, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2},
+            {"position": 1, "icon": 167, "condition": "bf_has_Shields", "condition_variable": 0, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 168, "condition": "bf_has_Shields", "condition_variable": 1, "action": "order_guard", "string": 393, "highlighted": 1},
+            {"position": 1, "icon": 169, "condition": "bf_has_Shields", "condition_variable": 2, "action": "order_guard", "string": 393, "highlighted": 1}
+          ]
+        }
+      }
     },
     {
       "id": 111,
@@ -277,14 +395,14 @@ AxeGraft.registerCatalog({
       "tree": ["Other"],
       "entries": [111],
       "original": [
-        {"position": 0, "icon": 38, "condition": "can_build_farm", "action": "build", "action_variable": 58, "string": 306, "highlighted": 0},
-        {"position": 1, "icon": 42, "condition": "can_build_barracks", "action": "build", "action_variable": 60, "string": 299, "highlighted": 0},
-        {"position": 2, "icon": 40, "condition": "can_build_town_hall", "action": "build", "action_variable": 74, "string": 307, "highlighted": 0},
-        {"position": 3, "icon": 44, "condition": "can_build_lumber_mill", "action": "build", "action_variable": 76, "string": 300, "highlighted": 0},
-        {"position": 4, "icon": 46, "condition": "can_build_blacksmith", "action": "build", "action_variable": 82, "string": 314, "highlighted": 0},
-        {"position": 6, "icon": 60, "condition": "can_build_tower", "action": "build", "action_variable": 64, "string": 303, "highlighted": 0},
-        {"position": 7, "icon": 92, "condition": "can_build_wall", "action": "build", "action_variable": 103, "string": 312, "highlighted": 0},
-        {"position": 8, "icon": 91, "condition": "always", "action": "show_table_entry", "action_variable": 110, "string": 407, "highlighted": 0}
+        {"position": 0, "icon": 38, "condition": "bf_farm_ok", "action": "order_place", "action_variable": 58, "string": 306, "highlighted": 0},
+        {"position": 1, "icon": 42, "condition": "bf_barrack_ok", "action": "order_place", "action_variable": 60, "string": 299, "highlighted": 0},
+        {"position": 2, "icon": 40, "condition": "bf_thall_ok", "action": "order_place", "action_variable": 74, "string": 307, "highlighted": 0},
+        {"position": 3, "icon": 44, "condition": "bf_mill_ok", "action": "order_place", "action_variable": 76, "string": 300, "highlighted": 0},
+        {"position": 4, "icon": 46, "condition": "bf_smith_ok", "action": "order_place", "action_variable": 82, "string": 314, "highlighted": 0},
+        {"position": 6, "icon": 60, "condition": "bf_tower_ok", "action": "order_place", "action_variable": 64, "string": 303, "highlighted": 0},
+        {"position": 7, "icon": 92, "condition": "bf_wall_ok", "action": "order_place", "action_variable": 103, "string": 312, "highlighted": 0},
+        {"position": 8, "icon": 91, "condition": "bf_always", "action": "status_set_card", "action_variable": 110, "string": 407, "highlighted": 0}
       ]
     }
   ],
@@ -297,7 +415,7 @@ AxeGraft.registerCatalog({
       "range": {"min": 1, "max": 255},
       "note": "Counted in game cycles, whose length depends on the game speed.",
       "help": "Spellcasters gain 1 mana every this many game cycles.",
-      "availability": {"2.00": 40, "2.02": 40}
+      "availability": {"1.3": 40, "1.33": 40, "1.5": 40, "2.00": 40, "2.02": 40}
     },
     {
       "name": "decay_hit_points",
@@ -307,7 +425,7 @@ AxeGraft.registerCatalog({
       "range": {"min": 0, "max": 127},
       "note": "The game stores this twice, as 5 and as -5, and both change together.",
       "help": "Hit points a decaying unit, such as an Eye of Kilrogg or a skeleton, loses each time its decay counter runs out and it has no mana left.",
-      "availability": {"2.00": 5, "2.02": 5}
+      "availability": {"1.3": 5, "1.33": 5, "1.5": 5, "2.00": 5, "2.02": 5}
     }
   ],
   "assets": {

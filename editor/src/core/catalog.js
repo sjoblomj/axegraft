@@ -170,6 +170,10 @@
     if (!isObject(raw.panel) || !isInt(raw.panel.columns) || raw.panel.columns < 1) {
       problem("panel.columns must give the number of columns in the command panel");
     }
+    if (isObject(raw.panel) && raw.panel.ascending !== undefined && typeof raw.panel.ascending !== "boolean") {
+      problem("panel.ascending must be true or false");
+    }
+    var ascending = isObject(raw.panel) && raw.panel.ascending === true;
 
     // Button fields
     var buttonFields = Array.isArray(raw.buttonFields) ? raw.buttonFields : [];
@@ -349,12 +353,40 @@
         if (lowest !== set.id) problem(where + " must take the ID of the lowest table entry pointing at it, " + lowest);
       }
       checkVersions(set.absentOn, where + " absentOn");
-      if (!Array.isArray(set.original)) problem(where + " needs its original buttons");
-      else
-        set.original.forEach(function (b, j) {
-          checkButton(b, where + " button " + j);
-        });
+      // One list for every version, or { default, perVersion } like a requirement record.
+      if (Array.isArray(set.original)) {
+        checkButtons(set.original, where);
+      } else if (isObject(set.original) && util.has(set.original, "default")) {
+        checkButtons(set.original["default"], where);
+        if (set.original.perVersion !== undefined) {
+          if (!isObject(set.original.perVersion)) problem(where + " perVersion must be an object");
+          else
+            Object.keys(set.original.perVersion).forEach(function (v) {
+              if (versionIds.indexOf(v) < 0) problem(where + " perVersion names an unknown version " + util.show(v));
+              checkButtons(set.original.perVersion[v], where + " on " + v);
+            });
+        }
+      } else {
+        problem(where + " needs its original buttons");
+      }
     });
+
+    function checkButtons(list, where) {
+      if (!Array.isArray(list)) {
+        problem(where + " needs its original buttons");
+        return;
+      }
+      list.forEach(function (b, j) {
+        checkButton(b, where + " button " + j);
+      });
+      if (ascending) {
+        var posField = fieldOfKind("position");
+        var bad = posField ? firstOutOfOrder(list, posField.name) : -1;
+        if (bad >= 0) {
+          problem(where + " isn't in ascending position order: button " + bad + " at position " + list[bad][posField.name] + " follows position " + list[bad - 1][posField.name]);
+        }
+      }
+    }
 
     function checkButton(b, where) {
       if (!isObject(b)) {
@@ -608,6 +640,23 @@
     return problems;
   }
 
+  // The index of the first button whose position is lower than the one
+  // before it, or -1 if the list is in ascending order. Equal positions are allowed.
+  function firstOutOfOrder(list, posName) {
+    for (var i = 1; i < list.length; i++) {
+      var a = isObject(list[i - 1]) ? list[i - 1][posName] : undefined;
+      var b = isObject(list[i]) ? list[i][posName] : undefined;
+      if (isInt(a) && isInt(b) && b < a) return i;
+    }
+    return -1;
+  }
+
+  // A set's original buttons in one form: { default, perVersion }.
+  function normalOriginal(original) {
+    if (Array.isArray(original)) return util.freeze({ "default": original, perVersion: {} });
+    return util.freeze({ "default": original["default"], perVersion: original.perVersion || {} });
+  }
+
   // Builds lookups for a checked catalog. The raw data is kept as it is.
   function indexCatalog(raw, source) {
     function map(list, key) {
@@ -660,13 +709,18 @@
       strings: raw.strings || {},
       assets: raw.assets || null,
       // The set each table entry points at originally (null for none).
-      entrySet: new Map()
+      entrySet: new Map(),
+      // Each set's original buttons as { default, perVersion }, whichever form the catalog uses.
+      setOriginals: new Map()
     };
     FUNCTION_LISTS.forEach(function (list) {
       cat.functions[list] = map(raw.functions[list], "name");
     });
     (raw.requirements || []).forEach(function (r) {
       cat.requirements.set(r.type + ":" + r.id, r);
+    });
+    (raw.buttonSets || []).forEach(function (set) {
+      cat.setOriginals.set(set.id, normalOriginal(set.original));
     });
     var bs = cat.unitKind.buttonSet.name;
     (raw.units || []).forEach(function (u) {
@@ -737,6 +791,7 @@
     GAMES: GAMES,
     REQUIREMENT_TYPES: REQUIREMENT_TYPES,
     TYPE_LIMIT: TYPE_LIMIT,
+    firstOutOfOrder: firstOutOfOrder,
     check: checkCatalog,
     index: indexCatalog,
     load: loadCatalogs,

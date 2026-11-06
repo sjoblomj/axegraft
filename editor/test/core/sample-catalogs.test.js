@@ -67,8 +67,9 @@
       raw.versions.map(function (v) {
         return v.id;
       }),
-      ["2.00", "2.02"]
+      ["1.3", "1.33", "1.5", "2.00", "2.02"]
     );
+    T.equal(raw.panel.ascending, true, "Warcraft II needs ascending positions");
   });
 
   T.test("sample Warcraft II catalog: has the string and highlighted fields, and no StarCraft string fields", function () {
@@ -89,7 +90,7 @@
     var peasant = cat.sets.get(2).original;
     T.equal(
       peasant.filter(function (b) {
-        return b.action === "show_table_entry";
+        return b.action === "status_set_card";
       }).map(function (b) {
         return b.action_variable;
       }),
@@ -98,5 +99,51 @@
     T.equal(cat.sets.get(111).original[7].action_variable, 110);
     T.equal(cat.sets.get(0).entries, [0, 4, 22, 36, 42, 46]);
     T.equal(cat.units.get(58).original.button_set, null);
+  });
+
+  T.test("sample Warcraft II catalog: uses the reference's function names", function () {
+    var cat = C.index(JSON.parse(JSON.stringify(sample("warcraft2"))));
+    T.equal(cat.units.get(0).original, { button_set: 0, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_grunt" });
+    T.equal(cat.units.get(2).original, { button_set: 2, status_changed: "statdraw_query_peon", status_update: "statdraw_draw_peon" });
+    T.equal(cat.sets.get(0).original[1], { position: 1, icon: 164, condition: "bf_has_Shields", condition_variable: 0, action: "order_guard", string: 393, highlighted: 1 });
+    T.equal(cat.sets.get(111).original[0], { position: 0, icon: 38, condition: "bf_farm_ok", action: "order_place", action_variable: 58, string: 306, highlighted: 0 });
+    T.equal(cat.functions.conditions.get("bf_enhanced_mode").absentOn, ["1.3", "1.33", "1.5"], "a function only 2.00 and 2.02 have");
+  });
+
+  // The appendix of w2_exe.md: 2.00 and 2.02 insert a Patrol button,
+  // shown only in Enhanced mode, before the last command.
+  T.test("sample Warcraft II catalog: sets whose original differs on the DOS versions, as in the reference", function () {
+    var cat = C.index(JSON.parse(JSON.stringify(sample("warcraft2"))));
+    var D = AG.core.doc;
+    function shields(icon) {
+      return [0, 1, 2].map(function (lv) {
+        return { position: 1, icon: icon + lv, condition: "bf_has_Shields", condition_variable: lv, action: "order_guard", string: 393, highlighted: 1 };
+      });
+    }
+    function swords(icon) {
+      return [0, 1, 2].map(function (lv) {
+        return { position: 2, icon: icon + lv, condition: "bf_has_Swords", condition_variable: lv, action: "order_attack", string: 394, highlighted: 8 };
+      });
+    }
+    function move(icon) {
+      return { position: 0, icon: icon, condition: "bf_always", action: "order_move", string: 392, highlighted: 2 };
+    }
+    function patrol(icon) {
+      return { position: 3, icon: icon, condition: "bf_enhanced_mode", action: "order_patrol", string: 404, highlighted: 4 };
+    }
+    var demolish = { position: 8, icon: 142, condition: "bf_always", action: "order_demolish", string: 406, highlighted: 32 };
+
+    var dosSquad = [move(83)].concat(shields(164), swords(116), [demolish]);
+    var bneSquad = [move(83)].concat(shields(164), swords(116), [patrol(184), demolish]);
+    T.equal(cat.sets.get(14).entries, [14]);
+    T.equal(D.originalButtons(cat, 14, "1.5"), dosSquad);
+    T.equal(D.originalButtons(cat, 14, "1.3"), dosSquad);
+    T.equal(D.originalButtons(cat, 14, "2.02"), bneSquad);
+    T.equal(D.originalButtons(cat, 14, "2.00"), bneSquad);
+
+    var dosZeppelin = [move(84)].concat(shields(167));
+    T.equal(cat.sets.get(41).entries, [41, 45], "the Goblin Zeppelin and the Eye of Kilrogg");
+    T.equal(D.originalButtons(cat, 41, "1.33"), dosZeppelin);
+    T.equal(D.originalButtons(cat, 41, "2.02"), dosZeppelin.concat([patrol(185)]));
   });
 })(AxeGraft);

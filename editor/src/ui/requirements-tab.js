@@ -63,22 +63,18 @@
   }
 
   function originalView(cat, type, id) {
-    var groups = [];
-    cat.versionIds.forEach(function (v) {
-      var rec = D.originalRecord(cat, type, id, v);
-      var last = groups[groups.length - 1];
-      if (last && util.equal(last.rec, rec)) last.versions.push(v);
-      else groups.push({ rec: rec, versions: [v] });
+    var groups = AG.core.compat.groupVersions(cat, function (v) {
+      return D.originalRecord(cat, type, id, v);
     });
     return h(
       "div",
       { class: "req-original", dataset: { original: "" } },
       groups.map(function (g) {
-        var rows = g.rec ? R.toRows(cat, g.rec) : [];
+        var rows = g.value ? R.toRows(cat, g.value) : [];
         var s = R.structure(cat, rows);
         return h("div", null, [
-          h("h3", { style: { "font-size": "13px", margin: "4px 0" }, text: (groups.length > 1 ? AG.core.compat.versionText(cat, g.versions) : "All versions") + ":" }),
-          g.rec === null
+          h("h3", { style: { "font-size": "13px", margin: "4px 0" }, text: AG.core.compat.groupLabel(cat, groups, g) + ":" }),
+          g.value === null
             ? h("p", { text: "No requirement record." })
             : !rows.length
             ? h("p", { text: "An empty record." })

@@ -3,11 +3,15 @@
 ## ADDED Requirements
 
 ### Requirement: Original buttons shown by version
-When a set's original buttons differ between versions, the tab SHALL show the original list of each group of versions that share one, naming those versions. Where they don't differ, it SHALL show one list for all versions.
+When a set's original buttons differ between versions, the tab SHALL show the original list of each group of versions that share one side by side, naming those versions, with the buttons lined up so the lists can be compared. A button missing from a group SHALL be marked red, a button that only some groups have green, and a button that differs between groups yellow. Where they don't differ, it SHALL show one list for all versions.
 
 #### Scenario: Set that differs on the DOS versions
 - **WHEN** a user selects Warcraft II's Goblin Zeppelin set
-- **THEN** the tab shows its original for 2.00 and 2.02 and its original for 1.3, 1.33 and 1.5, each with its versions named
+- **THEN** the tab shows its original for 1.3, 1.33 and 1.5 beside its original for 2.00 and 2.02, each with its versions named, with the Patrol button green in the 2.00 and 2.02 column and its empty place red in the DOS column
+
+#### Scenario: Button that differs between versions
+- **WHEN** a button at the same place in two groups' lists has another condition in one of them
+- **THEN** both are on one row, marked yellow
 
 #### Scenario: Set that never differs
 - **WHEN** a user selects a set with one original list

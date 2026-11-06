@@ -268,13 +268,40 @@
     });
   }
 
+  // A set's original buttons on one version, or the default list when
+  // `version` is null. Null for a set the catalog doesn't list.
+  function originalButtons(cat, id, version) {
+    var o = cat.setOriginals.get(id);
+    if (!o) return null;
+    if (version && util.has(o.perVersion, version)) return o.perVersion[version];
+    return o["default"];
+  }
+
+  // The original buttons on each version, as { version: list }, or null
+  // for a set the catalog doesn't list.
+  function originalButtonsByVersion(cat, id) {
+    if (!cat.setOriginals.has(id)) return null;
+    var out = {};
+    cat.versionIds.forEach(function (v) {
+      out[v] = originalButtons(cat, id, v);
+    });
+    return out;
+  }
+
   function effectiveButtons(doc, cat, id) {
     var set = cat.sets.get(id);
     var hit = setEntry(doc, id);
-    var original = set ? set.original : null;
+    var original = originalButtons(cat, id, null);
+    var originals = originalButtonsByVersion(cat, id);
+    var buttons = hit && Array.isArray(hit.entry.buttons) ? hit.entry.buttons : original || [];
     return {
-      buttons: hit && Array.isArray(hit.entry.buttons) ? hit.entry.buttons : original || [],
+      buttons: buttons,
       original: original,
+      originals: originals,
+      // The versions whose original the mod's buttons don't match.
+      differsOn: hit && originals ? cat.versionIds.filter(function (v) {
+        return !sameButtons(cat, buttons, originals[v]);
+      }) : [],
       defined: !!hit,
       isNew: !set && isNewSet(cat, id),
       path: hit ? "button_sets[" + hit.index + "]" : null
@@ -289,6 +316,88 @@
     })));
   }
 
+  // Lines up several lists of buttons side by side, keeping each list's
+  // order, for showing how they differ. Equal buttons share a row; a button
+  // that differs but has the same position as one in another list shares
+  // that row; any other button gets a row of its own. Returns rows of
+  // { cells: [button or null for each list], state }, where state is
+  // "same" (equal in every list), "changed" (in every list, not all equal)
+  // or "partial" (missing from some lists).
+  function alignButtons(cat, lists) {
+    var pos = cat.buttonKind.position.name;
+    function equal(a, b) {
+      return sameButtons(cat, [a], [b]);
+    }
+    // 0 for a row holding an equal button, 1 for one at the same position.
+    function matchCost(row, b) {
+      var cells = row.filter(function (c) {
+        return c !== null;
+      });
+      if (cells.some(function (c) {
+        return equal(c, b);
+      })) return 0;
+      if (isObject(b) && cells.some(function (c) {
+        return isObject(c) && c[pos] === b[pos];
+      })) return 1;
+      return Infinity;
+    }
+    var rows = [];
+    lists.forEach(function (list, k) {
+      var n = rows.length;
+      var m = list.length;
+      var cost = [];
+      for (var i = 0; i <= n; i++) {
+        cost.push([]);
+        for (var j = 0; j <= m; j++) {
+          if (!i || !j) {
+            cost[i][j] = i + j;
+            continue;
+          }
+          cost[i][j] = Math.min(cost[i - 1][j - 1] + matchCost(rows[i - 1], list[j - 1]), cost[i - 1][j] + 1, cost[i][j - 1] + 1);
+        }
+      }
+      var out = [];
+      var i2 = n;
+      var j2 = m;
+      function blank() {
+        var cells = [];
+        for (var x = 0; x < k; x++) cells.push(null);
+        return cells;
+      }
+      while (i2 > 0 || j2 > 0) {
+        if (i2 > 0 && j2 > 0 && cost[i2][j2] === cost[i2 - 1][j2 - 1] + matchCost(rows[i2 - 1], list[j2 - 1])) {
+          out.push(rows[i2 - 1].concat([list[j2 - 1]]));
+          i2--;
+          j2--;
+        } else if (j2 > 0 && (i2 === 0 || cost[i2][j2] === cost[i2][j2 - 1] + 1)) {
+          out.push(blank().concat([list[j2 - 1]]));
+          j2--;
+        } else {
+          out.push(rows[i2 - 1].concat([null]));
+          i2--;
+        }
+      }
+      rows = out.reverse();
+    });
+    return rows.map(function (cells) {
+      var present = cells.filter(function (c) {
+        return c !== null;
+      });
+      var state = present.length < cells.length ? "partial" : present.every(function (c) {
+        return equal(c, present[0]);
+      }) ? "same" : "changed";
+      return { cells: cells, state: state };
+    });
+  }
+
+  // Buttons match the original only when they do on every version.
+  function matchesOriginalButtons(cat, id, buttons) {
+    if (!cat.setOriginals.has(id)) return false;
+    return cat.versionIds.every(function (v) {
+      return sameButtons(cat, buttons, originalButtons(cat, id, v));
+    });
+  }
+
   function setButtons(doc, cat, id, buttons) {
     buttons = buttons.map(function (b) {
       return tidyButton(cat, b);
@@ -296,7 +405,7 @@
     var set = cat.sets.get(id);
     var hit = setEntry(doc, id);
     var list = entries(doc, "button_sets").slice();
-    if (set && sameButtons(cat, buttons, set.original)) {
+    if (set && matchesOriginalButtons(cat, id, buttons)) {
       // Matches the original: no entry.
       return withPart(
         doc,
@@ -317,6 +426,27 @@
       list.push(withLabel({ id: id, buttons: buttons }, set ? set.name : null));
     }
     return withPart(doc, "button_sets", list);
+  }
+
+  // Sorts a set's buttons by position, lowest first. Buttons at the same
+  // position keep their order. A set already in order is left as it is.
+  function sortButtons(doc, cat, id) {
+    var pos = cat.buttonKind.position.name;
+    var buttons = effectiveButtons(doc, cat, id).buttons;
+    var sorted = buttons
+      .map(function (b, i) {
+        return { b: b, i: i };
+      })
+      .sort(function (x, y) {
+        return x.b[pos] - y.b[pos] || x.i - y.i;
+      })
+      .map(function (x) {
+        return x.b;
+      });
+    var same = sorted.every(function (b, i) {
+      return b === buttons[i];
+    });
+    return same ? doc : setButtons(doc, cat, id, sorted);
   }
 
   function revertSet(doc, cat, id) {
@@ -563,8 +693,7 @@
         var tidied = e.buttons.map(function (b) {
           return tidyButton(cat, b);
         });
-        var set = isInt(e.id) ? cat.sets.get(e.id) : null;
-        if (set && sameButtons(cat, tidied, set.original)) {
+        if (isInt(e.id) && matchesOriginalButtons(cat, e.id, tidied)) {
           changed = true;
           return;
         }
@@ -627,8 +756,12 @@
     setUnitField: setUnitField,
     revertUnitField: revertUnitField,
     revertUnit: revertUnit,
+    originalButtons: originalButtons,
+    originalButtonsByVersion: originalButtonsByVersion,
     effectiveButtons: effectiveButtons,
     setButtons: setButtons,
+    sortButtons: sortButtons,
+    alignButtons: alignButtons,
     revertSet: revertSet,
     nextNewSet: nextNewSet,
     addSet: addSet,

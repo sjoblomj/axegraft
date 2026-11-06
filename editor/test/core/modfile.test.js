@@ -189,6 +189,44 @@
     );
   });
 
+  // Warcraft II needs ascending positions; StarCraft doesn't.
+  function wc2Set(positions) {
+    return {
+      patcher: "AxeGraft",
+      format: 1,
+      game: "warcraft2",
+      button_sets: [
+        {
+          id: 0,
+          buttons: positions.map(function (p, i) {
+            return { position: p, icon: 83 + i, condition: "w2_always", action: "w2_move", string: 400, highlighted: 0 };
+          })
+        }
+      ]
+    };
+  }
+
+  T.test("errors and warnings: Warcraft II buttons out of position order are an error naming the set and the button", function () {
+    var problems = AG.core.validate.check(wc2Set([0, 5, 3, 8]), T.catalog("warcraft2"));
+    T.equal(
+      problems.map(function (p) {
+        return [p.severity, p.path, p.message];
+      }),
+      [["error", "button_sets[0].buttons[2].position", "Set 0 (Footman) isn't in ascending position order: button 2 is at position 3, after position 5. This game needs each set's buttons sorted by position, lowest first."]]
+    );
+  });
+
+  T.test("errors and warnings: Warcraft II buttons sharing a position in a row are no error", function () {
+    T.equal(AG.core.validate.check(wc2Set([1, 1, 1, 4]), T.catalog("warcraft2")), []);
+  });
+
+  T.test("errors and warnings: StarCraft buttons may be in any order", function () {
+    var mod = withString(664);
+    mod.button_sets[0].buttons.push(Object.assign({}, mod.button_sets[0].buttons[0], { position: 1 }));
+    mod.button_sets[0].buttons[0] = Object.assign({}, mod.button_sets[0].buttons[0], { position: 7 });
+    T.equal(AG.core.validate.check(mod, T.catalog("starcraft")), []);
+  });
+
   function withString(id) {
     return {
       patcher: "AxeGraft",

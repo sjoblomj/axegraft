@@ -76,10 +76,17 @@ AxeGraft.registerExampleCatalog({
   "buttonSets": [
     {
       "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 32],
-      "original": [
-        { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
-        { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
-      ]
+      "original": {
+        "default": [
+          { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
+          { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
+        ],
+        "perVersion": {
+          "1.07": [
+            { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 }
+          ]
+        }
+      }
     }
   ],
   "techs": [{ "id": 0, "name": "Stim Packs", "tree": ["Terran"] }],

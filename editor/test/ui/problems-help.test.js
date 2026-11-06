@@ -138,7 +138,7 @@
             check(t.id + " " + k + " button " + i);
           }
           if (!n) check(t.id + " " + k);
-          U.q(app, ".buttonset-panel details").open = true;
+          U.q(app, ".buttonset-panel details[data-copy]").open = true;
           check(t.id + " " + k + " copy");
         } else check(t.id + " " + k);
         if (t.id === "requirements") {

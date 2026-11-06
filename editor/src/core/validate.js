@@ -344,6 +344,24 @@
       if (!isObject(b)) problems.refuse(bp, "Each button must be an object, but this is " + util.typeName(b) + ".");
       else checkButton(ctx, b, bp, "Button " + j + " of set " + (isInt(id) ? id : "?"));
     });
+    checkPositionOrder(ctx, e, path);
+  }
+
+  // In a game that needs it, a set's buttons must be in ascending position
+  // order, because the game fills the panel walking the list in order.
+  function checkPositionOrder(ctx, e, path) {
+    var cat = ctx.cat;
+    if (!cat.panel.ascending) return;
+    var pos = cat.buttonKind.position.name;
+    var list = e.buttons.filter(isObject).length === e.buttons.length ? e.buttons : [];
+    var bad = AG.core.catalog.firstOutOfOrder(list, pos);
+    if (bad < 0) return;
+    var set = isInt(e.id) ? cat.sets.get(e.id) : null;
+    var who = "Set " + (isInt(e.id) ? e.id : "?") + (set ? " (" + set.name + ")" : "");
+    ctx.problems.error(
+      path + ".buttons[" + bad + "]." + pos,
+      who + " isn't in ascending position order: button " + bad + " is at position " + list[bad][pos] + ", after position " + list[bad - 1][pos] + ". This game needs each set's buttons sorted by position, lowest first."
+    );
   }
 
   function variableRange(cat, type, fieldLimit) {

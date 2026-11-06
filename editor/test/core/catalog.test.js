@@ -175,6 +175,70 @@
     raw.requirements[3].original.perVersion = { "1.17": null };
   }, /perVersion names an unknown version "1.17"/);
 
+  // Original buttons by version
+  function sixButtons() {
+    return [{ position: 3, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 1, disabled_string: 0 }];
+  }
+
+  T.test("catalog check: a set's original as one plain list is the same on every version", function () {
+    var raw = T.rawCatalog("starcraft");
+    T.equal(check(raw), []);
+    var cat = C.index(raw);
+    T.equal(cat.setOriginals.get(0)["default"], raw.buttonSets[0].original);
+    T.equal(cat.setOriginals.get(0).perVersion, {});
+  });
+
+  T.test("catalog check: a set's original may differ by version", function () {
+    var raw = T.rawCatalog("starcraft");
+    var plain = raw.buttonSets[0].original;
+    raw.buttonSets[0].original = { "default": plain, perVersion: { "1.07": sixButtons() } };
+    T.equal(check(raw), []);
+    var cat = C.index(raw);
+    T.equal(cat.setOriginals.get(0)["default"], plain);
+    T.equal(cat.setOriginals.get(0).perVersion, { "1.07": sixButtons() });
+  });
+
+  expectProblem("a set's per-version original naming an unknown version", function (raw) {
+    raw.buttonSets[0].original = { "default": raw.buttonSets[0].original, perVersion: { "1.99": sixButtons() } };
+  }, /button set 0 perVersion names an unknown version "1.99"/);
+  expectProblem("a set's per-version original without a default", function (raw) {
+    raw.buttonSets[0].original = { perVersion: { "1.07": sixButtons() } };
+  }, /button set 0 needs its original buttons/);
+  expectProblem("a bad button in a set's per-version original", function (raw) {
+    var list = sixButtons();
+    list[0].condition = "bf_sometimes";
+    raw.buttonSets[0].original = { "default": raw.buttonSets[0].original, perVersion: { "1.07": list } };
+  }, /button set 0 on 1.07 button 0 names condition "bf_sometimes"/);
+  expectProblem("a set's per-version original that isn't a list", function (raw) {
+    raw.buttonSets[0].original = { "default": raw.buttonSets[0].original, perVersion: { "1.07": null } };
+  }, /button set 0 on 1.07 needs its original buttons/);
+
+  // Ascending positions
+  T.test("catalog check: with panel.ascending, a sorted original list and shared positions pass", function () {
+    var raw = T.rawCatalog("starcraft");
+    raw.panel.ascending = true;
+    // Set 5 has two buttons at position 7; set 0 has positions 1 and 7.
+    T.equal(check(raw), []);
+  });
+  T.test("catalog check: without panel.ascending, buttons may be in any order", function () {
+    var raw = T.rawCatalog("starcraft");
+    raw.buttonSets[0].original.reverse();
+    T.equal(check(raw), []);
+  });
+  expectProblem("an original list out of order, with panel.ascending", function (raw) {
+    raw.panel.ascending = true;
+    raw.buttonSets[0].original.reverse();
+  }, /button set 0 isn't in ascending position order: button 1 at position 1 follows position 7/);
+  expectProblem("a per-version original list out of order, with panel.ascending", function (raw) {
+    raw.panel.ascending = true;
+    var list = sixButtons().concat(sixButtons());
+    list[1].position = 2;
+    raw.buttonSets[0].original = { "default": raw.buttonSets[0].original, perVersion: { "1.07": list } };
+  }, /button set 0 on 1.07 isn't in ascending position order: button 1 at position 2 follows position 3/);
+  expectProblem("panel.ascending that isn't true or false", function (raw) {
+    raw.panel.ascending = "yes";
+  }, /panel.ascending must be true or false/);
+
   // Help texts
   expectProblem("a constant without help", function (raw) {
     delete raw.constants[0].help;
