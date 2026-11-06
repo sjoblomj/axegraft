@@ -73,8 +73,10 @@
     });
   }
 
+  // Nothing is shipped unless a test says so, so the tests don't depend on
+  // what assets/ holds.
   function service(storage, options) {
-    return AG.assets.createService(storage || AG.core.storage.memory(), options);
+    return AG.assets.createService(storage || AG.core.storage.memory(), options || { shipped: {} });
   }
 
   T.test("importing from game files: a folder's archives are found by name, and icons and strings imported", function () {

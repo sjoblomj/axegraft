@@ -1,12 +1,13 @@
-// The hand-written sample catalogs pass the catalog check and hold what the
-// editor needs to show each kind of case.
+// The shipped catalogs pass the catalog check. StarCraft's is a hand-written
+// sample that holds what the editor needs to show each kind of case.
+// Warcraft II's is the complete catalog built from the knowledge base.
 "use strict";
 
 (function (AG) {
   var T = AG.testing;
   var C = AG.core.catalog;
 
-  function sample(game) {
+  function registered(game) {
     var found = C.registry.registered.filter(function (r) {
       return r.raw && r.raw.game === game;
     });
@@ -15,14 +16,14 @@
   }
 
   T.test("sample StarCraft catalog: passes the catalog check and is marked as a sample", function () {
-    var raw = sample("starcraft");
+    var raw = registered("starcraft");
     T.equal(C.check(raw, "sample-starcraft.js"), []);
     T.equal(raw.sample, true);
     T.equal(raw.versions.length, 26, "every version from 1.05 to 1.17");
   });
 
   T.test("sample StarCraft catalog: has each kind of case the editor shows", function () {
-    var cat = C.index(JSON.parse(JSON.stringify(sample("starcraft"))));
+    var cat = C.index(JSON.parse(JSON.stringify(registered("starcraft"))));
     // A set several units share.
     T.equal(cat.sets.get(0).entries, [0, 10, 20, 32]);
     // A unit with no buttons, and a table entry that isn't a unit.
@@ -56,10 +57,10 @@
     ]);
   });
 
-  T.test("sample Warcraft II catalog: passes the catalog check, with no requirements", function () {
-    var raw = sample("warcraft2");
-    T.equal(C.check(raw, "sample-warcraft2.js"), []);
-    T.equal(raw.sample, true);
+  T.test("Warcraft II catalog: passes the catalog check, is complete, with no requirements", function () {
+    var raw = registered("warcraft2");
+    T.equal(C.check(raw, "warcraft2.js"), []);
+    T.equal(raw.sample, undefined, "not a sample, so every table entry is listed");
     T.equal(raw.parts, ["units", "button_sets", "constants"]);
     T.equal(raw.requirements, undefined);
     T.equal(raw.opcodes, undefined);
@@ -72,8 +73,8 @@
     T.equal(raw.panel.ascending, true, "Warcraft II needs ascending positions");
   });
 
-  T.test("sample Warcraft II catalog: has the string and highlighted fields, and no StarCraft string fields", function () {
-    var cat = C.index(JSON.parse(JSON.stringify(sample("warcraft2"))));
+  T.test("Warcraft II catalog: has the string and highlighted fields, and no StarCraft string fields", function () {
+    var cat = C.index(JSON.parse(JSON.stringify(registered("warcraft2"))));
     var names = cat.buttonFields.map(function (f) {
       return f.name;
     });
@@ -101,8 +102,8 @@
     T.equal(cat.units.get(58).original.button_set, null);
   });
 
-  T.test("sample Warcraft II catalog: uses the reference's function names", function () {
-    var cat = C.index(JSON.parse(JSON.stringify(sample("warcraft2"))));
+  T.test("Warcraft II catalog: uses the reference's function names", function () {
+    var cat = C.index(JSON.parse(JSON.stringify(registered("warcraft2"))));
     T.equal(cat.units.get(0).original, { button_set: 0, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_grunt" });
     T.equal(cat.units.get(2).original, { button_set: 2, status_changed: "statdraw_query_peon", status_update: "statdraw_draw_peon" });
     T.equal(cat.sets.get(0).original[1], { position: 1, icon: 164, condition: "bf_has_Shields", condition_variable: 0, action: "order_guard", string: 393, highlighted: 1 });
@@ -112,8 +113,8 @@
 
   // The appendix of w2_exe.md: 2.00 and 2.02 insert a Patrol button,
   // shown only in Enhanced mode, before the last command.
-  T.test("sample Warcraft II catalog: sets whose original differs on the DOS versions, as in the reference", function () {
-    var cat = C.index(JSON.parse(JSON.stringify(sample("warcraft2"))));
+  T.test("Warcraft II catalog: sets whose original differs on the DOS versions, as in the reference", function () {
+    var cat = C.index(JSON.parse(JSON.stringify(registered("warcraft2"))));
     var D = AG.core.doc;
     function shields(icon) {
       return [0, 1, 2].map(function (lv) {
