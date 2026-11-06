@@ -311,8 +311,13 @@ button, input, select, textarea { font: inherit; }
 }
 .welcome h1 { font-size: 20px; margin: 0; display: grid; justify-items: center; gap: 2px; }
 .welcome .logo { width: min(480px, 80vw); height: auto; }
+.welcome .actions { align-items: center; }
+.welcome .new-mod { justify-self: center; margin: 0; padding: 10px 16px 14px; display: grid; gap: 10px; }
+.welcome .logo-button { padding: 8px 14px; height: 88px; display: inline-flex; align-items: center; justify-content: center; }
+.welcome .logo-button img { display: block; max-height: 70px; max-width: 240px; width: auto; height: auto; }
 .welcome .actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .welcome .mod-info { text-align: left; justify-self: center; }
+.welcome .new-mod legend { text-align: left; }
 
 .sidebar {
   display: flex;

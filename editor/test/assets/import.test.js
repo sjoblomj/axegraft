@@ -398,6 +398,31 @@
     });
   }, { dom: true });
 
+  T.test("start screen logos: a game with a shipped logo gets a logo button, one without gets text, and a logo that doesn't load falls back to text", function (ctx) {
+    var shipped = {
+      starcraft: { game: "starcraft", logo: "logo.png" },
+      warcraft2: { game: "warcraft2", logo: "missing.png" }
+    };
+    var svc = service(AG.core.storage.memory(), { shipped: shipped, shippedBase: "../assets/" });
+    var cats = { games: { starcraft: catalog(), warcraft2: T.catalog("warcraft2") }, errors: [] };
+    return T.ui.start(ctx, { catalogs: cats, assets: svc }).then(function (app) {
+      var sc = T.ui.q(app, '[data-new-mod="starcraft"]');
+      var img = sc.querySelector("img");
+      T.ok(img, "StarCraft has a logo");
+      T.equal(img.getAttribute("src"), "../assets/starcraft/logo.png");
+      T.equal(img.alt, "New " + app.catalogs.games.starcraft.title + " mod");
+      T.equal(svc.logoURL("nothing"), null);
+      return T.ui.wait(500).then(function () {
+        var w2 = T.ui.q(app, '[data-new-mod="warcraft2"]');
+        T.ok(!w2.querySelector("img"), "a logo that doesn't load becomes text");
+        T.equal(w2.textContent, "New " + app.catalogs.games.warcraft2.title + " mod");
+        T.equal(T.ui.q(app, '[data-new-mod="starcraft"] img').naturalWidth > 0, true, "the shipped logo loads");
+        var plain = service(AG.core.storage.memory(), { shipped: {} });
+        T.equal(plain.logoURL("starcraft"), null, "without a logo there's no URL, so the button is text");
+      });
+    });
+  }, { dom: true });
+
   T.test("string choices: a string field lists every string of the table by its clean name, and shows the stored text with <10>", function (ctx) {
     var strings = ["Terran Marine\u0000*\u0000Ground Units", "t\u0003Use S\u0003t\u0001im Packs\n(Marine ability)", "\u001b\u0000\u0003ESC\u0001 - Cancel"];
     var svc = service(AG.core.storage.memory(), { shipped: { starcraft: { game: "starcraft", strings: strings } } });

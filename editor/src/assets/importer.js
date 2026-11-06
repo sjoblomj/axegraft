@@ -281,6 +281,12 @@
         if (sh && sh.icons && id < sh.icons.count) return (options.shippedBase || AG.assets.shippedBase) + game + "/" + (sh.icons.path || "icons/") + id + ".png";
         return null;
       },
+      // The game's logo shipped in assets/<game>/, or null if there's none.
+      logoURL: function (game) {
+        var sh = shippedFor(game);
+        if (!sh || typeof sh.logo !== "string" || !sh.logo) return null;
+        return (options.shippedBase || AG.assets.shippedBase) + game + "/" + sh.logo;
+      },
       // The string table in use, imported or shipped: an array where ID n
       // is element n - 1, or null if there's none.
       strings: function (game) {

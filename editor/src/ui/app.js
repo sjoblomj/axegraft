@@ -723,20 +723,38 @@
       return h("div", { class: "notices" }, list);
     }
 
+    // The button that creates a mod for a game: its shipped logo, or text if
+    // there's none or it doesn't load.
+    function newModButton(cat) {
+      var label = "New " + cat.title + " mod";
+      var url = app.assets && app.assets.logoURL ? app.assets.logoURL(cat.game) : null;
+      var btn = h("button", { type: "button", dataset: { newMod: cat.game }, onclick: function () {
+        app.newMod(cat.game);
+      } }, label);
+      if (!url) return btn;
+      var img = h("img", { src: url, alt: label });
+      img.addEventListener("error", function () {
+        btn.classList.remove("logo-button");
+        btn.removeAttribute("title");
+        btn.textContent = label;
+      });
+      btn.textContent = "";
+      btn.classList.add("logo-button");
+      btn.title = label;
+      btn.appendChild(img);
+      return btn;
+    }
+
     function welcome() {
       var games = app.games();
       return h("div", { class: "welcome" }, [
         h("h1", null, [h("img", { class: "logo", src: options.logo || "images/axegraft.png", alt: "AxeGraft" }), h("span", { class: "subtitle", text: "Editor" })]),
-        games.length ? infoFields(S.newInfo) : null,
         games.length
-          ? h("div", { class: "actions" }, games.map(function (cat) {
-              return h("button", { type: "button", dataset: { newMod: cat.game }, onclick: function () {
-                app.newMod(cat.game);
-              } }, "New " + cat.title + " mod");
-            }).concat([h("button", { type: "button", dataset: { command: "open" }, onclick: function () {
-              app.open();
-            } }, "Open a mod...")]))
-          : h("p", { text: "No game catalog could be loaded, so there's nothing to edit." })
+          ? h("fieldset", { class: "new-mod" }, [h("legend", { text: "New mod" }), infoFields(S.newInfo), h("div", { class: "actions" }, games.map(newModButton))])
+          : h("p", { text: "No game catalog could be loaded, so there's nothing to edit." }),
+        h("div", { class: "actions" }, [h("button", { type: "button", dataset: { command: "open" }, onclick: function () {
+          app.open();
+        } }, "Open a mod...")])
       ]);
     }
 
@@ -1045,6 +1063,8 @@
         return app.assets && app.assets.start ? app.assets.start() : null;
       })
       .then(function () {
+        // The assets can change the start screen, such as its logos.
+        app.render();
         return offerDraft();
       })
       .catch(function (e) {

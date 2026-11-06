@@ -11,13 +11,15 @@ Each game's folder has:
   ```js
   AxeGraft.registerShippedAssets({
     "game": "starcraft",
+    "logo": "logo.png",
     "icons": { "count": 390, "path": "icons/" },
     "strings": ["Terran Marine", "..."]
   });
   ```
 
-  `strings` lists the string table, where ID 1 is the first string. Both `icons` and `strings` may be left out.
+  `strings` lists the string table, where ID 1 is the first string. `logo` names the game's logo in the same folder, which the start screen shows on the button that creates a mod for that game. `logo`, `icons` and `strings` may each be left out; without a logo, the button is text.
 
 - `icons/<id>.png`, one image for each icon from 0 to `count` - 1.
+- `logo.png`, the game's logo with a transparent background, if `logo` names it.
 
 Icons and strings a user imports take priority over these.
