@@ -384,7 +384,19 @@ button, input, select, textarea { font: inherit; }
   text-align: center;
   border-radius: 2px;
 }
-.mark.changed { background: var(--changed); color: #2a2000; }
+/* The same dot as a changed field's mark. */
+.mark.changed {
+  align-self: center;
+  width: 9px;
+  height: 9px;
+  min-width: 0;
+  padding: 0;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: var(--changed-text);
+  font-size: 0;
+  color: transparent;
+}
 .mark.error { background: var(--error); color: #fff; border-radius: 7px; }
 .mark.warning { background: var(--warning); color: #000; clip-path: polygon(50% 0, 100% 100%, 0 100%); padding: 1px 3px 0; }
 
@@ -559,7 +571,7 @@ button.small { padding: var(--button-small-pad, 0 6px); }
 .buttonset-layout .preview-box { padding-top: 8px; }
 .button-list { list-style: none; margin: 0; padding: 0; background: var(--field-bg); color: var(--field-text); border: var(--bw) solid; border-color: var(--bevel-in); border-radius: var(--radius); min-height: 60px; font-family: var(--data-font); }
 .button-list li { padding: 2px 6px; display: flex; gap: 6px; align-items: center; cursor: default; }
-.button-list li > span:not(.pos):not(.mark) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.button-list li > span:not(.pos):not(.mark):not(.marks) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .button-list li:hover { background: var(--hover-bg); }
 .button-list li[aria-selected="true"] { background: var(--select-bg); color: var(--select-text); }
 .button-list li .pos { width: 22px; text-align: right; color: var(--field-muted); }

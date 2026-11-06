@@ -762,6 +762,7 @@
     setButtons: setButtons,
     sortButtons: sortButtons,
     alignButtons: alignButtons,
+    sameButtons: sameButtons,
     revertSet: revertSet,
     nextNewSet: nextNewSet,
     addSet: addSet,

@@ -215,6 +215,21 @@
         return l.button === i && (field === undefined || l.field === field);
       });
     }
+    // A button is changed when the mod defines the set and the button
+    // matches no original button on any version.
+    var originalLists = eff.originals
+      ? cat.versionIds.map(function (v) {
+          return eff.originals[v] || [];
+        })
+      : [];
+    function buttonChanged(b) {
+      if (!eff.defined) return false;
+      return !originalLists.some(function (list) {
+        return list.some(function (o) {
+          return D.sameButtons(cat, [b], [o]);
+        });
+      });
+    }
     var setProblems = problems.filter(function (p) {
       var l = tree.locate(doc, cat, p.path);
       return l.button === null || l.button === undefined;
@@ -298,14 +313,26 @@
               return f.kind === "string";
             })[0];
             var text = firstString && util.isObject(b) ? stringText(app, b[firstString.name]) : null;
-            var hasProblem = buttonProblems(i).length > 0;
+            var probs = buttonProblems(i);
+            var hasError = probs.some(function (p) {
+              return p.severity === "error";
+            });
+            var hasWarning = probs.some(function (p) {
+              return p.severity !== "error";
+            });
             return h("li", { role: "option", "aria-selected": String(i === sel), dataset: { index: i }, onclick: function () {
               selectButton(i);
             } }, [
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
               h("span", { text: (actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?") + (text ? " — " + shortName(text) : "") }),
-              hasProblem ? h("span", { class: "mark error", text: "!" }) : null
+              buttonChanged(b) || hasError || hasWarning
+                ? h("span", { class: "marks" }, [
+                    buttonChanged(b) ? h("span", { class: "mark changed", title: "Changed", "aria-label": "changed", text: "•" }) : null,
+                    hasError ? h("span", { class: "mark error", title: "Error", "aria-label": "error", text: "!" }) : null,
+                    hasWarning ? h("span", { class: "mark warning", title: "Warning", "aria-label": "warning", text: "!" }) : null
+                  ])
+                : null
             ]);
           })
         : [h("li", { class: "empty", text: "No buttons." })]

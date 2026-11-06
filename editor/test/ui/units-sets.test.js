@@ -199,6 +199,22 @@
     });
   }, { dom: true });
 
+  T.test("button list: a button shows the same changed, error and warning markers as the tree", function (ctx) {
+    return start(ctx, "warcraft2", { catalogs: U.catalogs("samples") }).then(function (app) {
+      function listMarks(i) {
+        var el = app.root.querySelector('.button-list [data-index="' + i + '"] .marks');
+        return el ? Array.prototype.map.call(el.children, function (m) {
+          return m.className.replace("mark ", "");
+        }) : [];
+      }
+      app.select("button_sets", "set:2");
+      T.equal(listMarks(0), [], "an original button has no markers");
+      U.change(U.q(app, '[data-field="set:2:0:condition"] select'), "Enhanced mode (bf_enhanced_mode)");
+      T.equal(listMarks(0), ["changed", "warning"], "an Enhanced mode button is a warning, not an error");
+      T.equal(listMarks(1), [], "the other buttons aren't marked");
+    });
+  }, { dom: true });
+
   // ---- Button sets: 6.4
 
   function formLabels(app) {
