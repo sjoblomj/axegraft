@@ -17,6 +17,10 @@ The library schema SHALL support StarCraft 1.05-1.17 and Warcraft II BNE 2.00 an
 - **WHEN** an executable isn't in the library
 - **THEN** AxeGraft Patcher reports it as unsupported
 
+#### Scenario: Warcraft II for DOS
+- **WHEN** a Warcraft II 1.3, 1.33 or 1.5 executable is checked, although AxeGraft Editor's catalog lists those versions
+- **THEN** AxeGraft Patcher reports it as unsupported
+
 ### Requirement: Version identification
 AxeGraft Patcher SHALL identify a version from properties of the running executable that are unique across all supported versions, without relying on a version string alone.
 
@@ -75,6 +79,21 @@ No two properties SHALL write to the same location, or to overlapping bytes, on 
 - **WHEN** two constants have overlapping locations on any version
 - **THEN** the library check fails, naming both constants and the version
 
+### Requirement: Grouping locations into constants
+Each value the game lets differ SHALL be its own constant. Locations that hold one value the game needs to agree SHALL be one constant, and code sites that only work together SHALL be one option constant whose options write all of them.
+
+#### Scenario: Copies that may differ
+- **WHEN** StarCraft spawns four starting workers through four separate immediates
+- **THEN** each is its own constant
+
+#### Scenario: Copies that must agree
+- **WHEN** a team supply multiplier is used once in a comparison and once in the stored value
+- **THEN** both locations belong to one constant
+
+#### Scenario: Sites that only work together
+- **WHEN** the hero cloak requirement can use no tech, Cloaking Field or Personnel Cloaking, each by changing a different jump
+- **THEN** it is one option constant with three options
+
 ### Requirement: Value range fits every location
 A numeric constant SHALL have one allowed range per game, and every value in that range SHALL fit every location on every version where the constant is available.
 
@@ -90,11 +109,19 @@ A numeric constant's stored scale SHALL be the same on every version where it's 
 - **THEN** the library check fails, naming the constant and the versions
 
 ### Requirement: Named options per version
-A code-site constant SHALL list, for each version where it's available, the bytes that each named option writes. The same option MAY have different bytes on different versions.
+A code-site constant SHALL list, for each version where it's available, the bytes that each named option writes. The same option MAY have different bytes on different versions. An option MAY write several locations. They SHALL be written together, and the constant SHALL be available on a version only when all of them are known there.
 
 #### Scenario: Different code on different versions
 - **WHEN** a constant's option replaces different instructions on different versions
 - **THEN** each version records its own bytes for that option
+
+#### Scenario: Option writing several locations
+- **WHEN** the hero cloak requirement's option "Personnel Cloaking" changes jumps in two functions
+- **THEN** each version records the bytes for both locations, and applying the option writes both
+
+#### Scenario: Option with a location missing on a version
+- **WHEN** one of an option's locations isn't known on a version
+- **THEN** the constant is `unknown` on that version
 
 ### Requirement: Function tables per version
 The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads. A function that doesn't exist on a version SHALL be recorded as absent there.
@@ -106,6 +133,10 @@ The library SHALL give each condition, action and status function a unique name,
 #### Scenario: Function absent on a version
 - **WHEN** a function doesn't exist on a supported version
 - **THEN** the library records it as absent on that version
+
+#### Scenario: Two names for one function on a version
+- **WHEN** two named functions are the same function on a version, as `bf_can_attack` and `bf_always` are in Warcraft II 2.00 and 2.02
+- **THEN** the library records the second name as absent on that version
 
 ### Requirement: Button set numbering per version
 The library SHALL map each game's numbering of button sets and table entries to each version's own numbers, and SHALL record which sets and entries are absent on a version and which table entries point at each set's array.

@@ -199,6 +199,21 @@ A button SHALL have a `position`, an `icon`, a `condition` and an `action`, and 
 - **WHEN** an `icon` or string ID fits the game's field size
 - **THEN** it is accepted, even if it's beyond the game's original data, because an MPQ can extend that data
 
+### Requirement: Button order in Warcraft II
+In a `warcraft2` mod, the buttons of a set SHALL be in ascending position order, because the game fills its command panel by walking the list together with the panel's buttons. Buttons MAY share a position.
+
+#### Scenario: Buttons out of order
+- **WHEN** a `warcraft2` set has a button at position 5 followed by one at position 3
+- **THEN** the mod is rejected, with an error naming the set and the button
+
+#### Scenario: Shared positions
+- **WHEN** a `warcraft2` set has three buttons at position 1 in a row, such as the shield icons for each level
+- **THEN** the set is accepted
+
+#### Scenario: StarCraft order
+- **WHEN** a `starcraft` set has a button at position 5 followed by one at position 3
+- **THEN** the set is accepted
+
 ### Requirement: Typed function variables
 A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, number or table entry. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
 

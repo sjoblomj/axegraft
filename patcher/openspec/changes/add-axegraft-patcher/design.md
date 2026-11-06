@@ -18,7 +18,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 - Build the first version with the real library schema, so importing all the data later doesn't change the engine.
 
 **Non-Goals:**
-- Importing all data from the reference documents, or deciding how those documents become machine-readable.
+- Importing all data from the reference documents. The knowledge base that the data comes from is separate work.
 - Warcraft II levels and victory conditions, file names and other tables beyond the four parts.
 - New game behaviour, including plugin functions behind game pointers.
 - Patches inside maps, which needs detecting map starts, undoing changes and patching a running game.
@@ -87,6 +87,12 @@ Encodings are a closed enum: `u8`, `u16`, `u32`, `i8`, `i16`, `i32`, `neg8`, `ne
 
 The data is JSON, because it's easy to generate, and whatever eventually converts the documents can target it. `build.rs` validates it and generates static Rust, so bad data fails the version and nothing is parsed at game startup. *Alternative considered:* parsing embedded JSON at startup, which is simpler but delays data errors to run time.
 
+**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which `w2_exe.md` also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, the second is absent there.
+
+**Constants follow the game's freedom.** A value the game lets differ is its own constant, copies it needs to agree are one constant, and code sites that only work together are one option constant whose options write several locations. This gives a modder every independent choice and none that the game can't handle.
+
+**Versions beyond the patcher.** AxeGraft Editor's catalogs may list versions the patcher doesn't support. Warcraft II 1.3, 1.33 and 1.5 are listed there for editing only. Patching them is outside the scope of this patcher and will require a separate mechanism.
+
 ### 5. Library guarantees are enforced in the build
 
 The specs' library rules run in `build.rs` and in tests over fixtures: every version listed, every location having expected bytes, no overlapping locations, ranges fitting every location, stable scale, confirmed data only. The checks live in `axegraft-patcher-core`, so they can be tested with deliberately bad fixtures.
@@ -151,7 +157,7 @@ Paths come from `AXEGRAFT_PATCHER_MPQDRAFT_DIR` and a per-version executable lis
 
 ### 12. Starter data set
 
-The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is extracted from the documents by a throwaway script, then checked against the real executables. Until the full import, other versions are unsupported.
+The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
 
 ## Risks / Trade-offs
 
@@ -169,5 +175,3 @@ The first version ships complete structural data for StarCraft 1.16.1, StarCraft
 These can be answered later without changing the approach:
 
 - **MPQDraft interface form:** a struct of function pointers or a vtable. This only affects the `abi` module.
-- **Warcraft II button order:** whether the panel needs buttons in ascending position. If it does, that's one more validation rule, and needs checking in the game's code.
-- **Shared-offset rows:** which of these become one constant, decided row by row during the full data import.

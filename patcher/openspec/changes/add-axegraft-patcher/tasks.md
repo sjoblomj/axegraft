@@ -13,7 +13,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 2.1 Define the typed mod model and a `Problem` type carrying input name, path and message, and verify with unit tests that problems format with all three
 - [ ] 2.2 Parse the header, the mod information and the parts with strict fields and ignored labels, and verify the "Mod header", "Mod information", "Mod parts" and "Strict fields" scenarios pass as tests
 - [ ] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" scenarios pass
-- [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry" and "Button fields" scenarios pass for both games
+- [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry", "Button fields" and "Button order in Warcraft II" scenarios pass for both games
 - [ ] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions
 - [ ] 2.6 Validate requirement entries and lists, and verify the "Requirement entries" and "Requirement lists" scenarios pass, including the Zerg Carapace example
 - [ ] 2.7 Validate constant entries, ranges and options, and verify the "Constant entries" scenarios pass
@@ -33,7 +33,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 4.1 Define the library schema, including versions, tables, layouts, functions, set numbering, stream references, constants and the closed encoding set, and verify a small fixture deserializes in a test
 - [ ] 4.2 Implement encoding of values for each encoding, and verify round-trip and range tests pass for all of them, including `neg8` and `byte_of`
 - [ ] 4.3 Implement the library checks for availability, all-or-none locations, expected bytes, confirmed data, structural completeness and function names, and verify a deliberately bad fixture fails each one with a message naming the entry
-- [ ] 4.4 Implement the checks for shared locations, range fit and stable scale, and verify the "No shared locations", "Value range fits every location" and "Stable scale across versions" scenarios pass with bad fixtures
+- [ ] 4.4 Implement the checks for shared locations, range fit and stable scale, and verify the "No shared locations", "Value range fits every location", "Stable scale across versions" and "Option with a location missing on a version" scenarios pass with bad fixtures, and that two names for one function on a version are rejected unless one is absent
 - [ ] 4.5 Have `build.rs` validate data and generate static Rust, and verify that bad data fails `cargo build` and fixture data is reachable from the generated tables
 - [ ] 4.6 Implement version identification from PE headers and the version resource, for both files and loaded images, and verify the "Version identification" scenarios with synthetic PE images
 - [ ] 4.7 Document the library data schema in `docs/library-schema.md`, and verify the example in it passes the library checks in a test
@@ -41,7 +41,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 ## 5. Planning and applying
 
 - [ ] 5.1 Define the `Memory` trait and a fake implementation with a non-standard default base, and verify its reads, writes, allocation and write tracking with unit tests
-- [ ] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a version" and "Same validation on every version" scenarios pass
+- [ ] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a version", "Same validation on every version" and "Option writing several locations" scenarios pass
 - [ ] 5.3 Plan button sets, including layouts, function addresses, typed variables, set and table entry translation, shared arrays and new sets, and verify the "Button set changes" and "Translating IDs to the running version" scenarios pass
 - [ ] 5.4 Plan unit assignments, status functions and status unit types, and verify the "Assigning button sets to units", "Status function changes" and "Status unit type changes" scenarios pass, including chained assignments
 - [ ] 5.5 Decode and re-encode requirement streams, and verify a synthetic stream with upgrade sublists round-trips byte for byte, and that property tests round-trip generated records
