@@ -48,7 +48,7 @@
   T.test("unit fields: a Warcraft II unit has no status unit type", function (ctx) {
     return start(ctx, "warcraft2").then(function (app) {
       app.select("units", "unit:2");
-      T.equal(labels(app), ["Button set", "Icon", "Stats panel frame", "Name", "Stats changed", "Stats update"]);
+      T.equal(labels(app), ["Button set", "Icon", "Name", "Stats panel frame", "Stats changed", "Stats update"]);
     });
   }, { dom: true });
 
