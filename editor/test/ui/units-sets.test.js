@@ -48,7 +48,25 @@
   T.test("unit fields: a Warcraft II unit has no status unit type", function (ctx) {
     return start(ctx, "warcraft2").then(function (app) {
       app.select("units", "unit:2");
-      T.equal(labels(app), ["Button set", "Stats changed", "Stats update"]);
+      T.equal(labels(app), ["Button set", "Icon", "Stats changed", "Stats update"]);
+    });
+  }, { dom: true });
+
+  T.test("unit fields: a Warcraft II unit's icon is a field, shown with its icon, and can be changed", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      app.select("units", "unit:0");
+      T.equal(idBox(app, "unit:0:icon").value, "2");
+      T.ok(field(app, "unit:0:icon").querySelector(".icon-preview [data-icon='2']"), "the icon is shown");
+      T.ok(!app.root.querySelector(".panel-title .unit-icon"), "not beside the name");
+      var boxes = U.texts(app, ".units-panel fieldset > legend");
+      T.equal(boxes, ["Button table entry", "Status panel"]);
+      T.ok(field(app, "unit:0:icon").closest("fieldset").querySelector("legend").textContent === "Status panel", "with the stats functions, in the Unit Data entry");
+      U.change(idBox(app, "unit:0:icon"), "5");
+      T.equal(app.doc().units, [{ id: 0, label: "Footman", icon: 5 }]);
+      T.equal(app.errors(), []);
+      T.ok(/Original/.test(field(app, "unit:0:icon").textContent), "the original is shown");
+      U.change(idBox(app, "unit:0:icon"), "70000");
+      T.ok(app.errors().length > 0, "an icon beyond limits.icon is an error");
     });
   }, { dom: true });
 

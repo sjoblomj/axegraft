@@ -268,6 +268,10 @@
       else if (f.kind === "unit") {
         if (!isInt(v)) problems.error(fp, f.name + " must be a unit ID, but it's " + util.show(v) + ".");
         else if (!util.inRange(v, cat.limits.unit)) problems.error(fp, f.name + " " + v + " is outside the unit range, " + rangeText(cat.limits.unit) + ".");
+      } else if (f.kind === "icon") {
+        if (!isInt(v)) problems.error(fp, f.name + " must be an icon ID, but it's " + util.show(v) + ".");
+        else if (!util.inRange(v, cat.limits.icon)) problems.error(fp, f.name + " " + v + " is outside its range, " + rangeText(cat.limits.icon) + ".");
+        else checkIconAsset(ctx, v, fp);
       }
     });
   }

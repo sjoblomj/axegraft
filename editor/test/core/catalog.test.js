@@ -33,6 +33,10 @@
     T.equal(check(T.rawCatalog("warcraft2")), []);
   });
 
+  expectProblem("a unit's original icon outside limits.icon", function (raw) {
+    raw.units[0].original.icon = 70000;
+  }, /table entry 0 has an original icon that isn.t an icon ID/, "warcraft2");
+
   T.test("catalog check: the documented example passes", function () {
     T.equal(C.check(T.exampleCatalog(), "catalog-example.js"), []);
   });

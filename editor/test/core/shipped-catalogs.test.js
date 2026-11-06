@@ -87,6 +87,8 @@
       [0, 1, 2, 4, 8, 16, 32, 64, 128, 256]
     );
     T.ok(!cat.unitField.has("status_unit_type"), "Warcraft II units have no status unit type");
+    T.equal(cat.unitKind.icon.name, "icon", "Warcraft II units have an icon");
+    T.equal(cat.units.get(0).original.icon, 2, "the Footman's icon");
     // The Peasant opens entries 111 and 112, and the build menu's Cancel opens 110.
     var peasant = cat.sets.get(2).original;
     T.equal(
@@ -104,8 +106,8 @@
 
   T.test("Warcraft II catalog: uses the reference's function names", function () {
     var cat = C.index(JSON.parse(JSON.stringify(registered("warcraft2"))));
-    T.equal(cat.units.get(0).original, { button_set: 0, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_grunt" });
-    T.equal(cat.units.get(2).original, { button_set: 2, status_changed: "statdraw_query_peon", status_update: "statdraw_draw_peon" });
+    T.equal(cat.units.get(0).original, { button_set: 0, icon: 2, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_grunt" });
+    T.equal(cat.units.get(2).original, { button_set: 2, icon: 0, status_changed: "statdraw_query_peon", status_update: "statdraw_draw_peon" });
     T.equal(cat.sets.get(0).original[1], { position: 1, icon: 164, condition: "bf_has_Shields", condition_variable: 0, action: "order_guard", string: 393, highlighted: 1 });
     T.equal(cat.sets.get(111).original[0], { position: 0, icon: 38, condition: "bf_farm_ok", action: "order_place", action_variable: 58, string: 306, highlighted: 0 });
     T.equal(cat.functions.conditions.get("bf_enhanced_mode").absentOn, ["1.3", "1.33", "1.5"], "a function only 2.00 and 2.02 have");

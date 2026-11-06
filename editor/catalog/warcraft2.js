@@ -103,6 +103,12 @@ AxeGraft.registerCatalog({
       "help": "The list of commands this table entry shows. Several entries can share a list, so editing a list changes all of them. Choose no buttons to show none."
     },
     {
+      "name": "icon",
+      "label": "Icon",
+      "kind": "icon",
+      "help": "The icon shown for this unit in the stats panel when it is selected. It is the unit's own icon, not the one on the button that trains it, though the two are usually the same."
+    },
+    {
       "name": "status_changed",
       "label": "Stats changed",
       "kind": "statusChanged",
@@ -815,183 +821,295 @@ AxeGraft.registerCatalog({
       "id": 0,
       "name": "Footman",
       "tree": ["Human", "Land Units"],
-      "icon": 2,
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 0,
+        "icon": 2,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 1,
       "name": "Grunt",
       "tree": ["Orc", "Land Units"],
-      "icon": 3,
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 3,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 2,
       "name": "Peasant",
       "tree": ["Human", "Land Units"],
-      "icon": 0,
-      "original": {"button_set": 2, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
+      "original": {
+        "button_set": 2,
+        "icon": 0,
+        "status_changed": "statdraw_query_peon",
+        "status_update": "statdraw_draw_peon"
+      }
     },
     {
       "id": 3,
       "name": "Peon",
       "tree": ["Orc", "Land Units"],
-      "icon": 1,
-      "original": {"button_set": 3, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
+      "original": {
+        "button_set": 3,
+        "icon": 1,
+        "status_changed": "statdraw_query_peon",
+        "status_update": "statdraw_draw_peon"
+      }
     },
     {
       "id": 4,
       "name": "Ballista",
       "tree": ["Human", "Land Units"],
-      "icon": 16,
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_catapult"}
+      "original": {
+        "button_set": 0,
+        "icon": 16,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_catapult"
+      }
     },
     {
       "id": 5,
       "name": "Catapult",
       "tree": ["Orc", "Land Units"],
-      "icon": 17,
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_catapult"}
+      "original": {
+        "button_set": 1,
+        "icon": 17,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_catapult"
+      }
     },
     {
       "id": 6,
       "name": "Knight",
       "tree": ["Human", "Land Units"],
-      "icon": 8,
-      "original": {"button_set": 6, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 6,
+        "icon": 8,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 7,
       "name": "Ogre",
       "tree": ["Orc", "Land Units"],
-      "icon": 9,
-      "original": {"button_set": 7, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 7,
+        "icon": 9,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 8,
       "name": "Elven Archer",
       "tree": ["Human", "Land Units"],
-      "icon": 4,
-      "original": {"button_set": 8, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 8,
+        "icon": 4,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 9,
       "name": "Troll Axethrower",
       "tree": ["Orc", "Land Units"],
-      "icon": 5,
-      "original": {"button_set": 9, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 9,
+        "icon": 5,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 10,
       "name": "Mage",
       "tree": ["Human", "Land Units"],
-      "icon": 14,
-      "original": {"button_set": 10, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 10,
+        "icon": 14,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 11,
       "name": "Death Knight",
       "tree": ["Orc", "Land Units"],
-      "icon": 15,
-      "original": {"button_set": 11, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 11,
+        "icon": 15,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 12,
       "name": "Paladin",
       "tree": ["Human", "Land Units"],
-      "icon": 10,
-      "original": {"button_set": 12, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 12,
+        "icon": 10,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 13,
       "name": "Ogre-Mage",
       "tree": ["Orc", "Land Units"],
-      "icon": 11,
-      "original": {"button_set": 13, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 13,
+        "icon": 11,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 14,
       "name": "Dwarven Demolition Squad",
       "tree": ["Human", "Land Units"],
-      "icon": 12,
-      "original": {"button_set": 14, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 14,
+        "icon": 12,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 15,
       "name": "Goblin Sappers",
       "tree": ["Orc", "Land Units"],
-      "icon": 13,
-      "original": {"button_set": 15, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 15,
+        "icon": 13,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 16,
       "name": "Attack Peasant",
       "tree": ["Human", "Land Units"],
-      "original": {"button_set": 16, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
+      "original": {
+        "button_set": 16,
+        "icon": 0,
+        "status_changed": "statdraw_query_peon",
+        "status_update": "statdraw_draw_peon"
+      }
     },
     {
       "id": 17,
       "name": "Attack Peon",
       "tree": ["Orc", "Land Units"],
-      "original": {"button_set": 17, "status_changed": "statdraw_query_peon", "status_update": "statdraw_draw_peon"}
+      "original": {
+        "button_set": 17,
+        "icon": 1,
+        "status_changed": "statdraw_query_peon",
+        "status_update": "statdraw_draw_peon"
+      }
     },
     {
       "id": 18,
       "name": "Ranger",
       "tree": ["Human", "Land Units"],
-      "icon": 6,
-      "original": {"button_set": 8, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 8,
+        "icon": 6,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 19,
       "name": "Berserker",
       "tree": ["Orc", "Land Units"],
-      "icon": 7,
-      "original": {"button_set": 9, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 9,
+        "icon": 7,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 20,
       "name": "Alleria",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 8, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 8,
+        "icon": 187,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 21,
       "name": "Teron Gorefiend",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 11, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 11,
+        "icon": 189,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 22,
       "name": "Kurdran and Sky'ree",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 0,
+        "icon": 191,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 23,
       "name": "Dentarg",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 13, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 13,
+        "icon": 194,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 24,
       "name": "Khadgar",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 10, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 10,
+        "icon": 193,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 25,
       "name": "Grom Hellscream",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 190,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 26,
       "name": "Oil Tanker (human)",
       "tree": ["Human", "Sea Units"],
-      "icon": 18,
       "original": {
         "button_set": 26,
+        "icon": 18,
         "status_changed": "statdraw_query_tanker",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1000,9 +1118,9 @@ AxeGraft.registerCatalog({
       "id": 27,
       "name": "Oil Tanker (orc)",
       "tree": ["Orc", "Sea Units"],
-      "icon": 19,
       "original": {
         "button_set": 27,
+        "icon": 19,
         "status_changed": "statdraw_query_tanker",
         "status_update": "statdraw_draw_destroyer"
       }
@@ -1011,9 +1129,9 @@ AxeGraft.registerCatalog({
       "id": 28,
       "name": "Transport (human)",
       "tree": ["Human", "Sea Units"],
-      "icon": 20,
       "original": {
         "button_set": 28,
+        "icon": 20,
         "status_changed": "statdraw_query_transport",
         "status_update": "statdraw_draw_transport"
       }
@@ -1022,9 +1140,9 @@ AxeGraft.registerCatalog({
       "id": 29,
       "name": "Transport (orc)",
       "tree": ["Orc", "Sea Units"],
-      "icon": 21,
       "original": {
         "button_set": 29,
+        "icon": 21,
         "status_changed": "statdraw_query_transport",
         "status_update": "statdraw_draw_transport"
       }
@@ -1033,201 +1151,339 @@ AxeGraft.registerCatalog({
       "id": 30,
       "name": "Elven Destroyer",
       "tree": ["Human", "Sea Units"],
-      "icon": 22,
-      "original": {"button_set": 30, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 30,
+        "icon": 22,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 31,
       "name": "Troll Destroyer",
       "tree": ["Orc", "Sea Units"],
-      "icon": 23,
-      "original": {"button_set": 31, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 31,
+        "icon": 23,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 32,
       "name": "Battleship",
       "tree": ["Human", "Sea Units"],
-      "icon": 24,
-      "original": {"button_set": 30, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 30,
+        "icon": 24,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 33,
       "name": "Juggernaught",
       "tree": ["Orc", "Sea Units"],
-      "icon": 25,
-      "original": {"button_set": 31, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 31,
+        "icon": 25,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 34,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": 30, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
+      "original": {
+        "button_set": 30,
+        "icon": 0,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_unit"
+      }
     },
     {
       "id": 35,
       "name": "Deathwing",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 192,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 36,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
+      "original": {
+        "button_set": 0,
+        "icon": 0,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_unit"
+      }
     },
     {
       "id": 37,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
+      "original": {
+        "button_set": 1,
+        "icon": 0,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_unit"
+      }
     },
     {
       "id": 38,
       "name": "Gnomish Submarine",
       "tree": ["Human", "Sea Units"],
-      "icon": 26,
-      "original": {"button_set": 38, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 38,
+        "icon": 26,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 39,
       "name": "Giant Turtle",
       "tree": ["Orc", "Sea Units"],
-      "icon": 27,
-      "original": {"button_set": 39, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_destroyer"}
+      "original": {
+        "button_set": 39,
+        "icon": 27,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_destroyer"
+      }
     },
     {
       "id": 40,
       "name": "Gnomish Flying Machine",
       "tree": ["Human", "Air Units"],
-      "icon": 28,
-      "original": {"button_set": 40, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 40,
+        "icon": 28,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 41,
       "name": "Goblin Zeppelin",
       "tree": ["Orc", "Air Units"],
-      "icon": 29,
-      "original": {"button_set": 41, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 41,
+        "icon": 29,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 42,
       "name": "Gryphon Rider",
       "tree": ["Human", "Air Units"],
-      "icon": 30,
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 0,
+        "icon": 30,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 43,
       "name": "Dragon",
       "tree": ["Orc", "Air Units"],
-      "icon": 31,
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 31,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 44,
       "name": "Turalyon",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 12, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 12,
+        "icon": 195,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 45,
       "name": "Eye of Kilrogg",
       "tree": ["Orc", "Air Units"],
-      "original": {"button_set": 41, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 41,
+        "icon": 111,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 46,
       "name": "Danath",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 0,
+        "icon": 188,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 47,
       "name": "Korgath Bladefist",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 186,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 48,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 49,
       "name": "Cho'gall",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 49, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 49,
+        "icon": 36,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 50,
       "name": "Lothar",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 12, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 12,
+        "icon": 32,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 51,
       "name": "Gul'dan",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 11, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 11,
+        "icon": 33,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 52,
       "name": "Uther Lightbringer",
       "tree": ["Human", "Heroes"],
-      "original": {"button_set": 12, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 12,
+        "icon": 34,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 53,
       "name": "Zul'jin",
       "tree": ["Orc", "Heroes"],
-      "original": {"button_set": 9, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_archer"}
+      "original": {
+        "button_set": 9,
+        "icon": 35,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_archer"
+      }
     },
     {
       "id": 54,
       "name": "Unused",
       "tree": ["Other", "Unused"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 55,
       "name": "Skeleton",
       "tree": ["Orc", "Land Units"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_grunt"}
+      "original": {
+        "button_set": 1,
+        "icon": 114,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_grunt"
+      }
     },
     {
       "id": 56,
       "name": "Daemon",
       "tree": ["Neutral"],
-      "original": {"button_set": 1, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
+      "original": {
+        "button_set": 1,
+        "icon": 37,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_unit"
+      }
     },
     {
       "id": 57,
       "name": "Critter",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}
+      "original": {
+        "button_set": null,
+        "icon": 115,
+        "status_changed": "statdraw_query_unit",
+        "status_update": "statdraw_draw_unit"
+      }
     },
     {
       "id": 58,
       "name": "Farm",
       "tree": ["Human", "Buildings"],
-      "icon": 38,
-      "original": {"button_set": null, "status_changed": "statdraw_query_farm", "status_update": "statdraw_draw_farm"}
+      "original": {
+        "button_set": null,
+        "icon": 38,
+        "status_changed": "statdraw_query_farm",
+        "status_update": "statdraw_draw_farm"
+      }
     },
     {
       "id": 59,
       "name": "Pig Farm",
       "tree": ["Orc", "Buildings"],
-      "icon": 39,
-      "original": {"button_set": null, "status_changed": "statdraw_query_farm", "status_update": "statdraw_draw_farm"}
+      "original": {
+        "button_set": null,
+        "icon": 39,
+        "status_changed": "statdraw_query_farm",
+        "status_update": "statdraw_draw_farm"
+      }
     },
     {
       "id": 60,
       "name": "Barracks (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 42,
       "original": {
         "button_set": 60,
+        "icon": 42,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1236,9 +1492,9 @@ AxeGraft.registerCatalog({
       "id": 61,
       "name": "Barracks (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 43,
       "original": {
         "button_set": 61,
+        "icon": 43,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1247,23 +1503,31 @@ AxeGraft.registerCatalog({
       "id": 62,
       "name": "Church",
       "tree": ["Human", "Buildings"],
-      "icon": 62,
-      "original": {"button_set": 62, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_church"}
+      "original": {
+        "button_set": 62,
+        "icon": 62,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_church"
+      }
     },
     {
       "id": 63,
       "name": "Altar of Storms",
       "tree": ["Orc", "Buildings"],
-      "icon": 63,
-      "original": {"button_set": 63, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_church"}
+      "original": {
+        "button_set": 63,
+        "icon": 63,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_church"
+      }
     },
     {
       "id": 64,
       "name": "Scout Tower (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 60,
       "original": {
         "button_set": 64,
+        "icon": 60,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_scout_tower"
       }
@@ -1272,9 +1536,9 @@ AxeGraft.registerCatalog({
       "id": 65,
       "name": "Watch Tower (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 61,
       "original": {
         "button_set": 65,
+        "icon": 61,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_scout_tower"
       }
@@ -1283,23 +1547,31 @@ AxeGraft.registerCatalog({
       "id": 66,
       "name": "Stables",
       "tree": ["Human", "Buildings"],
-      "icon": 56,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 56,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 67,
       "name": "Ogre Mound",
       "tree": ["Orc", "Buildings"],
-      "icon": 57,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 57,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 68,
       "name": "Gnomish Inventor",
       "tree": ["Human", "Buildings"],
-      "icon": 58,
       "original": {
         "button_set": 68,
+        "icon": 58,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1308,9 +1580,9 @@ AxeGraft.registerCatalog({
       "id": 69,
       "name": "Goblin Alchemist",
       "tree": ["Orc", "Buildings"],
-      "icon": 59,
       "original": {
         "button_set": 69,
+        "icon": 59,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1319,9 +1591,9 @@ AxeGraft.registerCatalog({
       "id": 70,
       "name": "Gryphon Aviary",
       "tree": ["Human", "Buildings"],
-      "icon": 72,
       "original": {
         "button_set": 70,
+        "icon": 72,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1330,9 +1602,9 @@ AxeGraft.registerCatalog({
       "id": 71,
       "name": "Dragon Roost",
       "tree": ["Orc", "Buildings"],
-      "icon": 73,
       "original": {
         "button_set": 71,
+        "icon": 73,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_barracks"
       }
@@ -1341,9 +1613,9 @@ AxeGraft.registerCatalog({
       "id": 72,
       "name": "Shipyard (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 48,
       "original": {
         "button_set": 72,
+        "icon": 48,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_shipyard"
       }
@@ -1352,9 +1624,9 @@ AxeGraft.registerCatalog({
       "id": 73,
       "name": "Shipyard (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 49,
       "original": {
         "button_set": 73,
+        "icon": 49,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_shipyard"
       }
@@ -1363,9 +1635,9 @@ AxeGraft.registerCatalog({
       "id": 74,
       "name": "Town Hall",
       "tree": ["Human", "Buildings"],
-      "icon": 40,
       "original": {
         "button_set": 74,
+        "icon": 40,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1374,9 +1646,9 @@ AxeGraft.registerCatalog({
       "id": 75,
       "name": "Great Hall",
       "tree": ["Orc", "Buildings"],
-      "icon": 41,
       "original": {
         "button_set": 75,
+        "icon": 41,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_town_hall"
       }
@@ -1385,37 +1657,53 @@ AxeGraft.registerCatalog({
       "id": 76,
       "name": "Elven Lumber Mill",
       "tree": ["Human", "Buildings"],
-      "icon": 44,
-      "original": {"button_set": 76, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_mill"}
+      "original": {
+        "button_set": 76,
+        "icon": 44,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_mill"
+      }
     },
     {
       "id": 77,
       "name": "Troll Lumber Mill",
       "tree": ["Orc", "Buildings"],
-      "icon": 45,
-      "original": {"button_set": 77, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_mill"}
+      "original": {
+        "button_set": 77,
+        "icon": 45,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_mill"
+      }
     },
     {
       "id": 78,
       "name": "Foundry (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 52,
-      "original": {"button_set": 78, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_smith"}
+      "original": {
+        "button_set": 78,
+        "icon": 52,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_smith"
+      }
     },
     {
       "id": 79,
       "name": "Foundry (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 53,
-      "original": {"button_set": 79, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_smith"}
+      "original": {
+        "button_set": 79,
+        "icon": 53,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_smith"
+      }
     },
     {
       "id": 80,
       "name": "Mage Tower",
       "tree": ["Human", "Buildings"],
-      "icon": 64,
       "original": {
         "button_set": 80,
+        "icon": 64,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mage_tower"
       }
@@ -1424,9 +1712,9 @@ AxeGraft.registerCatalog({
       "id": 81,
       "name": "Temple of the Damned",
       "tree": ["Orc", "Buildings"],
-      "icon": 65,
       "original": {
         "button_set": 81,
+        "icon": 65,
         "status_changed": "statdraw_query_barracks",
         "status_update": "statdraw_draw_mage_tower"
       }
@@ -1435,103 +1723,163 @@ AxeGraft.registerCatalog({
       "id": 82,
       "name": "Blacksmith (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 46,
-      "original": {"button_set": 82, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_smith"}
+      "original": {
+        "button_set": 82,
+        "icon": 46,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_smith"
+      }
     },
     {
       "id": 83,
       "name": "Blacksmith (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 47,
-      "original": {"button_set": 83, "status_changed": "statdraw_query_barracks", "status_update": "statdraw_draw_smith"}
+      "original": {
+        "button_set": 83,
+        "icon": 47,
+        "status_changed": "statdraw_query_barracks",
+        "status_update": "statdraw_draw_smith"
+      }
     },
     {
       "id": 84,
       "name": "Refinery (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 50,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_refinery"}
+      "original": {
+        "button_set": null,
+        "icon": 50,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_refinery"
+      }
     },
     {
       "id": 85,
       "name": "Refinery (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 51,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_refinery"}
+      "original": {
+        "button_set": null,
+        "icon": 51,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_refinery"
+      }
     },
     {
       "id": 86,
       "name": "Oil Platform (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 54,
-      "original": {"button_set": null, "status_changed": "statdraw_query_oilrig", "status_update": "statdraw_draw_oilrig"}
+      "original": {
+        "button_set": null,
+        "icon": 54,
+        "status_changed": "statdraw_query_oilrig",
+        "status_update": "statdraw_draw_oilrig"
+      }
     },
     {
       "id": 87,
       "name": "Oil Platform (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 55,
-      "original": {"button_set": null, "status_changed": "statdraw_query_oilrig", "status_update": "statdraw_draw_oilrig"}
+      "original": {
+        "button_set": null,
+        "icon": 55,
+        "status_changed": "statdraw_query_oilrig",
+        "status_update": "statdraw_draw_oilrig"
+      }
     },
     {
       "id": 88,
       "name": "Keep",
       "tree": ["Human", "Buildings"],
-      "icon": 66,
-      "original": {"button_set": 74, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_town_hall"}
+      "original": {
+        "button_set": 74,
+        "icon": 66,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_town_hall"
+      }
     },
     {
       "id": 89,
       "name": "Stronghold",
       "tree": ["Orc", "Buildings"],
-      "icon": 67,
-      "original": {"button_set": 75, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_town_hall"}
+      "original": {
+        "button_set": 75,
+        "icon": 67,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_town_hall"
+      }
     },
     {
       "id": 90,
       "name": "Castle",
       "tree": ["Human", "Buildings"],
-      "icon": 68,
-      "original": {"button_set": 74, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_town_hall"}
+      "original": {
+        "button_set": 74,
+        "icon": 70,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_town_hall"
+      }
     },
     {
       "id": 91,
       "name": "Fortress",
       "tree": ["Orc", "Buildings"],
-      "icon": 69,
-      "original": {"button_set": 75, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_town_hall"}
+      "original": {
+        "button_set": 75,
+        "icon": 71,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_town_hall"
+      }
     },
     {
       "id": 92,
       "name": "Gold Mine",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_mine", "status_update": "statdraw_draw_mine"}
+      "original": {
+        "button_set": null,
+        "icon": 74,
+        "status_changed": "statdraw_query_mine",
+        "status_update": "statdraw_draw_mine"
+      }
     },
     {
       "id": 93,
       "name": "Oil Patch",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_oilrig", "status_update": "statdraw_draw_oilrig"}
+      "original": {
+        "button_set": null,
+        "icon": 79,
+        "status_changed": "statdraw_query_oilrig",
+        "status_update": "statdraw_draw_oilrig"
+      }
     },
     {
       "id": 94,
       "name": "Human start location",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 95,
       "name": "Orc start location",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 96,
       "name": "Guard Tower (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 75,
       "original": {
         "button_set": 64,
+        "icon": 75,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1540,9 +1888,9 @@ AxeGraft.registerCatalog({
       "id": 97,
       "name": "Guard Tower (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 77,
       "original": {
         "button_set": 65,
+        "icon": 77,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1551,9 +1899,9 @@ AxeGraft.registerCatalog({
       "id": 98,
       "name": "Cannon Tower (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 76,
       "original": {
         "button_set": 64,
+        "icon": 76,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1562,9 +1910,9 @@ AxeGraft.registerCatalog({
       "id": 99,
       "name": "Cannon Tower (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 78,
       "original": {
         "button_set": 65,
+        "icon": 78,
         "status_changed": "statdraw_query_bldg",
         "status_update": "statdraw_draw_attack_tower"
       }
@@ -1573,63 +1921,111 @@ AxeGraft.registerCatalog({
       "id": 100,
       "name": "Circle of Power",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 81,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 101,
       "name": "Dark Portal",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 80,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 102,
       "name": "Runestone",
       "tree": ["Neutral"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 82,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 103,
       "name": "Wall (human)",
       "tree": ["Human", "Buildings"],
-      "icon": 92,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 92,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 104,
       "name": "Wall (orc)",
       "tree": ["Orc", "Buildings"],
-      "icon": 93,
-      "original": {"button_set": null, "status_changed": "statdraw_query_bldg", "status_update": "statdraw_draw_bldg"}
+      "original": {
+        "button_set": null,
+        "icon": 93,
+        "status_changed": "statdraw_query_bldg",
+        "status_update": "statdraw_draw_bldg"
+      }
     },
     {
       "id": 105,
       "name": "Dead body",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 106,
       "name": "Destroyed site (1x1)",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 107,
       "name": "Destroyed site (2x2)",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 108,
       "name": "Destroyed site (3x3)",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {
       "id": 109,
       "name": "Destroyed site (4x4)",
       "tree": ["Other", "Special"],
-      "original": {"button_set": null, "status_changed": "statdraw_query_none", "status_update": "statdraw_draw_none"}
+      "original": {
+        "button_set": null,
+        "icon": 0,
+        "status_changed": "statdraw_query_none",
+        "status_update": "statdraw_draw_none"
+      }
     },
     {"id": 110, "name": "Blank", "tree": ["Other", "Menus"], "original": {"button_set": null}},
     {"id": 111, "name": "Human Basic Build", "tree": ["Other", "Menus"], "original": {"button_set": 111}},

@@ -43,6 +43,7 @@ AxeGraft.registerFixtureCatalog({
   ],
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The set of buttons the entry shows." },
+    { "name": "icon", "label": "Icon", "kind": "icon", "help": "The icon that stands for the unit." },
     { "name": "status_changed", "label": "Stats changed", "kind": "statusChanged", "help": "Decides whether to redraw the stats." },
     { "name": "status_update", "label": "Stats update", "kind": "statusUpdate", "help": "Draws the stats." }
   ],
@@ -60,8 +61,8 @@ AxeGraft.registerFixtureCatalog({
     "statusUpdate": [{ "name": "w2_stats_update_unit", "label": "Unit", "variable": null }]
   },
   "units": [
-    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
-    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
+    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "icon": 2, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
+    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "icon": 0, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
     { "id": 110, "name": "Blank", "tree": ["Other"], "original": { "button_set": null } },
     { "id": 111, "name": "Human Basic Build", "tree": ["Other"], "original": { "button_set": 111 } }
   ],

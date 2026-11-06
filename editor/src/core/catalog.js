@@ -28,7 +28,7 @@
   var LIMITS_OPTIONAL = ["tech", "upgrade", "order"];
   var BUTTON_KINDS = ["position", "icon", "string", "condition", "conditionVariable", "action", "actionVariable", "choice"];
   var BUTTON_KINDS_ONCE = ["position", "icon", "condition", "conditionVariable", "action", "actionVariable"];
-  var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit"];
+  var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon"];
   var FUNCTION_LISTS = ["conditions", "actions", "statusChanged", "statusUpdate"];
   var VARIABLE_TYPES = ["unit", "tech", "upgrade", "number", "tableEntry"];
   var PARAMETER_TYPES = ["unit", "tech", "upgrade", "order"];
@@ -482,6 +482,8 @@
           if (!fnByList[f.kind] || !fnByList[f.kind][v]) problem(where + " has an original " + f.name + " " + util.show(v) + ", which the catalog doesn't list");
         } else if (f.kind === "unit") {
           if (range("unit") && !util.inRange(v, range("unit"))) problem(where + " has an original " + f.name + " outside limits.unit");
+        } else if (f.kind === "icon") {
+          if (!isInt(v) || (range("icon") && !util.inRange(v, range("icon")))) problem(where + " has an original " + f.name + " that isn't an icon ID within limits.icon");
         }
       });
     });

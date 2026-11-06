@@ -46,6 +46,10 @@
     return opts;
   }
 
+  function iconLabel(cat, id) {
+    return cat.icons[id] ? id + " " + cat.icons[id] : String(id);
+  }
+
   function setLabel(app, id) {
     if (id === null) return "no buttons";
     if (id === undefined) return "not in the catalog";
@@ -122,6 +126,16 @@
         original = e.hasOriginal ? (fnOrig ? fnOrig.label + " (" + fnOrig.name + ")" : e.original) : null;
         var fn = cat.functions[f.kind].get(e.value);
         if (fn && fn.help) helpText += " " + fn.help;
+      } else if (f.kind === "icon") {
+        controls = F.idPicker(AG.ui.buttonSets.mapItems(cat.icons), e.value, set, { label: f.label });
+        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        original = e.hasOriginal ? iconLabel(cat, e.original) : null;
+        extra.push(h("span", { class: "icon-preview" }, [AG.ui.buttonSets.iconEl(app, e.value)]));
+        if (AG.ui.iconPicker && app.assets && app.assets.hasIcons && app.assets.hasIcons(app.state.game)) {
+          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "pick-icon" }, onclick: function () {
+            AG.ui.iconPicker.show(app, e.value, set);
+          } }, "Choose icon..."), help.text("pickIcon")));
+        }
       } else {
         controls = F.idPicker(unitItems(cat), e.value, set, { label: f.label });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
@@ -147,7 +161,8 @@
     });
 
     // The unit's icon, when the catalog names one and its image is available.
-    var iconUrl = unit && util.isInt(unit.icon) && app.assets && app.assets.iconURL ? app.assets.iconURL(app.state.game, unit.icon) : null;
+    // A game whose units have an icon field shows it there instead.
+    var iconUrl = !cat.unitKind.icon && unit && util.isInt(unit.icon) && app.assets && app.assets.iconURL ? app.assets.iconURL(app.state.game, unit.icon) : null;
 
     return h("div", { class: "units-panel", dataset: { unit: id } }, [
       h("h2", { class: "panel-title" }, [

@@ -444,6 +444,21 @@
       });
   }, { dom: true });
 
+  T.test("unit icons: a game whose units have an icon field shows the icon and the picker there, not beside the name", function (ctx) {
+    var shipped = { warcraft2: { game: "warcraft2", icons: { count: 4, path: "icons/" } } };
+    var svc = service(AG.core.storage.memory(), { shipped: shipped, shippedBase: "fixtures/shipped/" });
+    var cats = { games: { warcraft2: T.catalog("warcraft2") }, errors: [] };
+    return T.ui.start(ctx, { catalogs: cats, assets: svc }).then(function (app) {
+      return app.newMod("warcraft2").then(function () {
+        app.select("units", "unit:0");
+        T.ok(!app.root.querySelector(".panel-title img"), "no icon beside the name");
+        var f = T.ui.q(app, '[data-field="unit:0:icon"]');
+        T.equal(f.querySelector(".icon-preview img").getAttribute("src"), "fixtures/shipped/warcraft2/icons/2.png");
+        T.ok(f.querySelector('[data-action="pick-icon"]'), "the icon picker is offered");
+      });
+    });
+  }, { dom: true });
+
   T.test("start screen logos: a game with a shipped logo gets a logo button, one without gets text, and a logo that doesn't load falls back to text", function (ctx) {
     var shipped = {
       starcraft: { game: "starcraft", logo: "logo.png" },

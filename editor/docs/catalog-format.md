@@ -97,7 +97,7 @@ There must be exactly one field of each kind except `string` and `choice`. Every
 
 ### Unit fields
 
-`unitFields` lists the fields of a unit entry, each `{ "name", "label", "kind", "help" }`. `kind` is `buttonSet`, `statusChanged`, `statusUpdate` or `unit`, each at most once, and `buttonSet` is required. A table entry outside `limits.unit` has only the `buttonSet` field.
+`unitFields` lists the fields of a unit entry, each `{ "name", "label", "kind", "help" }`. `kind` is `buttonSet`, `statusChanged`, `statusUpdate`, `unit` or `icon`, each at most once, and `buttonSet` is required. A table entry outside `limits.unit` has only the `buttonSet` field.
 
 ### Functions
 
@@ -121,7 +121,7 @@ There must be exactly one field of each kind except `string` and `choice`. Every
   "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } }
 ```
 
-`icon`, optional, is the icon that shows the unit, such as on the button that trains it. The editor shows it beside the unit's name when icons are available. In StarCraft it's the unit's ID; in Warcraft II it isn't.
+`icon`, optional, is the icon that shows the unit, such as on the button that trains it. The editor shows it beside the unit's name when icons are available. In StarCraft it's the unit's ID. A game whose unit entries hold the icon, as Warcraft II's do, has a unit field of kind `icon` instead, and its icon is that field's original value; the editor then shows it with the field rather than beside the name.
 
 `original` holds the original value of each unit field, by the field's name. An entry outside `limits.unit` has only the button set field. A `button_set` of `null` means no buttons. `absentOn`, optional, lists the versions that lack the entry.
 
