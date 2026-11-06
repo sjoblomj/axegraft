@@ -11,7 +11,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 ## 2. Mod format
 
 - [ ] 2.1 Define the typed mod model and a `Problem` type carrying input name, path and message, and verify with unit tests that problems format with all three
-- [ ] 2.2 Parse the header and parts with strict fields and ignored labels, and verify the "Mod header", "Mod parts" and "Strict fields" scenarios pass as tests
+- [ ] 2.2 Parse the header, the mod information and the parts with strict fields and ignored labels, and verify the "Mod header", "Mod information", "Mod parts" and "Strict fields" scenarios pass as tests
 - [ ] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" scenarios pass
 - [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry" and "Button fields" scenarios pass for both games
 - [ ] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions

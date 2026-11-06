@@ -25,6 +25,21 @@ A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `form
 - **WHEN** a mod has a `game` other than `starcraft` or `warcraft2`
 - **THEN** the mod is rejected, with an error naming the game
 
+### Requirement: Mod information
+A mod MAY contain `mod_name` and `mod_version`, each a string, and `mod_authors`, an array of strings. They describe the mod for people and SHALL have no effect on the result. Any of them MAY be absent or empty.
+
+#### Scenario: Mod with information
+- **WHEN** a mod has `"mod_name": "Faster Marines"`, `"mod_version": "1.2"` and `"mod_authors": ["Alice", "Bob"]`
+- **THEN** the mod is accepted, and produces the same changes as without them
+
+#### Scenario: Mod without information
+- **WHEN** a mod has none of `mod_name`, `mod_version` and `mod_authors`
+- **THEN** the mod is accepted
+
+#### Scenario: Information of the wrong type
+- **WHEN** a mod's `mod_name` or `mod_version` isn't a string, or its `mod_authors` isn't an array of strings
+- **THEN** the mod is rejected, with an error naming the field
+
 ### Requirement: Mod parts
 A mod SHALL contain at most these parts, each an array: `units`, `button_sets`, `requirements` and `constants`. Any part MAY be absent. A format-1 Warcraft II mod SHALL NOT contain `requirements`, because that game has no requirement data.
 
