@@ -123,9 +123,9 @@
     }
 
     // Row kinds offered: a completed unit, and the opcodes allowed here.
-    var kindOptions = [{ value: "#unit", label: (cat.bareUnit ? cat.bareUnit.label : "Completed unit") + " (bare unit ID)" }];
+    var kindOptions = [{ value: "#unit", label: cat.bareUnit ? cat.bareUnit.label : "Completed unit" }];
     cat.opcodeList.forEach(function (op) {
-      if (op.allowedIn.indexOf(type) >= 0) kindOptions.push({ value: op.name, label: op.label + " (" + op.name + ")" });
+      if (op.allowedIn.indexOf(type) >= 0) kindOptions.push({ value: op.name, label: op.label });
     });
 
     function rowEl(r, i) {

@@ -36,7 +36,7 @@
   T.test("record editor: an opcode and its parameter share a row", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");
-      T.equal(rows(app), ["Current unit is (current_unit_is) 111", "Not lifted off (not_lifted_off)"]);
+      T.equal(rows(app), ["Current unit is 111", "Not lifted off"]);
     });
   }, { dom: true });
 
@@ -90,7 +90,7 @@
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");
       T.ok(!row(app, 1).querySelector('input[data-role="id"]'), "no parameter at first");
-      U.change(row(app, 1).querySelector("select"), "Must have (must_have)");
+      U.change(row(app, 1).querySelector("select"), "Must have");
       var r = row(app, 1);
       T.ok(r.querySelector('input[data-role="id"]'), "a unit field");
       T.ok(/needs a unit after it/.test(r.querySelector(".row-problem").textContent));
@@ -116,11 +116,11 @@
         return D.setRequirement(d, app.cat(), "unit", 43, [132, "or", "must_have", 133]);
       });
       app.select("requirements", "req:unit:43");
-      T.equal(rows(app), ["Completed unit (bare unit ID) 132", "Or (or)", "Must have (must_have) 133"]);
+      T.equal(rows(app), ["Completed unit 132", "Or", "Must have 133"]);
       // Changing a row's kind and back gives the same list.
-      U.change(row(app, 0).querySelector("select"), "Must have (must_have)");
+      U.change(row(app, 0).querySelector("select"), "Must have");
       T.equal(list(app, "unit", 43), ["must_have", 132, "or", "must_have", 133]);
-      U.change(row(app, 0).querySelector("select"), "Completed unit (bare unit ID)");
+      U.change(row(app, 0).querySelector("select"), "Completed unit");
       T.equal(list(app, "unit", 43), [132, "or", "must_have", 133]);
     });
   }, { dom: true });
@@ -129,10 +129,10 @@
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");
       var opts = U.texts(app, '.req-row[data-row="0"] select:first-of-type option');
-      T.ok(opts.indexOf("Level 1 requires (upgrade_level_1)") < 0 && opts.indexOf("End of level (end_sublist)") < 0, opts.join(" | "));
+      T.ok(opts.indexOf("Level 1 requires") < 0 && opts.indexOf("End of upgrade level") < 0, opts.join(" | "));
       app.select("requirements", "req:upgrade:3");
       opts = U.texts(app, '.req-row[data-row="0"] select:first-of-type option');
-      T.ok(opts.indexOf("Level 1 requires (upgrade_level_1)") >= 0 && opts.indexOf("End of level (end_sublist)") >= 0);
+      T.ok(opts.indexOf("Level 1 requires") >= 0 && opts.indexOf("End of upgrade level") >= 0);
     });
   }, { dom: true });
 

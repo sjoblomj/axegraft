@@ -79,7 +79,7 @@ AxeGraft.registerFixtureCatalog({
     { "name": "upgrade_level_1", "label": "Level 1 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
     { "name": "upgrade_level_2", "label": "Level 2 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
     { "name": "upgrade_level_3", "label": "Level 3 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
-    { "name": "end_sublist", "label": "End of level", "parameter": null, "role": "endSublist", "allowedIn": ["upgrade"] }
+    { "name": "end_sublist", "label": "End of upgrade level", "parameter": null, "role": "endSublist", "allowedIn": ["upgrade"] }
   ],
   "bareUnit": { "label": "Completed unit", "help": "A unit of this type must exist and be complete." },
   "units": [

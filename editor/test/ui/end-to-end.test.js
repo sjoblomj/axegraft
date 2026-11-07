@@ -45,9 +45,9 @@
         tabEl(app, "requirements").click();
         treeItem(app, "req:unit:0");
         U.q(app, '[data-action="add-row"]').click();
-        U.change(U.q(app, '.req-row[data-row="2"] select'), "Or (or)");
+        U.change(U.q(app, '.req-row[data-row="2"] select'), "Or");
         U.q(app, '[data-action="add-row"]').click();
-        U.change(U.q(app, '.req-row[data-row="3"] select'), "Must have (must_have)");
+        U.change(U.q(app, '.req-row[data-row="3"] select'), "Must have");
         U.change(U.q(app, '.req-row[data-row="3"] input[data-role="id"]'), "112");
         // Constants: a number, and an option.
         tabEl(app, "constants").click();

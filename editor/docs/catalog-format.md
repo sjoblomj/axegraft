@@ -300,7 +300,7 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
     { "name": "current_unit_is", "label": "Current unit is", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "must_have", "label": "Must have", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "upgrade_level_1", "label": "Level 1 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
-    { "name": "end_sublist", "label": "End of level", "parameter": null, "role": "endSublist", "allowedIn": ["upgrade"] }
+    { "name": "end_sublist", "label": "End of upgrade level", "parameter": null, "role": "endSublist", "allowedIn": ["upgrade"] }
   ],
   "bareUnit": { "label": "Completed unit", "help": "A completed unit of this type must exist." },
   "units": [

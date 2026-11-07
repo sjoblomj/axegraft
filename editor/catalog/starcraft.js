@@ -622,7 +622,7 @@ AxeGraft.registerCatalog({
     },
     {
       "name": "end_sublist",
-      "label": "End of level",
+      "label": "End of upgrade level",
       "parameter": null,
       "role": "endSublist",
       "allowedIn": ["upgrade"],
