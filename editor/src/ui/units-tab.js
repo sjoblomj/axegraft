@@ -63,6 +63,79 @@
     return s ? id + " " + s.name : String(id);
   }
 
+  // The panel's title: the unit's label in this mod, or its name in the
+  // catalog. A unit the mod has an entry for can have its label edited:
+  // clicking the title turns it into a text box with a Save button.
+  function title(app, key, id, unit) {
+    var S = app.state;
+    var doc = app.doc();
+    var hasEntry = D.entries(doc, "units").some(function (e) {
+      return util.isObject(e) && e.id === id;
+    });
+    var label = D.unitLabel(doc, id);
+    var name = label || (unit ? unit.name : null);
+    var text = name ? id + " " + name : "Table entry " + id;
+    if (S.labelEdit && (S.labelEdit.key !== key || !hasEntry)) S.labelEdit = null;
+    if (!hasEntry) return text;
+
+    var focusId = "unit-label:" + id;
+    function focusBox() {
+      var box = app.root.querySelector('[data-focus="' + focusId + '"]');
+      if (box) {
+        box.focus();
+        box.select();
+      }
+    }
+    if (!S.labelEdit) {
+      return h("button", { type: "button", class: "title-label", title: "Click to edit the label", dataset: { action: "edit-label", focus: "unit-title:" + id, plain: "" }, onclick: function () {
+        S.labelEdit = { key: key, text: label || "" };
+        app.render();
+        focusBox();
+      } }, text);
+    }
+
+    function save() {
+      var value = S.labelEdit.text.trim();
+      S.labelEdit = null;
+      var before = app.doc();
+      app.edit(function (d) {
+        return D.setUnitLabel(d, id, value);
+      });
+      if (app.doc() === before) app.render();
+    }
+    function cancel() {
+      S.labelEdit = null;
+      app.render();
+    }
+    var box = h("input", {
+      type: "text",
+      class: "ctl wide title-input",
+      value: S.labelEdit.text,
+      placeholder: unit ? unit.name : "",
+      "aria-label": "Label",
+      dataset: { focus: focusId },
+      oninput: function (ev) {
+        S.labelEdit.text = ev.target.value;
+      },
+      onkeydown: function (ev) {
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          save();
+        } else if (ev.key === "Escape") {
+          ev.preventDefault();
+          cancel();
+        }
+      }
+    });
+    var pair = help.described(box, help.text("unitLabel"));
+    return h("span", { class: "title-edit" }, [
+      String(id),
+      pair[0],
+      h("button", { type: "button", class: "small", dataset: { action: "save-label", plain: "" }, onclick: save }, "Save"),
+      pair[1]
+    ]);
+  }
+
   function panel(app, key) {
     var cat = app.cat();
     var id = AG.core.tree.parseKey(key).id;
@@ -210,7 +283,7 @@
     return h("div", { class: "units-panel", dataset: { unit: id } }, [
       h("h2", { class: "panel-title" }, [
         iconUrl ? h("img", { class: "unit-icon", src: iconUrl, alt: "", dataset: { unitIcon: unit.icon } }) : null,
-        unit ? id + " " + unit.name : "Table entry " + id,
+        title(app, key, id, unit),
         h("span", { class: "sub", text: isUnit ? "Unit" : "Table entry that isn't a unit, so it has only a button set" }),
         changed
           ? F.withHelp(

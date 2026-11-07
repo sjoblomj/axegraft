@@ -104,6 +104,40 @@
     });
   }, { dom: true });
 
+  T.test("unit label: clicking a changed unit's title edits its label, which the title and the list then show", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("units", "unit:0");
+      T.ok(!app.root.querySelector('.panel-title [data-action="edit-label"]'), "an unchanged unit has no entry to label");
+      U.change(idBox(app, "unit:0:button_set"), "5");
+      U.q(app, '.panel-title [data-action="edit-label"]').click();
+      var box = U.q(app, ".panel-title input.title-input");
+      T.equal(box.value, "Terran Marine");
+      T.ok(document.activeElement === box, "the text box has focus");
+      T.ok(/no changes to the game/.test(U.q(app, ".panel-title .help").textContent), "the ? button says the game isn't changed");
+      box.value = "Rifleman";
+      box.dispatchEvent(new Event("input", { bubbles: true }));
+      U.q(app, '.panel-title [data-action="save-label"]').click();
+      T.equal(app.doc().units, [{ id: 0, label: "Rifleman", button_set: 5 }]);
+      T.equal(U.q(app, '.panel-title [data-action="edit-label"]').textContent, "0 Rifleman");
+      T.equal(U.q(app, '.tree [data-key="unit:0"] > .row .text').textContent, "0 Rifleman");
+
+      U.q(app, '.panel-title [data-action="edit-label"]').click();
+      box = U.q(app, ".panel-title input.title-input");
+      box.value = "Discarded";
+      box.dispatchEvent(new Event("input", { bubbles: true }));
+      U.key(box, "Escape");
+      T.equal(app.doc().units[0].label, "Rifleman", "Escape cancels");
+
+      U.q(app, '.panel-title [data-action="edit-label"]').click();
+      box = U.q(app, ".panel-title input.title-input");
+      box.value = "";
+      box.dispatchEvent(new Event("input", { bubbles: true }));
+      U.key(box, "Enter");
+      T.equal(app.doc().units, [{ id: 0, button_set: 5 }], "an empty label is removed");
+      T.equal(U.q(app, '.panel-title [data-action="edit-label"]').textContent, "0 Terran Marine");
+    });
+  }, { dom: true });
+
   T.test("unit fields: a table entry that isn't a unit, such as 238, shows only its button set", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:238");

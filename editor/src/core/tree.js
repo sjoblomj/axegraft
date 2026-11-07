@@ -191,12 +191,12 @@
     if (tab === "units") {
       cat.raw.units.forEach(function (u) {
         seen[u.id] = true;
-        place(u.tree, item(key.unit(u.id), u.id, idLabel(u.id, u.name)));
+        place(u.tree, item(key.unit(u.id), u.id, idLabel(u.id, AG.core.doc.unitLabel(doc, u.id) || u.name)));
       });
       AG.core.doc.entries(doc, "units").forEach(function (e) {
         if (isObject(e) && isInt(e.id) && util.inRange(e.id, cat.limits.tableEntry) && !seen[e.id]) {
           seen[e.id] = true;
-          place(["Not in the catalog"], item(key.unit(e.id), e.id, idLabel(e.id, null)));
+          place(["Not in the catalog"], item(key.unit(e.id), e.id, idLabel(e.id, AG.core.doc.unitLabel(doc, e.id))));
         }
       });
       sortGroup(root, true);

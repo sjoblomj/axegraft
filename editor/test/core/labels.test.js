@@ -48,4 +48,21 @@
     doc.units[0].label = "Something else entirely";
     T.equal(AG.core.validate.check(doc, cat), []);
   });
+
+  T.test("labels: a unit's label can be set, changed and removed, and needs an entry", function () {
+    var cat = T.catalog("starcraft");
+    var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 5);
+    T.equal(D.unitLabel(doc, 0), "Terran Marine");
+    doc = D.setUnitLabel(doc, 0, "Rifleman");
+    T.equal(doc.units, [{ id: 0, label: "Rifleman", button_set: 5 }]);
+    T.equal(D.unitLabel(doc, 0), "Rifleman");
+    doc = D.setUnitLabel(doc, 0, "");
+    T.equal(doc.units, [{ id: 0, button_set: 5 }], "empty text removes the label");
+    T.equal(D.unitLabel(doc, 0), null);
+    var none = D.create("starcraft");
+    T.ok(D.setUnitLabel(none, 1, "Ghost guy") === none, "a unit with no entry is left as it is");
+    var two = { patcher: "AxeGraft", format: 1, game: "starcraft", units: [{ id: 0, button_set: 5 }, { id: 0, label: "Old", status_update: "statdraw_draw_none" }] };
+    T.equal(D.unitLabel(two, 0), "Old");
+    T.equal(D.setUnitLabel(two, 0, "New").units, [{ id: 0, label: "New", button_set: 5 }, { id: 0, status_update: "statdraw_draw_none" }], "the label moves to the first entry");
+  });
 })(AxeGraft);

@@ -230,6 +230,31 @@
     );
   }
 
+  // The label this mod gives a unit: the first non-empty label on its
+  // entries, or null.
+  function unitLabel(doc, id) {
+    var hit = null;
+    unitEntries(doc, id).some(function (x) {
+      if (typeof x.entry.label === "string" && x.entry.label) hit = x.entry.label;
+      return hit !== null;
+    });
+    return hit;
+  }
+
+  // Puts `label` on the unit's first entry and removes it from any others.
+  // Empty text removes the label. A unit with no entry is left as it is,
+  // since an entry must change more than its label.
+  function setUnitLabel(doc, id, label) {
+    var found = unitEntries(doc, id);
+    if (!found.length) return doc;
+    var list = entries(doc, "units").slice();
+    found.forEach(function (x, i) {
+      var copy = util.has(x.entry, "label") ? util.omit(x.entry, ["label"]) : x.entry;
+      list[x.index] = i === 0 ? withLabel(copy, label) : copy;
+    });
+    return withPart(doc, "units", list);
+  }
+
   // ---- Button sets
 
   function setEntry(doc, id) {
@@ -868,6 +893,8 @@
     setUnitField: setUnitField,
     revertUnitField: revertUnitField,
     revertUnit: revertUnit,
+    unitLabel: unitLabel,
+    setUnitLabel: setUnitLabel,
     originalButtons: originalButtons,
     originalButtonsByVersion: originalButtonsByVersion,
     effectiveButtons: effectiveButtons,
