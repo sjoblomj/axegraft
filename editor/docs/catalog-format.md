@@ -47,7 +47,7 @@ The editor reads `catalogFormat` 1 for mods of `modFormat` 1. A catalog of anoth
 | `bareUnit`      | With requirements          | `{ "label", "help" }` for the row that holds a bare unit ID.                                                              |
 | `units`         | Yes                        | Every entry of the button table. See [Units](#units).                                                                     |
 | `buttonSets`    | Yes                        | Every original button set. See [Button sets](#button-sets).                                                               |
-| `upgrades`, `techs`, `orders`, `missiles`, `spellSounds` | No | Named items: `{ "id", "name", "tree" }`. An ID with no entry is still valid within its range, and is shown by number.     |
+| `upgrades`, `techs`, `orders`, `missiles`, `spellSounds`, `sounds` | No | Named items: `{ "id", "name", "tree" }`. An ID with no entry is still valid within its range, and is shown by number.     |
 | `requirements`  | With requirements          | Original requirement records. See [Requirements](#requirements).                                                          |
 | `constants`     | With constants             | See [Constants](#constants).                                                                                              |
 | `icons`, `strings` | No                      | Names by ID, as `{ "228": "Move" }`. IDs without a name are still valid within the field's limit.                         |
@@ -70,7 +70,7 @@ Each limit is `{ "min", "max" }`, inclusive, with whole numbers.
 | `icon`, `string`    | Yes                              | The field sizes of icon and string IDs. Any ID within them is valid, named or not. |
 | `position`          | Yes                              | Button positions.                                                                |
 | `conditionVariable`, `actionVariable` | Yes            | The field sizes of the two variables.                                            |
-| `tech`, `upgrade`, `order`, `missile`, `spellSound` | When used | Needed by any function variable, opcode parameter, named list, requirement record or constant that refers to them. A game with requirements needs all three. |
+| `tech`, `upgrade`, `order`, `missile`, `spellSound`, `sound` | When used | Needed by any function variable, opcode parameter, named list, requirement record or constant that refers to them. A game with requirements needs all three. |
 
 ### Button fields
 
@@ -198,7 +198,7 @@ Each constant is:
 
 - `name` is the name mods use, and `label` the name the editor shows, under the groups in `group`.
 - `kind` is `"number"`, with a `range`, or `"option"`, with at least two `options`, each `{ "name", "label", "help" }`. `help` is optional for an option.
-- `refers`, optional for a number, says the value is an ID: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"missile"`, `"spellSound"` or `"tableEntry"`. The editor then offers those items by name. A spell sound is Warcraft II's number from 0 to 16 that the game adds a base to.
+- `refers`, optional for a number, says the value is an ID: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"missile"`, `"spellSound"`, `"sound"` or `"tableEntry"`. The editor then offers those items by name. A spell sound is Warcraft II's number from 0 to 16 that the game adds a base to; a sound is an entry of the game's sound list.
 - `note`, optional, explains the stored scale, such as half supply units, or how the game stores the value where some places hold it negated or offset. Values are always edited and saved in the stored scale; converting them for those places is the patcher's business.
 - `availability` must name every version. Its value is the original value there, the original option's name for an option, `"unknown"` when the constant hasn't been found on that version, or `"not_applicable"` when the code doesn't exist there. The patcher skips the constant on those last two.
 

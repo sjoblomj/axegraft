@@ -29,7 +29,7 @@ A catalog SHALL state its catalog format version, the mod format version and `ga
 - **THEN** the editor uses the catalog as normal
 
 ### Requirement: Game content in the catalog
-A catalog SHALL list every entry of the game's button table, units and others, and the button sets, upgrades, techs, orders, missiles and spell sounds, by ID, with display names and tree positions. Each button set SHALL be one array of buttons in the game, with the mod format's ID and a list of the table entries that point at it. It SHALL list icon names and string names where they are known.
+A catalog SHALL list every entry of the game's button table, units and others, and the button sets, upgrades, techs, orders, missiles, spell sounds and sounds, by ID, with display names and tree positions. Each button set SHALL be one array of buttons in the game, with the mod format's ID and a list of the table entries that point at it. It SHALL list icon names and string names where they are known.
 
 #### Scenario: ID with no known name
 - **WHEN** a valid ID has no entry in the catalog, such as an icon added by an MPQ

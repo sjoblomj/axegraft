@@ -79,7 +79,7 @@
   // ---- Names, for labels
 
   function itemName(cat, kind, id) {
-    var m = { unit: cat.units, set: cat.sets, upgrade: cat.upgrades, tech: cat.techs, order: cat.orders, missile: cat.missiles, spellSound: cat.spellSounds }[kind];
+    var m = { unit: cat.units, set: cat.sets, upgrade: cat.upgrades, tech: cat.techs, order: cat.orders, missile: cat.missiles, spellSound: cat.spellSounds, sound: cat.sounds }[kind];
     var item = m && m.get(id);
     return item ? item.name : null;
   }

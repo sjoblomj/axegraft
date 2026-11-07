@@ -16,7 +16,7 @@
     var cat = app.cat();
     if (kind === "unit") return AG.ui.unitsTab.unitItems(cat);
     if (kind === "tableEntry") return AG.ui.buttonSets.entryItems(app);
-    var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders, missile: cat.raw.missiles, spellSound: cat.raw.spellSounds }[kind] || [];
+    var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders, missile: cat.raw.missiles, spellSound: cat.raw.spellSounds, sound: cat.raw.sounds }[kind] || [];
     return list
       .map(function (x) {
         return { id: x.id, label: x.id + " " + x.name };
