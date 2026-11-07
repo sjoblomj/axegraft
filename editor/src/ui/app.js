@@ -1087,9 +1087,11 @@
       if (sel && sel.scrollIntoView && !app._noScroll) sel.scrollIntoView({ block: "nearest" });
     };
 
+    // The games in start-page order: Warcraft 2 before StarCraft.
     app.games = function () {
       return Object.keys(catalogs.games)
         .sort()
+        .reverse()
         .map(function (g) {
           return catalogs.games[g];
         });
