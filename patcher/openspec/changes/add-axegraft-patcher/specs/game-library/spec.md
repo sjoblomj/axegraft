@@ -138,9 +138,13 @@ The library SHALL give each condition, action and status function a unique name,
 - **WHEN** a function doesn't exist on a supported version
 - **THEN** the library records it as absent on that version
 
-#### Scenario: Two names for one function on a version
-- **WHEN** two named functions are the same function on a version, as `bf_can_attack` and `bf_always` are in Warcraft II 2.00 and 2.02
-- **THEN** the library records the second name as absent on that version
+#### Scenario: Two names for one function, one unused
+- **WHEN** two named functions are the same function on a version, and that version's original buttons use only one name, as with `bf_can_attack` and `bf_always` in Warcraft II 2.00 and 2.02, whose command lists use `bf_always`
+- **THEN** the library records the unused name, `bf_can_attack`, as absent on that version
+
+#### Scenario: Two names for one function, both used
+- **WHEN** two named functions are the same function on a version, and that version's original buttons use both names, as with `bf_scv_can_repair` and `bf_scv_can_move` in StarCraft 1.17
+- **THEN** the library keeps both names on that version, at the same address
 
 ### Requirement: Button set numbering per version
 The library SHALL map each game's numbering of button sets and table entries to each version's own numbers, and SHALL record which sets and entries are absent on a version and which table entries point at each set's array.

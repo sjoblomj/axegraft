@@ -87,7 +87,7 @@ Encodings are a closed enum: `u8`, `u16`, `u32`, `i8`, `i16`, `i32`, `neg8`, `ne
 
 The data is JSON, because it's easy to generate, and whatever eventually converts the documents can target it. `build.rs` validates it and generates static Rust, so bad data fails the version and nothing is parsed at game startup. *Alternative considered:* parsing embedded JSON at startup, which is simpler but delays data errors to run time.
 
-**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which `w2_exe.md` also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, the second is absent there.
+**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which `w2_exe.md` also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, a name that version's original buttons don't use is absent there; a name they use is kept, so two names may share an address.
 
 **Constants follow the game's freedom.** A value the game lets differ is its own constant, copies it needs to agree are one constant, and code sites that only work together are one option constant whose options write several locations. This gives a modder every independent choice and none that the game can't handle.
 
