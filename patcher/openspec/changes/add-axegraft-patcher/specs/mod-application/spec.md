@@ -46,11 +46,15 @@ Skipping SHALL apply only to constants. A unit, button set or requirement change
 - **THEN** the mod is rejected, with an error naming the set and the version
 
 #### Scenario: Function absent on this version
-- **WHEN** a button uses a condition or action that doesn't exist on the running version
+- **WHEN** a button uses a condition or action, or a unit entry a status function, that doesn't exist on the running version
 - **THEN** the mod is rejected, with an error naming the function and the version
 
+#### Scenario: Unit given a set absent on this version
+- **WHEN** a unit entry's `button_set` is a set that doesn't exist on the running version
+- **THEN** the mod is rejected, with an error naming the set and the version
+
 #### Scenario: Table entry absent on this version
-- **WHEN** a button's `action_variable`, a unit entry's `id`, or a unit entry's `equivalent_entry`, is a table entry that doesn't exist on the running version
+- **WHEN** a button's `condition_variable` or `action_variable`, a unit entry's `id`, or a unit entry's `equivalent_entry`, is a table entry that doesn't exist on the running version
 - **THEN** the mod is rejected, with an error naming the entry and the version
 
 ### Requirement: Checking expected bytes
@@ -128,8 +132,8 @@ Setting a unit's `status_changed` or `status_update` SHALL change only that func
 - **WHEN** a mod sets a unit's `status_update` and not its `status_changed`
 - **THEN** only the unit's update function changes
 
-#### Scenario: Different kinds of function
-- **WHEN** a mod sets a unit's `status_changed` and `status_update` to functions of different kinds
+#### Scenario: Functions of different units
+- **WHEN** a mod sets a unit's `status_changed` and `status_update` to functions the game uses for different kinds of unit, such as a building's update function on a unit
 - **THEN** each is applied as given
 
 ### Requirement: Status unit type changes

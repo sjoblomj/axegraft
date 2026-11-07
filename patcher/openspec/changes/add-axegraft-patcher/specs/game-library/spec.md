@@ -113,7 +113,11 @@ A numeric constant's stored scale SHALL be the same on every version where it's 
 - **THEN** the library check fails, naming the constant and the versions
 
 ### Requirement: Named options per version
-A code-site constant SHALL list, for each version where it's available, the bytes that each named option writes. The same option MAY have different bytes on different versions. An option MAY write several locations. They SHALL be written together, and the constant SHALL be available on a version only when all of them are known there.
+A code-site constant SHALL list, for each version where it's available, the bytes that each named option writes. Every code-site constant SHALL have an option named `original`, whose bytes on each version are that version's original bytes, so a mod can ask for the original behaviour on every version. The same option MAY have different bytes on different versions. An option MAY write several locations. They SHALL be written together, and the constant SHALL be available on a version only when all of them are known there.
+
+#### Scenario: Original option
+- **WHEN** a mod gives a code-site constant `"option": "original"`
+- **THEN** each version's own original bytes are written, which on a version already holding them changes nothing
 
 #### Scenario: Different code on different versions
 - **WHEN** a constant's option replaces different instructions on different versions
@@ -128,7 +132,7 @@ A code-site constant SHALL list, for each version where it's available, the byte
 - **THEN** the constant is `unknown` on that version
 
 ### Requirement: Function tables per version
-The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads. A function that doesn't exist on a version SHALL be recorded as absent there.
+The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads: none, unit, tech, upgrade, order, number or table entry. It SHALL record whether each status function is a status changed or a status update function, and, for each requirement opcode, the parameter it takes and the record types whose checker handles it. A function that doesn't exist on a version SHALL be recorded as absent there.
 
 #### Scenario: Function shared under one source symbol
 - **WHEN** several distinct game functions share a single symbol in a reference source

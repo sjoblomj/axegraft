@@ -78,7 +78,9 @@ Expected pointers are stored as RVAs and rebased before comparing, which covers 
 | Version identity              | PE timestamp plus fixed product version. The same parser reads a file during setup and the loaded image in the game. |
 | Table locations and layouts | Per-version table RVA, with a layout chosen from a fixed set for each game |
 | Function addresses          | Per-version RVA for each uniquely named function, or absent |
-| Variable types               | Per-function variable type: none, unit, tech, upgrade, number or table entry |
+| Variable types               | Per-function variable type: none, unit, tech, upgrade, order, number or table entry |
+| Status function kinds        | Per status function: status changed or status update |
+| Requirement opcodes          | Per opcode: its parameter, and the record types whose checker handles it |
 | Set numbering               | Per-version map from each game's own numbering of sets and table entries to the version's numbers, plus the table entries that point at each set's array |
 | Stream references           | Per-version lists of references to the stream base and to base + 2 |
 | Constants                   | Per-version: locations, `not_applicable` or `unknown` |
@@ -99,7 +101,7 @@ The specs' library rules run in `build.rs` and in tests over fixtures: every ver
 
 ### 6. Requirement streams are decoded, merged and re-encoded
 
-The planner decodes the running version's stream into records, using the opcode table to tell parameters from unit IDs. It then replaces, removes or appends the mod's records, re-encodes the stream to a blob, and repoints every listed reference. Other records stay untouched, so per-version differences like order 73's survive.
+The planner decodes the running version's stream into records, using the opcode table to tell parameters from unit IDs. It encodes `end_sublist` as `0xFFFF`; the record's own `0xFFFF` ends the last upgrade level, so two `0xFFFF` words never follow each other inside the stream, which the game would read as its end. It then replaces, removes or appends the mod's records, re-encodes the stream to a blob, and repoints every listed reference. Other records stay untouched, so per-version differences like order 73's survive.
 
 Upgrades need special decoding, because their sublists end with the same word as records do. Decoding every stream in a real executable and re-encoding it must reproduce the original bytes exactly, which is a strong test of the decoder.
 

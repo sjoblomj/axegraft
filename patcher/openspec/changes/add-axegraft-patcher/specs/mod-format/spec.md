@@ -7,7 +7,7 @@ Defines the versioned JSON format mods are written in, and the rules that decide
 ## ADDED Requirements
 
 ### Requirement: Mod header
-A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `format` version and a `game`, which is `starcraft` or `warcraft2`. `patcher` tells anyone opening the file what it is. A mod SHALL NOT name a game version.
+A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `format` version and a `game`, which is `starcraft` or `warcraft2`. `patcher` tells anyone opening the file what it is. A mod SHALL NOT name a game version. The order of a mod's properties SHALL NOT matter.
 
 #### Scenario: Valid header
 - **WHEN** a mod has `"patcher": "AxeGraft"`, `"format": 1` and `"game": "starcraft"`
@@ -26,7 +26,7 @@ A mod SHALL be a JSON object with `patcher`, which is always `AxeGraft`, a `form
 - **THEN** the mod is rejected, with an error naming the game
 
 ### Requirement: Mod information
-A mod MAY contain a `mod` object, after `game`, describing the mod for people. In it, `name` and `version` MAY each be a string, and `authors` MAY be an array of strings. Any of them MAY be absent or empty. `mod` MAY also contain other properties, of any type, which SHALL be accepted. Nothing in `mod` SHALL have any effect on the result.
+A mod MAY contain a `mod` object describing the mod for people. In it, `name` and `version` MAY each be a string, and `authors` MAY be an array of strings. Any of them MAY be absent or empty. `mod` MAY also contain other properties, of any type, which SHALL be accepted. Nothing in `mod` SHALL have any effect on the result.
 
 #### Scenario: Mod with information
 - **WHEN** a mod has `"mod": {"name": "Faster Marines", "version": "1.2", "authors": ["Alice", "Bob"]}`
@@ -71,7 +71,7 @@ Every object in a mod SHALL contain only the fields defined for it, apart from t
 - **THEN** the mod is rejected, with an error naming the field
 
 ### Requirement: Editor labels
-A mod MAY contain a `labels` object, after `mod`, holding the names an editor shows for items instead of their usual ones, such as `"labels": {"units": {"0": "Rifleman"}}`. AxeGraft Patcher SHALL ignore `labels` and everything in it, whatever its type or contents. It SHALL have no effect on the result.
+A mod MAY contain a `labels` object holding the names an editor shows for items instead of their usual ones, such as `"labels": {"units": {"0": "Rifleman"}}`. AxeGraft Patcher SHALL ignore `labels` and everything in it, whatever its type or contents. It SHALL have no effect on the result.
 
 #### Scenario: Labels are ignored
 - **WHEN** two mods differ only in their `labels`
@@ -142,10 +142,14 @@ A `units` entry SHALL have an `id`, which is an entry of the game's button table
 ### Requirement: Unit entry fields
 Each field of a unit entry SHALL hold this value:
 
-- `status_changed`: the function that decides whether the status panel needs redrawing. `status_update`: the function that draws it.
+- `status_changed`: the function that decides whether the status panel needs redrawing, which SHALL be one the library lists as a status changed function. `status_update`: the function that draws it, which SHALL be one the library lists as a status update function.
 - `equivalent_entry`: the table entry treated as the same in a mixed group (`wSecondaryCard`), or `null` for none.
 - `status_unit_type`: the unit ID in the unit's status entry.
-- `icon`, `stats_frame`, `name_string`: the unit's Unit Data icon, stats panel frame (0 to 3) and name string.
+- `icon`, `stats_frame`, `name_string`: the unit's Unit Data icon, stats panel frame (0 to 3) and name string. `icon` and `name_string` are 16-bit fields, 0 to 65535.
+
+#### Scenario: Status function of the wrong kind
+- **WHEN** a unit entry's `status_changed` names a status update function, or its `status_update` names a status changed function
+- **THEN** the mod is rejected, with an error naming the field
 
 #### Scenario: Status unit type out of range
 - **WHEN** a unit entry has a `status_unit_type` outside the game's unit range
@@ -228,7 +232,7 @@ A variable of type table entry SHALL be an entry of the game's button table. The
 - **THEN** the mod is rejected
 
 ### Requirement: Button fields
-A button SHALL have a `position`, an `icon`, a `condition` and an `action`, and MAY have a `condition_variable` and an `action_variable`. `condition` and `action` SHALL name functions. A StarCraft button SHALL also have an `enabled_string` and a `disabled_string`. A Warcraft II button SHALL also have a `string` and a `highlighted`. `highlighted` SHALL be the order the button highlights, as the game's flag value: 0 for none, or exactly one of 1, 2, 4, 8, 16, 32, 64, 128 and 256.
+A button SHALL have a `position`, an `icon`, a `condition` and an `action`, and MAY have a `condition_variable` and an `action_variable`. `condition` and `action` SHALL name functions. A StarCraft button SHALL also have an `enabled_string` and a `disabled_string`. A Warcraft II button SHALL also have a `string` and a `highlighted`. `highlighted` SHALL be the order the button highlights, as the game's flag value: 0 for none, or exactly one of 1, 2, 4, 8, 16, 32, 64, 128 and 256. In both games, `icon` and the string fields are 16-bit fields, 0 to 65535.
 
 #### Scenario: Position out of range
 - **WHEN** a button's `position` is outside the game's panel, which is 1-9 in StarCraft and 0-8 in Warcraft II
@@ -274,11 +278,15 @@ In both games, the buttons of a set SHALL be in ascending position order, becaus
 - **THEN** the mod is rejected, with an error naming the set and the button
 
 ### Requirement: Typed function variables
-A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, number or table entry. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
+A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, order, number or table entry. In Warcraft II, a tech is a spell bit, 0 to 20, and an order is an action, 0 to 60. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
 
 #### Scenario: Variable of the wrong kind
 - **WHEN** an action that takes a tech is given an `action_variable` outside the game's tech range
 - **THEN** the mod is rejected
+
+#### Scenario: Order out of range
+- **WHEN** a `warcraft2` button's action is `order_spell`, which takes an order, and its `action_variable` is 61
+- **THEN** the mod is rejected, because the game has actions 0 to 60
 
 #### Scenario: Missing variable
 - **WHEN** a function that reads a variable is given none
@@ -312,11 +320,15 @@ A `requirements` entry SHALL have a `type`, which is `unit`, `upgrade`, `tech_re
 - **THEN** that item has no requirement record
 
 ### Requirement: Requirement lists
-A `list` SHALL be a flat array in which a string is an opcode name and a number is a parameter or a bare unit ID.
+A `list` SHALL be a flat array in which a string is an opcode name and a number is a parameter or a bare unit ID. An upgrade's list SHALL either have no level opcodes, or have its other conditions first, followed by `upgrade_level_1`, `upgrade_level_2` and `upgrade_level_3`, each once and in that order, with each level but the last ended by `end_sublist`. The end of the record ends the last level. `or` SHALL NOT start or end a level. The game's checker relies on exactly this shape: it scans for a level's block from `upgrade_level_1`, and any other shape makes it read past the record or past its own data. Each opcode SHALL be one the library allows in the entry's `type`, because the game checks unit records with one checker and the other four types with another, and each handles only some opcodes.
 
 #### Scenario: Valid list
 - **WHEN** a list is `["current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]`
 - **THEN** the list is accepted for an upgrade
+
+#### Scenario: Opcode the record's type doesn't handle
+- **WHEN** an `upgrade` entry's list contains `must_have_addon`, which only unit records handle
+- **THEN** the mod is rejected, with an error naming the opcode and the type
 
 #### Scenario: Missing parameter
 - **WHEN** an opcode that takes a parameter isn't followed by a number
@@ -331,15 +343,39 @@ A `list` SHALL be a flat array in which a string is an opcode name and a number 
 - **THEN** the mod is rejected
 
 #### Scenario: Unbalanced sublists
-- **WHEN** an `end_sublist` has no matching level opcode, or level opcodes appear outside an upgrade record
+- **WHEN** an `end_sublist` has no matching level opcode, a level starts before the previous one has ended, or level opcodes appear outside an upgrade record
 - **THEN** the mod is rejected
 
+#### Scenario: Levels out of order
+- **WHEN** an upgrade's list has `upgrade_level_2` before `upgrade_level_1`
+- **THEN** the mod is rejected, because the game looks for each level's block by scanning on from `upgrade_level_1`
+
+#### Scenario: Missing level
+- **WHEN** an upgrade's list has `upgrade_level_1` and `upgrade_level_2` but no `upgrade_level_3`
+- **THEN** the mod is rejected, because the game's scan for the missing level would run on into other records
+
+#### Scenario: Repeated level
+- **WHEN** an upgrade's list has `upgrade_level_1` twice
+- **THEN** the mod is rejected
+
+#### Scenario: Last level ended
+- **WHEN** an upgrade's list ends with `upgrade_level_3`, its conditions and an `end_sublist`
+- **THEN** the mod is rejected, because the stream would hold two end markers in a row, which ends the game's index of the stream, so every later upgrade would lose its record
+
+#### Scenario: Condition between levels
+- **WHEN** an upgrade's list has a condition after a level's `end_sublist` and before the next level
+- **THEN** the mod is rejected, because the game never checks it, and reads it as the start of another record
+
 ### Requirement: Constant entries
-A `constants` entry SHALL have a `name` and exactly one of `value` and `option`. `value` SHALL be a number and `option` a named behaviour choice. Which of the two applies, and the allowed range or options, SHALL come from the library.
+A `constants` entry SHALL have a `name` and exactly one of `value` and `option`. `value` SHALL be a whole number and `option` a named behaviour choice. Which of the two applies, and the allowed range or options, SHALL come from the library.
 
 #### Scenario: Numeric constant in range
 - **WHEN** a constant is given a `value` within its allowed range
 - **THEN** the entry is accepted
+
+#### Scenario: Value that isn't a whole number
+- **WHEN** a constant is given a `value` of 1.5
+- **THEN** the mod is rejected
 
 #### Scenario: Value out of range
 - **WHEN** a constant is given a `value` outside its allowed range
@@ -379,7 +415,11 @@ Validation SHALL report every problem it finds in a mod, rather than stopping at
 - **THEN** the errors list both problems
 
 ### Requirement: Untrusted input safety
-Parsing and validating any input SHALL produce either a valid mod or errors. It SHALL NOT crash.
+Parsing and validating any input SHALL produce either a valid mod or errors. It SHALL NOT crash. A UTF-8 byte order mark at the start of the input SHALL be ignored, as editors such as Notepad add one.
+
+#### Scenario: Byte order mark
+- **WHEN** a valid mod's file starts with a UTF-8 byte order mark
+- **THEN** the mod is accepted
 
 #### Scenario: Malformed input
 - **WHEN** the input is arbitrary bytes, invalid JSON or deeply nested JSON
