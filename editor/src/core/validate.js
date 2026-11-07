@@ -122,12 +122,16 @@
     if (!cat) return problems.list;
 
     var ctx = { mod: mod, cat: cat, problems: problems, assets: assets || {} };
+    // The entries of a part the game has. A part it lacks is already refused.
+    function gamePart(name) {
+      return cat.has(name) ? part(mod, name) : [];
+    }
     ctx.definedSets = definedSets(mod);
-    part(mod, "units").forEach(function (e, i) {
+    gamePart("units").forEach(function (e, i) {
       checkUnit(ctx, e, "units[" + i + "]");
     });
     checkUnitDuplicates(ctx);
-    part(mod, "button_sets").forEach(function (e, i) {
+    gamePart("button_sets").forEach(function (e, i) {
       checkButtonSet(ctx, e, "button_sets[" + i + "]");
     });
     checkDuplicates(ctx, "button_sets", function (e) {
@@ -135,7 +139,7 @@
     }, function (e) {
       return "Button set " + e.id + " is defined twice in this mod.";
     });
-    part(mod, "requirements").forEach(function (e, i) {
+    gamePart("requirements").forEach(function (e, i) {
       checkRequirement(ctx, e, "requirements[" + i + "]");
     });
     checkDuplicates(ctx, "requirements", function (e) {
@@ -143,7 +147,7 @@
     }, function (e) {
       return "The " + (TYPE_NAME[e.type] || e.type) + " " + e.id + " requirement record is defined twice in this mod.";
     });
-    part(mod, "constants").forEach(function (e, i) {
+    gamePart("constants").forEach(function (e, i) {
       checkConstant(ctx, e, "constants[" + i + "]");
     });
     checkDuplicates(ctx, "constants", function (e) {

@@ -4,7 +4,13 @@ AxeGraft.registerModFixture({
     "patcher": "AxeGraft",
     "format": 1,
     "game": "warcraft2",
-    "requirements": []
+    "requirements": [
+      {
+        "type": "tech_use",
+        "id": 44,
+        "list": []
+      }
+    ]
   },
   "expect": {
     "refused": true,
