@@ -110,7 +110,7 @@
             F.withHelp(
               h("button", { type: "button", class: "small", dataset: { action: "go-to-set" }, onclick: function () {
                 app.select("button_sets", AG.core.tree.key.set(e.value));
-              } }, "Edit set " + e.value),
+              } }, "Go to →"),
               help.text("goToSet")
             )
           );
