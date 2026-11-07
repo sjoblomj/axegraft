@@ -84,11 +84,14 @@
       }
     }
     if (!S.nameEdit) {
-      return h("button", { type: "button", class: "title-label", title: "Click to rename", dataset: { action: "edit-name", focus: "unit-title:" + id, plain: "" }, onclick: function () {
+      var label = h("button", { type: "button", class: "title-label", title: "Click to rename", dataset: { action: "edit-name", focus: "unit-title:" + id, plain: "" }, onclick: function () {
         S.nameEdit = { key: key, text: name || "" };
         app.render();
         focusBox();
       } }, text);
+      var original = D.itemName(cat, "unit", id);
+      if (!D.customUnitName(app.doc(), id)) return label;
+      return h("span", { class: "title-named" }, [label, help.relabelledMark(original)]);
     }
 
     function save() {

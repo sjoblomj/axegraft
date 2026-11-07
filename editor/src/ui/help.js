@@ -10,6 +10,7 @@
   var TEXT = {
     revertField: "Puts this field back to its original value.",
     unitName: "The name AxeGraft shows for this unit, here and in the item list. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show the original name.",
+    unitRelabelled: "This unit was relabelled inside the mod. The name is only used in AxeGraft's editor and makes no changes to the game itself. Relabel it to the empty string to give it back its original name.",
     revertItem: "Removes every change this mod makes to this item, so it's as in the original game.",
     goToSet: "Opens the Button Sets tab on the set this entry shows, as the mod currently assigns it.",
     ownSet: "Gives this entry its own copy of its current set, as a new set, so its buttons can change without changing other entries that share the set.",
@@ -91,6 +92,16 @@
     return m;
   }
 
+  // The mark beside a unit's title when the mod relabels it. Hovering or
+  // focusing it says so, and gives the unit's original name when known.
+  function relabelledMark(original) {
+    var text = TEXT.unitRelabelled + (original ? " Its original name is '" + original + "'." : "");
+    var tip = tipEl(text);
+    var m = h("span", { class: "relabelled-mark", tabindex: "0", role: "img", "aria-label": text, "aria-describedby": tip.id, dataset: { relabelled: "" } }, ["\u270E", tip]);
+    attachTip(m, tip);
+    return m;
+  }
+
   var MARGIN = 4;
 
   // Below the button and lined up with its right edge where there's room,
@@ -127,6 +138,7 @@
     text: text,
     button: helpButton,
     changedMark: changedMark,
+    relabelledMark: relabelledMark,
     described: described
   };
 })(AxeGraft);

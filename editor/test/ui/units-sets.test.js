@@ -125,11 +125,15 @@
       T.ok(!app.doc().units, "the unit has no entry");
       T.equal(app.errors(), []);
       T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "7 Worker");
+      var mark = U.q(app, ".panel-title [data-relabelled]");
+      var tipText = mark.querySelector(".tip").textContent;
+      T.ok(/relabelled inside the mod/.test(tipText) && /empty string/.test(tipText) && /'Terran SCV'/.test(tipText), "a mark says the unit was relabelled, in a tip box");
       T.equal(U.q(app, '.tree [data-key="unit:7"] > .row .text').textContent, "7 Worker");
       T.ok(!U.q(app, '.tree [data-key="unit:7"]').querySelector(".mark.changed"), "not marked as changed");
       T.ok(!app.root.querySelector('[data-action="revert-unit"]'), "nothing to revert");
       app.undo();
       T.ok(!app.doc().labels, "renaming can be undone");
+      T.ok(!app.root.querySelector(".panel-title [data-relabelled]"), "an unrenamed unit has no mark");
     });
   }, { dom: true });
 
@@ -150,6 +154,7 @@
       T.ok(!app.doc().labels, "an empty name is removed");
       T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", button_set: 5 }]);
       T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "0 Terran Marine");
+      T.ok(!app.root.querySelector(".panel-title [data-relabelled]"), "no relabelled mark once the name is back");
     });
   }, { dom: true });
 

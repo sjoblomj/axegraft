@@ -544,7 +544,8 @@ button.small { padding: var(--button-small-pad, 0 6px); }
 /* The text is fixed to the window, placed by help.js, so panels that
    scroll can't clip it. */
 .help .tip,
-.changed-mark .tip {
+.changed-mark .tip,
+.relabelled-mark .tip {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -562,7 +563,7 @@ button.small { padding: var(--button-small-pad, 0 6px); }
   white-space: normal;
   box-shadow: var(--shadow);
 }
-.help.show .tip, .changed-mark.show .tip { display: block; }
+.help.show .tip, .changed-mark.show .tip, .relabelled-mark.show .tip { display: block; }
 
 /* Status bar */
 .statusbar {
@@ -731,6 +732,11 @@ progress { width: 100%; }
 .panel-title button { font-size: 12px; font-weight: normal; }
 .panel-title button.title-label { font: inherit; color: inherit; text-shadow: inherit; background: none; border: 0; border-bottom: 1px dashed transparent; border-radius: 0; padding: 0; cursor: text; }
 .panel-title button.title-label:hover { border-bottom-color: currentColor; }
+.title-named { display: inline-flex; gap: 8px; align-items: center; }
+.relabelled-mark .tip { text-shadow: none; }
+.relabelled-mark { position: relative; padding: 0 5px; border: 1px solid currentColor; border-radius: var(--radius); font-size: 12px; font-weight: normal; line-height: 16px; color: var(--changed-text); opacity: 0.6; cursor: help; }
+.relabelled-mark:hover, .relabelled-mark.show { opacity: 1; }
+.relabelled-mark:focus-visible { outline: var(--focus); outline-offset: 2px; }
 .title-edit { display: inline-flex; gap: 6px; align-items: center; }
 .title-edit .title-input { font-size: 13px; font-weight: normal; min-width: 16em; }
 .panel-title label.sub { display: inline-flex; gap: 3px; align-items: center; }
@@ -863,10 +869,13 @@ progress { width: 100%; }
 [data-theme="dark"] .help { box-shadow: 0 0 6px rgba(62, 166, 255, 0.25); }
 [data-theme="dark"] .help:hover, [data-theme="dark"] .help.show { box-shadow: 0 0 12px rgba(62, 166, 255, 0.7); text-shadow: var(--glow-text); }
 [data-theme="dark"] .help .tip,
-[data-theme="dark"] .changed-mark .tip { box-shadow: var(--shadow), 0 0 18px rgba(62, 166, 255, 0.3); }
+[data-theme="dark"] .changed-mark .tip,
+[data-theme="dark"] .relabelled-mark .tip { box-shadow: var(--shadow), 0 0 18px rgba(62, 166, 255, 0.3); }
 [data-theme="dark"] .changed-mark { box-shadow: 0 0 6px rgba(245, 197, 66, 0.9), 0 0 12px rgba(245, 197, 66, 0.4); }
 [data-theme="dark"] .changed-mark:hover, [data-theme="dark"] .changed-mark.show { box-shadow: 0 0 8px rgba(245, 197, 66, 1), 0 0 18px rgba(245, 197, 66, 0.6); }
 [data-theme="dark"] .changed-mark:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--accent), 0 0 12px rgba(245, 197, 66, 0.9); }
+[data-theme="dark"] .relabelled-mark { box-shadow: 0 0 5px rgba(245, 197, 66, 0.35); }
+[data-theme="dark"] .relabelled-mark:hover, [data-theme="dark"] .relabelled-mark.show { box-shadow: 0 0 8px rgba(245, 197, 66, 0.6); }
 [data-theme="dark"] .mark.changed { box-shadow: 0 0 6px rgba(245, 197, 66, 0.6); }
 [data-theme="dark"] .mark.error { box-shadow: 0 0 7px rgba(255, 77, 109, 0.7); }
 [data-theme="dark"] .mark.warning { filter: drop-shadow(0 0 3px rgba(255, 165, 61, 0.8)); }
