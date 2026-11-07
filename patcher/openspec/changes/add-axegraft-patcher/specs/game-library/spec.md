@@ -40,8 +40,8 @@ A supported version SHALL have complete data for its button sets, status functio
 - **THEN** the library check fails
 
 #### Scenario: Entry layouts that differ by version
-- **WHEN** a table's entries have different layouts on different versions, such as Warcraft II's Unit Data, 14 bytes in 1.3, 1.33 and 1.5 and 16 bytes in 2.00 and 2.02
-- **THEN** the library records each version's layout, and a field is written at its offset in the running version's layout
+- **WHEN** a table's entries have different layouts on different supported versions
+- **THEN** the library records each version's layout, and a field is written at its offset in the running version's layout. The supported versions known so far share one layout per table: StarCraft's tables parse with 1.15.0's layouts in every build, and Warcraft II's Unit Data has 16-byte entries in both 2.00 and 2.02
 
 ### Requirement: Constant availability per version
 Every constant SHALL state one of three things for every supported version of its game: its locations, `not_applicable` when the code doesn't exist there, or `unknown` when it hasn't been found. A version SHALL NOT be left out.

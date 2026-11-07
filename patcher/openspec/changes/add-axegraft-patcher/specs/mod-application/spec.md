@@ -144,7 +144,7 @@ Setting a unit's `status_unit_type` SHALL change only that value in that unit's 
 - **THEN** only the stored unit type changes
 
 ### Requirement: Unit Data changes
-Setting a unit's `icon`, `stats_frame` or `name_string` SHALL change only that value in that unit's Unit Data entry, on Warcraft II versions, in the entry's layout on the running version: 14 bytes in 1.3, 1.33 and 1.5, and 16 bytes in 2.00 and 2.02. The other values in the entry SHALL stay as they are unless the mod sets them.
+Setting a unit's `icon`, `stats_frame` or `name_string` SHALL change only that value in that unit's Unit Data entry, on Warcraft II versions, in the entry's layout on the running version, 16 bytes in 2.00 and 2.02. The other values in the entry SHALL stay as they are unless the mod sets them.
 
 #### Scenario: Only the icon set
 - **WHEN** a mod sets a Warcraft II unit's `icon` and nothing else

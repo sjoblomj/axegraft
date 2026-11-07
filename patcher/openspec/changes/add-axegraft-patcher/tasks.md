@@ -12,14 +12,15 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 
 - [ ] 2.1 Define the typed mod model and a `Problem` type carrying input name, path and message, and verify with unit tests that problems format with all three
 - [ ] 2.2 Parse the header, the mod information and the parts with strict fields, ignored labels on entries and an ignored `labels` object, and verify the "Mod header", "Mod information", "Mod parts", "Strict fields" and "Editor labels" scenarios pass as tests
-- [ ] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" scenarios pass
+- [ ] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" and "Unit entry fields" scenarios pass, including status functions of the wrong kind
 - [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry", "Button fields" and "Button order" scenarios pass for both games
 - [ ] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions
 - [ ] 2.6 Validate requirement entries and lists, and verify the "Requirement entries" and "Requirement lists" scenarios pass, including the Zerg Carapace example
 - [ ] 2.7 Validate constant entries, ranges and options, and verify the "Constant entries" scenarios pass
 - [ ] 2.8 Reject duplicates within a mod and report all problems together, and verify the "No duplicates within a mod" and "All problems reported together" scenarios pass
-- [ ] 2.9 Add property tests feeding arbitrary bytes, arbitrary JSON and deep nesting to the parser, and verify it never panics and always returns a mod or problems
-- [ ] 2.10 Document the mod format in `docs/mod-format.md`, and verify each example in it passes through the parser in a test
+- [ ] 2.9 Add property tests feeding arbitrary bytes, arbitrary JSON and deep nesting to the parser, and verify it never panics and always returns a mod or problems, and that the "Untrusted input safety" scenarios pass, including a leading byte order mark
+- [ ] 2.10 Run every mod in AxeGraft Editor's shared example mods (`editor/test/fixtures/mods`) through the parser with a library built from the fixture catalogs' data, and verify each is accepted or rejected as its file expects
+- [ ] 2.11 Document the mod format in `docs/mod-format.md`, and verify each example in it passes through the parser in a test
 
 ## 3. Merging inputs
 
@@ -30,7 +31,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 
 ## 4. Library schema and checks
 
-- [ ] 4.1 Define the library schema, including versions, tables, layouts, functions, set numbering, stream references, constants and the closed encoding set, and verify a small fixture deserializes in a test
+- [ ] 4.1 Define the library schema, including versions, tables, layouts, functions with their variable types and status function kinds, requirement opcodes with their parameters and the record types that handle them, set numbering, stream references, constants with their `original` options, and the closed encoding set, and verify a small fixture deserializes in a test
 - [ ] 4.2 Implement encoding of values for each encoding, and verify round-trip and range tests pass for all of them, including `neg8` and `byte_of`
 - [ ] 4.3 Implement the library checks for availability, all-or-none locations, expected bytes, confirmed data, structural completeness and function names, and verify a deliberately bad fixture fails each one with a message naming the entry
 - [ ] 4.4 Implement the checks for shared locations, range fit and stable scale, and verify the "No shared locations", "Value range fits every location", "Stable scale across versions" and "Option with a location missing on a version" scenarios pass with bad fixtures, and that two names sharing an address on a version are rejected unless that version's original buttons use both or one is absent
@@ -41,9 +42,9 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 ## 5. Planning and applying
 
 - [ ] 5.1 Define the `Memory` trait and a fake implementation with a non-standard default base, and verify its reads, writes, allocation and write tracking with unit tests
-- [ ] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a version", "Same validation on every version" and "Option writing several locations" scenarios pass
+- [ ] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a version", "Same validation on every version", "Option writing several locations", "Original option" and "Value stored in two forms" scenarios pass
 - [ ] 5.3 Plan button sets, including layouts, function addresses, typed variables, set and table entry translation, shared arrays and new sets, and verify the "Button set changes" and "Translating IDs to the running version" scenarios pass
-- [ ] 5.4 Plan unit assignments, status functions, status unit types, equivalent entries and Warcraft II's Unit Data values, and verify the "Assigning button sets to units", "Status function changes", "Status unit type changes", "Equivalent entry changes" and "Unit Data changes" scenarios pass, including chained assignments and both Unit Data layouts
+- [ ] 5.4 Plan unit assignments, status functions, status unit types, equivalent entries and Warcraft II's Unit Data values, and verify the "Assigning button sets to units", "Status function changes", "Status unit type changes", "Equivalent entry changes" and "Unit Data changes" scenarios pass, including chained assignments
 - [ ] 5.5 Decode and re-encode requirement streams, and verify a synthetic stream with upgrade sublists round-trips byte for byte, and that property tests round-trip generated records
 - [ ] 5.6 Plan requirement changes, including replacing, removing and appending records and repointing references, and verify the "Requirement record changes" scenarios pass
 - [ ] 5.7 Reject what can't be applied on the version and compare expected bytes, and verify the "Skipping is limited to constants" and "Checking expected bytes" scenarios pass
