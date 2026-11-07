@@ -654,7 +654,7 @@ button.small { padding: var(--button-small-pad, 0 6px); }
 .req-row { display: flex; gap: var(--gap-x); align-items: center; padding: 3px 6px; margin: 2px 0; background: var(--row-bg); border-left: 4px solid transparent; flex-wrap: wrap; }
 .req-row.or-row { background: var(--row-or-bg); }
 .req-row.level-row { background: var(--row-level-bg); font-weight: 600; }
-.req-row.in-level { margin-left: 22px; border-left-color: var(--row-level-line); }
+.req-row.in-level { margin-left: 15px; border-left-color: var(--row-level-line); }
 .req-row.alt { border-left-color: var(--row-alt-line); }
 .req-row.has-error { border-left-color: var(--error-strong); background: var(--row-error-bg); }
 .req-row .idx { width: 22px; color: var(--row-idx); text-align: right; font-family: var(--data-font); }
@@ -795,6 +795,7 @@ progress { width: 100%; }
 
 /* Requirement rows */
 [data-theme="dark"] .req-row { border-radius: 0 var(--radius) var(--radius) 0; margin: 2px 0; }
+[data-theme="dark"] .req-row.in-level { margin-left: 15px; }
 
 /* Dialogs */
 [data-theme="dark"] dialog { border-color: var(--line-strong); box-shadow: var(--shadow), 0 0 0 1px rgba(62, 166, 255, 0.12); }
