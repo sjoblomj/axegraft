@@ -945,9 +945,12 @@
       });
       // The toolbar, item list and tabs explain themselves, so they have
       // no ? button.
+      // A tab can add buttons under the list, for adding and removing items.
+      var actionsFn = AG.ui.treeActions && AG.ui.treeActions[tab];
       return h("aside", { class: "sidebar", "aria-label": "Item list" }, [
         h("div", { class: "tree-toolbar", role: "toolbar", "aria-label": "Item list" }, tools),
-        treeEl
+        treeEl,
+        actionsFn ? h("div", { class: "tree-actions", role: "toolbar", "aria-label": "Item actions" }, actionsFn(app)) : null
       ]);
     }
 
@@ -1118,6 +1121,14 @@
       } else if (k === "o") {
         e.preventDefault();
         app.open();
+      } else if ((k === "c" || k === "v") && !e.shiftKey) {
+        // Copies or pastes the chosen item, on a tab that offers it. Text
+        // being typed or selected is left to the browser.
+        var clip = S.cat && AG.ui.clipboard && AG.ui.clipboard[S.tab];
+        if (!clip || isTextEntry(e.target)) return;
+        var sel = root.ownerDocument.getSelection && root.ownerDocument.getSelection();
+        if (k === "c" && sel && !sel.isCollapsed && String(sel).trim()) return;
+        if ((k === "c" ? clip.copy : clip.paste)(app)) e.preventDefault();
       }
     }
     root.ownerDocument.addEventListener("keydown", onKey);

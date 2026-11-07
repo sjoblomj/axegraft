@@ -189,7 +189,7 @@
   T.test("set name: a new set is Set N until named, and the help says so", function (ctx) {
     return start(ctx).then(function (app) {
       app.setTab("button_sets");
-      U.q(app, '[data-action="add-set"]').click();
+      U.q(app, '[data-action="set-add"]').click();
       U.q(app, '.panel-title [data-action="edit-name"]').click();
       T.ok(/Set and its ID/.test(U.q(app, ".panel-title .help").textContent));
       rename(app, "Builders");
@@ -726,15 +726,14 @@
   T.test("new sets: adding a set to a mod with none gives set 250 with no buttons, listed beside the originals", function (ctx) {
     return start(ctx).then(function (app) {
       app.setTab("button_sets");
-      U.q(app, '[data-action="add-set"]').click();
+      U.q(app, '[data-action="set-add"]').click();
       T.equal(app.doc().button_sets, [{ id: 250, buttons: [] }]);
       T.equal(app.selected("button_sets"), "set:250");
       T.ok(U.texts(app, '.tree [role="treeitem"] > .row .text').indexOf("Set 250") >= 0, "an unnamed new set");
       T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "Set 250");
-      // Another ID can be chosen.
-      U.change(U.q(app, 'input[data-role="new-set-id"]'), "300");
-      U.q(app, '[data-action="add-set"]').click();
-      T.equal(app.selected("button_sets"), "set:300");
+      // The next one takes the next ID.
+      U.q(app, '[data-action="set-add"]').click();
+      T.equal(app.selected("button_sets"), "set:251");
     });
   }, { dom: true });
 
@@ -752,34 +751,65 @@
     });
   }, { dom: true });
 
-  T.test("copying buttons: to chosen sets, each defined with the same buttons", function (ctx) {
+  T.test("new sets: remove is offered only for a set the mod adds", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:7");
-      U.change(U.q(app, 'input[data-copy-to="0"]'), true);
-      U.change(U.q(app, 'input[data-copy-to="232"]'), true);
-      U.q(app, '[data-action="copy-to"]').click();
-      var src = app.cat().sets.get(7).original;
-      [0, 232].forEach(function (id) {
-        T.equal(D.effectiveButtons(app.doc(), app.cat(), id).buttons, src);
-        T.ok(D.effectiveButtons(app.doc(), app.cat(), id).defined);
-      });
+      T.equal(U.q(app, '[data-action="set-remove"]').getAttribute("aria-disabled"), "true");
+      U.q(app, '[data-action="set-remove"]').click();
+      T.equal(app.selected("button_sets"), "set:7", "an original set stays");
+      U.q(app, '[data-action="set-add"]').click();
+      T.equal(U.q(app, '[data-action="set-remove"]').getAttribute("aria-disabled"), null);
+      U.q(app, '[data-action="set-remove"]').click();
+      T.equal(app.doc().button_sets, undefined);
     });
   }, { dom: true });
 
-  T.test("copying buttons: from a set in the mod, or as in the original game, leaving the source unchanged", function (ctx) {
+  T.test("copying buttons: paste is disabled until a set is copied, then overwrites the chosen set, leaving the source unchanged", function (ctx) {
     return start(ctx).then(function (app) {
       var changed = [{ position: 2, icon: 2, condition: "bf_always", action: "order_move", enabled_string: 2, disabled_string: 0 }];
       app.edit(function (d) {
         return D.setButtons(d, app.cat(), 5, changed);
       });
       app.select("button_sets", "set:7");
-      U.change(U.q(app, 'select[data-role="copy-source"]'), "5 Siege Tank");
-      U.q(app, '[data-action="copy-from"]').click();
-      T.equal(D.effectiveButtons(app.doc(), app.cat(), 7).buttons, changed);
-      T.equal(D.effectiveButtons(app.doc(), app.cat(), 5).buttons, changed, "the source is unchanged");
-      U.change(U.q(app, 'input[data-role="copy-original"]'), true);
-      U.q(app, '[data-action="copy-from"]').click();
-      T.equal(D.effectiveButtons(app.doc(), app.cat(), 7).buttons, app.cat().sets.get(5).original);
+      T.equal(U.q(app, '[data-action="set-paste"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
+      U.q(app, '[data-action="set-paste"]').click();
+      T.ok(!D.effectiveButtons(app.doc(), app.cat(), 7).defined, "a disabled paste does nothing");
+      app.select("button_sets", "set:5");
+      U.q(app, '[data-action="set-copy"]').click();
+      // Later edits to the source don't change what was copied.
+      app.edit(function (d) {
+        return D.setButtons(d, app.cat(), 5, []);
+      });
+      [7, 232].forEach(function (id) {
+        app.select("button_sets", "set:" + id);
+        T.equal(U.q(app, '[data-action="set-paste"]').getAttribute("aria-disabled"), null);
+        U.q(app, '[data-action="set-paste"]').click();
+        T.equal(D.effectiveButtons(app.doc(), app.cat(), id).buttons, changed);
+        T.ok(D.effectiveButtons(app.doc(), app.cat(), id).defined);
+      });
+      T.equal(D.effectiveButtons(app.doc(), app.cat(), 5).buttons, [], "the source is unchanged by pasting");
+    });
+  }, { dom: true });
+
+  T.test("copying buttons: Ctrl+C and Ctrl+V, or Cmd+C and Cmd+V on a Mac, copy and paste the chosen set, leaving text fields alone", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      app.select("button_sets", "set:5");
+      var e = U.key(U.q(app, ".tree"), "v", { ctrlKey: true });
+      T.ok(!e.defaultPrevented, "nothing to paste yet");
+      T.ok(U.key(U.q(app, ".tree"), "c", { ctrlKey: true }).defaultPrevented);
+      app.select("button_sets", "set:7");
+      T.ok(U.key(U.q(app, ".tree"), "v", { ctrlKey: true }).defaultPrevented);
+      T.equal(D.effectiveButtons(app.doc(), cat, 7).buttons, cat.sets.get(5).original);
+      app.select("button_sets", "set:232");
+      U.key(U.q(app, ".tree"), "v", { metaKey: true });
+      T.equal(D.effectiveButtons(app.doc(), cat, 232).buttons, cat.sets.get(5).original);
+      // In a text field, the keys are the browser's.
+      app.select("button_sets", "set:0");
+      var before = app.doc();
+      e = U.key(U.q(app, '.buttonset-panel input[data-role="id"]'), "v", { ctrlKey: true });
+      T.ok(!e.defaultPrevented);
+      T.equal(app.doc(), before);
     });
   }, { dom: true });
 
@@ -869,30 +899,6 @@
       app.select("button_sets", "set:2");
       U.q(app, '[data-action="revert-set"]').click();
       T.equal(app.doc().button_sets, undefined);
-    });
-  }, { dom: true });
-
-  T.test("copying buttons: the original of a set that differs by version, chosen by version, starting with the default", function (ctx) {
-    return startDos(ctx).then(function (app) {
-      var cat = app.cat();
-      app.select("button_sets", "set:0");
-      U.q(app, "details[data-copy] summary").click();
-      U.change(U.q(app, 'select[data-role="copy-source"]'), "2 Peasant");
-      T.equal(app.root.querySelector('select[data-role="copy-version"]'), null, "no version to choose without the original");
-      U.change(U.q(app, 'input[data-role="copy-original"]'), true);
-      var picker = U.q(app, 'select[data-role="copy-version"]');
-      T.ok(U.q(app, "details[data-copy]").open, "the copy section stays open");
-      T.equal(Array.prototype.map.call(picker.options, function (o) {
-        return o.textContent;
-      }), ["2.00–2.02 (default)", "1.3–1.5"]);
-      U.q(app, '[data-action="copy-from"]').click();
-      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons, D.originalButtons(cat, 2, "2.02"));
-      U.change(U.q(app, 'select[data-role="copy-version"]'), "1.3–1.5");
-      U.q(app, '[data-action="copy-from"]').click();
-      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons, D.originalButtons(cat, 2, "1.5"));
-      T.equal(D.effectiveButtons(app.doc(), cat, 0).buttons.length, 1);
-      U.change(U.q(app, 'select[data-role="copy-source"]'), "111 Human Basic Build");
-      T.equal(app.root.querySelector('select[data-role="copy-version"]'), null, "no choice for a set with one original");
     });
   }, { dom: true });
 

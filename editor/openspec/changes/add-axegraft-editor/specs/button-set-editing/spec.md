@@ -166,7 +166,7 @@ The tab SHALL list the table entries that use this set, counting what the mod as
 - **THEN** the Units tab opens on that unit
 
 ### Requirement: New sets
-The tab SHALL let the user add a set, and remove one the mod added. A new set SHALL take the lowest unused new set ID unless the user picks another. The item list SHALL show each set the mod adds alongside the original sets. A new set SHALL have no name until the user gives it one, and SHALL be shown as `Set` and its ID until then.
+The tab SHALL let the user add a set, and remove one the mod added, with buttons under the item list. Remove SHALL be disabled for original sets. A new set SHALL take the lowest unused new set ID. The item list SHALL show each set the mod adds alongside the original sets. A new set SHALL have no name until the user gives it one, and SHALL be shown as `Set` and its ID until then.
 
 #### Scenario: Adding a set
 - **WHEN** a user adds a set to a StarCraft mod with no new sets
@@ -177,12 +177,16 @@ The tab SHALL let the user add a set, and remove one the mod added. A new set SH
 - **THEN** that entry shows an error until it's given another set
 
 ### Requirement: Copying buttons
-The tab SHALL let the user copy the current buttons of this set to chosen other sets, and copy another set's buttons into this one.
+The tab SHALL let the user copy the chosen set's buttons with a Copy button under the item list, and paste them over another set's buttons with a Paste button. Paste SHALL be disabled until a set has been copied. Ctrl+C and Ctrl+V, and Cmd+C and Cmd+V on a Mac, SHALL do the same, except while typing in a text field or with text selected for copying. What was copied SHALL be the buttons as they were when copied.
 
-#### Scenario: Copying to other sets
-- **WHEN** a user copies a set's buttons to chosen other sets
-- **THEN** each of those sets is defined in the mod with the same buttons
+#### Scenario: Pasting into another set
+- **WHEN** a user copies a set and pastes into another set
+- **THEN** that set is defined in the mod with the copied buttons, and the source is unchanged
 
-#### Scenario: Copying from another set
-- **WHEN** a user copies from a set in the mod or the original game into the current set
-- **THEN** the current set holds those buttons, and the source is unchanged
+#### Scenario: Keyboard shortcuts
+- **WHEN** a user presses Ctrl+C (Cmd+C on a Mac) on one set and Ctrl+V (Cmd+V) on another, with focus outside a text field
+- **THEN** the second set holds the first set's buttons
+
+#### Scenario: Nothing copied
+- **WHEN** no set has been copied
+- **THEN** Paste is disabled

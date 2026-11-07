@@ -443,7 +443,6 @@
       ]),
       form,
       set ? originalSection(app, id) : null,
-      setsSection(app, id, key, buttons),
       usedEl
     ]);
   }
@@ -846,145 +845,105 @@
     return h("fieldset", null, [h("legend", null, ["Preview ", helpBtn]), grid]);
   }
 
-  // Adding sets, and copying buttons between sets.
-  function setsSection(app, id, key, buttons) {
-    var cat = app.cat();
-    var doc = app.doc();
-    var all = AG.ui.unitsTab.setItems(app).filter(function (s) {
-      return s.id !== id;
-    });
-
-    var nextId = D.nextNewSet(doc, cat);
-    var idInput = F.numberInput(nextId === null ? "" : nextId, function () {}, { "aria-label": "New set ID", dataset: { role: "new-set-id" } });
-    var addBtn = h("button", { type: "button", class: "small", dataset: { action: "add-set" }, disabled: nextId === null, onclick: function () {
-      var want = F.parseNumber(idInput.value);
-      if (!util.inRange(want, cat.limits.newButtonSet) || D.effectiveButtons(app.doc(), cat, want).defined) want = null;
-      var made = null;
-      app.edit(function (d) {
-        made = D.addSet(d, cat, want);
-        return made.doc;
-      });
-      if (made) app.select("button_sets", tree.key.set(made.id));
-    } }, "Add set");
-
-    var checks = all.map(function (s) {
-      return h("label", { style: { display: "block" } }, [h("input", { type: "checkbox", value: String(s.id), dataset: { copyTo: s.id } }), " " + s.label]);
-    });
-    var copyToBtn = h("button", { type: "button", class: "small", dataset: { action: "copy-to" }, onclick: function (e) {
-      var box = e.target.closest("fieldset");
-      var targets = Array.prototype.filter.call(box.querySelectorAll("input[data-copy-to]"), function (c) {
-        return c.checked;
-      }).map(function (c) {
-        return +c.value;
-      });
-      if (!targets.length) return;
-      app.edit(function (d) {
-        var src = D.effectiveButtons(d, cat, id).buttons;
-        targets.forEach(function (t) {
-          d = D.setButtons(d, cat, t, src.slice());
-        });
-        return d;
-      });
-    } }, "Copy to chosen sets");
-
-    // The copy source and option are kept across renders.
-    var copy = app.state.copy || (app.state.copy = { source: null, original: false, version: null, open: false });
-    var source = all.some(function (s) {
-      return s.id === copy.source;
-    }) ? copy.source : all.length ? all[0].id : undefined;
-    var sourceSel = F.select(all.map(function (s) {
-      return { value: s.id, label: s.label };
-    }), source, function (v) {
-      copy.source = v;
-      copy.version = null;
-      copy.open = true;
-      app.render();
-    }, { class: "ctl wide", "aria-label": "Copy from set", dataset: { role: "copy-source", focus: "copy-source" } });
-    var originalBox = h("input", { type: "checkbox", checked: copy.original, dataset: { role: "copy-original", focus: "copy-original" } });
-    originalBox.addEventListener("change", function () {
-      copy.original = originalBox.checked;
-      copy.open = true;
-      app.render();
-    });
-
-    // A source whose original differs by version: which version's to copy,
-    // the default's first.
-    var versionSel = null;
-    var groups = source !== undefined && copy.original && cat.setOriginals.has(source) ? versionChoices(cat, source) : [];
-    if (groups.length > 1) {
-      if (!groups.some(function (g) {
-        return g.versions[0] === copy.version;
-      })) copy.version = groups[0].versions[0];
-      versionSel = F.select(groups.map(function (g) {
-        return { value: g.versions[0], label: AG.core.compat.versionText(cat, g.versions) + (g.isDefault ? " (default)" : "") };
-      }), copy.version, function (v) {
-        copy.version = v;
-      }, { class: "ctl", "aria-label": "Original of version", dataset: { role: "copy-version", focus: "copy-version" } });
-    }
-    var copyFromBtn = h("button", { type: "button", class: "small", dataset: { action: "copy-from" }, onclick: function () {
-      var srcId = copy.source === null || copy.source === undefined ? source : copy.source;
-      if (srcId === undefined) return;
-      app.edit(function (d) {
-        var from = copy.original
-          ? cat.setOriginals.has(srcId) ? D.originalButtons(cat, srcId, versionSel ? copy.version : null) : D.effectiveButtons(D.create(cat.game), cat, srcId).buttons
-          : D.effectiveButtons(d, cat, srcId).buttons;
-        return D.setButtons(d, cat, id, from.slice());
-      });
-    } }, "Copy into this set");
-
-    return h("div", null, [
-      h("fieldset", { dataset: { field: "set:" + id + ":new" } }, [
-        h("legend", { text: "New sets" }),
-        h("div", { class: "toolbar" }, [F.withHelp(idInput, help.text("newSetId")), F.withHelp(addBtn, help.text("addSet"))])
-      ]),
-      h("details", { open: !!copy.open, dataset: { copy: "" }, ontoggle: function (e) {
-        copy.open = e.target.open;
-      } }, [
-        h("summary", { text: "Copy buttons" }),
-        h("fieldset", { dataset: { field: "set:" + id + ":copy-to" } }, [
-          h("legend", { text: "Copy this set's buttons to" }),
-          (function () {
-            var hb = help.button(help.text("copyTo"));
-            checks.forEach(function (c) {
-              c.querySelector("input").setAttribute("aria-describedby", hb.getAttribute("aria-describedby"));
-            });
-            return h("div", { style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { "max-height": "180px", overflow: "auto", flex: "1" } }, checks), hb]);
-          })(),
-          F.withHelp(copyToBtn, help.text("copyTo"))
-        ]),
-        h("fieldset", { dataset: { field: "set:" + id + ":copy-from" } }, [
-          h("legend", { text: "Copy into this set from" }),
-          h("div", { class: "toolbar" }, [
-            F.withHelp(sourceSel, help.text("copySource")),
-            h("label", null, [F.withHelp(originalBox, help.text("copyOriginal")), " Original buttons"]),
-            versionSel ? F.withHelp(versionSel, help.text("copyVersion")) : null,
-            F.withHelp(copyFromBtn, help.text("copyFrom"))
-          ])
-        ])
-      ])
-    ]);
+  // The buttons under the item list: add a set, remove a new one, and copy
+  // a set's buttons to paste over another's. What was copied is kept for
+  // the session, for the game it came from, so it can be pasted into
+  // another mod of that game.
+  // The chosen set's ID, or null.
+  function chosenSet(app) {
+    var key = app.selected("button_sets");
+    var id = key ? tree.parseKey(key).id : null;
+    return util.isInt(id) ? id : null;
   }
 
-  // The groups of versions that share an original list of a set, with the
-  // group holding the default list first.
-  function versionChoices(cat, id) {
-    var originals = D.originalButtonsByVersion(cat, id);
-    var def = D.originalButtons(cat, id, null);
-    var groups = [];
-    cat.versionIds.forEach(function (v) {
-      var same = groups.filter(function (g) {
-        return util.equal(originals[g.versions[0]], originals[v]);
-      })[0];
-      if (same) same.versions.push(v);
-      else groups.push({ versions: [v], isDefault: util.equal(originals[v], def) });
+  // What was copied, if it's for this mod's game.
+  function clipboard(app) {
+    var clip = app.state.setClipboard;
+    return clip && clip.game === app.state.game ? clip : null;
+  }
+
+  // Copies the chosen set's buttons. False if no set is chosen.
+  function copySet(app) {
+    var id = chosenSet(app);
+    if (id === null) return false;
+    var cat = app.cat();
+    var doc = app.doc();
+    app.state.setClipboard = { game: app.state.game, id: id, name: D.setText(cat, id, doc), buttons: D.effectiveButtons(doc, cat, id).buttons.slice() };
+    app.render();
+    return true;
+  }
+
+  // Replaces the chosen set's buttons with the copied ones. False if
+  // nothing was copied or no set is chosen.
+  function pasteSet(app) {
+    var id = chosenSet(app);
+    var clip = clipboard(app);
+    if (id === null || !clip) return false;
+    var cat = app.cat();
+    app.edit(function (d) {
+      return D.setButtons(d, cat, id, clip.buttons.slice());
     });
-    return groups.filter(function (g) {
-      return g.isDefault;
-    }).concat(groups.filter(function (g) {
-      return !g.isDefault;
-    }));
+    return true;
+  }
+
+  // A shortcut as the platform writes it: Cmd on a Mac, Ctrl elsewhere.
+  function shortcut(k) {
+    var p = typeof navigator !== "undefined" ? navigator.platform || "" : "";
+    return (/^Mac|^iP/.test(p) ? "\u2318" : "Ctrl+") + k;
+  }
+
+  function treeActions(app) {
+    var cat = app.cat();
+    var doc = app.doc();
+    var id = chosenSet(app);
+    var has = id !== null;
+    var eff = has ? D.effectiveButtons(doc, cat, id) : null;
+    var clip = clipboard(app);
+    var nextId = D.nextNewSet(doc, cat);
+    var name = has ? D.setText(cat, id, doc) : "";
+
+    function button(action, label, title, disabled, onclick) {
+      return h("button", {
+        type: "button",
+        class: "small",
+        title: title,
+        "aria-disabled": disabled ? "true" : null,
+        dataset: { action: action, focus: action },
+        onclick: function () {
+          if (!disabled) onclick();
+        }
+      }, label);
+    }
+
+    return [
+      button("set-add", "Add", nextId === null ? "Every new set ID is in use" : "Add a new set with no buttons, as set " + nextId, nextId === null, function () {
+        var made = null;
+        app.edit(function (d) {
+          made = D.addSet(d, cat, null);
+          return made.doc;
+        });
+        if (made) app.select("button_sets", tree.key.set(made.id));
+      }),
+      button("set-remove", "Remove", !has ? "No set is chosen" : eff.isNew ? "Remove " + name + " from the mod. Entries still assigned to it will show an error until they get another set." : "Only sets this mod adds can be removed", !has || !eff.isNew, function () {
+        app.edit(function (d) {
+          return D.revertSet(d, cat, id);
+        });
+        app.state.selection.button_sets = null;
+        app.render();
+      }),
+      button("set-copy", "Copy", has ? "Copy the buttons of " + name + " (" + shortcut("C") + ")" : "No set is chosen", !has, function () {
+        copySet(app);
+      }),
+      button("set-paste", "Paste", !clip ? "Copy a set first, to paste its buttons here" : !has ? "No set is chosen" : "Replace the buttons of " + name + " with those copied from " + clip.name + " (" + shortcut("V") + ")", !clip || !has, function () {
+        pasteSet(app);
+      })
+    ];
   }
 
   AG.ui.panels.button_sets = panel;
+  AG.ui.treeActions = AG.ui.treeActions || {};
+  AG.ui.treeActions.button_sets = treeActions;
+  AG.ui.clipboard = AG.ui.clipboard || {};
+  AG.ui.clipboard.button_sets = { copy: copySet, paste: pasteSet };
   AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, mapItems: mapItems, stringItems: stringItems, showString: showString, entryItems: entryItems };
 })(AxeGraft);

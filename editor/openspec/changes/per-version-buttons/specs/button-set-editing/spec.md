@@ -31,13 +31,6 @@ Reverting a set SHALL remove it from the mod, so each version keeps its own orig
 - **WHEN** a user reverts a Warcraft II set whose original differs by version
 - **THEN** the mod no longer defines the set, and every version uses its own original
 
-### Requirement: Copying an original that differs by version
-Copying the original buttons of a set whose original differs by version SHALL let the user choose which version's original to copy, starting with the default.
-
-#### Scenario: Copying the DOS original
-- **WHEN** a user copies the original of the Dwarven Demolition Squad set and chooses 1.5
-- **THEN** the eight buttons of 1.5 are copied
-
 ### Requirement: Buttons out of position order
 In a game whose catalog needs ascending positions, a set whose buttons aren't in ascending position order SHALL be an error, naming the set and the first button out of order.
 

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AxeGraft Editor tests</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 10px 16px; overflow: auto; }
+  .bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0; }
+  .summary { font-size: 16px; font-weight: 600; padding: 4px 8px; display: inline-block; }
+  .summary.passed { background: #c8f0c0; }
+  .summary.failed { background: #ffc8c8; }
+  #results { list-style: none; margin: 0; padding: 0; font-size: 12px; }
+  .result { display: grid; grid-template-columns: 100px 1fr; gap: 0 8px; padding: 1px 4px; }
+  .result .status { font-weight: bold; }
+  .result.pass .status { color: #0a5a00; }
+  .result.fail { background: #ffe4e4; }
+  .result.fail .status { color: #a00000; }
+  .result.not-checked .status { color: #6a5000; }
+  .result .message { grid-column: 2; margin: 0; white-space: pre-wrap; font-size: 11px; }
+  #sandbox { position: absolute; left: -10000px; top: 0; width: 1280px; height: 900px; }
+</style>
+</head>
+<body>
+<h1>AxeGraft Editor tests</h1>
+<p>Every test runs when this page opens. Tests that read the editor's own files, or real game files, run once you choose that folder below. Until then they're listed as not checked.</p>
+<div class="bar">
+  <label>Editor folder (for source tree tests): <input type="file" id="source-dir" webkitdirectory multiple></label>
+  <label>Game folder (for game file tests): <input type="file" id="game-dir" webkitdirectory multiple></label>
+  <button id="rerun" type="button">Run again</button>
+</div>
+<div id="summary" class="summary">Loading...</div>
+<ol id="results"></ol>
+<div id="sandbox" aria-hidden="true"></div>
+
+<!-- The editor's scripts, in the same order as ../index.html. A test checks this. -->
+<script src="../src/core/namespace.js"></script>
+<script src="../src/core/util.js"></script>
+<script src="../src/core/catalog.js"></script>
+<script src="../src/core/validate.js"></script>
+<script src="../src/core/modfile.js"></script>
+<script src="../src/core/document.js"></script>
+<script src="../src/core/serialize.js"></script>
+<script src="../src/core/history.js"></script>
+<script src="../src/core/compat.js"></script>
+<script src="../src/core/storage.js"></script>
+<script src="../src/core/tree.js"></script>
+<script src="../src/core/requirements.js"></script>
+<script src="../src/core/tbl.js"></script>
+<script src="../src/assets/explode.js"></script>
+<script src="../src/assets/decompress.js"></script>
+<script src="../src/assets/mpq.js"></script>
+<script src="../src/assets/images.js"></script>
+<script src="../src/assets/importer.js"></script>
+<script src="../src/ui/h.js"></script>
+<script src="../src/ui/help.js"></script>
+<script src="../src/ui/dialogs.js"></script>
+<script src="../src/ui/platform.js"></script>
+<script src="../src/ui/fields.js"></script>
+<script src="../src/ui/drag.js"></script>
+<script src="../src/ui/tree-view.js"></script>
+<script src="../src/ui/app.js"></script>
+<script src="../src/ui/units-tab.js"></script>
+<script src="../src/ui/buttonsets-tab.js"></script>
+<script src="../src/ui/requirements-tab.js"></script>
+<script src="../src/ui/constants-tab.js"></script>
+<script src="../src/ui/report.js"></script>
+<script src="../src/ui/import-dialog.js"></script>
+<script src="../catalog/starcraft.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
+<script src="../catalog/warcraft2.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
+<script src="../assets/starcraft/assets.js"></script>
+<script src="../assets/warcraft2/assets.js"></script>
+
+<!-- Test harness and tests. A test checks that every test file is listed. -->
+<script src="harness.js"></script>
+<script src="fixtures/catalog-starcraft.js"></script>
+<script src="fixtures/catalog-warcraft2.js"></script>
+<script src="fixtures/catalog-example.js"></script>
+<script src="fixtures/mods/valid/header-valid.js"></script>
+<script src="fixtures/mods/invalid/header-no-patcher.js"></script>
+<script src="fixtures/mods/invalid/header-wrong-patcher.js"></script>
+<script src="fixtures/mods/invalid/header-unsupported-format.js"></script>
+<script src="fixtures/mods/invalid/header-unknown-game.js"></script>
+<script src="fixtures/mods/valid/parts-only-constants.js"></script>
+<script src="fixtures/mods/invalid/parts-requirements-in-warcraft2.js"></script>
+<script src="fixtures/mods/invalid/parts-units-not-objects.js"></script>
+<script src="fixtures/mods/invalid/parts-units-not-array.js"></script>
+<script src="fixtures/mods/invalid/strict-unknown-field.js"></script>
+<script src="fixtures/mods/invalid/strict-unknown-top-level.js"></script>
+<script src="fixtures/mods/invalid/strict-unknown-button-field.js"></script>
+<script src="fixtures/mods/valid/strict-labels.js"></script>
+<script src="fixtures/mods/invalid/strict-label-not-text.js"></script>
+<script src="fixtures/mods/invalid/strict-unknown-field-and-bad-id.js"></script>
+<script src="fixtures/mods/invalid/names-unknown-condition.js"></script>
+<script src="fixtures/mods/invalid/names-unknown-action.js"></script>
+<script src="fixtures/mods/invalid/names-unknown-status-function.js"></script>
+<script src="fixtures/mods/invalid/names-unknown-opcode.js"></script>
+<script src="fixtures/mods/invalid/names-unknown-constant.js"></script>
+<script src="fixtures/mods/invalid/names-number-for-function.js"></script>
+<script src="fixtures/mods/invalid/names-warcraft2-functions.js"></script>
+<script src="fixtures/mods/valid/units-button-set-only.js"></script>
+<script src="fixtures/mods/valid/editor-labels-units.js"></script>
+<script src="fixtures/mods/valid/editor-labels-any-shape.js"></script>
+<script src="fixtures/mods/valid/units-one-status-function.js"></script>
+<script src="fixtures/mods/invalid/units-nothing-to-change.js"></script>
+<script src="fixtures/mods/valid/units-entry-not-a-unit.js"></script>
+<script src="fixtures/mods/invalid/units-status-on-entry-not-a-unit.js"></script>
+<script src="fixtures/mods/invalid/units-id-out-of-range.js"></script>
+<script src="fixtures/mods/invalid/units-status-unit-type-out-of-range.js"></script>
+<script src="fixtures/mods/invalid/units-status-unit-type-in-warcraft2.js"></script>
+<script src="fixtures/mods/valid/units-warcraft2.js"></script>
+<script src="fixtures/mods/valid/sets-replace.js"></script>
+<script src="fixtures/mods/valid/sets-empty.js"></script>
+<script src="fixtures/mods/invalid/sets-no-buttons-array.js"></script>
+<script src="fixtures/mods/invalid/sets-buttons-not-objects.js"></script>
+<script src="fixtures/mods/invalid/strict-label-at-top-level.js"></script>
+<script src="fixtures/mods/valid/numbering-shared-set.js"></script>
+<script src="fixtures/mods/invalid/numbering-entry-as-set.js"></script>
+<script src="fixtures/mods/valid/numbering-new-set.js"></script>
+<script src="fixtures/mods/invalid/numbering-out-of-range.js"></script>
+<script src="fixtures/mods/valid/numbering-warcraft2-new-set.js"></script>
+<script src="fixtures/mods/invalid/refer-undefined-new-set.js"></script>
+<script src="fixtures/mods/invalid/refer-entry-as-set.js"></script>
+<script src="fixtures/mods/valid/refer-null.js"></script>
+<script src="fixtures/mods/valid/refer-defined-new-set.js"></script>
+<script src="fixtures/mods/valid/entry-submenu-new-set.js"></script>
+<script src="fixtures/mods/invalid/entry-beyond-table.js"></script>
+<script src="fixtures/mods/invalid/fields-position-out-of-range.js"></script>
+<script src="fixtures/mods/invalid/fields-position-out-of-range-warcraft2.js"></script>
+<script src="fixtures/mods/invalid/fields-missing.js"></script>
+<script src="fixtures/mods/valid/fields-warcraft2.js"></script>
+<script src="fixtures/mods/invalid/fields-highlighted-not-one-flag.js"></script>
+<script src="fixtures/mods/invalid/fields-other-game-starcraft.js"></script>
+<script src="fixtures/mods/invalid/fields-other-game-warcraft2.js"></script>
+<script src="fixtures/mods/invalid/fields-highlighted-in-starcraft.js"></script>
+<script src="fixtures/mods/valid/fields-both-variables.js"></script>
+<script src="fixtures/mods/valid/fields-ids-beyond-data.js"></script>
+<script src="fixtures/mods/invalid/fields-icon-out-of-field.js"></script>
+<script src="fixtures/mods/invalid/vars-wrong-kind.js"></script>
+<script src="fixtures/mods/invalid/vars-missing.js"></script>
+<script src="fixtures/mods/valid/vars-unread-given.js"></script>
+<script src="fixtures/mods/valid/vars-unread-left-out.js"></script>
+<script src="fixtures/mods/invalid/vars-unread-too-large.js"></script>
+<script src="fixtures/mods/invalid/vars-condition-byte.js"></script>
+<script src="fixtures/mods/valid/vars-unit-and-number.js"></script>
+<script src="fixtures/mods/invalid/vars-unit-out-of-range.js"></script>
+<script src="fixtures/mods/valid/req-replace.js"></script>
+<script src="fixtures/mods/valid/req-empty.js"></script>
+<script src="fixtures/mods/invalid/req-unknown-type.js"></script>
+<script src="fixtures/mods/invalid/req-id-out-of-range.js"></script>
+<script src="fixtures/mods/invalid/req-no-list.js"></script>
+<script src="fixtures/mods/invalid/req-list-not-flat.js"></script>
+<script src="fixtures/mods/valid/list-zerg-carapace.js"></script>
+<script src="fixtures/mods/valid/list-bare-and-must-have.js"></script>
+<script src="fixtures/mods/invalid/list-missing-parameter.js"></script>
+<script src="fixtures/mods/invalid/list-parameter-wrong-kind.js"></script>
+<script src="fixtures/mods/invalid/list-or-first.js"></script>
+<script src="fixtures/mods/invalid/list-or-last.js"></script>
+<script src="fixtures/mods/invalid/list-or-or.js"></script>
+<script src="fixtures/mods/invalid/list-or-ends-sublist.js"></script>
+<script src="fixtures/mods/invalid/list-or-starts-sublist.js"></script>
+<script src="fixtures/mods/invalid/list-end-without-level.js"></script>
+<script src="fixtures/mods/invalid/list-level-outside-upgrade.js"></script>
+<script src="fixtures/mods/invalid/list-level-inside-level.js"></script>
+<script src="fixtures/mods/valid/const-in-range.js"></script>
+<script src="fixtures/mods/invalid/const-out-of-range.js"></script>
+<script src="fixtures/mods/invalid/const-unknown-option.js"></script>
+<script src="fixtures/mods/valid/const-option.js"></script>
+<script src="fixtures/mods/invalid/const-unknown.js"></script>
+<script src="fixtures/mods/invalid/const-both.js"></script>
+<script src="fixtures/mods/invalid/const-neither.js"></script>
+<script src="fixtures/mods/invalid/const-value-for-option.js"></script>
+<script src="fixtures/mods/invalid/const-fraction.js"></script>
+<script src="fixtures/mods/valid/dup-unit-different-fields.js"></script>
+<script src="fixtures/mods/invalid/dup-unit-same-field.js"></script>
+<script src="fixtures/mods/invalid/dup-set.js"></script>
+<script src="fixtures/mods/invalid/dup-requirement.js"></script>
+<script src="fixtures/mods/invalid/dup-constant.js"></script>
+<script src="fixtures/mods/invalid/all-problems-together.js"></script>
+<script src="fixtures/mods/invalid/input-invalid-json.js"></script>
+<script src="fixtures/mods/invalid/input-not-object.js"></script>
+<script src="fixtures/mods/invalid/input-empty.js"></script>
+<script src="fixtures/mods/invalid/input-deep-nesting.js"></script>
+<script src="fixtures/mods/invalid/input-bytes.js"></script>
+<script src="fixtures/mods/valid/input-bom.js"></script>
+<script src="core/harness.test.js"></script>
+<script src="core/catalog.test.js"></script>
+<script src="core/shipped-catalogs.test.js"></script>
+<script src="core/fixtures.test.js"></script>
+<script src="core/modfile.test.js"></script>
+<script src="core/fuzz.test.js"></script>
+<script src="core/document.test.js"></script>
+<script src="core/serialize.test.js"></script>
+<script src="core/labels.test.js"></script>
+<script src="core/history-compat.test.js"></script>
+<script src="core/storage.test.js"></script>
+<script src="core/tree.test.js"></script>
+<script src="core/requirements.test.js"></script>
+<script src="core/tbl.test.js"></script>
+<script src="assets/builder.js"></script>
+<script src="assets/decoders.test.js"></script>
+<script src="assets/import.test.js"></script>
+<script src="assets/gamefiles.test.js"></script>
+<script src="tree/source-tree.test.js"></script>
+<script src="ui/helpers.js"></script>
+<script src="ui/page.test.js"></script>
+<script src="ui/startup.test.js"></script>
+<script src="ui/layout.test.js"></script>
+<script src="ui/tree.test.js"></script>
+<script src="ui/navigation.test.js"></script>
+<script src="ui/files.test.js"></script>
+<script src="ui/drafts.test.js"></script>
+<script src="ui/units-sets.test.js"></script>
+<script src="ui/requirements-constants.test.js"></script>
+<script src="ui/problems-help.test.js"></script>
+<script src="ui/end-to-end.test.js"></script>
+<script src="page.js"></script>
+<script>
+(function(){
+ var pend={},id=0;
+ function track(kind,p){var k=kind+"#"+(++id);pend[k]=Date.now();p.then(function(){delete pend[k]},function(){delete pend[k]});return p;}
+ var oab=Blob.prototype.arrayBuffer;Blob.prototype.arrayBuffer=function(){return track("blob.arrayBuffer("+this.size+")",oab.call(this));};
+ var orab=Response.prototype.arrayBuffer;Response.prototype.arrayBuffer=function(){return track("response.arrayBuffer",orab.call(this));};
+ AxeGraft.dbgPending=function(){var now=Date.now(),o=[];for(var k in pend)if(now-pend[k]>3000)o.push(k+" "+(now-pend[k])+"ms");return o;};
+})();
+var T=AxeGraft.testing;var oc=T.cases.slice();T.cases.length=0;
+oc.forEach(function(c){T.cases.push(c);});
+var iv=setInterval(function(){var p=AxeGraft.dbgPending();if(p.length)console.log("PENDING "+p.join(" | "));},4000);
+AxeGraft.testing.page.start().then(function(){clearInterval(iv);});
+</script>
+</body>
+</html>

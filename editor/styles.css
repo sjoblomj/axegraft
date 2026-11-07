@@ -344,6 +344,10 @@ button, input, select, textarea { font: inherit; }
 .tree-toolbar .tool-group { display: inline-flex; gap: 0; margin-right: 3px; }
 .tree-toolbar .grow { flex: 1; }
 .tree-toolbar input[type="search"] { flex: 1; min-width: 0; }
+/* Buttons under the item list, such as adding and removing items. */
+.tree-actions { display: flex; flex-wrap: wrap; gap: 3px; }
+.tree-actions button[aria-disabled="true"] { color: var(--text-disabled); cursor: default; }
+[data-theme="dark"] .tree-actions button[aria-disabled="true"]:hover:not(:disabled) { border-color: var(--bevel-out); background: var(--button-bg); box-shadow: none; }
 .icon-btn {
   width: 24px;
   height: 24px;

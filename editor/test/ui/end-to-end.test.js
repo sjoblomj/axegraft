@@ -64,7 +64,7 @@
       tabEl(app, "button_sets").click();
       treeItem(app, "set:0");
       U.change(U.q(app, '[data-field="set:0:0:highlighted"] select'), "0 None");
-      U.q(app, '[data-action="add-set"]').click();
+      U.q(app, '[data-action="set-add"]').click();
       U.q(app, '[data-action="add-button"]').click();
       U.change(U.q(app, '[data-field="set:120:0:string"] input[data-role="id"]'), "392");
       tabEl(app, "constants").click();
