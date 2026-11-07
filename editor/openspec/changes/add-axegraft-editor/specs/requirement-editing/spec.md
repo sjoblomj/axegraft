@@ -22,11 +22,15 @@ The Requirements tab SHALL show the selected item's record as a list of rows, on
 - **THEN** the saved `list` is `["not_lifted_off", "current_unit_is", 111]`
 
 ### Requirement: Parameters follow their opcode
-A row's parameter SHALL be offered by the kind the catalog gives for its opcode, and a row with no parameter SHALL show none.
+A row's parameter SHALL be offered by the kind the catalog gives for its opcode, and a row with no parameter SHALL show none. An opcode that takes a parameter SHALL always have one, as the game stores it: changing a row to such an opcode SHALL keep the row's value when it's of the same kind, and otherwise use the lowest ID of that kind, and clearing the parameter SHALL keep its value.
 
 #### Scenario: Changing opcode
 - **WHEN** a user changes a row from an opcode with no parameter to one that takes a unit
-- **THEN** the row shows a unit field, and a problem until it's filled
+- **THEN** the row shows a unit field holding the lowest unit ID, and has no problem
+
+#### Scenario: Completed unit after a changed opcode
+- **WHEN** a record's rows are `current_unit_is` 111, `not_lifted_off` and completed unit 112, and a user changes the second row to `must_have`
+- **THEN** the record still has three rows, and the saved list is `["current_unit_is", 111, "must_have", 0, 112]`
 
 ### Requirement: Bare units
 Rows SHALL match what the game stores. A bare unit ID, which requires a completed unit of that type, SHALL be its own kind of row, and SHALL be written as a number. The `must_have` opcode, which also counts a unit still in progress, SHALL be a separate kind of row. The editor SHALL NOT convert one into the other, or offer rows the game doesn't have.
@@ -83,7 +87,7 @@ The tab SHALL be able to show the item's original record alongside the edited on
 - **THEN** both are visible, and the original differs by version where the catalog says so
 
 ### Requirement: Copying a record
-The Requirements tab SHALL have Copy and Paste buttons under the item list. Copy SHALL copy the chosen record, and Paste SHALL replace the chosen record with it, whatever the two records' types. Paste SHALL be disabled until a record has been copied. Ctrl+C and Ctrl+V (Cmd+C and Cmd+V on a Mac) SHALL do the same, except in a text field or with text selected.
+The Requirements tab SHALL have Copy and Paste buttons under the item list. Copy SHALL copy the chosen record, and Paste SHALL replace the chosen record with it, whatever the two records' types. Paste SHALL be disabled until a record has been copied. Ctrl+C and Ctrl+V (Cmd+C and Cmd+V on a Mac) SHALL do the same, except in a text field, and for Ctrl+C, with text selected.
 
 #### Scenario: Pasting into a record of another type
 - **WHEN** a user copies a unit's record and pastes it onto a tech use record

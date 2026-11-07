@@ -103,18 +103,31 @@
     });
   }, { dom: true });
 
-  T.test("parameters follow their opcode: changing to an opcode that takes a unit shows a unit field, with a problem until it's filled", function (ctx) {
+  T.test("parameters follow their opcode: changing to an opcode that takes a unit shows a unit field, holding the lowest unit ID", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");
       T.ok(!row(app, 1).querySelector('input[data-role="id"]'), "no parameter at first");
       U.change(row(app, 1).querySelector("select"), "Must have");
       var r = row(app, 1);
-      T.ok(r.querySelector('input[data-role="id"]'), "a unit field");
-      T.ok(/needs a unit after it/.test(r.querySelector(".row-problem").textContent));
-      T.equal(r.querySelectorAll("select")[1].options[r.querySelectorAll("select")[1].selectedIndex].textContent, "(choose)");
+      T.equal(r.querySelector('input[data-role="id"]').value, "0", "a unit field, holding unit 0");
+      T.ok(!r.querySelector(".row-problem"));
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "must_have", 0]);
       U.change(r.querySelector('input[data-role="id"]'), "133");
-      T.ok(!row(app, 1).querySelector(".row-problem"));
       T.equal(list(app, "unit", 0), ["current_unit_is", 111, "must_have", 133]);
+      U.change(row(app, 1).querySelector('input[data-role="id"]'), "");
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "must_have", 133], "clearing the ID box keeps the parameter");
+      T.equal(row(app, 1).querySelector('input[data-role="id"]').value, "133");
+    });
+  }, { dom: true });
+
+  T.test("parameters follow their opcode: a completed-unit row after a changed opcode stays its own row", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:unit:0");
+      U.q(app, '[data-action="add-row"]').click();
+      U.change(row(app, 2).querySelector('input[data-role="id"]'), "112");
+      U.change(row(app, 1).querySelector("select"), "Must have");
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "must_have", 0, 112]);
+      T.equal(app.root.querySelectorAll(".req-row").length, 3, "three rows");
     });
   }, { dom: true });
 

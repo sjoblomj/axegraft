@@ -917,11 +917,11 @@
 
   // What a click or focus on `target` makes Copy act on: "button" on the
   // button list, the preview or the button's fields, "set" on the item
-  // list, and null elsewhere.
+  // list and the rest of the set's panel, and null elsewhere.
   function areaOf(target) {
     if (!target || !target.closest) return null;
     if (target.closest(".buttons-box, .preview-box, .button-form")) return "button";
-    if (target.closest(".sidebar")) return "set";
+    if (target.closest(".sidebar, .buttonset-panel")) return "set";
     return null;
   }
 

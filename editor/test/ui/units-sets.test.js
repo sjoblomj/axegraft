@@ -872,6 +872,10 @@
       // Focus on the button list wins over the last click.
       U.key(U.q(app, ".button-list"), "c", { ctrlKey: true });
       T.ok(app.state.buttonClipboard && !app.state.setClipboard, "the button, from the focused list");
+      // A click elsewhere in the set's panel, such as the used-by list: the set.
+      U.q(app, ".used-by").dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      U.key(app.root.ownerDocument.body, "c", { ctrlKey: true });
+      T.ok(app.state.setClipboard && !app.state.buttonClipboard, "the set, from the rest of the panel");
     });
   }, { dom: true });
 

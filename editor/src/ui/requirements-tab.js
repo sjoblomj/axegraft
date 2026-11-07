@@ -150,9 +150,13 @@
             var row = { kind: "op", op: v };
             var oldKind = old.kind === "unit" ? "unit" : cat.opcodes.get(old.op) ? cat.opcodes.get(old.op).parameter : null;
             var oldValue = old.kind === "unit" ? old.unit : old.param;
-            // Keep the value when the new opcode takes the same kind; otherwise
-            // the row shows an empty parameter, and a problem until it's filled.
-            if (newOp && newOp.parameter && newOp.parameter === oldKind && oldValue !== undefined) row.param = oldValue;
+            // An opcode that takes a parameter always has one, as the game
+            // stores it: the old value when the new opcode takes the same
+            // kind, otherwise the lowest ID of its kind. A row left without
+            // one would take the next row's unit as its parameter.
+            if (newOp && newOp.parameter) {
+              row.param = newOp.parameter === oldKind && oldValue !== undefined ? oldValue : cat.limits[newOp.parameter] ? cat.limits[newOp.parameter].min : 0;
+            }
             next[i] = row;
           }
         });
@@ -160,15 +164,17 @@
       var parts = [drag.grip("Drag to move this row"), h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
       if (r.kind === "unit") {
         parts.push(paramControl("unit", r.unit, function (v) {
+          if (v === undefined || v === "") return app.render();
           update(function (next) {
             next[i] = { kind: "unit", unit: v };
           });
         }));
       } else if (op && op.parameter) {
         parts.push(paramControl(op.parameter, r.param, function (v) {
+          // Clearing the ID box keeps the parameter, which can't be empty.
+          if (v === undefined || v === "") return app.render();
           update(function (next) {
             next[i] = { kind: "op", op: r.op, param: v };
-            if (v === undefined || v === "") delete next[i].param;
           });
         }));
       } else if (r.kind === "op" && util.has(r, "param")) {

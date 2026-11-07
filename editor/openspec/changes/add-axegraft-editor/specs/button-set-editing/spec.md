@@ -184,7 +184,7 @@ The button list SHALL have Copy and Paste beside Add and Remove. Copy SHALL copy
 - **THEN** that button takes the copied button's fields, keeps its own position, and the source set is unchanged
 
 ### Requirement: Copying buttons
-The tab SHALL let the user copy the chosen set's buttons with a Copy button under the item list, and paste them over another set's buttons with a Paste button. Paste SHALL be disabled until a set has been copied. Ctrl+C and Ctrl+V, and Cmd+C and Cmd+V on a Mac, SHALL do the same, except while typing in a text field or with text selected for copying. What was copied SHALL be the buttons as they were when copied.
+The tab SHALL let the user copy the chosen set's buttons with a Copy button under the item list, and paste them over another set's buttons with a Paste button. Paste SHALL be disabled until a set has been copied. Ctrl+C and Ctrl+V, and Cmd+C and Cmd+V on a Mac, SHALL do the same, except while typing in a text field, and for Ctrl+C, with text selected. What was copied SHALL be the buttons as they were when copied.
 
 #### Scenario: Pasting into another set
 - **WHEN** a user copies a set and pastes into another set
