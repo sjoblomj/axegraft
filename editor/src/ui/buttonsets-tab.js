@@ -233,17 +233,9 @@
         return D.placeButton(cat, l, l.length - 1);
       });
     }
-    // Button i dropped in the list, as `D.dropInList` says, where the game
-    // needs ascending positions. Elsewhere the list is in any order, and a
-    // drop between buttons only moves it there.
+    // Button i dropped in the list, as `D.dropInList` says.
     function listDrop(l, i, drop) {
-      if (cat.panel.ascending) return D.dropInList(cat, l, i, drop);
-      if (drop.on !== undefined || drop.before < 0 || drop.before > l.length) return null;
-      var to = drop.before > i ? drop.before - 1 : drop.before;
-      if (to === i) return null;
-      var next = l.slice();
-      next.splice(to, 0, next.splice(i, 1)[0]);
-      return { buttons: next, index: to, pushed: [] };
+      return D.dropInList(cat, l, i, drop);
     }
     function dropButton(i, drop) {
       if (!listDrop(buttons, i, drop)) return;
@@ -408,7 +400,7 @@
     function tool(label, action, onclick, disabled) {
       return h("button", { type: "button", class: "small", dataset: { action: action, plain: "" }, disabled: !!disabled, onclick: onclick }, label);
     }
-    var outOfOrder = cat.panel.ascending && AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) >= 0;
+    var outOfOrder = AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) >= 0;
     var toolbar = h("div", { class: "toolbar" }, [
       tool("Add", "add-button", function () {
         addButton();

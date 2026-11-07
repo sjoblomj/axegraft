@@ -29,7 +29,7 @@ AxeGraft.registerCatalog({
     "order": {"min": 0, "max": 255},
     "newButtonSet": {"min": 120, "max": 999}
   },
-  "panel": {"columns": 3, "ascending": true},
+  "panel": {"columns": 3},
   "buttonFields": [
     {
       "name": "position",

@@ -26,14 +26,14 @@ Button sets read `set.original` directly in three places in `document.js`: `effe
 
 **"Copy original" asks for the version only when it matters.** For a set with one original, the control is the existing checkbox. For a set whose original differs, a version picker appears next to it, starting with the default. This keeps the common case unchanged.
 
-**Ascending order is a `panel` flag.** `panel.ascending: true` is a property of the game's command panel, like `columns`, so it lives there. The check is a validation error, not a warning, because a list out of order makes the game's panel fill wrongly: its fill loop walks the list together with the panel's buttons. The sort is stable, so buttons sharing a position, such as the shield icons for each level, keep their order. The catalog check rejects original lists out of order, which catches extraction mistakes.
+**Ascending order applies to every game.** Both StarCraft and Warcraft II fill the command panel by walking a set's list together with the panel's positions, so the rule isn't a catalog setting. An earlier draft made it a `panel.ascending` flag; it was removed once the StarCraft executables showed the same fill loop. The check is a validation error, not a warning, because a list out of order makes the game's panel fill wrongly: its fill loop walks the list together with the panel's buttons. The sort is stable, so buttons sharing a position, such as the shield icons for each level, keep their order. The catalog check rejects original lists out of order, which catches extraction mistakes.
 
-**Sample catalog shows both.** `catalog/sample-warcraft2.js` lists the five versions with 2.02's lists as the default, gives the Goblin Zeppelin set (or another set that differs) its DOS list, and sets `panel.ascending`. The full catalog is generated elsewhere and replaces it later.
+**Sample catalog shows both.** `catalog/sample-warcraft2.js` lists the five versions with 2.02's lists as the default, gives the Goblin Zeppelin set (or another set that differs) its DOS list. The full catalog is generated elsewhere and replaces it later.
 
 ## Risks / Trade-offs
 
 - [A mod made for the BNE only is shown as changed on DOS versions] → The tab names the versions where the set differs, and the compatibility report is unchanged, so the user can see that the difference is only on versions they may not care about.
-- [Existing catalogs with an unsorted list fail once `ascending` is set] → Only catalogs that set the flag are checked, and the Warcraft II sample is sorted when the flag is added.
+- [Existing catalogs with an unsorted list fail once the order is checked] → Both generated catalogs are sorted, and the knowledge base's build runs the editor's catalog check.
 
 ## Migration Plan
 

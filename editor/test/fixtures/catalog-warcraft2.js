@@ -22,7 +22,7 @@ AxeGraft.registerFixtureCatalog({
     "conditionVariable": { "min": 0, "max": 255 },
     "actionVariable": { "min": 0, "max": 255 }
   },
-  "panel": { "columns": 3, "ascending": true },
+  "panel": { "columns": 3 },
   "buttonFields": [
     { "name": "position", "label": "Position", "kind": "position", "required": true, "help": "Slot in the panel." },
     { "name": "icon", "label": "Icon", "kind": "icon", "required": true, "help": "Icon number." },

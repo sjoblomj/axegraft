@@ -47,7 +47,7 @@ AxeGraft.registerCatalog({
     "actionVariable": {"min": 0, "max": 65535},
     "newButtonSet": {"min": 250, "max": 999}
   },
-  "panel": {"columns": 3, "ascending": true},
+  "panel": {"columns": 3},
   "buttonFields": [
     {
       "name": "position",

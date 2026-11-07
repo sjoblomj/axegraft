@@ -236,30 +236,19 @@
   }, /button set 0 on 1.07 needs its original buttons/);
 
   // Ascending positions
-  T.test("catalog check: with panel.ascending, a sorted original list and shared positions pass", function () {
+  T.test("catalog check: a sorted original list and shared positions pass", function () {
     var raw = T.rawCatalog("starcraft");
-    raw.panel.ascending = true;
     // Set 5 has two buttons at position 7; set 0 has positions 1 and 7.
     T.equal(check(raw), []);
   });
-  T.test("catalog check: without panel.ascending, buttons may be in any order", function () {
-    var raw = T.rawCatalog("starcraft");
-    raw.buttonSets[0].original.reverse();
-    T.equal(check(raw), []);
-  });
-  expectProblem("an original list out of order, with panel.ascending", function (raw) {
-    raw.panel.ascending = true;
+  expectProblem("an original list out of order", function (raw) {
     raw.buttonSets[0].original.reverse();
   }, /button set 0 isn't in ascending position order: button 1 at position 1 follows position 7/);
-  expectProblem("a per-version original list out of order, with panel.ascending", function (raw) {
-    raw.panel.ascending = true;
+  expectProblem("a per-version original list out of order", function (raw) {
     var list = sixButtons().concat(sixButtons());
     list[1].position = 2;
     raw.buttonSets[0].original = { "default": raw.buttonSets[0].original, perVersion: { "1.07": list } };
   }, /button set 0 on 1.07 isn't in ascending position order: button 1 at position 2 follows position 3/);
-  expectProblem("panel.ascending that isn't true or false", function (raw) {
-    raw.panel.ascending = "yes";
-  }, /panel.ascending must be true or false/);
 
   // Help texts
   expectProblem("a constant without help", function (raw) {

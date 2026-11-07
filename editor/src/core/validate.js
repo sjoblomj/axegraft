@@ -423,11 +423,10 @@
     checkPositionOrder(ctx, e, path);
   }
 
-  // In a game that needs it, a set's buttons must be in ascending position
-  // order, because the game fills the panel walking the list in order.
+  // A set's buttons must be in ascending position order, because the game
+  // fills the panel walking the list in order.
   function checkPositionOrder(ctx, e, path) {
     var cat = ctx.cat;
-    if (!cat.panel.ascending) return;
     var pos = cat.buttonKind.position.name;
     var list = e.buttons.filter(isObject).length === e.buttons.length ? e.buttons : [];
     var bad = AG.core.catalog.firstOutOfOrder(list, pos);

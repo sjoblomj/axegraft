@@ -218,17 +218,16 @@
     T.equal(r.index, 2);
   });
 
-  T.test("moving buttons: in a game that doesn't need ascending positions, the list keeps its order", function () {
+  T.test("moving buttons: StarCraft keeps ascending positions too", function () {
     var cat = T.catalog("starcraft");
-    T.ok(!cat.panel.ascending);
     var b = function (p) {
       return { position: p, icon: p, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 };
     };
     var r = D.moveButtonTo(cat, [b(1), b(3), b(5)], 2, 2);
     T.equal(r.buttons.map(function (x) {
       return x.position;
-    }), [1, 3, 2]);
-    T.equal(r.index, 2);
+    }), [1, 2, 3]);
+    T.equal(r.index, 1);
   });
 
   T.test("moving buttons: a push moves the buttons from that position up to the first empty one, one position on", function () {

@@ -296,25 +296,28 @@
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:7");
       U.q(app, '[data-action="add-button"]').click();
-      var b = app.doc().button_sets[0].buttons[1];
-      T.equal(b, { position: 1, icon: 0, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 });
+      var b = app.doc().button_sets[0].buttons[0];
+      T.equal(b, { position: 1, icon: 0, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 }, "at position 1, it goes before the button at 7");
       T.equal(app.errors(), []);
-      T.equal(U.q(app, ".button-form legend").textContent, "Button 2", "the new button is selected, counting from 1");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 1", "the new button is selected, counting from 1");
     });
   }, { dom: true });
 
-  T.test("button list: reordering saves the buttons in the new order", function (ctx) {
+  T.test("button list: reordering saves the buttons in the new order, keeping positions ascending", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
       U.q(app, '.button-list [data-index="1"]').click();
       U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
       var saved = JSON.parse(AG.core.serialize(app.doc(), app.cat())).button_sets[0].buttons;
       T.equal(saved.map(function (b) {
-        return b.icon;
-      }), [237, 228]);
+        return [b.position, b.icon];
+      }), [[1, 237], [2, 228]], "it takes position 1 and pushes the other on");
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0", "the moved button stays selected");
       U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });
-      T.equal(app.doc().button_sets, undefined, "moving it back matches the original");
+      T.equal(app.doc().button_sets[0].buttons.map(function (b) {
+        return [b.position, b.icon];
+      }), [[2, 228], [3, 237]], "after the last, it takes the position after it");
+      T.equal(app.errors(), []);
       U.q(app, '[data-action="remove-button"]').click();
       T.equal(app.doc().button_sets[0].buttons.length, 1);
     });
@@ -326,13 +329,12 @@
       T.equal(app.root.querySelectorAll(".button-list li .grip").length, 2, "each button has a grip");
       U.drag(U.q(app, '.button-list [data-index="1"]'), U.q(app, '.button-list [data-index="0"]'));
       T.equal(D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
-        return b.icon;
-      }), [237, 228]);
+        return [b.position, b.icon];
+      }), [[1, 237], [2, 228]]);
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0", "the dragged button is selected");
-      U.drag(U.q(app, '.button-list [data-index="0"]'), U.q(app, '.button-list [data-index="1"]'), true);
-      T.equal(app.doc().button_sets, undefined, "dragging it back matches the original");
+      var before = app.doc();
       U.drag(U.q(app, '.button-list [data-index="0"]'), U.q(app, '.button-list [data-index="0"]'), true);
-      T.equal(app.doc().button_sets, undefined, "dropping a button where it was changes nothing");
+      T.ok(app.doc() === before, "dropping a button where it was changes nothing");
     });
   }, { dom: true });
 
@@ -481,14 +483,17 @@
       list.focus();
       U.key(list, "ArrowDown", { altKey: true });
       T.equal(D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
-        return b.icon;
-      }), [237, 228]);
+        return [b.position, b.icon];
+      }), [[7, 237], [8, 228]]);
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "1", "it stays selected");
       T.ok(app.root.ownerDocument.activeElement === U.q(app, ".button-list"), "the list keeps the focus");
+      var last = app.doc();
       U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });
-      T.equal(app.doc().button_sets[0].buttons.length, 2, "the last button can't go further");
+      T.ok(app.doc() === last, "the last button can't go further");
       U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
-      T.equal(app.doc().button_sets, undefined, "moving it back matches the original");
+      T.equal(app.doc().button_sets[0].buttons.map(function (b) {
+        return [b.position, b.icon];
+      }), [[7, 228], [8, 237]], "before the first, it takes its position and pushes it on");
     });
   }, { dom: true });
 
@@ -656,7 +661,9 @@
       T.ok(U.q(app, '.slot[data-position="9"]').classList.contains("filled"));
       // From the keyboard, Enter on an empty position does the same.
       U.key(U.q(app, '.slot[data-position="8"]'), "Enter");
-      T.equal(app.doc().button_sets[0].buttons[3].position, 8);
+      T.equal(app.doc().button_sets[0].buttons.map(function (x) {
+        return x.position;
+      }), [1, 7, 8, 9], "it goes in its place by position");
     });
   }, { dom: true });
 
@@ -1006,7 +1013,7 @@
     });
   }, { dom: true });
 
-  T.test("sort by position: not offered for a set in order, or for a game that doesn't need it", function (ctx) {
+  T.test("sort by position: not offered for a set in order, and offered in StarCraft too", function (ctx) {
     return start(ctx, "warcraft2").then(function (app) {
       app.select("button_sets", "set:2");
       T.equal(app.root.querySelector('[data-action="sort-buttons"]'), null);
@@ -1016,7 +1023,16 @@
           return D.setButtons(d, cat, 5, cat.sets.get(5).original.slice().reverse());
         });
         sc.select("button_sets", "set:5");
-        T.equal(sc.root.querySelector('[data-action="sort-buttons"]'), null);
+        T.equal(sc.root.querySelector('[data-action="sort-buttons"]'), null, "two buttons sharing a position are in order either way");
+        sc.edit(function (d) {
+          return D.setButtons(d, cat, 0, cat.sets.get(0).original.slice().reverse());
+        });
+        sc.select("button_sets", "set:0");
+        T.equal(sc.errors().length, 1, "out of order is an error");
+        U.q(sc, '[data-action="sort-buttons"]').click();
+        T.equal(sc.doc().button_sets.filter(function (e) {
+          return e.id === 0;
+        }).length, 0, "sorted, it matches the original");
       });
     });
   }, { dom: true });

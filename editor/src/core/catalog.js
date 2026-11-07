@@ -173,10 +173,6 @@
     if (!isObject(raw.panel) || !isInt(raw.panel.columns) || raw.panel.columns < 1) {
       problem("panel.columns must give the number of columns in the command panel");
     }
-    if (isObject(raw.panel) && raw.panel.ascending !== undefined && typeof raw.panel.ascending !== "boolean") {
-      problem("panel.ascending must be true or false");
-    }
-    var ascending = isObject(raw.panel) && raw.panel.ascending === true;
 
     // Button fields
     var buttonFields = Array.isArray(raw.buttonFields) ? raw.buttonFields : [];
@@ -392,12 +388,10 @@
       list.forEach(function (b, j) {
         checkButton(b, where + " button " + j);
       });
-      if (ascending) {
-        var posField = fieldOfKind("position");
-        var bad = posField ? firstOutOfOrder(list, posField.name) : -1;
-        if (bad >= 0) {
-          problem(where + " isn't in ascending position order: button " + bad + " at position " + list[bad][posField.name] + " follows position " + list[bad - 1][posField.name]);
-        }
+      var posField = fieldOfKind("position");
+      var bad = posField ? firstOutOfOrder(list, posField.name) : -1;
+      if (bad >= 0) {
+        problem(where + " isn't in ascending position order: button " + bad + " at position " + list[bad][posField.name] + " follows position " + list[bad - 1][posField.name]);
       }
     }
 

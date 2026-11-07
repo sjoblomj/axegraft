@@ -18,15 +18,15 @@ A button set's original buttons SHALL be either one list, the same on every vers
 - **THEN** the catalog is treated as malformed
 
 ### Requirement: Ascending positions
-A catalog MAY say that its game needs the buttons of a set in ascending position order. Buttons MAY share a position. Every original list in such a catalog SHALL be in that order.
+Every original list of buttons in a catalog SHALL be in ascending position order, because both games fill the command panel by walking a set's list together with the panel's positions. Buttons MAY share a position.
 
 #### Scenario: Original out of order
-- **WHEN** a catalog that needs ascending positions has an original list with position 4 before position 2
+- **WHEN** a catalog has an original list with position 4 before position 2
 - **THEN** the catalog is treated as malformed
 
-#### Scenario: Game without the rule
-- **WHEN** StarCraft's catalog doesn't ask for ascending positions
-- **THEN** buttons may be in any order
+#### Scenario: Shared positions in an original
+- **WHEN** a catalog has an original list with two buttons at position 7 in a row
+- **THEN** the catalog is accepted
 
 ### Requirement: Versions the patcher doesn't support
 The editor SHALL treat every version a catalog lists alike, including versions that AxeGraft Patcher doesn't support, such as Warcraft II's DOS versions, so that mods can be edited and checked for them.

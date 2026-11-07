@@ -9,7 +9,7 @@ Defines how AxeGraft Editor edits the buttons of a button set, and previews them
 ### Requirement: Button list
 The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them. Add and Remove SHALL be above the list. Buttons SHALL be reorderable by dragging them in the list, and from the keyboard with Alt+Up and Alt+Down while the list has the focus, which drop the selected button one place on as if dragged there. Each button SHALL show a grip marking it as draggable.
 
-In a game whose catalog needs ascending positions, a drop in the list SHALL keep the order, and SHALL do what the same drop does in the preview. A drop onto a button SHALL put the dragged button at that button's position, last of those there, and outline that button while dragging. A drop between buttons x and y SHALL put it at y's position and push as a drop between positions in the preview does, marking the space while dragging and outlining every button that would be pushed; after the last button, it SHALL take the position after x's. Where x and y share a position, or the dragged button already has x's or y's, it SHALL only move in the list, keeping or taking that position. A drop just above or below the button itself SHALL change nothing. In other games, a drop between buttons SHALL only move the button in the list. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
+A drop in the list SHALL keep the buttons in ascending position order, and SHALL do what the same drop does in the preview. A drop onto a button SHALL put the dragged button at that button's position, last of those there, and outline that button while dragging. A drop between buttons x and y SHALL put it at y's position and push as a drop between positions in the preview does, marking the space while dragging and outlining every button that would be pushed; after the last button, it SHALL take the position after x's. Where x and y share a position, or the dragged button already has x's or y's, it SHALL only move in the list, keeping or taking that position. A drop just above or below the button itself SHALL change nothing. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
 
 #### Scenario: Button title
 - **WHEN** a button's action is Move, and its string's clean name is `Move`
@@ -19,17 +19,13 @@ In a game whose catalog needs ascending positions, a drop in the list SHALL keep
 - **WHEN** a user adds a button
 - **THEN** it starts with valid default values that the user can change
 
-#### Scenario: Order of buttons
-- **WHEN** a user reorders a set's buttons
-- **THEN** the saved `buttons` array is in the new order
-
 #### Scenario: Dragging in the list
-- **WHEN** a user drags the second button of a set above the first
-- **THEN** the saved `buttons` array has them in the new order, and the dragged button is selected
+- **WHEN** in StarCraft a set's buttons are at positions 1 and 7, and a user drags the second above the first
+- **THEN** the saved `buttons` array has the dragged button first at position 1 and the other at position 2, and the dragged button is selected
 
 #### Scenario: Moving from the keyboard
-- **WHEN** in a game that doesn't need ascending positions, the list has the focus, the first button is selected, and a user presses Alt+Down
-- **THEN** it's the second button, it's still selected, and the list keeps the focus
+- **WHEN** in StarCraft a set's buttons are at positions 1 and 7, the list has the focus, the first button is selected, and a user presses Alt+Down
+- **THEN** it's the second button, at position 8, it's still selected, and the list keeps the focus
 
 #### Scenario: Dropping onto a button in the list
 - **WHEN** in Warcraft II a set's buttons are at positions 0, 1, 2 and 4, and a user drags the last onto the second

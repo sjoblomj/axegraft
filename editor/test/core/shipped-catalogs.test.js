@@ -70,7 +70,6 @@
       }),
       ["1.3", "1.33", "1.5", "2.00", "2.02"]
     );
-    T.equal(raw.panel.ascending, true, "Warcraft II needs ascending positions");
   });
 
   T.test("Warcraft II catalog: has the string and highlighted fields, and no StarCraft string fields", function () {

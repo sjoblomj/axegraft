@@ -39,7 +39,7 @@ The editor reads `catalogFormat` 1 for mods of `modFormat` 1. A catalog of anoth
 | `parts`         | Yes                        | The mod parts the game has, from `"units"`, `"button_sets"`, `"requirements"` and `"constants"`. One tab is shown for each. |
 | `versions`      | Yes                        | Every version, oldest first, as `{ "id", "label" }`. Mods never name a version; the editor uses these for its compatibility report. |
 | `limits`        | Yes                        | ID ranges and field limits. See [Limits](#limits).                                                                        |
-| `panel`         | Yes                        | `{ "columns": n, "ascending": true }`: the command panel's width, and whether the game needs each set's buttons in ascending position order. Positions fill it row by row, from the lowest position. See [Button sets](#button-sets). |
+| `panel`         | Yes                        | `{ "columns": n }`: the command panel's width. Positions fill it row by row, from the lowest position. See [Button sets](#button-sets). |
 | `buttonFields`  | Yes                        | The fields of a button. See [Button fields](#button-fields).                                                              |
 | `unitFields`    | Yes                        | The fields of a unit entry. See [Unit fields](#unit-fields).                                                              |
 | `functions`     | Yes                        | Conditions, actions and status functions. See [Functions](#functions).                                                    |
@@ -159,7 +159,7 @@ When the original buttons differ between versions, `original` takes the same for
 
 `default` is the list on every version that `perVersion` doesn't name. `perVersion`, optional, gives a different list for the versions it names, which must be listed in `versions`. A plain list means the same as `{ "default": list }`. Mods don't change: a mod's set holds one list, applied on every version, and it counts as unchanged only if it matches the original on every version.
 
-`panel.ascending`, optional, is `true` for a game whose command panel fills from a set in list order and needs its buttons in ascending position order, such as Warcraft II. Buttons may share a position. Every original list must then be in that order, and the editor treats a mod's set out of order as an error. It defaults to `false`, and buttons may be in any order.
+A set's buttons are always in ascending position order, because both games fill the command panel by walking a set's list together with the panel's positions. Buttons may share a position. Every original list must be in that order, and the editor treats a mod's set out of order as an error.
 
 ### Requirements
 

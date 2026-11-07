@@ -564,12 +564,10 @@
     return isObject(b) ? b[cat.buttonKind.position.name] : undefined;
   }
 
-  // Puts button i back in order after its position changed, in a game that
-  // needs ascending positions: before the first other button at a higher
-  // position, so it's last of those sharing its position. No other button
-  // moves. In other games the list stays as it is.
+  // Puts button i back in ascending order after its position changed: before
+  // the first other button at a higher position, so it's last of those
+  // sharing its position. No other button moves.
   function placeButton(cat, list, i) {
-    if (!cat.panel.ascending) return { buttons: list, index: i };
     var b = list[i];
     var p = posOf(cat, b);
     var rest = list.slice(0, i).concat(list.slice(i + 1));
@@ -624,7 +622,7 @@
     return placeButton(cat, next, i);
   }
 
-  // A drop of button i in the list of a game that needs ascending positions.
+  // A drop of button i in a set's list.
   // `drop` is { on: k }, onto button k, or { before: k }, between buttons
   // k - 1 and k, where k may be the list's length, for after the last.
   //

@@ -188,7 +188,7 @@
     );
   });
 
-  // Warcraft II needs ascending positions; StarCraft doesn't.
+  // Both games need ascending positions.
   function wc2Set(positions) {
     return {
       patcher: "AxeGraft",
@@ -219,11 +219,16 @@
     T.equal(AG.core.validate.check(wc2Set([1, 1, 1, 4]), T.catalog("warcraft2")), []);
   });
 
-  T.test("errors and warnings: StarCraft buttons may be in any order", function () {
+  T.test("errors and warnings: StarCraft buttons out of position order are an error too", function () {
     var mod = withString(664);
     mod.button_sets[0].buttons.push(Object.assign({}, mod.button_sets[0].buttons[0], { position: 1 }));
     mod.button_sets[0].buttons[0] = Object.assign({}, mod.button_sets[0].buttons[0], { position: 7 });
-    T.equal(AG.core.validate.check(mod, T.catalog("starcraft")), []);
+    T.equal(
+      AG.core.validate.check(mod, T.catalog("starcraft")).map(function (p) {
+        return [p.severity, p.path];
+      }),
+      [["error", "button_sets[0].buttons[1].position"]]
+    );
   });
 
   function withString(id) {
