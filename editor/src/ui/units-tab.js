@@ -12,12 +12,13 @@
   // Every set a field can name: the catalog's sets and the mod's new sets.
   function setItems(app) {
     var cat = app.cat();
+    var doc = app.doc();
     var items = cat.raw.buttonSets.map(function (s) {
-      return { id: s.id, label: s.id + " " + s.name };
+      return { id: s.id, label: D.setText(cat, s.id, doc) };
     });
-    D.entries(app.doc(), "button_sets").forEach(function (e) {
+    D.entries(doc, "button_sets").forEach(function (e) {
       if (util.isObject(e) && util.isInt(e.id) && util.inRange(e.id, cat.limits.newButtonSet)) {
-        items.push({ id: e.id, label: e.id + " " + (typeof e.label === "string" && e.label ? e.label : "New set") });
+        items.push({ id: e.id, label: D.setText(cat, e.id, doc) });
       }
     });
     return items.sort(function (a, b) {
@@ -61,79 +62,7 @@
   function setLabel(app, id) {
     if (id === null) return "no buttons";
     if (id === undefined) return "not in the catalog";
-    var s = app.cat().sets.get(id);
-    return s ? id + " " + s.name : String(id);
-  }
-
-  // The panel's title: the mod's name for the unit, or the catalog's.
-  // Clicking it turns it into a text box with a Save button, to rename the
-  // unit in the editor.
-  function title(app, key, id, unit) {
-    var S = app.state;
-    var cat = app.cat();
-    var name = D.itemName(cat, "unit", id, app.doc());
-    var text = name ? id + " " + name : "Table entry " + id;
-    if (S.nameEdit && S.nameEdit.key !== key) S.nameEdit = null;
-
-    var focusId = "unit-name:" + id;
-    function focusBox() {
-      var box = app.root.querySelector('[data-focus="' + focusId + '"]');
-      if (box) {
-        box.focus();
-        box.select();
-      }
-    }
-    if (!S.nameEdit) {
-      var label = h("button", { type: "button", class: "title-label", title: "Click to rename", dataset: { action: "edit-name", focus: "unit-title:" + id, plain: "" }, onclick: function () {
-        S.nameEdit = { key: key, text: name || "" };
-        app.render();
-        focusBox();
-      } }, text);
-      var original = D.itemName(cat, "unit", id);
-      if (!D.customUnitName(app.doc(), id)) return label;
-      return h("span", { class: "title-named" }, [label, help.relabelledMark(original)]);
-    }
-
-    function save() {
-      var value = S.nameEdit.text;
-      S.nameEdit = null;
-      var before = app.doc();
-      app.edit(function (d) {
-        return D.setUnitName(d, cat, id, value);
-      });
-      if (app.doc() === before) app.render();
-    }
-    function cancel() {
-      S.nameEdit = null;
-      app.render();
-    }
-    var box = h("input", {
-      type: "text",
-      class: "ctl wide title-input",
-      value: S.nameEdit.text,
-      placeholder: unit ? unit.name : "",
-      "aria-label": "Name",
-      dataset: { focus: focusId },
-      oninput: function (ev) {
-        S.nameEdit.text = ev.target.value;
-      },
-      onkeydown: function (ev) {
-        if (ev.key === "Enter") {
-          ev.preventDefault();
-          save();
-        } else if (ev.key === "Escape") {
-          ev.preventDefault();
-          cancel();
-        }
-      }
-    });
-    var pair = help.described(box, help.text("unitName"));
-    return h("span", { class: "title-edit" }, [
-      String(id),
-      pair[0],
-      h("button", { type: "button", class: "small", dataset: { action: "save-name", plain: "" }, onclick: save }, "Save"),
-      pair[1]
-    ]);
+    return D.setText(app.cat(), id, app.doc());
   }
 
   function panel(app, key) {
@@ -283,7 +212,7 @@
     return h("div", { class: "units-panel", dataset: { unit: id } }, [
       h("h2", { class: "panel-title" }, [
         iconUrl ? h("img", { class: "unit-icon", src: iconUrl, alt: "", dataset: { unitIcon: unit.icon } }) : null,
-        title(app, key, id, unit),
+        F.nameTitle(app, { kind: "unit", id: id, prefix: id, fallback: "Table entry " + id }),
         h("span", { class: "sub", text: isUnit ? "Unit" : "Table entry that isn't a unit, so it has only a button set" }),
         changed
           ? F.withHelp(

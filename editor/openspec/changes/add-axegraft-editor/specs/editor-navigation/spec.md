@@ -65,6 +65,31 @@ The item list SHALL be a tree using the catalog's groups, which SHALL expand and
 - **WHEN** a group holds items 2, 10 and 32
 - **THEN** they're listed as 2, 10, 32
 
+### Requirement: Item names
+The Units, Button Sets, Requirements and Constants tabs SHALL let the user rename the item a panel shows, changed by the mod or not, by clicking the panel's title, which becomes a text box with a Save button and a `?` button. The name SHALL be saved in the mod's `labels`, by kind of item: `units`, `button_sets`, `upgrades`, `techs` and `orders` by ID, and `constants` by the constant's name. The patcher ignores `labels`, so a name changes nothing in the game and the item isn't marked as changed. The editor SHALL show the name wherever it names that item. Saving empty text, or the catalog's name, SHALL remove the mod's name. A renamed item's title SHALL have a mark whose tooltip says it was relabelled inside the mod, how to give it back its original name, and what that name is.
+
+A requirement record SHALL be named by its item, so renaming a unit's record renames the unit, and a tech's research and use records SHALL share the tech's one name. A set with no name, such as a new set the user hasn't named, SHALL be shown as `Set` and its ID. Removing a new set SHALL remove its name. Wrong `labels` in an opened file SHALL only be warnings.
+
+#### Scenario: Renaming a set
+- **WHEN** a user renames set 5, Siege Tank in the catalog, to Tanks
+- **THEN** the mod has `"labels": {"button_sets": {"5": "Tanks"}}`, the title shows `5 Tanks` with the relabelled mark, and the Units tab's set picker shows `5 Tanks`
+
+#### Scenario: Renaming a unit from its requirements
+- **WHEN** a user renames the record of unit 0 to Rifleman
+- **THEN** the mod has `"labels": {"units": {"0": "Rifleman"}}`, and the Units tab shows `0 Rifleman`
+
+#### Scenario: One name per tech
+- **WHEN** a user renames the research record of tech 5 to Siege
+- **THEN** the mod has `"labels": {"techs": {"5": "Siege"}}`, and the use record of tech 5 is titled `Tech use 5 Siege`
+
+#### Scenario: Unnamed new set
+- **WHEN** a user adds set 250 and doesn't name it
+- **THEN** the title and the item list show `Set 250`
+
+#### Scenario: Relabelled mark
+- **WHEN** a user hovers over the mark beside a renamed unit 7
+- **THEN** a tooltip says the unit was relabelled inside the mod, that relabelling it to the empty string gives it back its original name, and that its original name is 'Terran SCV'
+
 ### Requirement: Item list toolbar
 Above the item list SHALL be a row of small icon buttons, each named by its tooltip. On the left: `Tree view` and `List view`, of which exactly one is pressed; then the `Show only changes` toggle. On the right: `Search`. The list view SHALL show every item without its groups, in ID order (requirements by type, then ID). The chosen view SHALL be remembered in the browser. `Show only changes` SHALL work in either view, and SHALL be disabled, with the tooltip `There are no changes to show`, while the tab has no changes.
 

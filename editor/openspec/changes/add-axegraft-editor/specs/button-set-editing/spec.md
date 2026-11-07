@@ -166,11 +166,11 @@ The tab SHALL list the table entries that use this set, counting what the mod as
 - **THEN** the Units tab opens on that unit
 
 ### Requirement: New sets
-The tab SHALL let the user add a set, and remove one the mod added. A new set SHALL take the lowest unused new set ID unless the user picks another. The item list SHALL show each set the mod adds alongside the original sets.
+The tab SHALL let the user add a set, and remove one the mod added. A new set SHALL take the lowest unused new set ID unless the user picks another. The item list SHALL show each set the mod adds alongside the original sets. A new set SHALL have no name until the user gives it one, and SHALL be shown as `Set` and its ID until then.
 
 #### Scenario: Adding a set
 - **WHEN** a user adds a set to a StarCraft mod with no new sets
-- **THEN** it's set 250, with no buttons
+- **THEN** it's set 250, with no buttons, shown as `Set 250`
 
 #### Scenario: Removing a set still in use
 - **WHEN** a user removes a new set that a table entry is assigned to

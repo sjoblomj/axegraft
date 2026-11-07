@@ -64,6 +64,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 - [x] 6.8 Add links from reference fields to their items, and verify the "Jump from a variable" and "Jump in a game without requirements" scenarios
 - [x] 6.9 Add the icon, string, choice and table entry kinds of unit field, show the fields as the button table entry and the status panel, and verify the "Unit fields", "Unit icon" and "Choosing by name or ID" scenarios, including Warcraft II's icon, stats panel frame and name, and StarCraft's equivalent entry
 - [x] 6.10 Add renaming units in the mod's `labels`, shown wherever the editor names a unit, with labels following the name, and verify the "Unit names" scenarios and the "Renamed unit" scenario of "Labels"
+- [x] 6.11 Extend renaming to sets, upgrades, techs, orders and constants from the panel titles of every tab, with a relabelled mark on renamed titles and unnamed sets shown as `Set` and their ID, and verify the "Item names" scenarios, the "Adding a set" scenario and the "Renamed constant" scenario of "Labels"
 
 ## 7. Requirements, constants and the compatibility report
 

@@ -203,12 +203,12 @@
     } else if (tab === "button_sets") {
       cat.raw.buttonSets.forEach(function (s) {
         seen[s.id] = true;
-        place(s.tree, item(key.set(s.id), s.id, idLabel(s.id, s.name)));
+        place(s.tree, item(key.set(s.id), s.id, idLabel(s.id, AG.core.doc.itemName(cat, "set", s.id, doc))));
       });
       AG.core.doc.entries(doc, "button_sets").forEach(function (e) {
         if (isObject(e) && isInt(e.id) && util.inRange(e.id, cat.limits.newButtonSet) && !seen[e.id]) {
           seen[e.id] = true;
-          place(["New sets"], item(key.set(e.id), e.id, idLabel(e.id, typeof e.label === "string" && e.label ? e.label : "New set"), { isNew: true }));
+          place(["New sets"], item(key.set(e.id), e.id, AG.core.doc.setText(cat, e.id, doc), { isNew: true }));
         }
       });
       sortGroup(root, true);
@@ -222,7 +222,7 @@
         named.forEach(function (x) {
           if (g.kind === "unit" && !util.inRange(x.id, cat.limits.unit)) return;
           ids[x.id] = true;
-          gplace(x.tree, item(key.req(g.type, x.id), x.id, idLabel(x.id, g.kind === "unit" ? AG.core.doc.itemName(cat, "unit", x.id, doc) : x.name), { reqType: g.type }));
+          gplace(x.tree, item(key.req(g.type, x.id), x.id, idLabel(x.id, AG.core.doc.itemName(cat, g.kind, x.id, doc)), { reqType: g.type }));
         });
         var extra = [];
         cat.requirements.forEach(function (r) {
@@ -239,13 +239,13 @@
           }
         });
         extra.forEach(function (id) {
-          gplace(["Other"], item(key.req(g.type, id), id, idLabel(id, g.kind === "unit" ? AG.core.doc.customUnitName(doc, id) : null), { reqType: g.type }));
+          gplace(["Other"], item(key.req(g.type, id), id, idLabel(id, AG.core.doc.customName(doc, g.kind, id)), { reqType: g.type }));
         });
       });
       sortGroup(root, true);
     } else if (tab === "constants") {
       cat.constantList.forEach(function (c) {
-        place(c.group, item(key.constant(c.name), null, c.label, { name: c.name }));
+        place(c.group, item(key.constant(c.name), null, AG.core.doc.itemName(cat, "constant", c.name, doc), { name: c.name }));
       });
     }
     return root.children;

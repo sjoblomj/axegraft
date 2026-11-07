@@ -97,7 +97,9 @@
     var cat = T.catalog("starcraft");
     var doc = D.addSet(D.create("starcraft"), cat).doc;
     doc = D.setUnitField(doc, cat, 33, "button_set", 0);
-    T.ok(labels(groupOf(Tr.build("button_sets", doc, cat), ["New sets"]).children).indexOf("250 New set") >= 0);
+    T.ok(labels(groupOf(Tr.build("button_sets", doc, cat), ["New sets"]).children).indexOf("Set 250") >= 0, "a new set with no name");
+    var named = D.setItemName(doc, cat, "set", 250, "Builders");
+    T.ok(labels(groupOf(Tr.build("button_sets", named, cat), ["New sets"]).children).indexOf("250 Builders") >= 0, "a named new set");
     T.equal(labels(groupOf(Tr.build("units", doc, cat), ["Not in the catalog"]).children), ["33"]);
   });
 

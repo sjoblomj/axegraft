@@ -17,9 +17,10 @@
     if (kind === "unit") return AG.ui.unitsTab.unitItems(app);
     if (kind === "tableEntry") return AG.ui.buttonSets.entryItems(app);
     var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders, missile: cat.raw.missiles, spellSound: cat.raw.spellSounds, sound: cat.raw.sounds }[kind] || [];
+    var doc = app.doc();
     return list
       .map(function (x) {
-        return { id: x.id, label: x.id + " " + x.name };
+        return { id: x.id, label: x.id + " " + D.itemName(cat, kind, x.id, doc) };
       })
       .sort(function (a, b) {
         return a.id - b.id;
@@ -111,7 +112,7 @@
 
     return h("div", { class: "constants-panel", dataset: { constant: name } }, [
       h("h2", { class: "panel-title" }, [
-        c.label,
+        F.nameTitle(app, { kind: "constant", id: name, fallback: c.label }),
         h("span", { class: "sub", text: "Saved as " + c.name }),
         eff.changed
           ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "revert-constant" }, onclick: function () {

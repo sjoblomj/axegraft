@@ -9,8 +9,11 @@
 
   var TEXT = {
     revertField: "Puts this field back to its original value.",
-    unitName: "The name AxeGraft shows for this unit, here and in the item list. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show the original name.",
-    unitRelabelled: "This unit was relabelled inside the mod. The name is only used in AxeGraft's editor and makes no changes to the game itself. Relabel it to the empty string to give it back its original name.",
+    itemName: "The name AxeGraft shows for this {item}, here, in the item list and wherever else it's named. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show the original name.",
+    itemRelabelled: "This {item} was relabelled inside the mod. The name is only used in AxeGraft's editor and makes no changes to the game itself. Relabel it to the empty string to give it back its original name.",
+    newSetName: "The name AxeGraft shows for this new set, here, in the item list and wherever else it's named. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show it as Set and its ID.",
+    newSetRelabelled: "This new set was named inside the mod. The name is only used in AxeGraft's editor and makes no changes to the game itself. Relabel it to the empty string to show it as Set and its ID.",
+    techShared: "A tech has one name, shared by its research and use requirements.",
     revertItem: "Removes every change this mod makes to this item, so it's as in the original game.",
     goToSet: "Opens the Button Sets tab on the set this entry shows, as the mod currently assigns it.",
     ownSet: "Gives this entry its own copy of its current set, as a new set, so its buttons can change without changing other entries that share the set.",
@@ -92,10 +95,9 @@
     return m;
   }
 
-  // The mark beside a unit's title when the mod relabels it. Hovering or
-  // focusing it says so, and gives the unit's original name when known.
-  function relabelledMark(original) {
-    var text = TEXT.unitRelabelled + (original ? " Its original name is '" + original + "'." : "");
+  // The mark beside an item's title when the mod relabels it. Hovering or
+  // focusing it shows `text`.
+  function relabelledMark(text) {
     var tip = tipEl(text);
     var m = h("span", { class: "relabelled-mark", tabindex: "0", role: "img", "aria-label": text, "aria-describedby": tip.id, dataset: { relabelled: "" } }, ["\u270E", tip]);
     attachTip(m, tip);
@@ -128,9 +130,10 @@
     return [control, b];
   }
 
-  function text(key) {
+  // The text for `key`, with {item} replaced by `item` when given.
+  function text(key, item) {
     if (!TEXT[key]) throw new Error("no help text for " + key);
-    return TEXT[key];
+    return item === undefined ? TEXT[key] : TEXT[key].replace(/\{item\}/g, item);
   }
 
   AG.ui.help = {

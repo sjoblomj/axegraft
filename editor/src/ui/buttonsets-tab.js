@@ -54,10 +54,11 @@
 
   // ---- Lists offered by name
 
-  function namedItems(list) {
+  // Items of the catalog's `list`, by the mod's names when `doc` gives them.
+  function namedItems(list, cat, kind, doc) {
     return (list || [])
       .map(function (x) {
-        return { id: x.id, label: x.id + " " + x.name };
+        return { id: x.id, label: x.id + " " + (doc ? D.itemName(cat, kind, x.id, doc) : x.name) };
       })
       .sort(function (a, b) {
         return a.id - b.id;
@@ -91,9 +92,9 @@
   function variableItems(app, type) {
     var cat = app.cat();
     if (type === "unit") return AG.ui.unitsTab.unitItems(app);
-    if (type === "tech") return namedItems(cat.raw.techs);
-    if (type === "upgrade") return namedItems(cat.raw.upgrades);
-    if (type === "order") return namedItems(cat.raw.orders);
+    if (type === "tech") return namedItems(cat.raw.techs, cat, "tech", app.doc());
+    if (type === "upgrade") return namedItems(cat.raw.upgrades, cat, "upgrade", app.doc());
+    if (type === "order") return namedItems(cat.raw.orders, cat, "order", app.doc());
     if (type === "tableEntry") return entryItems(app);
     return null;
   }
@@ -281,11 +282,8 @@
     });
 
     // Header
-    var title = set ? id + " " + set.name : id + " " + (eff.defined && D.entries(doc, "button_sets").filter(function (e) {
-      return e.id === id;
-    })[0].label || "New set");
     var header = h("h2", { class: "panel-title" }, [
-      title,
+      F.nameTitle(app, { kind: "set", id: id, prefix: id, fallback: "Set " + id }),
       h("span", { class: "sub", text: eff.isNew ? "New set, added by this mod" : eff.defined ? "Original set, replaced by this mod" : "Original set" }),
       set && eff.defined
         ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "revert-set" }, onclick: function () {

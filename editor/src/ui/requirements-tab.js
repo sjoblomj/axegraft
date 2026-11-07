@@ -20,9 +20,10 @@
     var cat = app.cat();
     if (kind === "unit") return AG.ui.unitsTab.unitItems(app);
     var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders }[kind] || [];
+    var doc = app.doc();
     return list
       .map(function (x) {
-        return { id: x.id, label: x.id + " " + x.name };
+        return { id: x.id, label: x.id + " " + D.itemName(cat, kind, x.id, doc) };
       })
       .sort(function (a, b) {
         return a.id - b.id;
@@ -114,7 +115,6 @@
     var hasOriginal = cat.versionIds.some(function (v) {
       return D.originalRecord(cat, type, id, v) !== null;
     });
-    var name = itemName(cat, type, id, doc);
     var fieldKey = "req:" + type + ":" + id;
 
     function setRows(next) {
@@ -256,7 +256,7 @@
 
     return h("div", { class: "requirements-panel", dataset: { record: fieldKey } }, [
       h("h2", { class: "panel-title" }, [
-        TYPE_TEXT[type] + " " + id + (name ? " " + name : ""),
+        F.nameTitle(app, { kind: KIND_OF_TYPE[type], id: id, prefix: TYPE_TEXT[type] + " " + id, fallback: TYPE_TEXT[type] + " " + id, extraHelp: KIND_OF_TYPE[type] === "tech" ? help.text("techShared") : null }),
         h("span", { class: "sub", text: eff.defined ? "This mod replaces the whole record" : hasOriginal ? "Original record" : "No original record" }),
         eff.defined
           ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "revert-record" }, onclick: function () {

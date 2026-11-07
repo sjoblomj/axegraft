@@ -159,7 +159,7 @@ Saving the same mod SHALL always produce identical bytes. Files SHALL be indente
 - **THEN** their files are byte-identical
 
 ### Requirement: Labels
-The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's name, as the editor shows it, so files are readable. When the user renames a unit, the editor SHALL change the labels of that unit's entries in `units` and of its unit requirement record to the new name. The editor SHALL NOT read labels to name items. Labels SHALL NOT affect validation.
+The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's name, as the editor shows it, so files are readable. When the user renames an item, the editor SHALL change the labels of that item's entries to the new name: a unit's entries in `units` and its unit requirement record, a set's entry in `button_sets`, an upgrade's or order's requirement record, both requirement records of a tech, and a constant's entry in `constants`. An entry of an item left with no name, such as an unnamed new set, SHALL have no label. The editor SHALL NOT read labels to name items. Labels SHALL NOT affect validation.
 
 #### Scenario: Existing label
 - **WHEN** a file has an entry with a custom label, and the user edits that entry
@@ -172,6 +172,10 @@ The editor SHALL keep every `label` in an opened file. It SHALL give each new en
 #### Scenario: Renamed unit
 - **WHEN** a mod changes unit 0 and the user renames it Rifleman
 - **THEN** the saved entry for unit 0 has the label `Rifleman`
+
+#### Scenario: Renamed constant
+- **WHEN** a mod changes the constant `max_supply` and the user renames it Supply cap
+- **THEN** the saved entry for `max_supply` has the label `Supply cap`
 
 ### Requirement: Undo and redo
 The editor SHALL undo and redo every change to the mod, across all tabs, from its menu and with the usual keyboard shortcuts.

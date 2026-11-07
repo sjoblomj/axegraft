@@ -93,7 +93,7 @@ The Units tab SHALL let the user give a unit its own copy of its current set, so
 - **THEN** the mod defines set 250 with set 0's current buttons and assigns it to unit 32, and the other units on set 0 are unchanged
 
 ### Requirement: Unit names
-The Units tab SHALL let the user rename any table entry, changed by the mod or not, by clicking the panel's title, which becomes a text box with a Save button and a `?` button. The name SHALL be saved in the mod's `labels`, which the patcher ignores, so it changes nothing in the game and the entry isn't marked as changed. The editor SHALL show the name wherever it names that entry. Saving empty text, or the catalog's name, SHALL remove the mod's name. Wrong `labels` in an opened file SHALL only be warnings.
+The Units tab SHALL let the user rename any table entry, changed by the mod or not, by clicking the panel's title, which becomes a text box with a Save button and a `?` button. Renaming SHALL work as described in "Item names" of `editor-navigation`. The name SHALL be saved in the mod's `labels`, which the patcher ignores, so it changes nothing in the game and the entry isn't marked as changed. The editor SHALL show the name wherever it names that entry. Saving empty text, or the catalog's name, SHALL remove the mod's name. Wrong `labels` in an opened file SHALL only be warnings.
 
 #### Scenario: Renaming an unchanged unit
 - **WHEN** a mod doesn't change unit 7, and the user renames it Worker

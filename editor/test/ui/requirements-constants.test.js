@@ -257,6 +257,53 @@
     });
   }, { dom: true });
 
+  function renameTitle(app, text) {
+    if (!app.root.querySelector(".panel-title input.title-input")) U.q(app, '.panel-title [data-action="edit-name"]').click();
+    var box = U.q(app, ".panel-title input.title-input");
+    box.value = text;
+    box.dispatchEvent(new Event("input", { bubbles: true }));
+    U.q(app, '.panel-title [data-action="save-name"]').click();
+  }
+
+  T.test("names: a unit's requirement record renames the unit itself, as the Units tab does", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:unit:0");
+      renameTitle(app, "Rifleman");
+      T.equal(app.doc().labels, { units: { "0": "Rifleman" } });
+      T.ok(app.root.querySelector(".panel-title [data-relabelled]"), "marked as relabelled");
+      app.select("units", "unit:0");
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "0 Rifleman");
+    });
+  }, { dom: true });
+
+  T.test("names: a tech's research and use records share one name", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:tech_research:5");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      T.ok(/shared by its research and use/.test(U.q(app, ".panel-title .help").textContent));
+      renameTitle(app, "Siege");
+      T.equal(app.doc().labels, { techs: { "5": "Siege" } });
+      app.select("requirements", "req:tech_use:5");
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "Tech use 5 Siege");
+      T.ok(/shared by its research and use/.test(U.q(app, ".panel-title [data-relabelled] .tip").textContent));
+    });
+  }, { dom: true });
+
+  T.test("names: a constant can be renamed, and its entry's label follows", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("constants", "const:team_multiplier");
+      U.change(valueField(app).querySelector("input"), "1");
+      renameTitle(app, "Team supply");
+      T.equal(app.doc().labels, { constants: { team_multiplier: "Team supply" } });
+      T.equal(app.doc().constants[0].label, "Team supply");
+      T.ok(/^Team supply/.test(U.q(app, ".panel-title").textContent));
+      T.ok(U.texts(app, ".tree .row .text").indexOf("Team supply") >= 0, "the item list");
+      renameTitle(app, "");
+      T.ok(!app.doc().labels);
+      T.ok(/^Team supply multiplier/.test(U.q(app, ".panel-title").textContent));
+    });
+  }, { dom: true });
+
   T.test("grouped display: a constant shown under its group with a display name is saved under its name", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("constants", "const:team_multiplier");

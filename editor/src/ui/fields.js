@@ -154,6 +154,93 @@
     return h("span", { class: "with-help" }, pair);
   }
 
+  // ---- Item names
+
+  var KIND_WORD = { unit: "unit", set: "button set", upgrade: "upgrade", tech: "tech", order: "order", constant: "constant" };
+
+  // A panel's title that names an item of `kind`: `prefix` followed by the
+  // item's name, the mod's when it has one, or `fallback` when it has
+  // neither. Clicking it turns it into a text box with a Save button, to
+  // rename the item in the editor. A name the mod gives gets a mark that
+  // says so. `extraHelp` is added to the help of both.
+  function nameTitle(app, o) {
+    var D = AG.core.doc;
+    var S = app.state;
+    var cat = app.cat();
+    var doc = app.doc();
+    var kind = o.kind;
+    var id = o.id;
+    var editKey = kind + ":" + id;
+    var name = D.itemName(cat, kind, id, doc);
+    var original = D.catalogName(cat, kind, id);
+    var text = name ? (o.prefix !== undefined && o.prefix !== "" ? o.prefix + " " : "") + name : o.fallback;
+    if (S.nameEdit && S.nameEdit.key !== editKey) S.nameEdit = null;
+    var unnamedSet = kind === "set" && !original;
+    function helpText(key) {
+      return help.text(unnamedSet ? (key === "itemName" ? "newSetName" : "newSetRelabelled") : key, KIND_WORD[kind]) + (o.extraHelp ? " " + o.extraHelp : "");
+    }
+
+    var focusId = "name:" + editKey;
+    function focusBox() {
+      var box = app.root.querySelector('[data-focus="' + focusId + '"]');
+      if (box) {
+        box.focus();
+        box.select();
+      }
+    }
+    if (!S.nameEdit) {
+      var label = h("button", { type: "button", class: "title-label", title: "Click to rename", dataset: { action: "edit-name", focus: "title:" + editKey, plain: "" }, onclick: function () {
+        S.nameEdit = { key: editKey, text: name || "" };
+        app.render();
+        focusBox();
+      } }, text);
+      if (!D.customName(doc, kind, id)) return label;
+      var markText = helpText("itemRelabelled") + (original ? " Its original name is '" + original + "'." : "");
+      return h("span", { class: "title-named" }, [label, help.relabelledMark(markText)]);
+    }
+
+    function save() {
+      var value = S.nameEdit.text;
+      S.nameEdit = null;
+      var before = app.doc();
+      app.edit(function (d) {
+        return D.setItemName(d, cat, kind, id, value);
+      });
+      if (app.doc() === before) app.render();
+    }
+    function cancel() {
+      S.nameEdit = null;
+      app.render();
+    }
+    var box = h("input", {
+      type: "text",
+      class: "ctl wide title-input",
+      value: S.nameEdit.text,
+      placeholder: original || "",
+      "aria-label": "Name",
+      dataset: { focus: focusId },
+      oninput: function (ev) {
+        S.nameEdit.text = ev.target.value;
+      },
+      onkeydown: function (ev) {
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          save();
+        } else if (ev.key === "Escape") {
+          ev.preventDefault();
+          cancel();
+        }
+      }
+    });
+    var pair = help.described(box, helpText("itemName"));
+    return h("span", { class: "title-edit" }, [
+      o.prefix !== undefined && o.prefix !== "" ? String(o.prefix) : null,
+      pair[0],
+      h("button", { type: "button", class: "small", dataset: { action: "save-name", plain: "" }, onclick: save }, "Save"),
+      pair[1]
+    ]);
+  }
+
   AG.ui.fields = {
     parseNumber: parseNumber,
     showValue: showValue,
@@ -163,6 +250,7 @@
     field: field,
     withHelp: withHelp,
     describe: describe,
-    nextId: nextId
+    nextId: nextId,
+    nameTitle: nameTitle
   };
 })(AxeGraft);

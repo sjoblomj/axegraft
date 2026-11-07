@@ -78,24 +78,50 @@
 
   // ---- Names
 
-  // The name the mod gives a unit in the editor, from its `labels`, or
-  // null. The patcher ignores `labels`.
-  function customUnitName(doc, id) {
-    var labels = isObject(doc) && isObject(doc.labels) && isObject(doc.labels.units) ? doc.labels.units : null;
+  // The kinds of item the mod can name in the editor, and the object of
+  // `labels` that holds each kind's names, by ID (by name for constants).
+  // The patcher ignores `labels`.
+  var LABEL_KINDS = { unit: "units", set: "button_sets", upgrade: "upgrades", tech: "techs", order: "orders", constant: "constants" };
+  var LABEL_ORDER = ["units", "button_sets", "upgrades", "techs", "orders", "constants"];
+
+  // The name the mod gives an item in the editor, from its `labels`, or null.
+  function customName(doc, kind, id) {
+    var part = LABEL_KINDS[kind];
+    var labels = part && isObject(doc) && isObject(doc.labels) && isObject(doc.labels[part]) ? doc.labels[part] : null;
     var n = labels && util.has(labels, String(id)) ? labels[String(id)] : null;
     return typeof n === "string" && n !== "" ? n : null;
   }
 
-  // An item's name: for a unit, the mod's name for it when `doc` is given
-  // and has one, otherwise the catalog's. Null when neither has one.
-  function itemName(cat, kind, id, doc) {
-    if (doc && kind === "unit") {
-      var custom = customUnitName(doc, id);
-      if (custom) return custom;
+  function customUnitName(doc, id) {
+    return customName(doc, "unit", id);
+  }
+
+  // An item's name in the catalog, or null.
+  function catalogName(cat, kind, id) {
+    if (kind === "constant") {
+      var c = cat.constants.get(id);
+      return c ? c.label : null;
     }
     var m = { unit: cat.units, set: cat.sets, upgrade: cat.upgrades, tech: cat.techs, order: cat.orders, missile: cat.missiles, spellSound: cat.spellSounds, sound: cat.sounds }[kind];
     var item = m && m.get(id);
     return item ? item.name : null;
+  }
+
+  // An item's name: the mod's name for it when `doc` is given and has one,
+  // otherwise the catalog's. Null when neither has one.
+  function itemName(cat, kind, id, doc) {
+    if (doc) {
+      var custom = customName(doc, kind, id);
+      if (custom) return custom;
+    }
+    return catalogName(cat, kind, id);
+  }
+
+  // A button set as the editor shows it: its ID and name, or "Set N" for
+  // one with no name, such as a new set the mod hasn't named.
+  function setText(cat, id, doc) {
+    var name = itemName(cat, "set", id, doc);
+    return name ? id + " " + name : "Set " + id;
   }
 
   function requirementName(cat, type, id, doc) {
@@ -244,47 +270,70 @@
     );
   }
 
-  // Gives a unit a name in the editor. Empty text, or the catalog's name,
-  // removes the mod's name, so the catalog's shows. The labels of the unit's
-  // entries, in units and requirements, are changed to match, so the file
-  // reads the same as the editor.
-  function setUnitName(doc, cat, id, name) {
+  // The mod's entries labelled with an item's name: a unit's entries and
+  // its unit requirement record, a set's entries, an upgrade's, tech's or
+  // order's requirement records, and a constant's entries.
+  function namedEntry(kind, id, part, e) {
+    if (!isObject(e)) return false;
+    if (kind === "constant") return part === "constants" && e.name === id;
+    if (e.id !== id) return false;
+    if (kind === "unit") return part === "units" || (part === "requirements" && e.type === "unit");
+    if (kind === "set") return part === "button_sets";
+    if (part !== "requirements") return false;
+    if (kind === "tech") return e.type === "tech_research" || e.type === "tech_use";
+    return e.type === kind;
+  }
+
+  // Gives an item a name in the editor. Empty text, or the catalog's name,
+  // removes the mod's name, so the catalog's shows. The labels of the item's
+  // entries are changed to match, so the file reads the same as the editor;
+  // an entry of an item left with no name loses its label.
+  function setItemName(doc, cat, kind, id, name) {
+    var part = LABEL_KINDS[kind];
+    if (!part) throw new Error("items of kind " + kind + " can't be named");
     var text = typeof name === "string" ? name.trim() : "";
-    if (text === itemName(cat, "unit", id)) text = "";
-    if (text === (customUnitName(doc, id) || "")) return doc;
+    if (text === catalogName(cat, kind, id)) text = "";
+    if (text === (customName(doc, kind, id) || "")) return doc;
     var key = String(id);
     var labels = isObject(doc.labels) ? doc.labels : {};
-    var units = {};
-    if (isObject(labels.units)) {
-      Object.keys(labels.units).forEach(function (k) {
-        if (k !== key) units[k] = labels.units[k];
+    var names = {};
+    if (isObject(labels[part])) {
+      Object.keys(labels[part]).forEach(function (k) {
+        if (k !== key) names[k] = labels[part][k];
       });
     }
-    if (text) units[key] = text;
+    if (text) names[key] = text;
     var nextLabels = {};
-    Object.keys(labels).forEach(function (k) {
-      if (k !== "units") nextLabels[k] = labels[k];
+    var kinds = LABEL_ORDER.concat(Object.keys(labels).filter(function (k) {
+      return LABEL_ORDER.indexOf(k) < 0;
+    }));
+    kinds.forEach(function (k) {
+      if (k === part) {
+        if (Object.keys(names).length) nextLabels[k] = names;
+      } else if (util.has(labels, k)) {
+        nextLabels[k] = labels[k];
+      }
     });
-    if (Object.keys(units).length) nextLabels.units = units;
     var out = {};
     Object.keys(doc).forEach(function (k) {
       if (k !== "labels") out[k] = doc[k];
     });
     if (Object.keys(nextLabels).length) out.labels = nextLabels;
 
-    var label = itemName(cat, "unit", id, out);
-    function relabel(e) {
-      var copy = util.has(e, "label") ? util.omit(e, ["label"]) : e;
-      return withLabel(copy, label);
-    }
-    ["units", "requirements"].forEach(function (part) {
-      if (!Array.isArray(out[part])) return;
-      out[part] = out[part].map(function (e) {
-        var mine = isObject(e) && e.id === id && (part === "units" || e.type === "unit");
-        return mine ? relabel(e) : e;
+    var label = itemName(cat, kind, id, out);
+    ["units", "button_sets", "requirements", "constants"].forEach(function (p) {
+      if (!Array.isArray(out[p])) return;
+      out[p] = out[p].map(function (e) {
+        if (!namedEntry(kind, id, p, e)) return e;
+        var copy = util.has(e, "label") ? util.omit(e, ["label"]) : e;
+        return withLabel(copy, label);
       });
     });
     return out;
+  }
+
+  function setUnitName(doc, cat, id, name) {
+    return setItemName(doc, cat, "unit", id, name);
   }
 
   // ---- Button sets
@@ -480,7 +529,7 @@
       copy.buttons = buttons;
       list[hit.index] = copy;
     } else {
-      list.push(withLabel({ id: id, buttons: buttons }, set ? set.name : null));
+      list.push(withLabel({ id: id, buttons: buttons }, itemName(cat, "set", id, doc)));
     }
     return withPart(doc, "button_sets", list);
   }
@@ -618,14 +667,17 @@
     return r;
   }
 
+  // Reverts an original set, or removes a new one, with its name, so a set
+  // added later with the same ID doesn't inherit it.
   function revertSet(doc, cat, id) {
-    return withPart(
+    var out = withPart(
       doc,
       "button_sets",
       entries(doc, "button_sets").filter(function (e) {
         return !(isObject(e) && e.id === id);
       })
     );
+    return isNewSet(cat, id) ? setItemName(out, cat, "set", id, "") : out;
   }
 
   // The lowest new set ID the mod doesn't use, or null if all are used.
@@ -811,7 +863,8 @@
       all[hit.index] = copy;
     } else {
       var entry = { name: name };
-      if (c) entry.label = c.label;
+      var label = itemName(cat, "constant", name, doc);
+      if (label) entry.label = label;
       entry[key] = v;
       all.push(entry);
     }
@@ -925,6 +978,11 @@
     setUnitField: setUnitField,
     revertUnitField: revertUnitField,
     revertUnit: revertUnit,
+    LABEL_KINDS: LABEL_KINDS,
+    customName: customName,
+    catalogName: catalogName,
+    setText: setText,
+    setItemName: setItemName,
     customUnitName: customUnitName,
     setUnitName: setUnitName,
     originalButtons: originalButtons,

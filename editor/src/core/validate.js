@@ -207,8 +207,29 @@
     });
   }
 
-  // The names the editor shows for items, in `labels`. The patcher ignores
-  // them, so nothing here is more than a warning.
+  // The names the editor shows for items, in `labels`, by kind. The patcher
+  // ignores them, so nothing here is more than a warning.
+  var LABEL_CHECKS = {
+    units: { what: "unit", by: "unit ID", known: function (cat, k, id) {
+      return id !== null && util.inRange(id, cat.limits.tableEntry);
+    }, expected: function (cat) {
+      return "an entry of the game's button table, " + rangeText(cat.limits.tableEntry);
+    } },
+    button_sets: { what: "set", by: "set ID", known: function (cat, k, id) {
+      return id !== null && (cat.sets.has(id) || util.inRange(id, cat.limits.newButtonSet));
+    }, expected: function (cat) {
+      return "a set of the original game or a new set ID, " + rangeText(cat.limits.newButtonSet);
+    } },
+    upgrades: { what: "upgrade", by: "upgrade ID", limit: "upgrade" },
+    techs: { what: "tech", by: "tech ID", limit: "tech" },
+    orders: { what: "order", by: "order ID", limit: "order" },
+    constants: { what: "constant", by: "constant name", known: function (cat, k) {
+      return cat.constants.has(k);
+    }, expected: function () {
+      return "a constant the catalog knows";
+    } }
+  };
+
   function checkLabels(labels, cat, problems) {
     var ignored = " The patcher ignores labels, and the editor ignores this one.";
     if (!isObject(labels)) {
@@ -217,21 +238,28 @@
     }
     Object.keys(labels).forEach(function (kind) {
       var path = "labels." + kind;
-      if (kind !== "units") {
-        problems.warning(path, "Only units can be labelled, not " + kind + "." + ignored);
+      var c = util.has(LABEL_CHECKS, kind) ? LABEL_CHECKS[kind] : null;
+      if (!c) {
+        problems.warning(path, "Only " + Object.keys(LABEL_CHECKS).join(", ") + " can be labelled, not " + kind + "." + ignored);
         return;
       }
-      if (!isObject(labels.units)) {
-        problems.warning(path, "labels.units must be an object of names by unit ID, but it's " + util.typeName(labels.units) + "." + ignored);
+      if (!isObject(labels[kind])) {
+        problems.warning(path, "labels." + kind + " must be an object of names by " + c.by + ", but it's " + util.typeName(labels[kind]) + "." + ignored);
         return;
       }
-      Object.keys(labels.units).forEach(function (k) {
+      var lim = c.limit ? cat.limits[c.limit] : null;
+      if (c.limit && !lim) {
+        problems.warning(path, "This game has no " + c.what + "s to label." + ignored);
+        return;
+      }
+      Object.keys(labels[kind]).forEach(function (k) {
         var p = path + "." + k;
         var id = /^(0|[1-9][0-9]*)$/.test(k) ? Number(k) : null;
-        if (id === null || !util.inRange(id, cat.limits.tableEntry)) {
-          problems.warning(p, util.show(k) + " isn't an entry of the game's button table, " + rangeText(cat.limits.tableEntry) + "." + ignored);
-        } else if (typeof labels.units[k] !== "string") {
-          problems.warning(p, "Unit " + k + "'s label must be text, but it's " + util.typeName(labels.units[k]) + "." + ignored);
+        var known = c.limit ? id !== null && util.inRange(id, lim) : c.known(cat, k, id);
+        if (!known) {
+          problems.warning(p, util.show(k) + " isn't " + (c.limit ? "a" + (/^[aeiou]/.test(c.what) ? "n " : " ") + c.what + " ID, " + rangeText(lim) : c.expected(cat)) + "." + ignored);
+        } else if (typeof labels[kind][k] !== "string") {
+          problems.warning(p, c.what.charAt(0).toUpperCase() + c.what.slice(1) + " " + k + "'s label must be text, but it's " + util.typeName(labels[kind][k]) + "." + ignored);
         }
       });
     });

@@ -170,6 +170,38 @@
     });
   }, { dom: true });
 
+  T.test("set name: clicking a set's title names it in labels, shown wherever the set is named", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:5");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      T.equal(U.q(app, ".panel-title input.title-input").value, "Siege Tank");
+      rename(app, "Tanks");
+      T.equal(app.doc().labels, { button_sets: { "5": "Tanks" } });
+      T.ok(!app.doc().button_sets, "the set gets no entry");
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "5 Tanks");
+      T.ok(/button set was relabelled/.test(U.q(app, ".panel-title [data-relabelled] .tip").textContent), "the mark names the kind of item");
+      T.ok(U.texts(app, ".tree .row .text").indexOf("5 Tanks") >= 0, "the item list");
+      app.select("units", "unit:5");
+      T.ok(/5 Tanks/.test(selectedText(nameList(app, "unit:5:button_set"))), "the Units tab's set picker");
+    });
+  }, { dom: true });
+
+  T.test("set name: a new set is Set N until named, and the help says so", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.setTab("button_sets");
+      U.q(app, '[data-action="add-set"]').click();
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      T.ok(/Set and its ID/.test(U.q(app, ".panel-title .help").textContent));
+      rename(app, "Builders");
+      T.equal(app.doc().button_sets, [{ id: 250, label: "Builders", buttons: [] }]);
+      T.ok(/Set and its ID/.test(U.q(app, ".panel-title [data-relabelled] .tip").textContent), "no original name to go back to");
+      T.ok(!/original name is/.test(U.q(app, ".panel-title [data-relabelled] .tip").textContent));
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      rename(app, "");
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "Set 250");
+    });
+  }, { dom: true });
+
   T.test("unit fields: a table entry that isn't a unit, such as 238, shows only its button set", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:238");
@@ -697,7 +729,8 @@
       U.q(app, '[data-action="add-set"]').click();
       T.equal(app.doc().button_sets, [{ id: 250, buttons: [] }]);
       T.equal(app.selected("button_sets"), "set:250");
-      T.ok(U.texts(app, '.tree [role="treeitem"] > .row .text').indexOf("250 New set") >= 0);
+      T.ok(U.texts(app, '.tree [role="treeitem"] > .row .text').indexOf("Set 250") >= 0, "an unnamed new set");
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "Set 250");
       // Another ID can be chosen.
       U.change(U.q(app, 'input[data-role="new-set-id"]'), "300");
       U.q(app, '[data-action="add-set"]').click();
