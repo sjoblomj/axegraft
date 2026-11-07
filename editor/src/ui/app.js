@@ -53,6 +53,7 @@
         cursor: {},
         expanded: {},
         search: {},
+        searchOpen: {},
         filter: {},
         button: {},
         showOriginal: false,
@@ -166,6 +167,7 @@
       S.cursor = {};
       S.expanded = {};
       S.search = {};
+      S.searchOpen = {};
       S.filter = {};
       S.button = {};
       var tabs = tree.tabsFor(S.cat);
@@ -777,33 +779,146 @@
       return out.length ? h("span", { class: "marks" }, out) : null;
     }
 
+    // Icons for the item list's toolbar, drawn in the text colour.
+    var ICONS = {
+      tree: '<circle cx="8" cy="3.5" r="2"/><circle cx="3.5" cy="12.5" r="2"/><circle cx="12.5" cy="12.5" r="2"/><path d="M8 5.5v2.5M3.5 10.5V8h9v2.5" fill="none" stroke="currentColor" stroke-width="1.3"/>',
+      list: '<circle cx="8" cy="2.75" r="2"/><circle cx="8" cy="8" r="2"/><circle cx="8" cy="13.25" r="2"/>',
+      changes: '<circle cx="8" cy="8" r="3"/>',
+      search: '<circle cx="6.5" cy="6.5" r="4.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.7 9.7L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+    };
+    function icon(name) {
+      var span = h("span", { class: "icon", "aria-hidden": "true" });
+      span.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">' + ICONS[name] + "</svg>";
+      return span;
+    }
+
+    // A small button showing only an icon, named by its tooltip. `pressed` is
+    // given for toggles. A disabled button stays focusable and keeps its
+    // tooltip, which says why it's disabled.
+    function iconButton(o) {
+      return h("button", {
+        type: "button",
+        class: "icon-btn",
+        title: o.title,
+        "aria-label": o.title,
+        "aria-pressed": o.pressed === undefined ? null : String(!!o.pressed),
+        "aria-disabled": o.disabled ? "true" : null,
+        dataset: { focus: o.focus },
+        onclick: function () {
+          if (!o.disabled) o.onclick();
+        }
+      }, [o.content || icon(o.icon)]);
+    }
+
+    var VIEW_KEY = "axegraft-editor.itemView";
+    S.itemView = prefs.get(VIEW_KEY) === "list" ? "list" : "tree";
+    app.setItemView = function (v) {
+      S.itemView = v === "list" ? "list" : "tree";
+      prefs.set(VIEW_KEY, S.itemView);
+      app.render();
+    };
+
+    function focusIn(sel) {
+      var el = root.querySelector(sel);
+      if (el) el.focus({ preventScroll: true });
+      return el;
+    }
+
     function sidebar() {
       var tab = S.tab;
       var hasErrors = app.errors().length > 0;
       var hasWarnings = app.warnings().length > 0;
-      var only = S.filter[tab] || "";
-      if ((only === "errors" && !hasErrors) || (only === "warnings" && !hasWarnings)) only = S.filter[tab] = "";
-      var search = h("input", { type: "search", class: "ctl", placeholder: "Search", value: S.search[tab] || "", "aria-label": "Search the item list", dataset: { focus: "search" } });
-      search.addEventListener("input", function () {
-        S.search[tab] = search.value;
+      var hasChanges = tabMarks(tab).changed;
+      var f = S.filter[tab] || (S.filter[tab] = { changed: false, problem: "" });
+      if (!hasChanges) f.changed = false;
+      if ((f.problem === "errors" && !hasErrors) || (f.problem === "warnings" && !hasWarnings)) f.problem = "";
+      var text = S.search[tab] || "";
+      var searchOpen = !!(S.searchOpen[tab] || text);
+
+      function openSearch(initial) {
+        S.searchOpen[tab] = true;
+        if (initial !== undefined) S.search[tab] = initial;
         app.render();
+        var input = focusIn('.sidebar [data-focus="search"]');
+        if (input) input.setSelectionRange(input.value.length, input.value.length);
+      }
+      function closeSearch(focusSel) {
+        S.searchOpen[tab] = false;
+        S.search[tab] = "";
+        app.render();
+        focusIn(focusSel);
+      }
+
+      var tools = [
+        h("span", { class: "tool-group", role: "group", "aria-label": "View" }, [
+          iconButton({ icon: "tree", title: "Tree view", pressed: S.itemView === "tree", focus: "view-tree", onclick: function () {
+            app.setItemView("tree");
+          } }),
+          iconButton({ icon: "list", title: "List view", pressed: S.itemView === "list", focus: "view-list", onclick: function () {
+            app.setItemView("list");
+          } })
+        ]),
+        iconButton({
+          icon: "changes",
+          title: hasChanges ? "Show only changes" : "There are no changes to show",
+          pressed: f.changed,
+          disabled: !hasChanges,
+          focus: "only-changes",
+          onclick: function () {
+            f.changed = !f.changed;
+            app.render();
+          }
+        })
+      ];
+      // While the mod has problems, the items with them can be picked out.
+      [["errors", hasErrors, "error", "Show only errors"], ["warnings", hasWarnings, "warning", "Show only warnings"]].forEach(function (p) {
+        if (!p[1]) return;
+        tools.push(iconButton({
+          content: h("span", { class: "mark " + p[2], "aria-hidden": "true", text: "!" }),
+          title: p[3],
+          pressed: f.problem === p[0],
+          focus: "only-" + p[0],
+          onclick: function () {
+            f.problem = f.problem === p[0] ? "" : p[0];
+            app.render();
+          }
+        }));
       });
-      var opts = [{ value: "", label: "All items" }, { value: "changed", label: "Changed items" }];
-      if (hasErrors) opts.push({ value: "errors", label: "Items with errors" });
-      if (hasWarnings) opts.push({ value: "warnings", label: "Items with warnings" });
-      var filterSel = AG.ui.fields.select(opts, only, function (v) {
-        S.filter[tab] = v;
-        app.render();
-      }, { "aria-label": "Show", dataset: { focus: "filter" } });
+      if (searchOpen) {
+        var search = h("input", { type: "search", class: "ctl", placeholder: "Search", value: text, "aria-label": "Search the item list", dataset: { focus: "search" } });
+        search.addEventListener("input", function () {
+          S.search[tab] = search.value;
+          app.render();
+        });
+        search.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            closeSearch('.sidebar [data-focus="tree"]');
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            focusIn('.sidebar [data-focus="tree"]');
+          }
+        });
+        tools.push(search);
+      } else tools.push(h("span", { class: "grow" }));
+      tools.push(iconButton({ icon: "search", title: "Search", pressed: searchOpen, focus: "search-toggle", onclick: function () {
+        if (searchOpen) closeSearch('.sidebar [data-focus="search-toggle"]');
+        else openSearch();
+      } }));
+
       var selected = app.selected(tab);
-      var nodes = tree.filter(app.nodes(tab), S.search[tab], only || null);
+      var only = [f.changed ? "changed" : null, f.problem || null];
+      var nodes = tree.filter(app.nodes(tab), text, only);
+      if (S.itemView === "list") nodes = tree.flatten(nodes);
       var treeEl = AG.ui.treeView.render({
         nodes: nodes,
+        flat: S.itemView === "list",
         expanded: S.expanded[tab] || {},
         cursor: S.cursor[tab],
         selected: selected,
         idPrefix: "tree-" + tab,
         label: "Items",
+        title: "El Grando list of thangs.",
         onSelect: function (k) {
           S.selection[tab] = k;
           S.cursor[tab] = k;
@@ -823,14 +938,15 @@
         onCursor: function (k) {
           S.cursor[tab] = k;
           app.render();
+        },
+        onType: function (ch) {
+          openSearch(text + ch);
         }
       });
-      // The search, filter, item list and tabs explain themselves, so they
-      // have no ? button.
+      // The toolbar, item list and tabs explain themselves, so they have
+      // no ? button.
       return h("aside", { class: "sidebar", "aria-label": "Item list" }, [
-        h("div", { class: "search-row" }, [search]),
-        h("div", { class: "search-row" }, [h("label", { text: "Show" }), filterSel]),
-        h("div", { class: "search-row tree-row" }, [h("span", { class: "grow", text: "Items" })]),
+        h("div", { class: "tree-toolbar", role: "toolbar", "aria-label": "Item list" }, tools),
         treeEl
       ]);
     }

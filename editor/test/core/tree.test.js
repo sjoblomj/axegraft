@@ -70,7 +70,7 @@
     );
   });
 
-  T.test("item order: constants keep the catalog's order, under its groups", function () {
+  T.test("item order: constants keep the tree's order, under its groups", function () {
     var nodes = Tr.build("constants", D.create("starcraft"), T.catalog("starcraft"));
     T.equal(
       nodes.map(function (n) {
@@ -128,6 +128,57 @@
     T.equal(labels(Tr.filter(nodes, "", "errors")), ["5 Terran Siege Tank"]);
     T.equal(labels(Tr.filter(nodes, "", "warnings")), ["0 Terran Marine"]);
     T.equal(labels(Tr.filter(nodes, "siege", "changed")), ["5 Terran Siege Tank"], "filters combine with the search");
+  });
+
+  T.test("filtering the tree: several conditions must all hold", function () {
+    var cat = T.catalog("starcraft");
+    var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 232);
+    doc = D.setUnitField(doc, cat, 5, "button_set", 999);
+    doc = D.setUnitField(doc, cat, 7, "status_update", "statdraw_draw_none");
+    var m = Tr.marks(doc, cat, AG.core.problems(doc, cat));
+    var nodes = Tr.mark(Tr.build("units", doc, cat), m.items.units);
+    T.equal(labels(Tr.filter(nodes, "", ["changed", "errors"])), ["5 Terran Siege Tank"]);
+    T.equal(labels(Tr.filter(nodes, "", ["changed", null])), ["0 Terran Marine", "5 Terran Siege Tank", "7 Terran SCV"]);
+    T.equal(Tr.filter(nodes, "", [null, null]), nodes, "no conditions shows everything");
+  });
+
+  T.test("list view: every item without its groups, in ID order", function () {
+    var nodes = Tr.build("units", D.create("starcraft"), catalogWithUnits());
+    var flat = Tr.flatten(nodes);
+    T.ok(flat.every(function (n) {
+      return n.type === "item";
+    }));
+    var ids = flat.map(function (n) {
+      return n.id;
+    });
+    T.equal(ids, ids.slice().sort(function (a, b) {
+      return a - b;
+    }));
+    T.equal(flat.length, labels(nodes).length);
+  });
+
+  T.test("list view: requirements are by type, then ID; constants keep the tree's order", function () {
+    var cat = T.catalog("starcraft");
+    var flat = Tr.flatten(Tr.build("requirements", D.create("starcraft"), cat));
+    var types = flat.map(function (n) {
+      return n.reqType;
+    });
+    var order = Tr.REQ_GROUPS.map(function (g) {
+      return g.type;
+    });
+    T.equal(types.filter(function (t, i) {
+      return t !== types[i - 1];
+    }), order.filter(function (t) {
+      return types.indexOf(t) >= 0;
+    }));
+    var consts = Tr.build("constants", D.create("starcraft"), cat);
+    T.equal(Tr.flatten(consts).map(function (n) {
+      return n.key;
+    }), (function keys(list) {
+      return [].concat.apply([], list.map(function (n) {
+        return n.type === "item" ? [n.key] : keys(n.children);
+      }));
+    })(consts));
   });
 
   T.test("markers: an item's groups show that something inside has changed or has a problem", function () {

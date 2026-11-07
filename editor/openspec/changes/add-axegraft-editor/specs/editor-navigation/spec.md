@@ -65,8 +65,23 @@ The item list SHALL be a tree using the catalog's groups, which SHALL expand and
 - **WHEN** a group holds items 2, 10 and 32
 - **THEN** they're listed as 2, 10, 32
 
+### Requirement: Item list toolbar
+Above the item list SHALL be a row of small icon buttons, each named by its tooltip. On the left: `Tree view` and `List view`, of which exactly one is pressed; then the `Show only changes` toggle. On the right: `Search`. The list view SHALL show every item without its groups, in ID order (requirements by type, then ID). The chosen view SHALL be remembered in the browser. `Show only changes` SHALL work in either view, and SHALL be disabled, with the tooltip `There are no changes to show`, while the tab has no changes.
+
+#### Scenario: Switching views
+- **WHEN** a user presses `List view`
+- **THEN** the items are listed without groups, and `Tree view` is no longer pressed
+
+#### Scenario: Nothing changed
+- **WHEN** the current tab has no changes
+- **THEN** `Show only changes` is disabled and its tooltip says `There are no changes to show`
+
 ### Requirement: Filtering the tree
-The item list SHALL have a search box that shows only the items whose label contains the text, ignoring case, along with the groups that hold them. Those groups SHALL be shown expanded.
+The item list SHALL have a search box, hidden until the `Search` button is pressed, that shows only the items whose label contains the text, ignoring case, along with the groups that hold them. Those groups SHALL be shown expanded. Pressing `Search` again, or Escape in the box, SHALL clear and hide it. Typing while the item list has focus SHALL open the box with what was typed in it.
+
+#### Scenario: Typing in the list
+- **WHEN** the item list has focus and a user types `k`
+- **THEN** the search box opens, holding `k`, and has focus
 
 #### Scenario: Search by name
 - **WHEN** a user searches for `kerrigan`
@@ -103,7 +118,7 @@ Each item with an error or a warning SHALL be marked in the item list, along wit
 - **THEN** the item and its tab show the error marker
 
 ### Requirement: Filtering by problem
-While the mod has errors or warnings, the item list SHALL offer a filter that shows only the items with errors, and one that shows only the items with warnings. These SHALL combine with the search box.
+While the mod has errors or warnings, the item list's toolbar SHALL offer a toggle that shows only the items with errors, and one that shows only the items with warnings; at most one of them is pressed at a time. These SHALL combine with the search box and with `Show only changes`.
 
 #### Scenario: Showing only warnings
 - **WHEN** a mod has warnings on two items, and a user chooses to show only warnings
@@ -114,7 +129,7 @@ While the mod has errors or warnings, the item list SHALL offer a filter that sh
 - **THEN** these filters aren't offered
 
 ### Requirement: Help for controls
-Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The search box, the filter, the item list and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding and removing buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
+Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The item list, its toolbar and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding and removing buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
 
 #### Scenario: Reading help
 - **WHEN** a user hovers over or focuses a control's `?` button
@@ -130,7 +145,7 @@ Every control in the tab panels SHALL have a help text, shown by a `?` button be
 
 #### Scenario: Item list
 - **WHEN** the item list is shown
-- **THEN** its search box, filter and tree have no `?` button, and neither do the tabs
+- **THEN** its toolbar and tree have no `?` button, and neither do the tabs
 
 ### Requirement: Following references
 Where a field refers to a unit, button set or requirement record, the editor SHALL offer a way to go to that item. A unit SHALL lead to its requirement record in a game with requirements, and to its entry in the Units tab in a game without them. A field whose item has no place in the game, such as an upgrade in a game without requirements, SHALL offer no way to go to it.

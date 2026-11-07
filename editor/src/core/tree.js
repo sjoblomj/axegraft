@@ -278,16 +278,18 @@
   }
 
   // Keeps the items whose label contains `text` (ignoring case) and that pass
-  // `only` ("changed", "errors" or "warnings"), with the groups that hold them.
+  // `only`, with the groups that hold them. `only` is "changed", "errors" or
+  // "warnings", or a list of them that must all hold.
   function filter(nodes, text, only) {
     var needle = (text || "").trim().toLowerCase();
-    if (!needle && !only) return nodes;
+    var conds = (Array.isArray(only) ? only : only ? [only] : []).filter(Boolean);
+    if (!needle && !conds.length) return nodes;
+    var FLAG = { changed: "changed", errors: "error", warnings: "warning" };
     function keep(n) {
       if (needle && n.label.toLowerCase().indexOf(needle) < 0) return false;
-      if (only === "changed" && !n.changed) return false;
-      if (only === "errors" && !n.error) return false;
-      if (only === "warnings" && !n.warning) return false;
-      return true;
+      return conds.every(function (c) {
+        return n[FLAG[c]];
+      });
     }
     function walk(list) {
       var out = [];
@@ -302,6 +304,39 @@
       return out;
     }
     return walk(nodes);
+  }
+
+  // Every item of the tree, without its groups, for the list view. Items
+  // with IDs are in ID order (requirements by type first); others keep the
+  // tree's order.
+  function flatten(nodes) {
+    var items = [];
+    (function walk(list) {
+      list.forEach(function (n) {
+        if (n.type === "item") items.push(n);
+        else walk(n.children);
+      });
+    })(nodes);
+    var numeric = items.every(function (n) {
+      return isInt(n.id);
+    });
+    if (!numeric) return items;
+    var typeOrder = {};
+    REQ_GROUPS.forEach(function (g, i) {
+      typeOrder[g.type] = i;
+    });
+    return items
+      .map(function (n, i) {
+        return { n: n, i: i };
+      })
+      .sort(function (a, b) {
+        var ta = typeOrder[a.n.reqType] || 0;
+        var tb = typeOrder[b.n.reqType] || 0;
+        return ta - tb || a.n.id - b.n.id || a.i - b.i;
+      })
+      .map(function (x) {
+        return x.n;
+      });
   }
 
   // The rows shown, in order, with their depth and parent. A group is open
@@ -356,6 +391,7 @@
     build: build,
     mark: mark,
     filter: filter,
+    flatten: flatten,
     visible: visible,
     groupsOf: groupsOf,
     firstItem: firstItem,

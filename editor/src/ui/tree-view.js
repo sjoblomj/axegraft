@@ -20,7 +20,9 @@
 
   // Renders the tree. `view` has:
   //   nodes, expanded (keys), cursor (key), selected (key), idPrefix,
-  //   onSelect(key), onToggle(key, open), onCursor(key)
+  //   onSelect(key), onToggle(key, open), onCursor(key), and optionally
+  //   flat (true for a list without groups), title (its tooltip) and onType(char), called when a
+  //   printable character is typed while the tree has focus.
   function render(view) {
     var rows = AG.core.tree.visible(view.nodes, view.expanded);
     var byKey = {};
@@ -62,10 +64,11 @@
     var tree = h(
       "ul",
       {
-        class: "tree",
+        class: view.flat ? "tree flat" : "tree",
         role: "tree",
         tabindex: "0",
         "aria-label": view.label || "Items",
+        title: view.title || null,
         "aria-activedescendant": cursor ? rowId(view.idPrefix, cursor) : null,
         dataset: { focus: "tree" }
       },
@@ -124,7 +127,10 @@
           else if (r) view.onSelect(r.node.key);
           break;
         default:
-          handled = false;
+          // Typing starts a search. The character is passed on rather than
+          // left to the browser, since focus moves while the key is down.
+          if (view.onType && e.key.length === 1 && e.key !== " ") view.onType(e.key);
+          else handled = false;
       }
       if (handled) e.preventDefault();
     });

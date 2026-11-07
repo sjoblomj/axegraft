@@ -15,11 +15,11 @@
     var el = app.root.querySelector('.tree [data-key="' + key + '"] > .row');
     if (!el) {
       // Search for it, as a user would.
-      U.change(U.q(app, ".sidebar input[type=search]"), key.split(":").pop().replace(/_/g, " "));
+      U.search(app, key.split(":").pop().replace(/_/g, " "));
       el = U.q(app, '.tree [data-key="' + key + '"] > .row');
     }
     el.click();
-    U.change(U.q(app, ".sidebar input[type=search]"), "");
+    U.search(app, "");
   }
 
   function steps(game) {

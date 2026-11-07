@@ -105,7 +105,7 @@
       app.edit(function (d) {
         return D.setUnitField(D.setUnitField(d, app.cat(), 238, "button_set", 0), app.cat(), 5, "status_update", "statdraw_draw_none");
       });
-      U.change(U.q(app, '.sidebar select[data-focus="filter"]'), "Changed items");
+      U.q(app, '.sidebar [data-focus="only-changes"]').click();
       T.equal(rows(app), ["Terran", "Ground Units", "5 Terran Siege Tank", "Other", "238 Zerg basic buildings"]);
     });
   }, { dom: true });
@@ -130,6 +130,12 @@
 
   // ---- Filtering by problem
 
+  function toolTitles(app) {
+    return Array.prototype.map.call(app.root.querySelectorAll(".tree-toolbar button"), function (b) {
+      return b.title;
+    });
+  }
+
   T.test("filtering by problem: showing only warnings shows only the two items with warnings", function (ctx) {
     return sc(ctx).then(function (app) {
       app.edit(function (d) {
@@ -137,13 +143,12 @@
         d = D.setUnitField(d, app.cat(), 32, "button_set", 232);
         return D.setUnitField(d, app.cat(), 7, "status_update", "statdraw_draw_none");
       });
-      var filter = U.q(app, '.sidebar select[data-focus="filter"]');
-      T.equal(U.texts(app, '.sidebar select[data-focus="filter"] option'), ["All items", "Changed items", "Items with warnings"]);
-      U.change(filter, "Items with warnings");
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Show only warnings", "Search"]);
+      U.q(app, '.sidebar [data-focus="only-warnings"]').click();
       T.equal(rows(app).filter(function (r) {
         return /^\d/.test(r);
       }), ["0 Terran Marine", "32 Terran Firebat"]);
-      U.change(U.q(app, ".sidebar input[type=search]"), "fire");
+      U.search(app, "fire");
       T.equal(rows(app).filter(function (r) {
         return /^\d/.test(r);
       }), ["32 Terran Firebat"], "the filter combines with the search");
@@ -155,11 +160,11 @@
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 0, "button_set", 5);
       });
-      T.equal(U.texts(app, '.sidebar select[data-focus="filter"] option'), ["All items", "Changed items"]);
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Search"]);
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 0, "button_set", 999);
       });
-      T.equal(U.texts(app, '.sidebar select[data-focus="filter"] option'), ["All items", "Changed items", "Items with errors"]);
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Show only errors", "Search"]);
     });
   }, { dom: true });
 

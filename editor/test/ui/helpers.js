@@ -90,6 +90,17 @@
     return e;
   }
 
+  // Types `text` into the item list's search box, opening it first with its
+  // button, as a user would.
+  function search(app, text) {
+    var input = app.root.querySelector(".sidebar input[type=search]");
+    if (!input) {
+      q(app, '.sidebar [data-focus="search-toggle"]').click();
+      input = q(app, ".sidebar input[type=search]");
+    }
+    change(input, text);
+  }
+
   // Sets a control's value and fires change, as a user would.
   function change(el, value) {
     if (el.tagName === "SELECT") {
@@ -150,5 +161,5 @@
     });
   }
 
-  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
+  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, search: search, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
 })(AxeGraft);
