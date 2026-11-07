@@ -5,7 +5,7 @@
   var T = AG.testing;
 
   function catalogs(which) {
-    if (which === "samples") return AG.core.catalog.load(AG.core.catalog.registry.registered);
+    if (which === "shipped") return AG.core.catalog.load(AG.core.catalog.registry.registered);
     return {
       games: { starcraft: T.catalog("starcraft"), warcraft2: T.catalog("warcraft2") },
       errors: []

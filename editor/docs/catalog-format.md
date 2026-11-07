@@ -17,7 +17,7 @@ Everything between the parentheses is strictly JSON: double-quoted names, no com
 `index.html` lists each catalog script with an error handler:
 
 ```html
-<script src="catalog/sample-starcraft.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
+<script src="catalog/starcraft.js" onerror="AxeGraft.catalogMissing(this.src)"></script>
 ```
 
 A catalog that is missing, can't be run or fails the check only removes its game. The editor reports the catalog's name and every problem, and the other games stay usable. Only one catalog per game may be loaded.

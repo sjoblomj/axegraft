@@ -39,7 +39,7 @@
   }, { dom: true });
 
   T.test("editing with a sample: a notice says the catalog is a sample, for as long as it's used", function (ctx) {
-    return U.start(ctx, { which: "samples" }).then(function (app) {
+    return U.start(ctx).then(function (app) {
       T.ok(!app.root.querySelector('[data-notice="sample"]'), "no notice before editing");
       return app.newMod("starcraft").then(function () {
         var n = U.q(app, '[data-notice="sample"]');

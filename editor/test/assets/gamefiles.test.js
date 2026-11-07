@@ -18,7 +18,7 @@
     return null;
   }
 
-  function sampleCatalog(game) {
+  function shippedCatalog(game) {
     var r = AG.core.catalog.registry.registered.filter(function (x) {
       return x.raw && x.raw.game === game;
     })[0];
@@ -38,12 +38,13 @@
   T.test("game files: icons and strings import from the real archives, with the catalog's archive order and palette", function (ctx) {
     var game = gameOf(ctx.gameFiles.files);
     if (!game) T.notChecked("the folder isn't a StarCraft or Warcraft II folder");
-    var cat = sampleCatalog(game);
+    var cat = shippedCatalog(game);
     return AG.assets.importFiles(ctx.gameFiles.files, cat).then(function (r) {
       if (game === "starcraft") {
         T.ok([1185, 1539, 1547].indexOf(r.strings.length) >= 0, "strings: " + r.strings.length);
         T.ok([365, 386, 390].indexOf(r.icons.images.length) >= 0, "icons: " + r.icons.images.length);
-        T.equal([r.icons.width, r.icons.height], [36, 34]);
+        // cmdicons.grp says 36 by 34, but its frames use only 33 by 32.
+        T.equal([r.icons.width, r.icons.height], [33, 32]);
         // Strings run to the next one, so a unit's name keeps the parts after its NUL.
         T.equal(r.strings[0], "Terran Marine\u0000*\u0000Ground Units");
         T.equal(r.strings[663], "m\u0000\u0003M\u0001ove", "string 664 holds the Move button's hotkey, type and text");
@@ -63,7 +64,7 @@
   T.test("game files: every archive opens, and every file the catalog names reads", function (ctx) {
     var game = gameOf(ctx.gameFiles.files);
     if (!game) T.notChecked("the folder isn't a StarCraft or Warcraft II folder");
-    var spec = sampleCatalog(game).assets;
+    var spec = shippedCatalog(game).assets;
     var names = [spec.icons.file, spec.icons.palette.file, spec.strings.file].concat(spec.icons.palette.remap ? [spec.icons.palette.remap] : []);
     var found = {};
     return archives(ctx).reduce(function (p, f) {

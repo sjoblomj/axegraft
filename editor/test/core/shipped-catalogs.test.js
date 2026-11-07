@@ -1,6 +1,5 @@
-// The shipped catalogs pass the catalog check. StarCraft's is a hand-written
-// sample that holds what the editor needs to show each kind of case.
-// Warcraft II's is the complete catalog built from the knowledge base.
+// The shipped catalogs pass the catalog check. Both are the complete catalogs
+// built from the knowledge base.
 "use strict";
 
 (function (AG) {
@@ -15,14 +14,15 @@
     return found[0].raw;
   }
 
-  T.test("sample StarCraft catalog: passes the catalog check and is marked as a sample", function () {
+  T.test("StarCraft catalog: passes the catalog check and is complete", function () {
     var raw = registered("starcraft");
-    T.equal(C.check(raw, "sample-starcraft.js"), []);
-    T.equal(raw.sample, true);
+    T.equal(C.check(raw, "starcraft.js"), []);
+    T.equal(raw.sample, undefined, "not a sample, so every table entry is listed");
+    T.equal(raw.units.length, 250, "every table entry from 0 to 249");
     T.equal(raw.versions.length, 26, "every version from 1.05 to 1.17");
   });
 
-  T.test("sample StarCraft catalog: has each kind of case the editor shows", function () {
+  T.test("StarCraft catalog: has each kind of case the editor shows", function () {
     var cat = C.index(JSON.parse(JSON.stringify(registered("starcraft"))));
     // A set several units share.
     T.equal(cat.sets.get(0).entries, [0, 10, 20, 32]);

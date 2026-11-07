@@ -252,7 +252,7 @@
   }, { dom: true });
 
   T.test("button list: a button shows the same changed, error and warning markers as the tree", function (ctx) {
-    return start(ctx, "warcraft2", { catalogs: U.catalogs("samples") }).then(function (app) {
+    return start(ctx, "warcraft2", { catalogs: U.catalogs("shipped") }).then(function (app) {
       function listMarks(i) {
         var el = app.root.querySelector('.button-list [data-index="' + i + '"] .marks');
         return el ? Array.prototype.map.call(el.children, function (m) {
