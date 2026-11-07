@@ -101,6 +101,17 @@ Above the item list SHALL be a row of small icon buttons, each named by its tool
 - **WHEN** the current tab has no changes
 - **THEN** `Show only changes` is disabled and its tooltip says `There are no changes to show`
 
+### Requirement: Copying between mods
+What a user copies, in any tab, SHALL be kept by the editor, not on the system clipboard, for the rest of the session. It SHALL be kept per game, so it can be pasted into another mod of the same game, including one opened or created after copying, and SHALL NOT be offered for pasting into a mod of the other game.
+
+#### Scenario: Pasting into another mod
+- **WHEN** a user copies a unit's fields, opens another StarCraft mod and chooses a unit
+- **THEN** Paste is enabled, and pastes the copied fields
+
+#### Scenario: Other game
+- **WHEN** a user copies a StarCraft unit's fields and opens a Warcraft II mod
+- **THEN** Paste is disabled
+
 ### Requirement: Filtering the tree
 The item list SHALL have a search box, hidden until the `Search` button is pressed, that shows only the items whose label contains the text, ignoring case, along with the groups that hold them. Those groups SHALL be shown expanded. Pressing `Search` again, or Escape in the box, SHALL clear and hide it. Typing while the item list has focus SHALL open the box with what was typed in it.
 
@@ -154,7 +165,7 @@ While the mod has errors or warnings, the item list's toolbar SHALL offer a togg
 - **THEN** these filters aren't offered
 
 ### Requirement: Help for controls
-Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The item list, its toolbar and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding and removing buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
+Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The item list, its toolbar and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding, removing, copying and pasting buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
 
 #### Scenario: Reading help
 - **WHEN** a user hovers over or focuses a control's `?` button

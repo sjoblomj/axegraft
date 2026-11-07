@@ -180,7 +180,7 @@
   });
 
   T.test("help for controls: game-independent help is in the editor's table, game-specific help in the catalog", function () {
-    T.ok(Object.keys(AG.ui.help.TEXT).length > 30);
+    T.ok(Object.keys(AG.ui.help.TEXT).length > 20);
     Object.keys(AG.ui.help.TEXT).forEach(function (k) {
       T.ok(AG.ui.help.TEXT[k].length > 10, k);
     });

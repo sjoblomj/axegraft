@@ -254,19 +254,11 @@
       });
     }
     // A button is changed when the mod defines the set and the button
-    // matches no original button on any version.
-    var originalLists = eff.originals
-      ? cat.versionIds.map(function (v) {
-          return eff.originals[v] || [];
-        })
-      : [];
-    function buttonChanged(b) {
-      if (!eff.defined) return false;
-      return !originalLists.some(function (list) {
-        return list.some(function (o) {
-          return D.sameButtons(cat, [b], [o]);
-        });
-      });
+    // matches no original button on any version. The form compares its
+    // fields with the original it's paired with, by position.
+    var paired = D.pairedOriginals(cat, id, buttons);
+    function buttonChanged(i) {
+      return eff.defined && !paired[i].unchanged;
     }
     var setProblems = problems.filter(function (p) {
       var l = tree.locate(doc, cat, p.path);
@@ -283,15 +275,6 @@
               return D.revertSet(d, cat, id);
             });
           } }, "Revert set"), help.text("revertItem"))
-        : null,
-      eff.isNew
-        ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "remove-set" }, onclick: function () {
-            app.edit(function (d) {
-              return D.revertSet(d, cat, id);
-            });
-            app.state.selection.button_sets = null;
-            app.render();
-          } }, "Remove set"), help.text("removeSet"))
         : null
     ]);
 
@@ -362,9 +345,9 @@
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
               h("span", { text: buttonTitle(actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?", text) }),
-              buttonChanged(b) || hasError || hasWarning
+              buttonChanged(i) || hasError || hasWarning
                 ? h("span", { class: "marks" }, [
-                    buttonChanged(b) ? h("span", { class: "mark changed", title: "Changed", "aria-label": "changed", text: "•" }) : null,
+                    buttonChanged(i) ? h("span", { class: "mark changed", title: "Changed", "aria-label": "changed", text: "•" }) : null,
                     hasError ? h("span", { class: "mark error", title: "Error", "aria-label": "error", text: "!" }) : null,
                     hasWarning ? h("span", { class: "mark warning", title: "Warning", "aria-label": "warning", text: "!" }) : null
                   ])
@@ -420,7 +403,7 @@
         : null
     ]));
 
-    var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons, applyMove);
+    var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons, applyMove, eff.defined ? paired[sel] : { original: buttons[sel], unchanged: true });
 
     return h("div", { class: "buttonset-panel", dataset: { set: id } }, [
       header,
@@ -588,9 +571,10 @@
     });
   }
 
-  function buttonForm(app, id, key, i, b, buttonProblems, editButtons, applyMove) {
+  // `pair` is the original this button is compared with, from
+  // D.pairedOriginals: a button equal to an original has no changed fields.
+  function buttonForm(app, id, key, i, b, buttonProblems, editButtons, applyMove, pair) {
     var cat = app.cat();
-    var original = D.effectiveButtons(D.create(cat.game), cat, id).buttons;
     if (!util.isObject(b)) return h("p", { class: "notice error", text: "This button isn't an object." });
     function setField(name, v) {
       editButtons(function (l) {
@@ -669,7 +653,7 @@
           return { value: o.value, label: o.value + " " + o.label };
         }), v, set, { class: "ctl", "aria-label": f.label })];
       }
-      var origB = original && original[i];
+      var origB = pair.original;
       var origText = null;
       if (util.isObject(origB) && util.has(origB, f.name)) origText = F.showValue(origB[f.name]);
       var row = F.field({
@@ -678,7 +662,7 @@
         controls: controls,
         extra: extra,
         key: fieldKey,
-        changed: !!(origB && !util.equal(origB[f.name], v)) || (!origB && v !== undefined),
+        changed: !pair.unchanged && (origB ? !util.equal(origB[f.name], v) : v !== undefined),
         problems: probs,
         original: origText,
         note: note

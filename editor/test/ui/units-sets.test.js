@@ -651,6 +651,21 @@
     });
   }, { dom: true });
 
+  T.test("button fields: after a button is inserted, the buttons after it aren't marked as changed", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      U.q(app, '.slot[data-position="2"]').dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+      T.equal(app.doc().button_sets[0].buttons.map(function (b) {
+        return b.position;
+      }), [1, 2, 7]);
+      U.q(app, '.button-list [data-index="2"]').click();
+      T.equal(app.root.querySelectorAll(".button-form .field.changed").length, 0, "the button at 7 is the original one");
+      T.equal(app.root.querySelector('.button-list [data-index="2"] .mark.changed'), null, "and the list agrees");
+      U.q(app, '.button-list [data-index="1"]').click();
+      T.ok(app.root.querySelectorAll(".button-form .field.changed").length > 0, "the new button is marked");
+    });
+  }, { dom: true });
+
   T.test("panel preview: double-clicking an empty position creates a button there", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
@@ -731,7 +746,7 @@
         return D.setUnitField(added.doc, app.cat(), 32, "button_set", added.id);
       });
       app.select("button_sets", "set:250");
-      U.q(app, '[data-action="remove-set"]').click();
+      U.q(app, '[data-action="set-remove"]').click();
       T.equal(app.doc().button_sets, undefined);
       app.select("units", "unit:32");
       T.ok(field(app, "unit:32:button_set").classList.contains("has-error"));
@@ -876,6 +891,23 @@
       U.q(app, ".used-by").dispatchEvent(new Event("pointerdown", { bubbles: true }));
       U.key(app.root.ownerDocument.body, "c", { ctrlKey: true });
       T.ok(app.state.setClipboard && !app.state.buttonClipboard, "the set, from the rest of the panel");
+    });
+  }, { dom: true });
+
+  T.test("copying between mods: what was copied can be pasted into another mod of the same game, and not into the other game", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("units", "unit:4");
+      U.q(app, '[data-action="unit-copy"]').click();
+      return app.newMod("warcraft2").then(function () {
+        app.select("units", "unit:0");
+        T.equal(U.q(app, '[data-action="unit-paste"]').getAttribute("aria-disabled"), "true", "not in the other game");
+        return app.newMod("starcraft");
+      }).then(function () {
+        app.select("units", "unit:5");
+        T.equal(U.q(app, '[data-action="unit-paste"]').getAttribute("aria-disabled"), null, "Paste is enabled in another mod of the game");
+        U.q(app, '[data-action="unit-paste"]').click();
+        T.equal(D.effectiveUnit(app.doc(), app.cat(), 5).button_set.value, null, "unit 4's fields were pasted");
+      });
     });
   }, { dom: true });
 

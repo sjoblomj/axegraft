@@ -18,12 +18,12 @@ Work test-first: for each task, write the failing tests, then the code.
 
 - [x] 3.1 Move the Requirements tab's grouping of versions with equal originals into a shared helper, and use it in both tabs; verify the existing requirements tests still pass
 - [x] 3.2 Show the original of each version group in the Button Sets tab, and name the versions where a defined set differs from the original; verify the "Original buttons shown by version" and "Changes compared with every version's original" scenarios in `test/ui/units-sets.test.js`
-- [x] 3.3 Offer a version picker for "copy original" on sets whose original differs, starting with the default; verify the "Copying the DOS original" scenario
+- [x] 3.3 Revert a set whose original differs by version by removing it from the mod, so each version keeps its own original; verify the "Reverting a set that differs by version" scenario. (This replaced a version picker for "copy original", which went when the Button Sets tab's set actions moved under the item list.)
 - [x] 3.4 Add Sort by position to the tab, shown only for a set out of order; verify in a UI test that it appears in both games only then, and fixes the error
 
-## 4. Sample catalog
+## 4. Warcraft II catalog
 
-- [x] 4.1 Update `catalog/sample-warcraft2.js`: add versions 1.3, 1.33 and 1.5 before 2.00, set `panel.ascending`, use the reference's function names, and give a set that differs on the DOS versions its DOS list from `w2_exe.md`'s appendix; verify it passes the catalog check and its values match the reference
+- [x] 4.1 Update the Warcraft II catalog (then `catalog/sample-warcraft2.js`, since replaced by `catalog/warcraft2.js`, generated from the knowledge base): add versions 1.3, 1.33 and 1.5 before 2.00, use the reference's function names, and give a set that differs on the DOS versions its DOS list from `w2_exe.md`'s appendix; verify it passes the catalog check and its values match the reference
 - [ ] 4.2 Check by hand in Firefox and Chromium that the Button Sets tab shows both originals for that set, that the compatibility report lists the DOS versions, and that the report's note about the patcher is visible
 
 ## Workflow follow-up

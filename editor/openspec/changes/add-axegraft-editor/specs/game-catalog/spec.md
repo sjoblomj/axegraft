@@ -7,7 +7,7 @@ Defines the per-game data AxeGraft Editor reads: game content, engine behaviour 
 ## ADDED Requirements
 
 ### Requirement: One catalog per game
-The editor SHALL get everything specific to a game from that game's catalog, and SHALL offer one choice of game for each catalog present. Adding or replacing a catalog SHALL NOT need any other code change.
+The editor SHALL get everything specific to a game from that game's catalog, and SHALL offer one choice of game for each catalog present. Replacing a catalog SHALL NOT need any code change, and adding one SHALL need only registering it with the editor.
 
 #### Scenario: New catalog data
 - **WHEN** a catalog file is replaced with a more complete one in the same format
@@ -62,8 +62,8 @@ A catalog SHALL hold the original value of every editable property: each unit's 
 - **THEN** the editor can tell which of its values differ from the original, without any game file
 
 #### Scenario: Original value differs between versions
-- **WHEN** a property's original value differs between versions
-- **THEN** the catalog records each version's value, and the editor shows them
+- **WHEN** the original of a button set, a requirement record or a constant differs between versions
+- **THEN** the catalog records each version's value, and the editor shows them. A unit's fields have one original for every version.
 
 ### Requirement: Per-version availability in the catalog
 A catalog SHALL record which versions lack each button set, table entry and function, and for each constant whether each version has it, doesn't apply, or is unknown.

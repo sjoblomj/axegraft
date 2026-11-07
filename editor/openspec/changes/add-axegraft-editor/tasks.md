@@ -1,6 +1,6 @@
 # Tasks
 
-Work test-first: for each task, write the failing tests, then the code. Everything here works with sample catalogs. Complete catalogs come from the separate conversion change.
+Work test-first: for each task, write the failing tests, then the code. Everything here was built with sample catalogs. The complete catalogs, generated from the knowledge base, have since replaced them, and the fixtures in `test/fixtures/catalog-*.js` keep the samples' role in tests.
 
 ## 1. Skeleton and test harness
 
@@ -14,8 +14,8 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 
 - [x] 2.1 Implement `registerCatalog` and the catalog check, covering contents, internal references, per-version coverage, help texts and format versions, and verify a deliberately bad fixture fails each rule with a message naming the catalog and the problem, and that a missing `application` is accepted
 - [x] 2.2 Handle bad or missing catalogs at startup, and verify the "Bad catalog" scenario, with the valid game still editable
-- [x] 2.3 Write `catalog/sample-starcraft.js` by hand from `starcraft.md`, including a few units, a set several units share, a unit with no buttons, a table entry that isn't a unit, a set absent on older versions, every requirement type and one constant of each kind, and verify it passes the catalog check and its values match the reference document
-- [x] 2.4 Write `catalog/sample-warcraft2.js` by hand from `w2_exe.md`, with no requirements and with the `string` and `highlighted` button fields, and verify it passes the catalog check and its values match the reference document
+- [x] 2.3 (Since replaced by the generated `catalog/starcraft.js`.) Write `catalog/sample-starcraft.js` by hand from `starcraft.md`, including a few units, a set several units share, a unit with no buttons, a table entry that isn't a unit, a set absent on older versions, every requirement type and one constant of each kind, and verify it passes the catalog check and its values match the reference document
+- [x] 2.4 (Since replaced by the generated `catalog/warcraft2.js`.) Write `catalog/sample-warcraft2.js` by hand from `w2_exe.md`, with no requirements and with the `string` and `highlighted` button fields, and verify it passes the catalog check and its values match the reference document
 - [x] 2.5 Document the format in `docs/catalog-format.md`, and verify in a test that its example passes the catalog check
 
 ## 3. Mod validation
@@ -56,7 +56,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 
 - [x] 6.1 Build the Units tab with its fields for every table entry, combined name and ID controls and status function lists, and verify the "Unit fields", "Choosing by name or ID" and "Status functions by name" scenarios with DOM tests
 - [x] 6.2 Add the link from a unit to its assigned set, and verify the "Going to the assigned set" scenarios
-- [x] 6.3 Build the Button Sets tab's list with add, remove, reorder and clear, and verify the "Button list" scenarios
+- [x] 6.3 Build the Button Sets tab's list with add, remove and reorder, and verify the "Button list" scenarios
 - [x] 6.4 Build the button form from the catalog's button fields, and verify the "Button fields" and "Fields with a name and an ID" scenarios, including the Warcraft II fields
 - [x] 6.5 Make variable fields follow their function, and verify the "Variables follow their function" and "Variable omitted when unset" scenarios
 - [x] 6.6 Build the panel preview on the Button Sets tab and connect it to the button list, and verify the "Panel preview" scenarios, including creating a button and several buttons at one position
@@ -83,7 +83,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 - [x] 8.3 Implement GRP and TBL decoding, and verify with synthetic files, including out-of-range frames and offsets
 - [x] 8.4 Implement the import dialog for folders, archives and a single `stat_txt.tbl`, with progress, archive priority and a persistent cache, and verify the "Importing from game files", "Importing a string table", "Patched assets take priority" and "Assets remembered" scenarios with synthetic archives
 - [x] 8.5 Show icons and strings in the preview, icon picker and string fields, with placeholders, and warn about IDs beyond the loaded data, and verify the "Assets don't affect validity", "Icon choice" and "String text" scenarios
-- [x] 8.6 Run the importer against the real game files for StarCraft and Warcraft II through `AXEGRAFT_EDITOR_GAME_DIR`, work out the correct palette and archive list for each, record them in the sample catalogs' `assets`, and verify by eye that known icons have the right colours, and that any further compression method these files need is added
+- [x] 8.6 Run the importer against the real game files for StarCraft and Warcraft II through `AXEGRAFT_EDITOR_GAME_DIR`, work out the correct palette and archive list for each, record them in the catalogs' `assets`, and verify by eye that known icons have the right colours, and that any further compression method these files need is added
 - [x] 8.7 Verify in a browser that importing from a real StarCraft folder keeps the page responsive and leaves the game files unchanged, using checksums taken before and after
 - [x] 8.8 Add loading of shipped assets from `assets/<game>/`, and verify the "Assets are optional" scenarios with a synthetic asset folder, including with that folder deleted
 

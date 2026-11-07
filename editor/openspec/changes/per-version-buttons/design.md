@@ -4,7 +4,7 @@
 
 Requirement records already have a per-version original: `{ "default", "perVersion" }`, checked in `src/core/catalog.js` and read through `originalRecord` and `originalRecords` in `src/core/document.js`. The Requirements tab groups versions that share a record and shows one record per group.
 
-Button sets read `set.original` directly in three places in `document.js`: `effectiveButtons`, `setButtons` (which drops a set that matches its original), and the tidying done when a file is opened. The Button Sets tab's "copy from" takes the original from a blank document's `effectiveButtons`. `compat.js` looks only at sets a mod defines, so it needs no change: a set the mod leaves alone keeps each version's original.
+Button sets read `set.original` directly in three places in `document.js`: `effectiveButtons`, `setButtons` (which drops a set that matches its original), and the tidying done when a file is opened. `compat.js` looks only at sets a mod defines, so it needs no change: a set the mod leaves alone keeps each version's original.
 
 ## Goals / Non-Goals
 
@@ -24,11 +24,11 @@ Button sets read `set.original` directly in three places in `document.js`: `effe
 
 **Grouping shared with the Requirements tab.** The tab already groups consecutive versions with equal records. That grouping moves to a small helper that both tabs use, so the two show versions the same way.
 
-**"Copy original" asks for the version only when it matters.** For a set with one original, the control is the existing checkbox. For a set whose original differs, a version picker appears next to it, starting with the default. This keeps the common case unchanged.
+**Reverting removes the set.** Reverting a set whose original differs by version removes it from the mod, so each version keeps its own original, rather than asking which version's list to copy. An earlier draft offered a version picker for "copy original"; it went when the tab's set actions moved under the item list.
 
 **Ascending order applies to every game.** Both StarCraft and Warcraft II fill the command panel by walking a set's list together with the panel's positions, so the rule isn't a catalog setting. An earlier draft made it a `panel.ascending` flag; it was removed once the StarCraft executables showed the same fill loop. The check is a validation error, not a warning, because a list out of order makes the game's panel fill wrongly: its fill loop walks the list together with the panel's buttons. The sort is stable, so buttons sharing a position, such as the shield icons for each level, keep their order. The catalog check rejects original lists out of order, which catches extraction mistakes.
 
-**Sample catalog shows both.** `catalog/sample-warcraft2.js` lists the five versions with 2.02's lists as the default, gives the Goblin Zeppelin set (or another set that differs) its DOS list. The full catalog is generated elsewhere and replaces it later.
+**The Warcraft II catalog shows both.** The catalog generated from the knowledge base lists the five versions with 2.02's lists as the default, and gives the sets that differ their DOS lists. It replaced the hand-written sample catalog this change first updated; the test fixture `test/fixtures/catalog-warcraft2.js` keeps that role in tests.
 
 ## Risks / Trade-offs
 

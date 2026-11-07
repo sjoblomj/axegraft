@@ -49,13 +49,15 @@ Scripts are classic `<script>` tags that each add to one global, `AxeGraft`, bec
 
 ## Browsers checked
 
-On 2026-11-05 the whole test page was run, opened from disk and served by a static server, with the network cut off and every request logged. The results were the same in each, and no request left the machine:
+On 2026-11-08 the whole test page was run in headless Chromium, opened from disk and served by a static server, with no folders chosen:
 
 | Browser                        | From disk         | Served statically | Notes                                                                                                                               |
 | ------------------------------ | ----------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Chromium 156 (Linux)           | 382 of 382 passed | 382 of 382 passed | The editor and game folders were chosen, so the source tree and real game file tests ran too                                        |
-| Firefox 159 (Linux)            | 377 passed, 5 not checked | 377 passed, 5 not checked | The 5 not checked are the source tree and game file tests, whose folders couldn't be chosen by the automation; every other test passed |
+| Chromium 156 (Linux, headless) | 524 passed, 5 not checked | 524 passed, 5 not checked | The 5 not checked are the source tree and game file tests, whose folders weren't chosen; every other test passed |
+| Firefox 159 (Linux)            | Not re-run        | Not re-run        | On 2026-11-05, with 382 tests, every test passed but the 5 that need a folder                                                       |
 | Safari                         | Not checked       | Not checked       | No Safari was available                                                                                                             |
+
+On 2026-11-05 the page was also run with the network cut off and every request logged, and no request left the machine. That hasn't been repeated since.
 
 ### Checked by hand
 

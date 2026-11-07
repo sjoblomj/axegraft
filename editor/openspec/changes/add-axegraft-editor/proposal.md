@@ -13,11 +13,11 @@ AxeGraft Patcher applies mods written as JSON, but writing that JSON by hand mea
 - Show the original values, what the mod changes and, for each version, whether the mod would apply, be rejected or have constants skipped.
 - Show real icons and strings, from assets shipped with the editor or read from the user's own game MPQs in the browser. The editor stays fully usable without any of them.
 - Give each control in the tab panels a help text, shown from a `?` button beside it.
-- Define the catalog format the editor reads. A small hand-written sample catalog for each game lets the editor be built and tested.
+- Define the catalog format the editor reads. A small hand-written sample catalog for each game lets the editor be built and tested. (The complete catalogs, generated from the knowledge base, have since replaced the samples.)
 
 Out of scope:
 
-- Converting `starcraft.md` and `w2_exe.md` into complete catalogs, which is a separate prerequisite change for editing all game data. Until then, the editor marks sample catalogs clearly as incomplete.
+- Converting `starcraft.md` and `w2_exe.md` into complete catalogs, which is a separate prerequisite change for editing all game data. Until then, the editor marks sample catalogs clearly as incomplete. (That conversion is done: the knowledge base generates both catalogs.)
 - A native application wrapper. The editor must not rule one out, but the browser comes first.
 - Packing mods into MPQs, editing strings or icons, and running the game.
 - Support for older browsers.

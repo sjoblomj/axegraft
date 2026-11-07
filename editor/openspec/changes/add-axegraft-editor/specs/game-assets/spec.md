@@ -7,7 +7,7 @@ Defines how AxeGraft Editor shows real command icons and game strings, from asse
 ## ADDED Requirements
 
 ### Requirement: Assets are optional
-The repository MAY ship icons and strings, in a folder separate from the code. Every feature SHALL work without them, and deleting that folder SHALL need no other change. Imported assets SHALL take priority over shipped ones. The repository SHALL NOT contain whole game files or archives, and tests SHALL use synthetic data.
+The repository MAY ship icons and strings, in a folder separate from the code. Every feature SHALL work without them, and deleting that folder SHALL need no other change. Imported assets SHALL take priority over shipped ones. The repository SHALL NOT contain game executables or MPQ archives, and tests SHALL use synthetic data. Shipped strings MAY be a whole extracted string table.
 
 #### Scenario: No assets at all
 - **WHEN** the editor is opened with no shipped and no imported assets

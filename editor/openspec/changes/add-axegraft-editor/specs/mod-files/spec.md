@@ -159,7 +159,7 @@ Saving the same mod SHALL always produce identical bytes. Files SHALL be indente
 - **THEN** their files are byte-identical
 
 ### Requirement: Labels
-The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's name, as the editor shows it, so files are readable. When the user renames an item, the editor SHALL change the labels of that item's entries to the new name: a unit's entries in `units` and its unit requirement record, a set's entry in `button_sets`, an upgrade's or order's requirement record, both requirement records of a tech, and a constant's entry in `constants`. An entry of an item left with no name, such as an unnamed new set, SHALL have no label. The editor SHALL NOT read labels to name items. Labels SHALL NOT affect validation.
+The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's name, as the editor shows it, so files are readable. When the user renames an item, the editor SHALL change the labels of that item's entries to the new name: a unit's entries in `units` and its unit requirement record, a set's entry in `button_sets`, an upgrade's or order's requirement record, both requirement records of a tech, and a constant's entry in `constants`. An entry of an item left with no name, such as an unnamed new set, SHALL have no label. The editor SHALL NOT read entries' `label`s to name items; names the user gives come from the mod's `labels` object, as editor-navigation's "Item names" says. Neither SHALL make a mod invalid: a malformed `labels` object is only a warning.
 
 #### Scenario: Existing label
 - **WHEN** a file has an entry with a custom label, and the user edits that entry

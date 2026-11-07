@@ -10,7 +10,7 @@ The full Warcraft II catalog will cover the DOS versions (1.3, 1.33 and 1.5) as 
 - The editor compares, reverts and reports against each version's own original list. A set that a mod defines is kept in the mod unless it matches the original on every version.
 - The Button Sets tab shows the original list of each group of versions where they differ, as the Requirements tab already does for records.
 - The buttons of a set must be in ascending position order (equal positions allowed), in every game. A set that isn't is an error, with a way to sort it.
-- The format document describes both, and the Warcraft II sample catalog shows them: 2.02's lists are the default, the DOS versions are listed, and the sets that differ give them their own lists.
+- The format document describes both, and the Warcraft II catalog shows them: 2.02's lists are the default, the DOS versions are listed, and the sets that differ give them their own lists.
 - Supporting a version in the catalog doesn't mean AxeGraft Patcher supports it. The DOS versions are for editing only, and the compatibility report's existing note about this stays.
 
 ## Capabilities
@@ -31,5 +31,5 @@ These capabilities are defined in the in-progress change `add-axegraft-editor`, 
 - `src/core/document.js`: an original-buttons lookup by version, used where `set.original` is read now (`effectiveButtons`, `setButtons`, tidying on load).
 - `src/core/validate.js`: the position-order error.
 - `src/ui/buttonsets-tab.js`: per-version original display and a Sort by position action.
-- `docs/catalog-format.md`, `catalog/sample-warcraft2.js`, `test/fixtures/catalog-example.js` and tests.
+- `docs/catalog-format.md`, `catalog/warcraft2.js`, `test/fixtures/catalog-example.js` and tests.
 - Mods don't change: they never name a version, and the mod format stays at 1.

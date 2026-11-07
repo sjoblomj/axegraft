@@ -422,6 +422,36 @@
     })));
   }
 
+  // The original each of a set's buttons is compared with, as
+  // [{ original, unchanged }] in list order. A button that equals an original
+  // button on any version is unchanged. Any other is paired by position with
+  // the default version's original: the k-th button at a position with the
+  // k-th original button there, or null when the original has no k-th
+  // button there, which makes it a new button.
+  function pairedOriginals(cat, id, buttons) {
+    var pos = cat.buttonKind.position.name;
+    var byVersion = originalButtonsByVersion(cat, id) || {};
+    var all = [];
+    Object.keys(byVersion).forEach(function (v) {
+      (byVersion[v] || []).forEach(function (o) {
+        all.push(o);
+      });
+    });
+    var defaults = originalButtons(cat, id, null) || [];
+    var seen = {};
+    return buttons.map(function (b) {
+      var p = isObject(b) ? b[pos] : undefined;
+      var k = (seen[p] = (seen[p] || 0) + 1) - 1;
+      var atPos = defaults.filter(function (o) {
+        return isObject(o) && o[pos] === p;
+      });
+      var unchanged = isObject(b) && all.some(function (o) {
+        return sameButtons(cat, [b], [o]);
+      });
+      return { original: atPos[k] || null, unchanged: unchanged };
+    });
+  }
+
   // Lines up several lists of buttons side by side, keeping each list's
   // order, for showing how they differ. Equal buttons share a row; a button
   // that differs but has the same position as one in another list shares
@@ -987,6 +1017,7 @@
     dropInList: dropInList,
     alignButtons: alignButtons,
     sameButtons: sameButtons,
+    pairedOriginals: pairedOriginals,
     revertSet: revertSet,
     nextNewSet: nextNewSet,
     addSet: addSet,

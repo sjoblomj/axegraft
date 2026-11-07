@@ -15,7 +15,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 **Goals:**
 - Anyone with a browser can run, read and change the app, with nothing to install or build.
 - Everything that decides whether a mod is correct is plain logic with no DOM, tested without a browser UI.
-- Replacing a sample catalog with a complete one needs no code change.
+- Replacing a catalog with a complete one needs no code change. Adding a game only needs the catalog registered.
 
 **Non-Goals:**
 - Supporting catalogs that aren't in the documented format, or reading the reference documents directly.

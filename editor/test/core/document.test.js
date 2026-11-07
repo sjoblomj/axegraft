@@ -218,6 +218,20 @@
     T.equal(r.index, 2);
   });
 
+  T.test("paired originals: a button equal to an original is unchanged, and others pair by position", function () {
+    var cat = T.catalog("starcraft");
+    var orig = cat.sets.get(0).original;
+    var added = Object.assign({}, orig[0], { position: 2, icon: 99 });
+    var changed = Object.assign({}, orig[1], { icon: 5 });
+    var p = D.pairedOriginals(cat, 0, [orig[0], added, changed]);
+    T.equal(p.map(function (x) {
+      return x.unchanged;
+    }), [true, false, false]);
+    T.ok(p[0].original === orig[0], "the first pairs with the original at position 1");
+    T.equal(p[1].original, null, "nothing is originally at position 2, so it's new");
+    T.ok(p[2].original === orig[1], "the changed one pairs with the original at its position, not its index");
+  });
+
   T.test("moving buttons: StarCraft keeps ascending positions too", function () {
     var cat = T.catalog("starcraft");
     var b = function (p) {

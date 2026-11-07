@@ -17,7 +17,7 @@ A drop in the list SHALL keep the buttons in ascending position order, and SHALL
 
 #### Scenario: Adding a button
 - **WHEN** a user adds a button
-- **THEN** it starts with valid default values that the user can change
+- **THEN** it starts at the first unused position, with every icon, string and variable 0, and the first condition and action that read no variable, which the user can change
 
 #### Scenario: Dragging in the list
 - **WHEN** in StarCraft a set's buttons are at positions 1 and 7, and a user drags the second above the first
@@ -34,6 +34,17 @@ A drop in the list SHALL keep the buttons in ascending position order, and SHALL
 #### Scenario: Dropping between buttons in the list
 - **WHEN** in Warcraft II a set's buttons are at positions 0, 1, 2 and 4, and a user drags the last between the first two
 - **THEN** while dragging, the space is marked and the buttons at 1 and 2 are outlined, and after the drop the buttons are at 0, 1, 2 and 3, the dragged one at 1
+
+### Requirement: Changed buttons
+In a set the mod defines, a button that equals an original button on any version SHALL be shown as unchanged, in the list and in its form. Any other button SHALL be marked as changed in the list, and its form SHALL compare each field with the original button it's paired with by position: the k-th button at a position with the default version's k-th original button there. A field that differs SHALL be marked, and its tooltip SHALL show the paired original's value. A button with no paired original is new, and every field it has SHALL be marked.
+
+#### Scenario: Inserting a button
+- **WHEN** a StarCraft set's buttons are at positions 1 and 7, and a user adds a button at position 2
+- **THEN** only the new button is marked as changed, in the list and in the form, and the button at 7 has no marked fields
+
+#### Scenario: Changing one field
+- **WHEN** a user changes the icon of the button at position 7
+- **THEN** that button is marked in the list, and only its icon field is marked in the form, with the original icon in the tooltip
 
 ### Requirement: Button fields
 The form SHALL show every button field the catalog lists for the game, including position, icon, strings, condition and its variable, and action and its variable.
