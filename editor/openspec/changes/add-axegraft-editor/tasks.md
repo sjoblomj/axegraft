@@ -55,7 +55,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 ## 6. Units and button sets
 
 - [x] 6.1 Build the Units tab with its fields for every table entry, combined name and ID controls and status function lists, and verify the "Unit fields", "Choosing by name or ID" and "Status functions by name" scenarios with DOM tests
-- [x] 6.2 Add the link from a unit to its assigned set, and giving a unit its own set, and verify the "Going to the assigned set" and "Giving a unit its own set" scenarios
+- [x] 6.2 Add the link from a unit to its assigned set, and verify the "Going to the assigned set" scenarios
 - [x] 6.3 Build the Button Sets tab's list with add, remove, reorder and clear, and verify the "Button list" scenarios
 - [x] 6.4 Build the button form from the catalog's button fields, and verify the "Button fields" and "Fields with a name and an ID" scenarios, including the Warcraft II fields
 - [x] 6.5 Make variable fields follow their function, and verify the "Variables follow their function" and "Variable omitted when unset" scenarios

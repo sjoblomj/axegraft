@@ -290,26 +290,6 @@
     });
   }, { dom: true });
 
-  T.test("giving a unit its own set: the Firebat gets set 250 with set 0's current buttons, and the others are unchanged", function (ctx) {
-    return start(ctx).then(function (app) {
-      var current = [{ position: 1, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 1, disabled_string: 0 }];
-      app.edit(function (d) {
-        return D.setButtons(d, app.cat(), 0, current);
-      });
-      app.select("units", "unit:32");
-      U.q(app, '[data-action="own-set"]').click();
-      var doc = app.doc();
-      T.equal(doc.button_sets.filter(function (s) {
-        return s.id === 250;
-      })[0].buttons, current);
-      T.equal(doc.units, [{ id: 32, label: "Terran Firebat", button_set: 250 }]);
-      [0, 10, 20].forEach(function (u) {
-        T.equal(D.effectiveUnit(doc, app.cat(), u).button_set.value, 0);
-      });
-      T.equal(app.errors(), []);
-    });
-  }, { dom: true });
-
   // ---- Button sets: 6.3
 
   T.test("button list: an added button starts with valid default values", function (ctx) {
@@ -739,8 +719,10 @@
 
   T.test("new sets: removing a set still in use leaves an error on the entry until it gets another set", function (ctx) {
     return start(ctx).then(function (app) {
-      app.select("units", "unit:32");
-      U.q(app, '[data-action="own-set"]').click();
+      app.edit(function (d) {
+        var added = D.addSet(d, app.cat());
+        return D.setUnitField(added.doc, app.cat(), 32, "button_set", added.id);
+      });
       app.select("button_sets", "set:250");
       U.q(app, '[data-action="remove-set"]').click();
       T.equal(app.doc().button_sets, undefined);

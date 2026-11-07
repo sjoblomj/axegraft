@@ -700,14 +700,6 @@
     return { doc: withPart(doc, "button_sets", list), id: id };
   }
 
-  // Gives a table entry its own copy of its current set.
-  function separateUnit(doc, cat, unitId) {
-    var current = effectiveUnit(doc, cat, unitId)[cat.unitKind.buttonSet.name].value;
-    var buttons = isInt(current) ? effectiveButtons(doc, cat, current).buttons : [];
-    var added = addSet(doc, cat, null, buttons);
-    return { doc: setUnitField(added.doc, cat, unitId, cat.unitKind.buttonSet.name, added.id), id: added.id };
-  }
-
   // ---- Requirements
 
   function originalRecord(cat, type, id, version) {
@@ -1000,7 +992,6 @@
     revertSet: revertSet,
     nextNewSet: nextNewSet,
     addSet: addSet,
-    separateUnit: separateUnit,
     tidyButton: tidyButton,
     originalRecord: originalRecord,
     originalRecords: originalRecords,

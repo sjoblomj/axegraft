@@ -16,7 +16,6 @@
     techShared: "A tech has one name, shared by its research and use requirements.",
     revertItem: "Removes every change this mod makes to this item, so it's as in the original game.",
     goToSet: "Opens the Button Sets tab on the set this entry shows, as the mod currently assigns it.",
-    ownSet: "Gives this entry its own copy of its current set, as a new set, so its buttons can change without changing other entries that share the set.",
     idInput: "Type an ID. Any ID within the field's range is accepted, even one with no name in the catalog.",
     nameSelect: "Choose by name. The list and the ID box stay in step.",
     noButtons: "Shows no buttons. The mod saves the button set as null.",

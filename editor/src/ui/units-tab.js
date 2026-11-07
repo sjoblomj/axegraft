@@ -115,19 +115,6 @@
             )
           );
         }
-        extra.push(
-          F.withHelp(
-            h("button", { type: "button", class: "small", dataset: { action: "own-set" }, disabled: D.nextNewSet(doc, cat) === null, onclick: function () {
-              var made = null;
-              app.edit(function (d) {
-                made = D.separateUnit(d, cat, id);
-                return made.doc;
-              });
-              if (made) app.select("units", key);
-            } }, "Give it its own set"),
-            help.text("ownSet")
-          )
-        );
       } else if (f.kind === "statusChanged" || f.kind === "statusUpdate") {
         controls = [F.select(functionOptions(cat, f.kind), e.value, set, { class: "ctl wide", "aria-label": f.label })];
         var fnOrig = e.hasOriginal ? cat.functions[f.kind].get(e.original) : null;

@@ -377,7 +377,7 @@
     T.equal(D.effectiveUnit(D.create("starcraft"), cat, 238).button_set.value, 238);
   });
 
-  T.test("document: new sets take the lowest unused ID, and a unit can get its own copy", function () {
+  T.test("document: new sets take the lowest unused ID", function () {
     var cat = sc();
     var a = D.addSet(D.create("starcraft"), cat);
     T.equal(a.id, 250);
@@ -386,12 +386,6 @@
     T.equal(b.id, 251);
     var c = D.addSet(D.revertSet(b.doc, cat, 250), cat);
     T.equal(c.id, 250, "a freed ID is used again");
-
-    var own = D.separateUnit(D.create("starcraft"), cat, 32);
-    T.equal(own.id, 250);
-    T.equal(own.doc.button_sets, [{ id: 250, buttons: cat.sets.get(0).original }]);
-    T.equal(own.doc.units, [{ id: 32, label: "Terran Firebat", button_set: 250 }]);
-    T.equal(D.effectiveUnit(own.doc, cat, 0).button_set.value, 0, "the other units on set 0 are unchanged");
   });
 
   T.test("document: removing an entry by its path", function () {
