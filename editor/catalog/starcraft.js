@@ -3703,8 +3703,8 @@ AxeGraft.registerCatalog({
   "buttonSets": [
     {
       "id": 0,
-      "name": "Marine and Firebat",
-      "tree": ["Terran"],
+      "name": "Marine, Firebat and Heroes",
+      "tree": ["Terran", "Misc"],
       "entries": [0, 10, 20, 32],
       "original": [
         {
@@ -3761,7 +3761,7 @@ AxeGraft.registerCatalog({
     {
       "id": 1,
       "name": "Ghost",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Ground Units"],
       "entries": [1],
       "original": [
         {
@@ -3846,7 +3846,7 @@ AxeGraft.registerCatalog({
     {
       "id": 2,
       "name": "Vulture",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Ground Units"],
       "entries": [2],
       "original": [
         {
@@ -3904,7 +3904,7 @@ AxeGraft.registerCatalog({
     {
       "id": 3,
       "name": "Combat unit",
-      "tree": ["Terran"],
+      "tree": ["Misc"],
       "entries": [
         3,
         15,
@@ -3983,8 +3983,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 5,
-      "name": "Siege Tank",
-      "tree": ["Terran"],
+      "name": "Siege Tank and Heroes",
+      "tree": ["Terran", "Misc"],
       "entries": [5, 23, 25, 30],
       "original": [
         {
@@ -4051,7 +4051,7 @@ AxeGraft.registerCatalog({
     {
       "id": 7,
       "name": "SCV",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Ground Units"],
       "entries": [7],
       "original": [
         {
@@ -4132,8 +4132,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 8,
-      "name": "Wraith",
-      "tree": ["Terran"],
+      "name": "Wraith and Heroes",
+      "tree": ["Terran", "Misc"],
       "entries": [8, 21],
       "original": [
         {
@@ -4199,8 +4199,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 9,
-      "name": "Science Vessel",
-      "tree": ["Terran"],
+      "name": "Science Vessel and Heroes",
+      "tree": ["Terran", "Misc"],
       "entries": [9, 22],
       "original": [
         {
@@ -4278,7 +4278,7 @@ AxeGraft.registerCatalog({
     {
       "id": 11,
       "name": "Transport",
-      "tree": ["Terran"],
+      "tree": ["Misc"],
       "entries": [11, 42, 57, 69],
       "original": [
         {
@@ -4341,8 +4341,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 12,
-      "name": "Battlecruiser",
-      "tree": ["Terran"],
+      "name": "Battlecruiser and Heroes",
+      "tree": ["Terran", "Misc"],
       "entries": [12, 28, 29, 102],
       "original": [
         {
@@ -4400,7 +4400,7 @@ AxeGraft.registerCatalog({
     {
       "id": 16,
       "name": "Kerrigan, Duran and Stukov",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Heroes"],
       "entries": [16, 99, 100],
       "original": [
         {
@@ -4477,7 +4477,7 @@ AxeGraft.registerCatalog({
     {
       "id": 19,
       "name": "Jim Raynor (Vulture)",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Heroes"],
       "entries": [19],
       "original": [
         {
@@ -4535,7 +4535,7 @@ AxeGraft.registerCatalog({
     {
       "id": 34,
       "name": "Medic",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Ground Units"],
       "entries": [34],
       "original": [
         {
@@ -4605,7 +4605,7 @@ AxeGraft.registerCatalog({
     {
       "id": 35,
       "name": "Larva",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Special"],
       "entries": [35],
       "original": [
         {
@@ -4703,7 +4703,7 @@ AxeGraft.registerCatalog({
     {
       "id": 36,
       "name": "Egg and Cocoon",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Special"],
       "entries": [36, 59, 97],
       "original": [
         {
@@ -4719,7 +4719,7 @@ AxeGraft.registerCatalog({
     {
       "id": 37,
       "name": "Zergling, heroes and mixed burrowers",
-      "tree": ["Zerg"],
+      "tree": ["Misc"],
       "entries": [37, 53, 54, 247],
       "original": [
         {
@@ -4786,7 +4786,7 @@ AxeGraft.registerCatalog({
     {
       "id": 38,
       "name": "Hydralisk",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Ground Units"],
       "entries": [38],
       "original": [
         {
@@ -4863,7 +4863,7 @@ AxeGraft.registerCatalog({
     {
       "id": 41,
       "name": "Drone",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Ground Units"],
       "entries": [41],
       "original": [
         {
@@ -4948,7 +4948,7 @@ AxeGraft.registerCatalog({
     {
       "id": 43,
       "name": "Mutalisk",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Air Units"],
       "entries": [43],
       "original": [
         {
@@ -5015,8 +5015,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 45,
-      "name": "Queen",
-      "tree": ["Zerg"],
+      "name": "Queen and Heroes",
+      "tree": ["Zerg", "Misc"],
       "entries": [45, 49],
       "original": [
         {
@@ -5103,8 +5103,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 46,
-      "name": "Defiler",
-      "tree": ["Zerg"],
+      "name": "Defiler and Heroes",
+      "tree": ["Zerg", "Misc"],
       "entries": [46, 52],
       "original": [
         {
@@ -5193,7 +5193,7 @@ AxeGraft.registerCatalog({
     {
       "id": 50,
       "name": "Infested Terran",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Ground Units"],
       "entries": [50],
       "original": [
         {
@@ -5260,7 +5260,7 @@ AxeGraft.registerCatalog({
     {
       "id": 51,
       "name": "Infested Kerrigan",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Heroes"],
       "entries": [51],
       "original": [
         {
@@ -5357,8 +5357,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 60,
-      "name": "Corsair",
-      "tree": ["Protoss"],
+      "name": "Corsair and Heroes",
+      "tree": ["Protoss", "Misc"],
       "entries": [60, 98],
       "original": [
         {
@@ -5416,7 +5416,7 @@ AxeGraft.registerCatalog({
     {
       "id": 61,
       "name": "Dark Templar",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Ground Units"],
       "entries": [61],
       "original": [
         {
@@ -5484,7 +5484,7 @@ AxeGraft.registerCatalog({
     {
       "id": 63,
       "name": "Dark Archon",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Ground Units"],
       "entries": [63],
       "original": [
         {
@@ -5554,7 +5554,7 @@ AxeGraft.registerCatalog({
     {
       "id": 64,
       "name": "Probe",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Ground Units"],
       "entries": [64],
       "original": [
         {
@@ -5620,7 +5620,7 @@ AxeGraft.registerCatalog({
     {
       "id": 67,
       "name": "High Templar",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Ground Units"],
       "entries": [67],
       "original": [
         {
@@ -5699,8 +5699,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 71,
-      "name": "Arbiter",
-      "tree": ["Protoss"],
+      "name": "Arbiter and Heroes",
+      "tree": ["Protoss", "Misc"],
       "entries": [71, 86],
       "original": [
         {
@@ -5767,8 +5767,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 72,
-      "name": "Carrier",
-      "tree": ["Protoss"],
+      "name": "Carrier and Heroes",
+      "tree": ["Protoss", "Misc"],
       "entries": [72, 82],
       "original": [
         {
@@ -5835,7 +5835,7 @@ AxeGraft.registerCatalog({
     {
       "id": 79,
       "name": "Tassadar and Aldaris",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Heroes"],
       "entries": [79, 87],
       "original": [
         {
@@ -5902,8 +5902,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 81,
-      "name": "Reaver",
-      "tree": ["Protoss"],
+      "name": "Reaver and Heroes",
+      "tree": ["Protoss", "Misc"],
       "entries": [81, 83],
       "original": [
         {
@@ -5970,7 +5970,7 @@ AxeGraft.registerCatalog({
     {
       "id": 103,
       "name": "Lurker",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Ground Units"],
       "entries": [103],
       "original": [
         {
@@ -6038,7 +6038,7 @@ AxeGraft.registerCatalog({
     {
       "id": 104,
       "name": "Infested Duran",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Heroes"],
       "entries": [104],
       "original": [
         {
@@ -6126,7 +6126,7 @@ AxeGraft.registerCatalog({
     {
       "id": 106,
       "name": "Command Center",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [106],
       "original": [
         {
@@ -6222,7 +6222,7 @@ AxeGraft.registerCatalog({
     {
       "id": 107,
       "name": "Comsat Station",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [107],
       "original": [
         {
@@ -6240,7 +6240,7 @@ AxeGraft.registerCatalog({
     {
       "id": 108,
       "name": "Nuclear Silo",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [108],
       "original": [
         {
@@ -6267,7 +6267,7 @@ AxeGraft.registerCatalog({
     {
       "id": 111,
       "name": "Barracks",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [111],
       "original": [
         {
@@ -6373,7 +6373,7 @@ AxeGraft.registerCatalog({
     {
       "id": 112,
       "name": "Academy",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [112],
       "original": [
         {
@@ -6447,7 +6447,7 @@ AxeGraft.registerCatalog({
     {
       "id": 113,
       "name": "Factory",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [113],
       "original": [
         {
@@ -6561,7 +6561,7 @@ AxeGraft.registerCatalog({
     {
       "id": 114,
       "name": "Starport",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [114],
       "original": [
         {
@@ -6687,7 +6687,7 @@ AxeGraft.registerCatalog({
     {
       "id": 115,
       "name": "Control Tower",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [115],
       "original": [
         {
@@ -6731,7 +6731,7 @@ AxeGraft.registerCatalog({
     {
       "id": 116,
       "name": "Science Facility",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [116],
       "original": [
         {
@@ -6846,7 +6846,7 @@ AxeGraft.registerCatalog({
     {
       "id": 117,
       "name": "Covert Ops",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [117],
       "original": [
         {
@@ -6910,7 +6910,7 @@ AxeGraft.registerCatalog({
     {
       "id": 118,
       "name": "Physics Lab",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [118],
       "original": [
         {
@@ -6954,7 +6954,7 @@ AxeGraft.registerCatalog({
     {
       "id": 120,
       "name": "Machine Shop",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [120],
       "original": [
         {
@@ -7018,7 +7018,7 @@ AxeGraft.registerCatalog({
     {
       "id": 122,
       "name": "Engineering Bay",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [122],
       "original": [
         {
@@ -7087,7 +7087,7 @@ AxeGraft.registerCatalog({
     {
       "id": 123,
       "name": "Armory",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [123],
       "original": [
         {
@@ -7142,8 +7142,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 124,
-      "name": "Tower",
-      "tree": ["Terran"],
+      "name": "Towers",
+      "tree": ["Misc"],
       "entries": [124, 144, 146, 162],
       "original": [
         {
@@ -7167,7 +7167,7 @@ AxeGraft.registerCatalog({
     {
       "id": 125,
       "name": "Bunker",
-      "tree": ["Terran"],
+      "tree": ["Terran", "Buildings"],
       "entries": [125],
       "original": [
         {
@@ -7191,7 +7191,7 @@ AxeGraft.registerCatalog({
     {
       "id": 130,
       "name": "Infested Command Center",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Special Buildings"],
       "entries": [130],
       "original": [
         {
@@ -7259,7 +7259,7 @@ AxeGraft.registerCatalog({
     {
       "id": 131,
       "name": "Hatchery",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [131],
       "original": [
         {
@@ -7311,7 +7311,7 @@ AxeGraft.registerCatalog({
     {
       "id": 132,
       "name": "Lair",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [132],
       "original": [
         {
@@ -7401,7 +7401,7 @@ AxeGraft.registerCatalog({
     {
       "id": 133,
       "name": "Hive",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [133],
       "original": [
         {
@@ -7481,7 +7481,7 @@ AxeGraft.registerCatalog({
     {
       "id": 134,
       "name": "Nydus Canal",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [134],
       "original": [
         {
@@ -7499,7 +7499,7 @@ AxeGraft.registerCatalog({
     {
       "id": 135,
       "name": "Hydralisk Den",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [135],
       "original": [
         {
@@ -7553,7 +7553,7 @@ AxeGraft.registerCatalog({
     {
       "id": 136,
       "name": "Defiler Mound",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [136],
       "original": [
         {
@@ -7607,7 +7607,7 @@ AxeGraft.registerCatalog({
     {
       "id": 137,
       "name": "Greater Spire",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [137],
       "original": [
         {
@@ -7643,7 +7643,7 @@ AxeGraft.registerCatalog({
     {
       "id": 138,
       "name": "Queen's Nest",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [138],
       "original": [
         {
@@ -7697,7 +7697,7 @@ AxeGraft.registerCatalog({
     {
       "id": 139,
       "name": "Evolution Chamber",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [139],
       "original": [
         {
@@ -7743,7 +7743,7 @@ AxeGraft.registerCatalog({
     {
       "id": 140,
       "name": "Ultralisk Cavern",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [140],
       "original": [
         {
@@ -7779,7 +7779,7 @@ AxeGraft.registerCatalog({
     {
       "id": 141,
       "name": "Spire",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [141],
       "original": [
         {
@@ -7825,7 +7825,7 @@ AxeGraft.registerCatalog({
     {
       "id": 142,
       "name": "Spawning Pool",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [142],
       "original": [
         {
@@ -7861,7 +7861,7 @@ AxeGraft.registerCatalog({
     {
       "id": 143,
       "name": "Creep Colony",
-      "tree": ["Zerg"],
+      "tree": ["Zerg", "Buildings"],
       "entries": [143],
       "original": [
         {
@@ -7889,7 +7889,7 @@ AxeGraft.registerCatalog({
     {
       "id": 154,
       "name": "Nexus",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [154],
       "original": [
         {
@@ -7924,7 +7924,7 @@ AxeGraft.registerCatalog({
     {
       "id": 155,
       "name": "Robotics Facility",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [155],
       "original": [
         {
@@ -7979,7 +7979,7 @@ AxeGraft.registerCatalog({
     {
       "id": 159,
       "name": "Observatory",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [159],
       "original": [
         {
@@ -8015,7 +8015,7 @@ AxeGraft.registerCatalog({
     {
       "id": 160,
       "name": "Gateway",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [160],
       "original": [
         {
@@ -8080,7 +8080,7 @@ AxeGraft.registerCatalog({
     {
       "id": 163,
       "name": "Citadel of Adun",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [163],
       "original": [
         {
@@ -8106,7 +8106,7 @@ AxeGraft.registerCatalog({
     {
       "id": 164,
       "name": "Cybernetics Core",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [164],
       "original": [
         {
@@ -8152,7 +8152,7 @@ AxeGraft.registerCatalog({
     {
       "id": 165,
       "name": "Templar Archives",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [165],
       "original": [
         {
@@ -8236,7 +8236,7 @@ AxeGraft.registerCatalog({
     {
       "id": 166,
       "name": "Forge",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [166],
       "original": [
         {
@@ -8282,7 +8282,7 @@ AxeGraft.registerCatalog({
     {
       "id": 167,
       "name": "Stargate",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [167],
       "original": [
         {
@@ -8347,7 +8347,7 @@ AxeGraft.registerCatalog({
     {
       "id": 169,
       "name": "Fleet Beacon",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [169],
       "original": [
         {
@@ -8421,7 +8421,7 @@ AxeGraft.registerCatalog({
     {
       "id": 170,
       "name": "Arbiter Tribunal",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [170],
       "original": [
         {
@@ -8475,7 +8475,7 @@ AxeGraft.registerCatalog({
     {
       "id": 171,
       "name": "Robotics Support Bay",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [171],
       "original": [
         {
@@ -8521,7 +8521,7 @@ AxeGraft.registerCatalog({
     {
       "id": 172,
       "name": "Shield Battery",
-      "tree": ["Protoss"],
+      "tree": ["Protoss", "Buildings"],
       "entries": [172],
       "original": [
         {
@@ -8537,7 +8537,7 @@ AxeGraft.registerCatalog({
     {
       "id": 197,
       "name": "Flag Beacon",
-      "tree": ["Neutral"],
+      "tree": ["Neutral", "Start Locations and Beacons"],
       "entries": [197, 198, 199],
       "original": [
         {
@@ -8553,7 +8553,7 @@ AxeGraft.registerCatalog({
     {
       "id": 229,
       "name": "Cancel targeting",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [229],
       "original": [
         {
@@ -8569,7 +8569,7 @@ AxeGraft.registerCatalog({
     {
       "id": 230,
       "name": "Cancel placing a building",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [230],
       "original": [
         {
@@ -8585,7 +8585,7 @@ AxeGraft.registerCatalog({
     {
       "id": 231,
       "name": "Cancel construction",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [231],
       "original": [
         {
@@ -8601,7 +8601,7 @@ AxeGraft.registerCatalog({
     {
       "id": 232,
       "name": "Cancel construction, with rally point",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [232],
       "absentOn": ["1.05", "1.06", "1.07", "1.08", "1.08b", "1.09", "1.09b", "1.10", "1.11", "1.11b"],
       "original": [
@@ -8626,7 +8626,7 @@ AxeGraft.registerCatalog({
     {
       "id": 233,
       "name": "Cancel Zerg mutation",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [233],
       "original": [
         {
@@ -8642,7 +8642,7 @@ AxeGraft.registerCatalog({
     {
       "id": 234,
       "name": "Cancel Zerg mutation, with rally point",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [234],
       "absentOn": ["1.05", "1.06", "1.07", "1.08", "1.08b", "1.09", "1.09b", "1.10", "1.11", "1.11b"],
       "original": [
@@ -8667,7 +8667,7 @@ AxeGraft.registerCatalog({
     {
       "id": 235,
       "name": "Cancel infestation",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [235],
       "original": [
         {
@@ -8683,7 +8683,7 @@ AxeGraft.registerCatalog({
     {
       "id": 236,
       "name": "Hatchery, Lair or Hive mutating",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [236],
       "original": [
         {
@@ -8715,7 +8715,7 @@ AxeGraft.registerCatalog({
     {
       "id": 237,
       "name": "Cancel nuke",
-      "tree": ["Other"],
+      "tree": ["Other", "Cancel"],
       "entries": [237],
       "original": [
         {
@@ -8731,7 +8731,7 @@ AxeGraft.registerCatalog({
     {
       "id": 238,
       "name": "basic mutations",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [238],
       "original": [
         {
@@ -8808,7 +8808,7 @@ AxeGraft.registerCatalog({
     {
       "id": 239,
       "name": "basic buildings",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [239],
       "original": [
         {
@@ -8905,7 +8905,7 @@ AxeGraft.registerCatalog({
     {
       "id": 240,
       "name": "basic buildings",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [240],
       "original": [
         {
@@ -9002,7 +9002,7 @@ AxeGraft.registerCatalog({
     {
       "id": 241,
       "name": "advanced mutations",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [241],
       "original": [
         {
@@ -9069,7 +9069,7 @@ AxeGraft.registerCatalog({
     {
       "id": 242,
       "name": "advanced buildings",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [242],
       "original": [
         {
@@ -9126,7 +9126,7 @@ AxeGraft.registerCatalog({
     {
       "id": 243,
       "name": "advanced buildings",
-      "tree": ["Other"],
+      "tree": ["Other", "Worker Build Menus"],
       "entries": [243],
       "original": [
         {
@@ -9223,7 +9223,7 @@ AxeGraft.registerCatalog({
     {
       "id": 244,
       "name": "Mixed group",
-      "tree": ["Other"],
+      "tree": ["Other", "Mixed Groups"],
       "entries": [244],
       "original": [
         {
@@ -9271,7 +9271,7 @@ AxeGraft.registerCatalog({
     {
       "id": 245,
       "name": "Mixed group of workers",
-      "tree": ["Other"],
+      "tree": ["Other", "Mixed Groups"],
       "entries": [245],
       "original": [
         {
@@ -9319,7 +9319,7 @@ AxeGraft.registerCatalog({
     {
       "id": 246,
       "name": "Mixed group of cloakable units",
-      "tree": ["Other"],
+      "tree": ["Other", "Mixed Groups"],
       "entries": [246],
       "original": [
         {
@@ -9383,7 +9383,7 @@ AxeGraft.registerCatalog({
     {
       "id": 248,
       "name": "Replay, paused",
-      "tree": ["Other"],
+      "tree": ["Other", "Replay"],
       "entries": [248],
       "absentOn": ["1.05", "1.06", "1.07"],
       "original": [
@@ -9416,7 +9416,7 @@ AxeGraft.registerCatalog({
     {
       "id": 249,
       "name": "Replay, playing",
-      "tree": ["Other"],
+      "tree": ["Other", "Replay"],
       "entries": [249],
       "absentOn": ["1.05", "1.06", "1.07"],
       "original": [

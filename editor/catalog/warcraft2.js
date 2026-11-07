@@ -2284,8 +2284,8 @@ AxeGraft.registerCatalog({
   "buttonSets": [
     {
       "id": 0,
-      "name": "Footman",
-      "tree": ["Human"],
+      "name": "Human combat units",
+      "tree": ["Misc"],
       "entries": [0, 4, 22, 36, 42, 46],
       "original": [
         {
@@ -2378,8 +2378,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 1,
-      "name": "Grunt",
-      "tree": ["Orc"],
+      "name": "Orc combat units",
+      "tree": ["Misc"],
       "entries": [1, 5, 25, 35, 37, 43, 47, 55, 56],
       "original": [
         {
@@ -2473,7 +2473,7 @@ AxeGraft.registerCatalog({
     {
       "id": 2,
       "name": "Peasant",
-      "tree": ["Human"],
+      "tree": ["Human", "Land Units"],
       "entries": [2],
       "original": [
         {
@@ -2547,7 +2547,7 @@ AxeGraft.registerCatalog({
     {
       "id": 3,
       "name": "Peon",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Land Units"],
       "entries": [3],
       "original": [
         {
@@ -2621,7 +2621,7 @@ AxeGraft.registerCatalog({
     {
       "id": 6,
       "name": "Knight",
-      "tree": ["Human"],
+      "tree": ["Human", "Land Units"],
       "entries": [6],
       "original": [
         {
@@ -2707,7 +2707,7 @@ AxeGraft.registerCatalog({
     {
       "id": 7,
       "name": "Ogre",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Land Units"],
       "entries": [7],
       "original": [
         {
@@ -2792,8 +2792,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 8,
-      "name": "Elven Archer",
-      "tree": ["Human"],
+      "name": "Archer and Heroes",
+      "tree": ["Human", "Misc"],
       "entries": [8, 18, 20],
       "original": [
         {
@@ -2878,8 +2878,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 9,
-      "name": "Troll Axethrower",
-      "tree": ["Orc"],
+      "name": "Axethrower and Heroes",
+      "tree": ["Orc", "Misc"],
       "entries": [9, 19, 53],
       "original": [
         {
@@ -2964,8 +2964,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 10,
-      "name": "Mage",
-      "tree": ["Human"],
+      "name": "Mage and Heroes",
+      "tree": ["Human", "Misc"],
       "entries": [10, 24],
       "original": [
         {
@@ -3056,8 +3056,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 11,
-      "name": "Death Knight",
-      "tree": ["Orc"],
+      "name": "Death Knight and Heroes",
+      "tree": ["Orc", "Misc"],
       "entries": [11, 21, 51],
       "original": {
         "default": [
@@ -3410,8 +3410,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 12,
-      "name": "Paladin",
-      "tree": ["Human"],
+      "name": "Paladin and Heroes",
+      "tree": ["Human", "Misc"],
       "entries": [12, 44, 50, 52],
       "original": [
         {
@@ -3526,8 +3526,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 13,
-      "name": "Ogre-Mage",
-      "tree": ["Orc"],
+      "name": "Ogre-Mage and Heroes",
+      "tree": ["Orc", "Misc"],
       "entries": [13, 23],
       "original": [
         {
@@ -3643,7 +3643,7 @@ AxeGraft.registerCatalog({
     {
       "id": 14,
       "name": "Dwarven Demolition Squad",
-      "tree": ["Human"],
+      "tree": ["Human", "Land Units"],
       "entries": [14],
       "original": {
         "default": [
@@ -3949,7 +3949,7 @@ AxeGraft.registerCatalog({
     {
       "id": 15,
       "name": "Goblin Sappers",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Land Units"],
       "entries": [15],
       "original": {
         "default": [
@@ -4255,7 +4255,7 @@ AxeGraft.registerCatalog({
     {
       "id": 16,
       "name": "Attack Peasant",
-      "tree": ["Human"],
+      "tree": ["Human", "Land Units"],
       "entries": [16],
       "original": [
         {
@@ -4279,7 +4279,7 @@ AxeGraft.registerCatalog({
     {
       "id": 17,
       "name": "Attack Peon",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Land Units"],
       "entries": [17],
       "original": [
         {
@@ -4303,7 +4303,7 @@ AxeGraft.registerCatalog({
     {
       "id": 26,
       "name": "Oil Tanker (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Sea Units"],
       "entries": [26],
       "original": [
         {
@@ -4371,7 +4371,7 @@ AxeGraft.registerCatalog({
     {
       "id": 27,
       "name": "Oil Tanker (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Sea Units"],
       "entries": [27],
       "original": [
         {
@@ -4439,7 +4439,7 @@ AxeGraft.registerCatalog({
     {
       "id": 28,
       "name": "Transport (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Sea Units"],
       "entries": [28],
       "original": [
         {
@@ -4490,7 +4490,7 @@ AxeGraft.registerCatalog({
     {
       "id": 29,
       "name": "Transport (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Sea Units"],
       "entries": [29],
       "original": [
         {
@@ -4540,8 +4540,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 30,
-      "name": "Elven Destroyer",
-      "tree": ["Human"],
+      "name": "Human ships",
+      "tree": ["Misc"],
       "entries": [30, 32, 34],
       "original": [
         {
@@ -4634,8 +4634,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 31,
-      "name": "Troll Destroyer",
-      "tree": ["Orc"],
+      "name": "Orc ships",
+      "tree": ["Orc", "Sea Units"],
       "entries": [31, 33],
       "original": [
         {
@@ -4729,7 +4729,7 @@ AxeGraft.registerCatalog({
     {
       "id": 38,
       "name": "Gnomish Submarine",
-      "tree": ["Human"],
+      "tree": ["Human", "Sea Units"],
       "entries": [38],
       "original": [
         {
@@ -4815,7 +4815,7 @@ AxeGraft.registerCatalog({
     {
       "id": 39,
       "name": "Giant Turtle",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Sea Units"],
       "entries": [39],
       "original": [
         {
@@ -4901,7 +4901,7 @@ AxeGraft.registerCatalog({
     {
       "id": 40,
       "name": "Gnomish Flying Machine",
-      "tree": ["Human"],
+      "tree": ["Human", "Air Units"],
       "entries": [40],
       "original": {
         "default": [
@@ -5066,8 +5066,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 41,
-      "name": "Goblin Zeppelin",
-      "tree": ["Orc"],
+      "name": "Zeppelin and Eye of Kilrogg",
+      "tree": ["Orc", "Air Units"],
       "entries": [41, 45],
       "original": {
         "default": [
@@ -5233,7 +5233,7 @@ AxeGraft.registerCatalog({
     {
       "id": 49,
       "name": "Cho'gall",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Heroes"],
       "entries": [49],
       "original": [
         {
@@ -5349,7 +5349,7 @@ AxeGraft.registerCatalog({
     {
       "id": 60,
       "name": "Barracks (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [60],
       "original": [
         {
@@ -5417,7 +5417,7 @@ AxeGraft.registerCatalog({
     {
       "id": 61,
       "name": "Barracks (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [61],
       "original": [
         {
@@ -5485,7 +5485,7 @@ AxeGraft.registerCatalog({
     {
       "id": 62,
       "name": "Church",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [62],
       "original": [
         {
@@ -5523,7 +5523,7 @@ AxeGraft.registerCatalog({
     {
       "id": 63,
       "name": "Altar of Storms",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [63],
       "original": [
         {
@@ -5560,8 +5560,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 64,
-      "name": "Scout Tower (human)",
-      "tree": ["Human"],
+      "name": "Human Towers",
+      "tree": ["Human", "Buildings"],
       "entries": [64, 96, 98],
       "original": [
         {
@@ -5588,8 +5588,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 65,
-      "name": "Watch Tower (orc)",
-      "tree": ["Orc"],
+      "name": "Orc Towers",
+      "tree": ["Orc", "Buildings"],
       "entries": [65, 97, 99],
       "original": [
         {
@@ -5617,7 +5617,7 @@ AxeGraft.registerCatalog({
     {
       "id": 68,
       "name": "Gnomish Inventor",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [68],
       "original": [
         {
@@ -5643,7 +5643,7 @@ AxeGraft.registerCatalog({
     {
       "id": 69,
       "name": "Goblin Alchemist",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [69],
       "original": [
         {
@@ -5669,7 +5669,7 @@ AxeGraft.registerCatalog({
     {
       "id": 70,
       "name": "Gryphon Aviary",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [70],
       "original": [
         {
@@ -5686,7 +5686,7 @@ AxeGraft.registerCatalog({
     {
       "id": 71,
       "name": "Dragon Roost",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [71],
       "original": [
         {
@@ -5703,7 +5703,7 @@ AxeGraft.registerCatalog({
     {
       "id": 72,
       "name": "Shipyard (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [72],
       "original": [
         {
@@ -5756,7 +5756,7 @@ AxeGraft.registerCatalog({
     {
       "id": 73,
       "name": "Shipyard (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [73],
       "original": [
         {
@@ -5808,8 +5808,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 74,
-      "name": "Town Hall",
-      "tree": ["Human"],
+      "name": "Town Hall and upgrades",
+      "tree": ["Human", "Buildings"],
       "entries": [74, 88, 90],
       "original": [
         {
@@ -5846,8 +5846,8 @@ AxeGraft.registerCatalog({
     },
     {
       "id": 75,
-      "name": "Great Hall",
-      "tree": ["Orc"],
+      "name": "Great Hall and upgrades",
+      "tree": ["Orc", "Buildings"],
       "entries": [75, 89, 91],
       "original": [
         {
@@ -5885,7 +5885,7 @@ AxeGraft.registerCatalog({
     {
       "id": 76,
       "name": "Elven Lumber Mill",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [76],
       "original": [
         {
@@ -5953,7 +5953,7 @@ AxeGraft.registerCatalog({
     {
       "id": 77,
       "name": "Troll Lumber Mill",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [77],
       "original": [
         {
@@ -6021,7 +6021,7 @@ AxeGraft.registerCatalog({
     {
       "id": 78,
       "name": "Foundry (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [78],
       "original": [
         {
@@ -6069,7 +6069,7 @@ AxeGraft.registerCatalog({
     {
       "id": 79,
       "name": "Foundry (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [79],
       "original": [
         {
@@ -6117,7 +6117,7 @@ AxeGraft.registerCatalog({
     {
       "id": 80,
       "name": "Mage Tower",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [80],
       "original": [
         {
@@ -6185,7 +6185,7 @@ AxeGraft.registerCatalog({
     {
       "id": 81,
       "name": "Temple of the Damned",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [81],
       "original": {
         "default": [
@@ -6443,7 +6443,7 @@ AxeGraft.registerCatalog({
     {
       "id": 82,
       "name": "Blacksmith (human)",
-      "tree": ["Human"],
+      "tree": ["Human", "Buildings"],
       "entries": [82],
       "original": [
         {
@@ -6511,7 +6511,7 @@ AxeGraft.registerCatalog({
     {
       "id": 83,
       "name": "Blacksmith (orc)",
-      "tree": ["Orc"],
+      "tree": ["Orc", "Buildings"],
       "entries": [83],
       "original": [
         {
@@ -6579,7 +6579,7 @@ AxeGraft.registerCatalog({
     {
       "id": 111,
       "name": "Human Basic Build",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [111],
       "original": [
         {
@@ -6659,7 +6659,7 @@ AxeGraft.registerCatalog({
     {
       "id": 112,
       "name": "Human Advanced Build",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [112],
       "original": [
         {
@@ -6748,7 +6748,7 @@ AxeGraft.registerCatalog({
     {
       "id": 113,
       "name": "Orc Basic Build",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [113],
       "original": [
         {
@@ -6828,7 +6828,7 @@ AxeGraft.registerCatalog({
     {
       "id": 114,
       "name": "Orc Advanced Build",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [114],
       "original": [
         {
@@ -6917,7 +6917,7 @@ AxeGraft.registerCatalog({
     {
       "id": 115,
       "name": "Cancel (target)",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [115],
       "original": [
         {
@@ -6934,7 +6934,7 @@ AxeGraft.registerCatalog({
     {
       "id": 116,
       "name": "Cancel (placing)",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [116],
       "original": [
         {
@@ -6951,7 +6951,7 @@ AxeGraft.registerCatalog({
     {
       "id": 117,
       "name": "Cancel group",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [117],
       "original": [
         {
@@ -6983,7 +6983,7 @@ AxeGraft.registerCatalog({
     {
       "id": 118,
       "name": "Human group",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [118],
       "original": {
         "default": [
@@ -7269,7 +7269,7 @@ AxeGraft.registerCatalog({
     {
       "id": 119,
       "name": "Orc group",
-      "tree": ["Other"],
+      "tree": ["Other", "Menus"],
       "entries": [119],
       "original": {
         "default": [
