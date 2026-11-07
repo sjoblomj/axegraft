@@ -45,7 +45,7 @@
       };
       var label = h("span", { class: "row", style: { "--depth": String(depth) } }, [
         h("span", { class: "twisty", "aria-hidden": "true", text: isGroup ? (open ? "▾" : "▸") : "" }),
-        h("span", { class: "text", text: n.label }),
+        h("span", { class: "text", title: n.label, text: n.label }),
         marks(n)
       ]);
       label.addEventListener("click", function () {

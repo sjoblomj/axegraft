@@ -398,6 +398,11 @@ button.small[aria-disabled="true"] { color: var(--text-disabled); cursor: defaul
 /* The keyboard cursor, which can rest on a group as well as on an item. */
 .tree .cursor > .row { outline: 1px dotted var(--field-text); outline-offset: -1px; }
 .tree .empty { padding: 6px; color: var(--field-muted); }
+/* A long name is cut short so the row's marks stay visible at its right edge. */
+.tree .row > .text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tree .row > .marks { flex: none; }
+/* A group's changed dot only says something inside it changed, so it's fainter. */
+.tree [aria-expanded] > .row .mark.changed { opacity: 0.45; }
 .tree.flat .twisty { display: none; }
 
 /* Markers for changes, errors and warnings: different shapes and colours. */
