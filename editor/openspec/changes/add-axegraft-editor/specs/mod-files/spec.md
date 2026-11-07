@@ -159,7 +159,7 @@ Saving the same mod SHALL always produce identical bytes. Files SHALL be indente
 - **THEN** their files are byte-identical
 
 ### Requirement: Labels
-The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's catalog name, so files are readable. Labels SHALL NOT affect validation.
+The editor SHALL keep every `label` in an opened file. It SHALL give each new entry a label with the item's name, as the editor shows it, so files are readable. When the user renames a unit, the editor SHALL change the labels of that unit's entries in `units` and of its unit requirement record to the new name. The editor SHALL NOT read labels to name items. Labels SHALL NOT affect validation.
 
 #### Scenario: Existing label
 - **WHEN** a file has an entry with a custom label, and the user edits that entry
@@ -168,6 +168,10 @@ The editor SHALL keep every `label` in an opened file. It SHALL give each new en
 #### Scenario: New entry
 - **WHEN** a user changes unit 0, named Terran Marine in the catalog
 - **THEN** the saved entry has the label `Terran Marine`
+
+#### Scenario: Renamed unit
+- **WHEN** a mod changes unit 0 and the user renames it Rifleman
+- **THEN** the saved entry for unit 0 has the label `Rifleman`
 
 ### Requirement: Undo and redo
 The editor SHALL undo and redo every change to the mod, across all tabs, from its menu and with the usual keyboard shortcuts.

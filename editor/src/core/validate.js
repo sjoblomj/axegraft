@@ -99,10 +99,7 @@
         checkInfo(mod.mod, problems);
         return;
       }
-      if (k === "label") {
-        checkLabel(mod, "", problems);
-        return;
-      }
+      if (k === "labels") return;
       if (PARTS.indexOf(k) < 0) {
         problems.refuse(k, "The mod has a property the format doesn't define: " + k + ".");
         return;
@@ -122,6 +119,7 @@
     if (!cat) return problems.list;
 
     var ctx = { mod: mod, cat: cat, problems: problems, assets: assets || {} };
+    if (util.has(mod, "labels")) checkLabels(mod.labels, cat, problems);
     // The entries of a part the game has. A part it lacks is already refused.
     function gamePart(name) {
       return cat.has(name) ? part(mod, name) : [];
@@ -206,6 +204,36 @@
     }
     info.authors.forEach(function (a, i) {
       if (typeof a !== "string") problems.error("mod.authors[" + i + "]", "Each of the mod's authors must be text, but this is " + util.typeName(a) + ".");
+    });
+  }
+
+  // The names the editor shows for items, in `labels`. The patcher ignores
+  // them, so nothing here is more than a warning.
+  function checkLabels(labels, cat, problems) {
+    var ignored = " The patcher ignores labels, and the editor ignores this one.";
+    if (!isObject(labels)) {
+      problems.warning("labels", "labels must be an object, but it's " + util.typeName(labels) + "." + ignored);
+      return;
+    }
+    Object.keys(labels).forEach(function (kind) {
+      var path = "labels." + kind;
+      if (kind !== "units") {
+        problems.warning(path, "Only units can be labelled, not " + kind + "." + ignored);
+        return;
+      }
+      if (!isObject(labels.units)) {
+        problems.warning(path, "labels.units must be an object of names by unit ID, but it's " + util.typeName(labels.units) + "." + ignored);
+        return;
+      }
+      Object.keys(labels.units).forEach(function (k) {
+        var p = path + "." + k;
+        var id = /^(0|[1-9][0-9]*)$/.test(k) ? Number(k) : null;
+        if (id === null || !util.inRange(id, cat.limits.tableEntry)) {
+          problems.warning(p, util.show(k) + " isn't an entry of the game's button table, " + rangeText(cat.limits.tableEntry) + "." + ignored);
+        } else if (typeof labels.units[k] !== "string") {
+          problems.warning(p, "Unit " + k + "'s label must be text, but it's " + util.typeName(labels.units[k]) + "." + ignored);
+        }
+      });
     });
   }
 

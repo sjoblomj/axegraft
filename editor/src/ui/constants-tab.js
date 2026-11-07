@@ -14,7 +14,7 @@
 
   function referItems(app, kind) {
     var cat = app.cat();
-    if (kind === "unit") return AG.ui.unitsTab.unitItems(cat);
+    if (kind === "unit") return AG.ui.unitsTab.unitItems(app);
     if (kind === "tableEntry") return AG.ui.buttonSets.entryItems(app);
     var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders, missile: cat.raw.missiles, spellSound: cat.raw.spellSounds, sound: cat.raw.sounds }[kind] || [];
     return list
@@ -26,7 +26,7 @@
       });
   }
 
-  function valueText(cat, c, v) {
+  function valueText(cat, c, v, doc) {
     if (c.kind === "option") {
       var o = c.options.filter(function (x) {
         return x.name === v;
@@ -34,7 +34,7 @@
       return o ? o.label + " (" + o.name + ")" : String(v);
     }
     if (c.refers) {
-      var name = c.refers === "tableEntry" ? D.itemName(cat, "unit", v) : D.itemName(cat, c.refers, v);
+      var name = D.itemName(cat, c.refers === "tableEntry" ? "unit" : c.refers, v, doc);
       return v + (name ? " " + name : "");
     }
     return String(v);
@@ -103,7 +103,7 @@
           return h("tr", { class: typeof g.value === "string" && (g.value === "unknown" || g.value === "not_applicable") ? g.value : null, dataset: { versions: g.versions.join(",") } }, [
             h("td", { text: AG.core.compat.versionText(cat, g.versions) }),
             h("td", { text: state }),
-            h("td", { text: g.value === "unknown" || g.value === "not_applicable" ? "—" : valueText(cat, c, g.value) })
+            h("td", { text: g.value === "unknown" || g.value === "not_applicable" ? "—" : valueText(cat, c, g.value, app.doc()) })
           ]);
         })
       )
@@ -131,7 +131,7 @@
           key: fieldKey,
           changed: eff.changed,
           problems: problems,
-          original: eff.varies ? "differs between versions, see below" : eff.original === undefined ? "unknown on every version" : valueText(cat, c, eff.original),
+          original: eff.varies ? "differs between versions, see below" : eff.original === undefined ? "unknown on every version" : valueText(cat, c, eff.original, app.doc()),
           note: c.note || null
         })
       ]),

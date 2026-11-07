@@ -76,17 +76,31 @@
     return out;
   }
 
-  // ---- Names, for labels
+  // ---- Names
 
-  function itemName(cat, kind, id) {
+  // The name the mod gives a unit in the editor, from its `labels`, or
+  // null. The patcher ignores `labels`.
+  function customUnitName(doc, id) {
+    var labels = isObject(doc) && isObject(doc.labels) && isObject(doc.labels.units) ? doc.labels.units : null;
+    var n = labels && util.has(labels, String(id)) ? labels[String(id)] : null;
+    return typeof n === "string" && n !== "" ? n : null;
+  }
+
+  // An item's name: for a unit, the mod's name for it when `doc` is given
+  // and has one, otherwise the catalog's. Null when neither has one.
+  function itemName(cat, kind, id, doc) {
+    if (doc && kind === "unit") {
+      var custom = customUnitName(doc, id);
+      if (custom) return custom;
+    }
     var m = { unit: cat.units, set: cat.sets, upgrade: cat.upgrades, tech: cat.techs, order: cat.orders, missile: cat.missiles, spellSound: cat.spellSounds, sound: cat.sounds }[kind];
     var item = m && m.get(id);
     return item ? item.name : null;
   }
 
-  function requirementName(cat, type, id) {
+  function requirementName(cat, type, id, doc) {
     var kind = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" }[type];
-    return kind ? itemName(cat, kind, id) : null;
+    return kind ? itemName(cat, kind, id, doc) : null;
   }
 
   function withLabel(entry, label) {
@@ -199,7 +213,7 @@
     } else {
       var entry = { id: id };
       entry[field] = value;
-      list.push(withLabel(entry, itemName(cat, "unit", id)));
+      list.push(withLabel(entry, itemName(cat, "unit", id, doc)));
     }
     return tidyUnit(withPart(doc, "units", list), cat, id);
   }
@@ -230,29 +244,47 @@
     );
   }
 
-  // The label this mod gives a unit: the first non-empty label on its
-  // entries, or null.
-  function unitLabel(doc, id) {
-    var hit = null;
-    unitEntries(doc, id).some(function (x) {
-      if (typeof x.entry.label === "string" && x.entry.label) hit = x.entry.label;
-      return hit !== null;
+  // Gives a unit a name in the editor. Empty text, or the catalog's name,
+  // removes the mod's name, so the catalog's shows. The labels of the unit's
+  // entries, in units and requirements, are changed to match, so the file
+  // reads the same as the editor.
+  function setUnitName(doc, cat, id, name) {
+    var text = typeof name === "string" ? name.trim() : "";
+    if (text === itemName(cat, "unit", id)) text = "";
+    if (text === (customUnitName(doc, id) || "")) return doc;
+    var key = String(id);
+    var labels = isObject(doc.labels) ? doc.labels : {};
+    var units = {};
+    if (isObject(labels.units)) {
+      Object.keys(labels.units).forEach(function (k) {
+        if (k !== key) units[k] = labels.units[k];
+      });
+    }
+    if (text) units[key] = text;
+    var nextLabels = {};
+    Object.keys(labels).forEach(function (k) {
+      if (k !== "units") nextLabels[k] = labels[k];
     });
-    return hit;
-  }
+    if (Object.keys(units).length) nextLabels.units = units;
+    var out = {};
+    Object.keys(doc).forEach(function (k) {
+      if (k !== "labels") out[k] = doc[k];
+    });
+    if (Object.keys(nextLabels).length) out.labels = nextLabels;
 
-  // Puts `label` on the unit's first entry and removes it from any others.
-  // Empty text removes the label. A unit with no entry is left as it is,
-  // since an entry must change more than its label.
-  function setUnitLabel(doc, id, label) {
-    var found = unitEntries(doc, id);
-    if (!found.length) return doc;
-    var list = entries(doc, "units").slice();
-    found.forEach(function (x, i) {
-      var copy = util.has(x.entry, "label") ? util.omit(x.entry, ["label"]) : x.entry;
-      list[x.index] = i === 0 ? withLabel(copy, label) : copy;
+    var label = itemName(cat, "unit", id, out);
+    function relabel(e) {
+      var copy = util.has(e, "label") ? util.omit(e, ["label"]) : e;
+      return withLabel(copy, label);
+    }
+    ["units", "requirements"].forEach(function (part) {
+      if (!Array.isArray(out[part])) return;
+      out[part] = out[part].map(function (e) {
+        var mine = isObject(e) && e.id === id && (part === "units" || e.type === "unit");
+        return mine ? relabel(e) : e;
+      });
     });
-    return withPart(doc, "units", list);
+    return out;
   }
 
   // ---- Button sets
@@ -691,7 +723,7 @@
       all[hit.index] = copy;
     } else {
       var entry = { type: type, id: id, list: list };
-      var name = requirementName(cat, type, id);
+      var name = requirementName(cat, type, id, doc);
       if (name) entry = { type: type, id: id, label: name, list: list };
       all.push(entry);
     }
@@ -893,8 +925,8 @@
     setUnitField: setUnitField,
     revertUnitField: revertUnitField,
     revertUnit: revertUnit,
-    unitLabel: unitLabel,
-    setUnitLabel: setUnitLabel,
+    customUnitName: customUnitName,
+    setUnitName: setUnitName,
     originalButtons: originalButtons,
     originalButtonsByVersion: originalButtonsByVersion,
     effectiveButtons: effectiveButtons,

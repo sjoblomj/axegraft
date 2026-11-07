@@ -16,8 +16,9 @@
   var TYPE_TEXT = { unit: "Unit", upgrade: "Upgrade", tech_research: "Tech research", tech_use: "Tech use", order: "Order" };
   var KIND_OF_TYPE = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
 
-  function items(cat, kind) {
-    if (kind === "unit") return AG.ui.unitsTab.unitItems(cat);
+  function items(app, kind) {
+    var cat = app.cat();
+    if (kind === "unit") return AG.ui.unitsTab.unitItems(app);
     var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders }[kind] || [];
     return list
       .map(function (x) {
@@ -33,20 +34,20 @@
     return op ? op.label + " (" + name + ")" : String(name);
   }
 
-  function itemName(cat, type, id) {
-    return D.requirementName(cat, type, id);
+  function itemName(cat, type, id, doc) {
+    return D.requirementName(cat, type, id, doc);
   }
 
   // A read-only line for a row, as in the original record.
-  function rowText(cat, r) {
+  function rowText(cat, r, doc) {
     if (r.kind === "unit") {
-      var n = itemName(cat, "unit", r.unit);
+      var n = itemName(cat, "unit", r.unit, doc);
       return (cat.bareUnit ? cat.bareUnit.label : "Unit") + ": " + r.unit + (n ? " " + n : "");
     }
     var op = cat.opcodes.get(r.op);
     var text = opText(cat, r.op);
     if (op && op.parameter && r.param !== undefined) {
-      var pn = D.itemName(cat, op.parameter, r.param);
+      var pn = D.itemName(cat, op.parameter, r.param, doc);
       text += ": " + r.param + (pn ? " " + pn : "");
     }
     return text;
@@ -72,7 +73,7 @@
     ];
   }
 
-  function originalView(cat, type, id) {
+  function originalView(cat, type, id, doc) {
     var groups = AG.core.compat.groupVersions(cat, function (v) {
       return D.originalRecord(cat, type, id, v);
     });
@@ -92,7 +93,7 @@
                 "ol",
                 { class: "rows" },
                 rows.map(function (r, i) {
-                  return h("li", { class: rowClasses(s[i]) }, [h("span", { class: "idx", text: String(i) }), h("span", { text: rowText(cat, r) })]);
+                  return h("li", { class: rowClasses(s[i]) }, [h("span", { class: "idx", text: String(i) }), h("span", { text: rowText(cat, r, doc) })]);
                 })
               )
         ]);
@@ -113,7 +114,7 @@
     var hasOriginal = cat.versionIds.some(function (v) {
       return D.originalRecord(cat, type, id, v) !== null;
     });
-    var name = itemName(cat, type, id);
+    var name = itemName(cat, type, id, doc);
     var fieldKey = "req:" + type + ":" + id;
 
     function setRows(next) {
@@ -204,7 +205,7 @@
     }
 
     function paramControl(kind, value, onChange) {
-      var ctl = F.idPicker(items(cat, kind), value, function (v) {
+      var ctl = F.idPicker(items(app, kind), value, function (v) {
         onChange(v === "" ? undefined : v);
       }, { label: kind });
       return h("span", { class: "with-help" }, ctl.concat([help.described(ctl[0], help.text("rowParameter") + " This one takes a " + kind + ". " + help.text("nameSelect") + " " + help.text("idInput"))[1]]));
@@ -269,7 +270,7 @@
       app.state.showOriginal
         ? h("div", { class: "req-columns" }, [
             h("fieldset", null, [h("legend", { text: eff.defined ? "Edited" : "Record" }), edited]),
-            h("fieldset", null, [h("legend", { text: "Original" }), originalView(cat, type, id)])
+            h("fieldset", null, [h("legend", { text: "Original" }), originalView(cat, type, id, doc)])
           ])
         : h("fieldset", null, [h("legend", { text: "Rows" }), edited])
     ]);

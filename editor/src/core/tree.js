@@ -191,12 +191,12 @@
     if (tab === "units") {
       cat.raw.units.forEach(function (u) {
         seen[u.id] = true;
-        place(u.tree, item(key.unit(u.id), u.id, idLabel(u.id, AG.core.doc.unitLabel(doc, u.id) || u.name)));
+        place(u.tree, item(key.unit(u.id), u.id, idLabel(u.id, AG.core.doc.itemName(cat, "unit", u.id, doc))));
       });
       AG.core.doc.entries(doc, "units").forEach(function (e) {
         if (isObject(e) && isInt(e.id) && util.inRange(e.id, cat.limits.tableEntry) && !seen[e.id]) {
           seen[e.id] = true;
-          place(["Not in the catalog"], item(key.unit(e.id), e.id, idLabel(e.id, AG.core.doc.unitLabel(doc, e.id))));
+          place(["Not in the catalog"], item(key.unit(e.id), e.id, idLabel(e.id, AG.core.doc.customUnitName(doc, e.id))));
         }
       });
       sortGroup(root, true);
@@ -222,7 +222,7 @@
         named.forEach(function (x) {
           if (g.kind === "unit" && !util.inRange(x.id, cat.limits.unit)) return;
           ids[x.id] = true;
-          gplace(x.tree, item(key.req(g.type, x.id), x.id, idLabel(x.id, x.name), { reqType: g.type }));
+          gplace(x.tree, item(key.req(g.type, x.id), x.id, idLabel(x.id, g.kind === "unit" ? AG.core.doc.itemName(cat, "unit", x.id, doc) : x.name), { reqType: g.type }));
         });
         var extra = [];
         cat.requirements.forEach(function (r) {
@@ -239,7 +239,7 @@
           }
         });
         extra.forEach(function (id) {
-          gplace(["Other"], item(key.req(g.type, id), id, idLabel(id, null), { reqType: g.type }));
+          gplace(["Other"], item(key.req(g.type, id), id, idLabel(id, g.kind === "unit" ? AG.core.doc.customUnitName(doc, id) : null), { reqType: g.type }));
         });
       });
       sortGroup(root, true);

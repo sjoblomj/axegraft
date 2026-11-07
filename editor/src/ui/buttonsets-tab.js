@@ -81,7 +81,7 @@
     return cat.raw.units
       .map(function (u) {
         var s = D.effectiveUnit(app.doc(), cat, u.id)[bs].value;
-        return { id: u.id, label: u.id + " " + u.name + " — " + (s === null ? "no buttons" : "set " + s) };
+        return { id: u.id, label: u.id + " " + D.itemName(cat, "unit", u.id, app.doc()) + " — " + (s === null ? "no buttons" : "set " + s) };
       })
       .sort(function (a, b) {
         return a.id - b.id;
@@ -90,7 +90,7 @@
 
   function variableItems(app, type) {
     var cat = app.cat();
-    if (type === "unit") return AG.ui.unitsTab.unitItems(cat);
+    if (type === "unit") return AG.ui.unitsTab.unitItems(app);
     if (type === "tech") return namedItems(cat.raw.techs);
     if (type === "upgrade") return namedItems(cat.raw.upgrades);
     if (type === "order") return namedItems(cat.raw.orders);
@@ -332,11 +332,11 @@
             "ul",
             { dataset: { usedBy: "" } },
             users.map(function (u) {
-              var unit = cat.units.get(u);
+              var name = D.itemName(cat, "unit", u, app.doc());
               return h("li", null, [
                 h("button", { type: "button", class: "link", dataset: { unit: u }, "aria-describedby": null, onclick: function () {
                   app.select("units", tree.key.unit(u));
-                } }, u + (unit ? " " + unit.name : ""))
+                } }, u + (name ? " " + name : ""))
               ]);
             })
           )

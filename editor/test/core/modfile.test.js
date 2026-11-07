@@ -75,7 +75,7 @@
 
   T.test("reading: brackets inside strings don't count as nesting", function () {
     T.equal(M.nesting('{"a": "[[[[{{{{\\"]]]]", "b": [1]}', 100), 2);
-    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "label": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[["}', catalogs());
+    var r = M.read('{"patcher": "AxeGraft", "format": 1, "game": "starcraft", "mod": {"name": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[["}}', catalogs());
     T.equal(r.refused, false);
   });
 
@@ -108,7 +108,6 @@
   T.test("strict fields: two mods that differ only in their labels are judged the same", function () {
     var a = { patcher: "AxeGraft", format: 1, game: "starcraft", units: [{ id: 0, button_set: 250, label: "One" }], constants: [{ name: "max_supply", value: 70000 }] };
     var b = JSON.parse(JSON.stringify(a));
-    b.label = "Another";
     b.units[0].label = "Two";
     b.constants[0].label = "Supply";
     function shown(r) {

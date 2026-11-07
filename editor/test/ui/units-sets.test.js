@@ -104,37 +104,64 @@
     });
   }, { dom: true });
 
-  T.test("unit label: clicking a changed unit's title edits its label, which the title and the list then show", function (ctx) {
+  function rename(app, text, key) {
+    var box = U.q(app, ".panel-title input.title-input");
+    box.value = text;
+    box.dispatchEvent(new Event("input", { bubbles: true }));
+    if (key) U.key(box, key);
+    else U.q(app, '.panel-title [data-action="save-name"]').click();
+  }
+
+  T.test("unit name: clicking any unit's title renames it in labels, without changing the unit", function (ctx) {
     return start(ctx).then(function (app) {
-      app.select("units", "unit:0");
-      T.ok(!app.root.querySelector('.panel-title [data-action="edit-label"]'), "an unchanged unit has no entry to label");
-      U.change(idBox(app, "unit:0:button_set"), "5");
-      U.q(app, '.panel-title [data-action="edit-label"]').click();
+      app.select("units", "unit:7");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
       var box = U.q(app, ".panel-title input.title-input");
-      T.equal(box.value, "Terran Marine");
+      T.equal(box.value, "Terran SCV", "the box starts with the name shown");
       T.ok(document.activeElement === box, "the text box has focus");
       T.ok(/no changes to the game/.test(U.q(app, ".panel-title .help").textContent), "the ? button says the game isn't changed");
-      box.value = "Rifleman";
-      box.dispatchEvent(new Event("input", { bubbles: true }));
-      U.q(app, '.panel-title [data-action="save-label"]').click();
+      rename(app, "Worker");
+      T.equal(app.doc().labels, { units: { "7": "Worker" } });
+      T.ok(!app.doc().units, "the unit has no entry");
+      T.equal(app.errors(), []);
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "7 Worker");
+      T.equal(U.q(app, '.tree [data-key="unit:7"] > .row .text').textContent, "7 Worker");
+      T.ok(!U.q(app, '.tree [data-key="unit:7"]').querySelector(".mark.changed"), "not marked as changed");
+      T.ok(!app.root.querySelector('[data-action="revert-unit"]'), "nothing to revert");
+      app.undo();
+      T.ok(!app.doc().labels, "renaming can be undone");
+    });
+  }, { dom: true });
+
+  T.test("unit name: Escape cancels, empty text goes back to the catalog's name, and a changed unit's label follows", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("units", "unit:0");
+      U.change(idBox(app, "unit:0:button_set"), "5");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      rename(app, "Rifleman", "Enter");
       T.equal(app.doc().units, [{ id: 0, label: "Rifleman", button_set: 5 }]);
-      T.equal(U.q(app, '.panel-title [data-action="edit-label"]').textContent, "0 Rifleman");
-      T.equal(U.q(app, '.tree [data-key="unit:0"] > .row .text').textContent, "0 Rifleman");
 
-      U.q(app, '.panel-title [data-action="edit-label"]').click();
-      box = U.q(app, ".panel-title input.title-input");
-      box.value = "Discarded";
-      box.dispatchEvent(new Event("input", { bubbles: true }));
-      U.key(box, "Escape");
-      T.equal(app.doc().units[0].label, "Rifleman", "Escape cancels");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      rename(app, "Discarded", "Escape");
+      T.equal(app.doc().labels, { units: { "0": "Rifleman" } }, "Escape cancels");
 
-      U.q(app, '.panel-title [data-action="edit-label"]').click();
-      box = U.q(app, ".panel-title input.title-input");
-      box.value = "";
-      box.dispatchEvent(new Event("input", { bubbles: true }));
-      U.key(box, "Enter");
-      T.equal(app.doc().units, [{ id: 0, button_set: 5 }], "an empty label is removed");
-      T.equal(U.q(app, '.panel-title [data-action="edit-label"]').textContent, "0 Terran Marine");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      rename(app, "", "Enter");
+      T.ok(!app.doc().labels, "an empty name is removed");
+      T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", button_set: 5 }]);
+      T.equal(U.q(app, '.panel-title [data-action="edit-name"]').textContent, "0 Terran Marine");
+    });
+  }, { dom: true });
+
+  T.test("unit name: other tabs show the mod's name for the unit", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("units", "unit:0");
+      U.q(app, '.panel-title [data-action="edit-name"]').click();
+      rename(app, "Rifleman");
+      app.select("button_sets", "set:0");
+      T.ok(/0 Rifleman/.test(U.q(app, "[data-used-by]").textContent), "used by");
+      app.setTab("requirements");
+      T.ok(U.texts(app, ".tree .row .text").indexOf("0 Rifleman") >= 0, "the requirements list");
     });
   }, { dom: true });
 

@@ -9,7 +9,7 @@
 
   var TEXT = {
     revertField: "Puts this field back to its original value.",
-    unitLabel: "The name AxeGraft shows for this unit, here and in the item list. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show the original name.",
+    unitName: "The name AxeGraft shows for this unit, here and in the item list. It is only used inside AxeGraft's editor and makes no changes to the game itself. Leave it empty to show the original name.",
     revertItem: "Removes every change this mod makes to this item, so it's as in the original game.",
     goToSet: "Opens the Button Sets tab on the set this entry shows, as the mod currently assigns it.",
     ownSet: "Gives this entry its own copy of its current set, as a new set, so its buttons can change without changing other entries that share the set.",

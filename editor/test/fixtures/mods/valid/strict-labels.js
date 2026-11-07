@@ -34,8 +34,7 @@ AxeGraft.registerModFixture({
         "label": "Supply",
         "value": 600
       }
-    ],
-    "label": "A mod"
+    ]
   },
   "expect": {
     "refused": false,

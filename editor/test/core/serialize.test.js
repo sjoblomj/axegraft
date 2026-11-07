@@ -136,7 +136,12 @@
       var text = ser(doc, cat);
       var again = AG.core.modfile.read(text, cats);
       T.equal(again.refused, false, f.file);
-      T.equal(again.problems, [], f.file);
+      // The same problems as the fixture: none, or the warnings it expects.
+      T.equal(again.problems.map(function (p) {
+        return p.severity + " " + p.path;
+      }).sort(), f.expect.warnings.map(function (w) {
+        return "warning " + w;
+      }).sort(), f.file);
       T.equal(AG.core.canonical(again.mod, cat), AG.core.canonical(doc, cat), f.file);
       T.equal(ser(again.mod, cat), text, f.file + " saves to the same bytes");
       n++;

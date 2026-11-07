@@ -25,13 +25,15 @@
     });
   }
 
-  function unitItems(cat) {
+  function unitItems(app) {
+    var cat = app.cat();
+    var doc = app.doc();
     return cat.raw.units
       .filter(function (u) {
         return util.inRange(u.id, cat.limits.unit);
       })
       .map(function (u) {
-        return { id: u.id, label: u.id + " " + u.name };
+        return { id: u.id, label: u.id + " " + D.itemName(cat, "unit", u.id, doc) };
       })
       .sort(function (a, b) {
         return a.id - b.id;
@@ -63,22 +65,17 @@
     return s ? id + " " + s.name : String(id);
   }
 
-  // The panel's title: the unit's label in this mod, or its name in the
-  // catalog. A unit the mod has an entry for can have its label edited:
-  // clicking the title turns it into a text box with a Save button.
+  // The panel's title: the mod's name for the unit, or the catalog's.
+  // Clicking it turns it into a text box with a Save button, to rename the
+  // unit in the editor.
   function title(app, key, id, unit) {
     var S = app.state;
-    var doc = app.doc();
-    var hasEntry = D.entries(doc, "units").some(function (e) {
-      return util.isObject(e) && e.id === id;
-    });
-    var label = D.unitLabel(doc, id);
-    var name = label || (unit ? unit.name : null);
+    var cat = app.cat();
+    var name = D.itemName(cat, "unit", id, app.doc());
     var text = name ? id + " " + name : "Table entry " + id;
-    if (S.labelEdit && (S.labelEdit.key !== key || !hasEntry)) S.labelEdit = null;
-    if (!hasEntry) return text;
+    if (S.nameEdit && S.nameEdit.key !== key) S.nameEdit = null;
 
-    var focusId = "unit-label:" + id;
+    var focusId = "unit-name:" + id;
     function focusBox() {
       var box = app.root.querySelector('[data-focus="' + focusId + '"]');
       if (box) {
@@ -86,36 +83,36 @@
         box.select();
       }
     }
-    if (!S.labelEdit) {
-      return h("button", { type: "button", class: "title-label", title: "Click to edit the label", dataset: { action: "edit-label", focus: "unit-title:" + id, plain: "" }, onclick: function () {
-        S.labelEdit = { key: key, text: label || "" };
+    if (!S.nameEdit) {
+      return h("button", { type: "button", class: "title-label", title: "Click to rename", dataset: { action: "edit-name", focus: "unit-title:" + id, plain: "" }, onclick: function () {
+        S.nameEdit = { key: key, text: name || "" };
         app.render();
         focusBox();
       } }, text);
     }
 
     function save() {
-      var value = S.labelEdit.text.trim();
-      S.labelEdit = null;
+      var value = S.nameEdit.text;
+      S.nameEdit = null;
       var before = app.doc();
       app.edit(function (d) {
-        return D.setUnitLabel(d, id, value);
+        return D.setUnitName(d, cat, id, value);
       });
       if (app.doc() === before) app.render();
     }
     function cancel() {
-      S.labelEdit = null;
+      S.nameEdit = null;
       app.render();
     }
     var box = h("input", {
       type: "text",
       class: "ctl wide title-input",
-      value: S.labelEdit.text,
+      value: S.nameEdit.text,
       placeholder: unit ? unit.name : "",
-      "aria-label": "Label",
+      "aria-label": "Name",
       dataset: { focus: focusId },
       oninput: function (ev) {
-        S.labelEdit.text = ev.target.value;
+        S.nameEdit.text = ev.target.value;
       },
       onkeydown: function (ev) {
         if (ev.key === "Enter") {
@@ -127,11 +124,11 @@
         }
       }
     });
-    var pair = help.described(box, help.text("unitLabel"));
+    var pair = help.described(box, help.text("unitName"));
     return h("span", { class: "title-edit" }, [
       String(id),
       pair[0],
-      h("button", { type: "button", class: "small", dataset: { action: "save-label", plain: "" }, onclick: save }, "Save"),
+      h("button", { type: "button", class: "small", dataset: { action: "save-name", plain: "" }, onclick: save }, "Save"),
       pair[1]
     ]);
   }
@@ -233,7 +230,7 @@
         controls = F.idPicker(AG.ui.buttonSets.entryItems(app), e.value, set, { allowNone: true, noneLabel: "None", label: f.label });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
         var origEntry = e.hasOriginal && util.isInt(e.original) ? cat.units.get(e.original) : null;
-        original = e.hasOriginal ? (e.original === null ? "none" : e.original + (origEntry ? " " + origEntry.name : "")) : null;
+        original = e.hasOriginal ? (e.original === null ? "none" : e.original + (origEntry ? " " + D.itemName(cat, "unit", e.original, doc) : "")) : null;
         if (util.isInt(e.value) && e.value !== id && cat.units.has(e.value)) {
           extra.push(
             F.withHelp(
@@ -245,7 +242,7 @@
           );
         }
       } else {
-        controls = F.idPicker(unitItems(cat), e.value, set, { label: f.label });
+        controls = F.idPicker(unitItems(app), e.value, set, { label: f.label });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
         original = e.hasOriginal ? String(e.original) : null;
       }
