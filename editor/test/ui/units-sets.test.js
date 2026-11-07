@@ -813,6 +813,79 @@
     });
   }, { dom: true });
 
+  T.test("copying a button: paste is disabled until a button is copied, then replaces the chosen button, keeping its position", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      var pos = cat.buttonKind.position.name;
+      app.select("button_sets", "set:0");
+      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
+      app.state.button["set:0"] = 1;
+      app.render();
+      U.q(app, '[data-action="copy-button"]').click();
+      var copied = D.effectiveButtons(app.doc(), cat, 0).buttons[1];
+      app.select("button_sets", "set:5");
+      app.state.button["set:5"] = 0;
+      app.render();
+      var target = D.effectiveButtons(app.doc(), cat, 5).buttons[0];
+      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), null);
+      U.q(app, '[data-action="paste-button"]').click();
+      var after = D.effectiveButtons(app.doc(), cat, 5).buttons;
+      var want = Object.assign({}, copied);
+      want[pos] = target[pos];
+      T.equal(after[0], want);
+      T.equal(after.length, cat.sets.get(5).original.length, "no button added");
+      T.ok(!D.effectiveButtons(app.doc(), cat, 0).defined, "the source set is unchanged");
+    });
+  }, { dom: true });
+
+  T.test("copying a button: Ctrl+C on the button list copies the button, and Ctrl+V pastes it wherever focus is", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      var pos = cat.buttonKind.position.name;
+      app.select("button_sets", "set:0");
+      app.state.button["set:0"] = 1;
+      app.render();
+      T.ok(U.key(U.q(app, ".button-list"), "c", { ctrlKey: true }).defaultPrevented);
+      T.ok(!app.state.setClipboard, "no set copied");
+      var copied = D.effectiveButtons(app.doc(), cat, 0).buttons[1];
+      app.select("button_sets", "set:5");
+      app.state.button["set:5"] = 0;
+      app.render();
+      var target = D.effectiveButtons(app.doc(), cat, 5).buttons[0];
+      T.ok(U.key(U.q(app, ".tree"), "v", { metaKey: true }).defaultPrevented);
+      var want = Object.assign({}, copied);
+      want[pos] = target[pos];
+      T.equal(D.effectiveButtons(app.doc(), cat, 5).buttons[0], want);
+      T.equal(D.effectiveButtons(app.doc(), cat, 5).buttons.length, 2, "a button pasted, not a set");
+    });
+  }, { dom: true });
+
+  T.test("copying: a set and a button are never both copied, and Ctrl+C copies what was last clicked once focus is lost", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      U.q(app, '[data-action="set-copy"]').click();
+      T.ok(app.state.setClipboard);
+      U.q(app, '[data-action="copy-button"]').click();
+      T.ok(app.state.buttonClipboard);
+      T.ok(!app.state.setClipboard, "copying a button discards the set");
+      T.equal(U.q(app, '[data-action="set-paste"]').getAttribute("aria-disabled"), "true");
+      U.q(app, '[data-action="set-copy"]').click();
+      T.ok(!app.state.buttonClipboard, "copying a set discards the button");
+      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), "true");
+      // A click on the preview, then focus lost: Ctrl+C copies the button.
+      U.q(app, ".preview-box").dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      U.key(app.root.ownerDocument.body, "c", { ctrlKey: true });
+      T.ok(app.state.buttonClipboard && !app.state.setClipboard, "the button, from the preview");
+      // A click on the item list: the set.
+      U.q(app, ".tree").dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      U.key(app.root.ownerDocument.body, "c", { ctrlKey: true });
+      T.ok(app.state.setClipboard && !app.state.buttonClipboard, "the set, from the item list");
+      // Focus on the button list wins over the last click.
+      U.key(U.q(app, ".button-list"), "c", { ctrlKey: true });
+      T.ok(app.state.buttonClipboard && !app.state.setClipboard, "the button, from the focused list");
+    });
+  }, { dom: true });
+
   // ---- Original buttons that differ by version
 
   // The Warcraft II fixture with the DOS versions added, and the Peasant
@@ -938,13 +1011,13 @@
     });
   }, { dom: true });
 
-  T.test("button list: Add and Remove are above the list, and there's no Up, Down or Clear set", function (ctx) {
+  T.test("button list: Add, Remove, Copy and Paste are above the list, and there's no Up, Down or Clear set", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
       var box = U.q(app, ".buttons-box");
-      T.equal(U.texts(app, ".buttons-box .toolbar button"), ["Add", "Remove"]);
+      T.equal(U.texts(app, ".buttons-box .toolbar button"), ["Add", "Remove", "Copy", "Paste"]);
       T.ok(box.querySelector(".toolbar").compareDocumentPosition(box.querySelector(".button-list")) & Node.DOCUMENT_POSITION_FOLLOWING, "the toolbar comes first");
-      T.equal(box.querySelectorAll(".toolbar .help").length, 0, "Add and Remove have no help");
+      T.equal(box.querySelectorAll(".toolbar .help").length, 0, "the toolbar has no help");
       T.equal(app.root.querySelector('[data-action="move-up"], [data-action="move-down"], [data-action="clear-set"]'), null);
     });
   }, { dom: true });

@@ -408,6 +408,14 @@
     function tool(label, action, onclick, disabled) {
       return h("button", { type: "button", class: "small", dataset: { action: action, plain: "" }, disabled: !!disabled, onclick: onclick }, label);
     }
+    // Copy and Paste stay focusable when disabled, so their tooltips can
+    // say why.
+    var buttonClip = clipboard(app, "buttonClipboard");
+    function clipTool(label, action, title, disabled, onclick) {
+      return h("button", { type: "button", class: "small", title: title, "aria-disabled": disabled ? "true" : null, dataset: { action: action, focus: action, plain: "" }, onclick: function () {
+        if (!disabled) onclick();
+      } }, label);
+    }
     var outOfOrder = cat.panel.ascending && AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) >= 0;
     var toolbar = h("div", { class: "toolbar" }, [
       tool("Add", "add-button", function () {
@@ -418,6 +426,12 @@
           l.splice(sel, 1);
         });
       }, sel === null),
+      clipTool("Copy", "copy-button", sel === null ? "No button is chosen" : "Copy button " + (sel + 1) + " (" + shortcut("C") + ")", sel === null, function () {
+        copyButton(app);
+      }),
+      clipTool("Paste", "paste-button", !buttonClip ? "Copy a button first, to paste it here" : sel === null ? "No button is chosen" : "Replace button " + (sel + 1) + " with " + buttonClip.name + ", keeping its position (" + shortcut("V") + ")", !buttonClip || sel === null, function () {
+        pasteButton(app);
+      }),
       outOfOrder
         ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "sort-buttons" }, onclick: function () {
             app.edit(function (d) {
@@ -845,10 +859,12 @@
     return h("fieldset", null, [h("legend", null, ["Preview ", helpBtn]), grid]);
   }
 
-  // The buttons under the item list: add a set, remove a new one, and copy
-  // a set's buttons to paste over another's. What was copied is kept for
-  // the session, for the game it came from, so it can be pasted into
-  // another mod of that game.
+  // ---- Copying and pasting sets and buttons
+  //
+  // What was copied is kept for the session, for the game it came from, so
+  // it can be pasted into another mod of that game. Only one of a set and a
+  // button is copied at a time.
+
   // The chosen set's ID, or null.
   function chosenSet(app) {
     var key = app.selected("button_sets");
@@ -856,19 +872,22 @@
     return util.isInt(id) ? id : null;
   }
 
-  // What was copied, if it's for this mod's game.
-  function clipboard(app) {
-    var clip = app.state.setClipboard;
+  // What was copied, a set or a button by `which`, if it's for this mod's
+  // game.
+  function clipboard(app, which) {
+    var clip = app.state[which || "setClipboard"];
     return clip && clip.game === app.state.game ? clip : null;
   }
 
-  // Copies the chosen set's buttons. False if no set is chosen.
+  // Copies the chosen set's buttons, discarding a copied button. False if
+  // no set is chosen.
   function copySet(app) {
     var id = chosenSet(app);
     if (id === null) return false;
     var cat = app.cat();
     var doc = app.doc();
     app.state.setClipboard = { game: app.state.game, id: id, name: D.setText(cat, id, doc), buttons: D.effectiveButtons(doc, cat, id).buttons.slice() };
+    app.state.buttonClipboard = null;
     app.render();
     return true;
   }
@@ -886,12 +905,64 @@
     return true;
   }
 
+  // The chosen set and button, as { id, index, button }, or null.
+  function chosenButton(app) {
+    var id = chosenSet(app);
+    if (id === null) return null;
+    var i = app.state.button[app.selected("button_sets")];
+    var buttons = D.effectiveButtons(app.doc(), app.cat(), id).buttons;
+    if (!util.isInt(i) || i < 0 || i >= buttons.length || !util.isObject(buttons[i])) return null;
+    return { id: id, index: i, button: buttons[i] };
+  }
+
+  // Copies the chosen button, discarding a copied set. False if no button
+  // is chosen.
+  function copyButton(app) {
+    var c = chosenButton(app);
+    if (!c) return false;
+    app.state.buttonClipboard = { game: app.state.game, name: "button " + (c.index + 1) + " of " + D.setText(app.cat(), c.id, app.doc()), button: Object.assign({}, c.button) };
+    app.state.setClipboard = null;
+    app.render();
+    return true;
+  }
+
+  // Replaces the chosen button with the copied one, keeping the chosen
+  // button's position, so the set's order is unchanged. False if nothing
+  // was copied or no button is chosen.
+  function pasteButton(app) {
+    var c = chosenButton(app);
+    var clip = clipboard(app, "buttonClipboard");
+    if (!c || !clip) return false;
+    var cat = app.cat();
+    var pos = cat.buttonKind.position.name;
+    app.edit(function (d) {
+      var list = D.effectiveButtons(d, cat, c.id).buttons.slice();
+      var b = Object.assign({}, clip.button);
+      b[pos] = c.button[pos];
+      list[c.index] = b;
+      return D.setButtons(d, cat, c.id, list);
+    });
+    return true;
+  }
+
+  // What a click or focus on `target` makes Copy act on: "button" on the
+  // button list, the preview or the button's fields, "set" on the item
+  // list, and null elsewhere.
+  function areaOf(target) {
+    if (!target || !target.closest) return null;
+    if (target.closest(".buttons-box, .preview-box, .button-form")) return "button";
+    if (target.closest(".sidebar")) return "set";
+    return null;
+  }
+
   // A shortcut as the platform writes it: Cmd on a Mac, Ctrl elsewhere.
   function shortcut(k) {
     var p = typeof navigator !== "undefined" ? navigator.platform || "" : "";
     return (/^Mac|^iP/.test(p) ? "\u2318" : "Ctrl+") + k;
   }
 
+  // The buttons under the item list: add a set, remove a new one, and copy
+  // and paste a set.
   function treeActions(app) {
     var cat = app.cat();
     var doc = app.doc();
@@ -944,6 +1015,15 @@
   AG.ui.treeActions = AG.ui.treeActions || {};
   AG.ui.treeActions.button_sets = treeActions;
   AG.ui.clipboard = AG.ui.clipboard || {};
-  AG.ui.clipboard.button_sets = { copy: copySet, paste: pasteSet };
+  AG.ui.clipboard.button_sets = {
+    areaOf: areaOf,
+    copy: function (app, area) {
+      return area === "button" ? copyButton(app) : copySet(app);
+    },
+    // Only one of a set and a button is ever copied, so paste is whichever.
+    paste: function (app) {
+      return clipboard(app, "buttonClipboard") ? pasteButton(app) : pasteSet(app);
+    }
+  };
   AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, mapItems: mapItems, stringItems: stringItems, showString: showString, entryItems: entryItems };
 })(AxeGraft);

@@ -176,6 +176,17 @@ The tab SHALL let the user add a set, and remove one the mod added, with buttons
 - **WHEN** a user removes a new set that a table entry is assigned to
 - **THEN** that entry shows an error until it's given another set
 
+### Requirement: Copying a button
+The button list SHALL have Copy and Paste beside Add and Remove. Copy SHALL copy the chosen button, and Paste SHALL replace the chosen button with the copied one, keeping the chosen button's position. Paste SHALL be disabled until a button has been copied. Only one of a set and a button SHALL be copied at a time: copying either SHALL discard the other. Ctrl+C (Cmd+C on a Mac) SHALL copy the button when the button list, the preview or the button's fields have focus, or were last clicked, and the set otherwise. Ctrl+V (Cmd+V) SHALL paste whichever was copied.
+
+#### Scenario: Copying a button discards a copied set
+- **WHEN** a user copies a set, then copies a button
+- **THEN** only the button can be pasted, and the set's Paste is disabled
+
+#### Scenario: Pasting a button into another set
+- **WHEN** a user copies a button and pastes it over a button in another set
+- **THEN** that button takes the copied button's fields, keeps its own position, and the source set is unchanged
+
 ### Requirement: Copying buttons
 The tab SHALL let the user copy the chosen set's buttons with a Copy button under the item list, and paste them over another set's buttons with a Paste button. Paste SHALL be disabled until a set has been copied. Ctrl+C and Ctrl+V, and Cmd+C and Cmd+V on a Mac, SHALL do the same, except while typing in a text field or with text selected for copying. What was copied SHALL be the buttons as they were when copied.
 

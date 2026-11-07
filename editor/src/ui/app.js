@@ -1122,16 +1122,29 @@
         e.preventDefault();
         app.open();
       } else if ((k === "c" || k === "v") && !e.shiftKey) {
-        // Copies or pastes the chosen item, on a tab that offers it. Text
-        // being typed or selected is left to the browser.
+        // Copies or pastes the chosen item, or the part of it that has
+        // focus or was last clicked, on a tab that offers it. Text being
+        // typed or selected is left to the browser.
         var clip = S.cat && AG.ui.clipboard && AG.ui.clipboard[S.tab];
         if (!clip || isTextEntry(e.target)) return;
         var sel = root.ownerDocument.getSelection && root.ownerDocument.getSelection();
         if (k === "c" && sel && !sel.isCollapsed && String(sel).trim()) return;
-        if ((k === "c" ? clip.copy : clip.paste)(app)) e.preventDefault();
+        var done = k === "c" ? clip.copy(app, clip.areaOf(e.target) || S.clipArea[S.tab]) : clip.paste(app);
+        if (done) e.preventDefault();
       }
     }
     root.ownerDocument.addEventListener("keydown", onKey);
+
+    // Where the user last clicked or moved focus, for what Copy acts on
+    // once a re-render has taken focus away from it.
+    S.clipArea = {};
+    function noteArea(e) {
+      var clip = AG.ui.clipboard && AG.ui.clipboard[S.tab];
+      var area = clip && clip.areaOf(e.target);
+      if (area) S.clipArea[S.tab] = area;
+    }
+    root.addEventListener("pointerdown", noteArea, true);
+    root.addEventListener("focusin", noteArea, true);
 
     // An open menu closes on a click anywhere outside it, and on Escape.
     function onPointerDown(e) {
