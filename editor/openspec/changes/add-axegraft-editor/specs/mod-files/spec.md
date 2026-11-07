@@ -185,7 +185,7 @@ The editor SHALL undo and redo every change to the mod, across all tabs, from it
 - **THEN** both changes are gone, and the mod matches its earlier state
 
 ### Requirement: Drafts
-The editor SHALL keep a draft of unsaved work in browser storage, and SHALL offer to restore it at the next start. It SHALL warn before closing with unsaved changes where the browser allows.
+The editor SHALL keep a draft of unsaved work in browser storage, and SHALL offer to restore it at the next start. Each browser tab SHALL keep its own draft, and a draft SHALL be offered only once no open tab is using it, newest first. A draft that's waiting to be written SHALL be written as soon as the page is hidden. It SHALL warn before closing with unsaved changes where the browser allows.
 
 #### Scenario: Browser closed unexpectedly
 - **WHEN** the browser closes with unsaved changes, and the user opens the editor again
@@ -194,3 +194,15 @@ The editor SHALL keep a draft of unsaved work in browser storage, and SHALL offe
 #### Scenario: Declining a draft
 - **WHEN** the user declines to restore a draft
 - **THEN** the draft is deleted
+
+#### Scenario: Closing a tab right after a change
+- **WHEN** the user changes the mod and closes the tab or switches away from it straight after
+- **THEN** the change is in the draft
+
+#### Scenario: Two tabs
+- **WHEN** a user edits a mod in each of two tabs
+- **THEN** each tab keeps its own draft, and neither overwrites the other's
+
+#### Scenario: A draft in use by another tab
+- **WHEN** the editor starts while another open tab has unsaved work
+- **THEN** it doesn't offer that tab's draft, and offers it once that tab has closed

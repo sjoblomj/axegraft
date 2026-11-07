@@ -12,8 +12,13 @@
 
   AG.ui.panels = AG.ui.panels || {};
 
-  var DRAFT_KEY = "current";
   var DRAFT_DELAY = 400;
+  var DRAFT_LOCK = "axegraft-editor.draft:";
+
+  // A new key for an editor's draft.
+  function newDraftKey() {
+    return "tab-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+  }
 
   function isTextEntry(el) {
     if (!el || !el.tagName) return false;
@@ -31,6 +36,7 @@
   //              such as the theme (default: localStorage, where it works)
   //   page:      true to theme the whole page, not only `root`
   //   logo:      the URL of the start screen's logo (default: images/axegraft.png)
+  //   locks:     a Web Locks manager, or null for none (default: navigator.locks)
   function createApp(root, options) {
     options = options || {};
     var catalogs = options.catalogs || { games: {}, errors: [] };
@@ -66,6 +72,9 @@
     };
     var S = app.state;
     var draftTimer = null;
+    var draftKey = newDraftKey();
+    var releaseOwn = null;
+    var locks = options.locks !== undefined ? options.locks : (typeof navigator !== "undefined" && navigator.locks) || null;
 
     // ---- Theme
 
@@ -390,6 +399,13 @@
     };
 
     // ---- Drafts
+    //
+    // Each editor, so each browser tab, keeps its own draft under its own
+    // key, and holds a Web Lock named after that key while it runs. The
+    // browser releases the lock when the tab closes or crashes, so a draft
+    // whose lock is free belongs to no open tab, and the next editor to start
+    // offers it back. Restoring one adopts its key. Without Web Locks, every
+    // other draft is taken to be free.
 
     function scheduleDraft() {
       if (!app.storage) return;
@@ -399,46 +415,129 @@
     function writeDraft() {
       draftTimer = null;
       if (!app.storage || !S.history) return Promise.resolve();
-      if (!app.isDirty()) return app.storage.del("drafts", DRAFT_KEY);
-      return app.storage.put("drafts", DRAFT_KEY, { game: S.game, fileName: S.fileName, text: app.serialized(), savedText: S.savedText, time: Date.now() });
+      if (!app.isDirty()) return app.storage.del("drafts", draftKey);
+      return app.storage.put("drafts", draftKey, { game: S.game, fileName: S.fileName, text: app.serialized(), savedText: S.savedText, time: Date.now() });
     }
     function clearDraft() {
       if (draftTimer) clearTimeout(draftTimer);
       draftTimer = null;
-      if (app.storage) app.storage.del("drafts", DRAFT_KEY);
+      if (app.storage) app.storage.del("drafts", draftKey);
     }
     app.flushDraft = function () {
       if (draftTimer) clearTimeout(draftTimer);
       return writeDraft();
     };
+    app.draftKey = function () {
+      return draftKey;
+    };
 
-    function offerDraft() {
-      return app.storage.get("drafts", DRAFT_KEY).then(function (d) {
-        if (!d || !catalogs.games[d.game]) return false;
-        var result = AG.core.modfile.read(d.text, catalogs.games);
-        if (result.refused) {
-          clearDraft();
-          return false;
-        }
-        var when = new Date(d.time || Date.now());
-        return dialogs
-          .confirm(
-            root,
-            "Restore unsaved work?",
-            "There's unsaved work on " + (d.fileName || "an untitled " + catalogs.games[d.game].title + " mod") + " from " + when.toLocaleString() + ". Restore it? If you don't, it's deleted.",
-            "Restore",
-            "Delete it",
-            "draft"
-          )
-          .then(function (yes) {
-            if (!yes) {
-              clearDraft();
-              return false;
+    // Holds the lock on a draft's key. Resolves with a function that releases
+    // it, or with null if another tab holds it.
+    function claim(key) {
+      if (!locks) return Promise.resolve(function () {});
+      return new Promise(function (resolve) {
+        Promise.resolve(
+          locks.request(DRAFT_LOCK + key, { ifAvailable: true }, function (lock) {
+            if (!lock) {
+              resolve(null);
+              return undefined;
             }
-            var cat = catalogs.games[d.game];
-            load(d.game, AG.core.doc.normalize(result.mod, cat), d.fileName || null, null, d.savedText === undefined ? null : d.savedText);
-            return true;
+            return new Promise(function (release) {
+              resolve(release);
+            });
+          })
+        ).catch(function () {
+          // Locks that fail are taken to be free.
+          resolve(function () {});
+        });
+      });
+    }
+    var ownClaim = claim(draftKey).then(function (release) {
+      releaseOwn = release;
+    });
+
+    // Stops this editor using its draft, as closing its tab would. The draft
+    // is kept, and the next editor to start offers it.
+    app.close = function () {
+      if (draftTimer) clearTimeout(draftTimer);
+      draftTimer = null;
+      if (releaseOwn) releaseOwn();
+      releaseOwn = null;
+    };
+
+    // Offers the drafts no open tab is using, newest first, until one is
+    // restored. Those declined are deleted.
+    function offerDrafts() {
+      return ownClaim
+        .then(function () {
+          return app.storage.keys("drafts");
+        })
+        .then(function (keys) {
+          return Promise.all(
+            keys
+              .filter(function (k) {
+                return k !== draftKey;
+              })
+              .map(function (k) {
+                return app.storage.get("drafts", k).then(function (d) {
+                  return { key: k, time: (d && d.time) || 0 };
+                });
+              })
+          );
+        })
+        .then(function (list) {
+          list.sort(function (a, b) {
+            return b.time - a.time;
           });
+          function next(i) {
+            if (i >= list.length) return false;
+            return offerDraft(list[i].key).then(function (restored) {
+              return restored || next(i + 1);
+            });
+          }
+          return next(0);
+        });
+    }
+
+    function offerDraft(key) {
+      return claim(key).then(function (release) {
+        if (!release) return false;
+        // Read again now that it's ours: its tab may have changed it last.
+        return app.storage.get("drafts", key).then(function (d) {
+          if (!d || !catalogs.games[d.game]) {
+            release();
+            return false;
+          }
+          function discard() {
+            app.storage.del("drafts", key);
+            release();
+            return false;
+          }
+          var result = AG.core.modfile.read(d.text, catalogs.games);
+          if (result.refused) return discard();
+          var when = new Date(d.time || Date.now());
+          return dialogs
+            .confirm(
+              root,
+              "Restore unsaved work?",
+              "There's unsaved work on " + (d.fileName || "an untitled " + catalogs.games[d.game].title + " mod") + " from " + when.toLocaleString() + ". Restore it? If you don't, it's deleted.",
+              "Restore",
+              "Delete it",
+              "draft"
+            )
+            .then(function (yes) {
+              if (!yes) return discard();
+              // The restored work goes on under the draft's own key.
+              var oldKey = draftKey;
+              if (releaseOwn) releaseOwn();
+              draftKey = key;
+              releaseOwn = release;
+              app.storage.del("drafts", oldKey);
+              var cat = catalogs.games[d.game];
+              load(d.game, AG.core.doc.normalize(result.mod, cat), d.fileName || null, null, d.savedText === undefined ? null : d.savedText);
+              return true;
+            });
+        });
       });
     }
 
@@ -1189,6 +1288,22 @@
     if (typeof window !== "undefined") window.addEventListener("beforeunload", onBeforeUnload);
     app.onBeforeUnload = onBeforeUnload;
 
+    // A pending draft is written as soon as the page is hidden, which is
+    // the last moment a phone, or a browser discarding the tab, is sure to
+    // let it run. beforeunload alone doesn't always come.
+    function onPageHidden(e) {
+      if (!root.isConnected) {
+        window.removeEventListener("pagehide", onPageHidden);
+        root.ownerDocument.removeEventListener("visibilitychange", onPageHidden);
+        return;
+      }
+      if (e && e.type === "visibilitychange" && root.ownerDocument.visibilityState !== "hidden") return;
+      if (app.storage && draftTimer) app.flushDraft();
+    }
+    if (typeof window !== "undefined") window.addEventListener("pagehide", onPageHidden);
+    root.ownerDocument.addEventListener("visibilitychange", onPageHidden);
+    app.onPageHidden = onPageHidden;
+
     // ---- Start
 
     app.render();
@@ -1207,7 +1322,7 @@
       .then(function () {
         // The assets can change the start screen, such as its logos.
         app.render();
-        return offerDraft();
+        return offerDrafts();
       })
       .catch(function (e) {
         if (typeof console !== "undefined") console.error(e);

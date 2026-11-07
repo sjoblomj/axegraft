@@ -59,6 +59,29 @@
     };
   }
 
+  // A Web Locks manager for one test, so tests don't share the page's
+  // locks. Editors sharing one act like tabs of the same browser.
+  function fakeLocks() {
+    var held = {};
+    return {
+      held: held,
+      request: function (name, opts, cb) {
+        if (held[name]) return Promise.resolve(cb(null));
+        held[name] = true;
+        return Promise.resolve(cb({ name: name, mode: "exclusive" })).then(
+          function (v) {
+            delete held[name];
+            return v;
+          },
+          function (e) {
+            delete held[name];
+            throw e;
+          }
+        );
+      }
+    };
+  }
+
   // Starts an editor in the test sandbox. Resolves once it has started.
   function start(ctx, options) {
     options = options || {};
@@ -70,6 +93,7 @@
       platform: options.platform || platform(),
       assets: options.assets,
       prefs: options.prefs || memoryPrefs(),
+      locks: options.locks || fakeLocks(),
       logo: "../images/axegraft.png"
     });
     app.testPlatform = app.platform;
@@ -177,5 +201,5 @@
     });
   }
 
-  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, until: until, key: key, change: change, search: search, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
+  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, fakeLocks: fakeLocks, file: file, start: start, wait: wait, until: until, key: key, change: change, search: search, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
 })(AxeGraft);

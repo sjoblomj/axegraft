@@ -128,7 +128,7 @@ Help texts and the changed mark's tooltip are placed in window coordinates by sc
 
 Opening uses `<input type=file>`, and saving always has a Blob download. Where `showSaveFilePicker` exists, Save writes straight to the chosen file. This matters for repeated test runs, and it's optional.
 
-Drafts and imported assets go in IndexedDB, behind a small wrapper that falls back to memory for the session. `localStorage` is too small for icons. Each draft is written shortly after a change, with its catalog's game and the file name.
+Drafts and imported assets go in IndexedDB, behind a small wrapper that falls back to memory for the session. `localStorage` is too small for icons. Each draft is written shortly after a change, with its catalog's game and the file name, and at once when the page is hidden (`pagehide` or `visibilitychange`), since `beforeunload` doesn't always come and can't wait for IndexedDB. Each editor keeps its draft under its own key and holds a Web Lock named after it while it runs. The browser frees the lock when the tab closes or crashes, so a starting editor offers only the drafts whose lock it can take, and restoring one adopts its key. Without Web Locks, every other draft counts as free. A key in `sessionStorage` was rejected: duplicating a tab copies it, so two tabs would share a draft.
 
 ### 8. Assets are decoded in the browser and cached
 
