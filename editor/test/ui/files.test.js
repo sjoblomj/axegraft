@@ -78,7 +78,9 @@
       return app.newMod("starcraft").then(function () {
         app.platform.toOpen = { file: U.file("footmen.json", W2_MOD), handle: null };
         U.q(app, '[data-command="open"]').click();
-        return U.wait(10);
+        return U.until(function () {
+          return app.state.game === "warcraft2";
+        }, "the Warcraft II mod to open");
       }).then(function () {
         T.equal(app.state.game, "warcraft2");
         T.equal(U.texts(app, '[role="tab"] > span:first-child'), ["Units", "Button Sets", "Constants"]);

@@ -473,7 +473,10 @@
       T.equal(img.getAttribute("src"), "../assets/starcraft/logo.png");
       T.equal(img.alt, "New " + app.catalogs.games.starcraft.title + " mod");
       T.equal(svc.logoURL("nothing"), null);
-      return T.ui.wait(500).then(function () {
+      return T.ui.until(function () {
+        var shippedLogo = app.root.querySelector('[data-new-mod="starcraft"] img');
+        return !T.ui.q(app, '[data-new-mod="warcraft2"]').querySelector("img") && shippedLogo && shippedLogo.complete;
+      }, "the logos to load or fail").then(function () {
         var w2 = T.ui.q(app, '[data-new-mod="warcraft2"]');
         T.ok(!w2.querySelector("img"), "a logo that doesn't load becomes text");
         T.equal(w2.textContent, "New " + app.catalogs.games.warcraft2.title + " mod");

@@ -84,6 +84,22 @@
     });
   }
 
+  // Waits until `check` returns a truthy value, or a promise of one, and
+  // resolves with that value. Fails after `ms` (default 5000) saying what
+  // was awaited. Use this rather than sleeping a fixed time, which races
+  // timers and loading on a slow or busy machine.
+  function until(check, what, ms) {
+    var deadline = Date.now() + (ms || 5000);
+    function poll() {
+      return Promise.resolve(check()).then(function (v) {
+        if (v) return v;
+        if (Date.now() > deadline) throw new Error("timed out waiting for " + what);
+        return wait(10).then(poll);
+      });
+    }
+    return poll();
+  }
+
   function key(el, k, opts) {
     var e = new KeyboardEvent("keydown", Object.assign({ key: k, bubbles: true, cancelable: true }, opts || {}));
     el.dispatchEvent(e);
@@ -161,5 +177,5 @@
     });
   }
 
-  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, search: search, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
+  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, until: until, key: key, change: change, search: search, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
 })(AxeGraft);

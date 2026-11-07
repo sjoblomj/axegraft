@@ -17,7 +17,9 @@
       }).then(function () {
         first.root.parentNode.removeChild(first.root);
         var second = U.start(ctx, { storage: storage });
-        return U.wait(20).then(function () {
+        return U.until(function () {
+          return document.querySelector('dialog[data-dialog="draft"]');
+        }, "the restore offer").then(function () {
           return { storage: storage, first: first, secondReady: second };
         });
       });
@@ -31,20 +33,22 @@
         app.edit(function (d) {
           return D.setConstant(d, app.cat(), "max_supply", 600);
         });
-        return U.wait(600);
-      }).then(function () {
-        return storage.get("drafts", "current");
+        return U.until(function () {
+          return storage.get("drafts", "current");
+        }, "the draft to be written");
       }).then(function (d) {
         T.ok(d, "written shortly after the change");
         T.equal(d.game, "starcraft");
         T.equal(JSON.parse(d.text).constants[0].value, 600);
         return app.save();
       }).then(function () {
-        return U.wait(10).then(function () {
-          return storage.get("drafts", "current");
-        });
-      }).then(function (d) {
-        T.equal(d, undefined);
+        return U.until(function () {
+          return storage.get("drafts", "current").then(function (d) {
+            return d === undefined;
+          });
+        }, "the draft to be removed");
+      }).then(function (removed) {
+        T.ok(removed);
       });
     });
   }, { dom: true });
