@@ -13,7 +13,7 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 2.1 Define the typed mod model and a `Problem` type carrying input name, path and message, and verify with unit tests that problems format with all three
 - [ ] 2.2 Parse the header, the mod information and the parts with strict fields, ignored labels on entries and an ignored `labels` object, and verify the "Mod header", "Mod information", "Mod parts", "Strict fields" and "Editor labels" scenarios pass as tests
 - [ ] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" scenarios pass
-- [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry", "Button fields" and "Button order in Warcraft II" scenarios pass for both games
+- [ ] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry", "Button fields" and "Button order" scenarios pass for both games
 - [ ] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions
 - [ ] 2.6 Validate requirement entries and lists, and verify the "Requirement entries" and "Requirement lists" scenarios pass, including the Zerg Carapace example
 - [ ] 2.7 Validate constant entries, ranges and options, and verify the "Constant entries" scenarios pass
