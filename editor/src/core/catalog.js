@@ -25,7 +25,7 @@
     "conditionVariable",
     "actionVariable"
   ];
-  var LIMITS_OPTIONAL = ["tech", "upgrade", "order"];
+  var LIMITS_OPTIONAL = ["tech", "upgrade", "order", "missile", "spellSound"];
   var BUTTON_KINDS = ["position", "icon", "string", "condition", "conditionVariable", "action", "actionVariable", "choice"];
   var BUTTON_KINDS_ONCE = ["position", "icon", "condition", "conditionVariable", "action", "actionVariable"];
   var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon", "string", "choice", "tableEntry"];
@@ -34,7 +34,7 @@
   var PARAMETER_TYPES = ["unit", "tech", "upgrade", "order"];
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var OPCODE_ROLES = ["or", "level", "endSublist"];
-  var REFERS = ["unit", "tech", "upgrade", "order", "tableEntry"];
+  var REFERS = ["unit", "tech", "upgrade", "order", "missile", "spellSound", "tableEntry"];
   var STATES = ["unknown", "not_applicable"];
 
   var TOP_KEYS = [
@@ -58,6 +58,8 @@
     "upgrades",
     "techs",
     "orders",
+    "missiles",
+    "spellSounds",
     "requirements",
     "constants",
     "icons",
@@ -313,7 +315,7 @@
       if (raw.requirements !== undefined) problem("requirements are given, but parts doesn't include requirements");
     }
 
-    // Named things: upgrades, techs, orders
+    // Named things: upgrades, techs, orders, missiles, spell sounds
     function checkNamed(listName, rangeKey) {
       var list = raw[listName];
       var ids = {};
@@ -337,6 +339,8 @@
     checkNamed("upgrades", "upgrade");
     checkNamed("techs", "tech");
     checkNamed("orders", "order");
+    checkNamed("missiles", "missile");
+    checkNamed("spellSounds", "spellSound");
 
     // Button sets
     var setById = {};
@@ -718,6 +722,8 @@
       upgrades: map(raw.upgrades),
       techs: map(raw.techs),
       orders: map(raw.orders),
+      missiles: map(raw.missiles),
+      spellSounds: map(raw.spellSounds),
       requirements: new Map(),
       constants: map(raw.constants, "name"),
       constantList: raw.constants || [],

@@ -16,6 +16,8 @@ AxeGraft.registerCatalog({
     "unit": {"min": 0, "max": 109},
     "tableEntry": {"min": 0, "max": 119},
     "upgrade": {"min": 0, "max": 51},
+    "missile": {"min": 0, "max": 29},
+    "spellSound": {"min": 0, "max": 16},
     "buttonSet": {"min": 0, "max": 999},
     "icon": {"min": 0, "max": 65535},
     "string": {"min": 0, "max": 65535},
@@ -7688,6 +7690,57 @@ AxeGraft.registerCatalog({
     {"id": 59, "name": "Circle of Power", "tree": ["Actions"]},
     {"id": 60, "name": "None", "tree": ["Actions"]}
   ],
+  "missiles": [
+    {"id": 0, "name": "Lightning", "tree": ["Missiles"]},
+    {"id": 1, "name": "Gryphon Hammer", "tree": ["Missiles"]},
+    {"id": 2, "name": "Dragon Breath/Fireball", "tree": ["Missiles"]},
+    {"id": 3, "name": "Fireball when casting Flame Shield", "tree": ["Missiles"]},
+    {"id": 4, "name": "Flame Shield", "tree": ["Missiles"]},
+    {"id": 5, "name": "Ice Shard (Blizzard)", "tree": ["Missiles"]},
+    {"id": 6, "name": "Death and Decay", "tree": ["Missiles"]},
+    {"id": 7, "name": "Big Cannon", "tree": ["Missiles"]},
+    {"id": 8, "name": "Exorcism", "tree": ["Missiles"]},
+    {"id": 9, "name": "Heal Effect", "tree": ["Missiles"]},
+    {"id": 10, "name": "Touch of Death", "tree": ["Missiles"]},
+    {"id": 11, "name": "Rune", "tree": ["Missiles"]},
+    {"id": 12, "name": "Tornado", "tree": ["Missiles"]},
+    {"id": 13, "name": "Catapult Rock", "tree": ["Missiles"]},
+    {"id": 14, "name": "Ballista Bolt", "tree": ["Missiles"]},
+    {"id": 15, "name": "Arrow", "tree": ["Missiles"]},
+    {"id": 16, "name": "Axe", "tree": ["Missiles"]},
+    {"id": 17, "name": "Submarine Missile", "tree": ["Missiles"]},
+    {"id": 18, "name": "Turtle Missile", "tree": ["Missiles"]},
+    {"id": 19, "name": "Small Fire", "tree": ["Missiles"]},
+    {"id": 20, "name": "Big Fire", "tree": ["Missiles"]},
+    {"id": 21, "name": "Ballista/Catapult Impact", "tree": ["Missiles"]},
+    {"id": 22, "name": "Normal Spell", "tree": ["Missiles"]},
+    {"id": 23, "name": "Explosion", "tree": ["Missiles"]},
+    {"id": 24, "name": "Cannon", "tree": ["Missiles"]},
+    {"id": 25, "name": "Cannon Fire", "tree": ["Missiles"]},
+    {"id": 26, "name": "Cannon Explosion", "tree": ["Missiles"]},
+    {"id": 27, "name": "Daemon Fire", "tree": ["Missiles"]},
+    {"id": 28, "name": "Green Cross", "tree": ["Missiles"]},
+    {"id": 29, "name": "None", "tree": ["Missiles"]}
+  ],
+  "spellSounds": [
+    {"id": 0, "name": "Bloodlust", "tree": ["Spell sounds"]},
+    {"id": 1, "name": "Death and Decay", "tree": ["Spell sounds"]},
+    {"id": 2, "name": "Death Coil", "tree": ["Spell sounds"]},
+    {"id": 3, "name": "Exorcism", "tree": ["Spell sounds"]},
+    {"id": 4, "name": "Flame Shield", "tree": ["Spell sounds"]},
+    {"id": 5, "name": "Haste", "tree": ["Spell sounds"]},
+    {"id": 6, "name": "Healing", "tree": ["Spell sounds"]},
+    {"id": 7, "name": "Holy Vision", "tree": ["Spell sounds"]},
+    {"id": 8, "name": "Blizzard", "tree": ["Spell sounds"]},
+    {"id": 9, "name": "Invisibility", "tree": ["Spell sounds"]},
+    {"id": 10, "name": "Eye of Kilrogg", "tree": ["Spell sounds"]},
+    {"id": 11, "name": "Polymorph", "tree": ["Spell sounds"]},
+    {"id": 12, "name": "Slow", "tree": ["Spell sounds"]},
+    {"id": 13, "name": "Raise Dead", "tree": ["Spell sounds"]},
+    {"id": 14, "name": "Runes", "tree": ["Spell sounds"]},
+    {"id": 15, "name": "Unholy Armor", "tree": ["Spell sounds"]},
+    {"id": 16, "name": "Whirlwind", "tree": ["Spell sounds"]}
+  ],
   "icons": {
     "0": "BTN_H_PEON",
     "1": "BTN_O_PEON",
@@ -8322,6 +8375,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Holy Vision"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown at each revealed place.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8332,6 +8386,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Holy Vision"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 7, "1.33": 7, "1.5": 7, "2.00": 7, "2.02": 7}
@@ -8342,6 +8397,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Healing"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the healed unit.",
       "availability": {"1.3": 9, "1.33": 9, "1.5": 9, "2.00": 9, "2.02": 9}
@@ -8352,6 +8408,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Healing"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 6, "1.33": 6, "1.5": 6, "2.00": 6, "2.02": 6}
@@ -8362,6 +8419,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Exorcism"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on each unit hit.",
       "availability": {"1.3": 8, "1.33": 8, "1.5": 8, "2.00": 8, "2.02": 8}
@@ -8372,6 +8430,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Exorcism"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound. Played for each unit hit.",
       "availability": {"1.3": 3, "1.33": 3, "1.5": 3, "2.00": 3, "2.02": 3}
@@ -8382,6 +8441,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Flame Shield"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile that flies from the caster to the target.",
       "availability": {"1.3": 3, "1.33": 3, "1.5": 3, "2.00": 3, "2.02": 3}
@@ -8392,6 +8452,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Flame Shield"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 4, "1.33": 4, "1.5": 4, "2.00": 4, "2.02": 4}
@@ -8402,6 +8463,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Fireball"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile fired. In 2.00 and 2.02 the same byte is also stored in another missile field, so changing it changes that too.",
       "availability": {"1.3": 2, "1.33": 2, "1.5": 2, "2.00": 2, "2.02": 2}
@@ -8412,6 +8474,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Slow"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the target.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8422,6 +8485,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Slow"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 12, "1.33": 12, "1.5": 12, "2.00": 12, "2.02": 12}
@@ -8432,6 +8496,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Invisibility"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the target.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8442,6 +8507,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Invisibility"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 9, "1.33": 9, "1.5": 9, "2.00": 9, "2.02": 9}
@@ -8452,6 +8518,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Polymorph"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the critter.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8462,6 +8529,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Polymorph"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 11, "1.33": 11, "1.5": 11, "2.00": 11, "2.02": 11}
@@ -8472,6 +8540,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Blizzard"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile dropped.",
       "availability": {"1.3": 5, "1.33": 5, "1.5": 5, "2.00": 5, "2.02": 5}
@@ -8482,6 +8551,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Blizzard"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 8, "1.33": 8, "1.5": 8, "2.00": 8, "2.02": 8}
@@ -8492,6 +8562,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Eye of Kilrogg"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 10, "1.33": 10, "1.5": 10, "2.00": "not_applicable", "2.02": "not_applicable"}
@@ -8511,6 +8582,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Bloodlust"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the target.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8521,6 +8593,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Bloodlust"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound. 1.3, 1.33 and 1.5 set it to 0 with xor, so there is no value to change.",
       "availability": {"1.3": "not_applicable", "1.33": "not_applicable", "1.5": "not_applicable", "2.00": 0, "2.02": 0}
@@ -8531,6 +8604,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Raise Dead"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on each skeleton.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8541,6 +8615,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Raise Dead"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 13, "1.33": 13, "1.5": 13, "2.00": "not_applicable", "2.02": "not_applicable"}
@@ -8560,6 +8635,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Death Coil"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound. In 1.3, 1.33 and 1.5 the same register is first passed to the function that fires the caster's missile at each unit.",
       "availability": {"1.3": 2, "1.33": 2, "1.5": 2, "2.00": 2, "2.02": 2}
@@ -8570,6 +8646,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Whirlwind"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile created.",
       "availability": {"1.3": 12, "1.33": 12, "1.5": 12, "2.00": 12, "2.02": 12}
@@ -8580,6 +8657,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Whirlwind"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 16, "1.33": 16, "1.5": 16, "2.00": 16, "2.02": 16}
@@ -8590,6 +8668,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Haste"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the target.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8600,6 +8679,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Haste"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 5, "1.33": 5, "1.5": 5, "2.00": 5, "2.02": 5}
@@ -8610,6 +8690,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Unholy Armor"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown on the target.",
       "availability": {"1.3": 22, "1.33": 22, "1.5": 22, "2.00": 22, "2.02": 22}
@@ -8620,6 +8701,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Unholy Armor"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 15, "1.33": 15, "1.5": 15, "2.00": 15, "2.02": 15}
@@ -8630,6 +8712,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Runes"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile that shows a rune, where it is placed and again when it is redrawn just before it disappears.",
       "availability": {"1.3": 11, "1.33": 11, "1.5": 11, "2.00": 11, "2.02": 11}
@@ -8640,6 +8723,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Runes"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile shown when a rune is set off.",
       "availability": {"1.3": 23, "1.33": 23, "1.5": 23, "2.00": 23, "2.02": 23}
@@ -8650,6 +8734,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Runes"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 14, "1.33": 14, "1.5": 14, "2.00": "not_applicable", "2.02": "not_applicable"}
@@ -8669,6 +8754,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Death and Decay"],
       "kind": "number",
       "range": {"min": 0, "max": 29},
+      "refers": "missile",
       "note": "A missile number from 0 to 28; 29 is none.",
       "help": "Missile dropped.",
       "availability": {"1.3": 6, "1.33": 6, "1.5": 6, "2.00": 6, "2.02": 6}
@@ -8679,6 +8765,7 @@ AxeGraft.registerCatalog({
       "group": ["Spells", "Death and Decay"],
       "kind": "number",
       "range": {"min": 0, "max": 255},
+      "refers": "spellSound",
       "note": "A spell sound from 0 (Bloodlust) to 16 (Whirlwind), to which the Spell sound base is added.",
       "help": "Spell sound.",
       "availability": {"1.3": 1, "1.33": 1, "1.5": 1, "2.00": 1, "2.02": 1}
