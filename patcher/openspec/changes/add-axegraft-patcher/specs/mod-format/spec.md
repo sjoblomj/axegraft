@@ -56,7 +56,7 @@ A mod SHALL contain at most these parts, each an array: `units`, `button_sets`, 
 - **THEN** the mod is rejected
 
 ### Requirement: Strict fields
-Every object in a mod SHALL contain only the fields defined for it, apart from the `mod` object, which MAY contain others (see "Mod information"). Any object MAY also contain a string `label`, which SHALL have no effect on the result.
+Every object in a mod SHALL contain only the fields defined for it, apart from the `mod` object, which MAY contain others (see "Mod information"), and `labels`, whose contents aren't checked (see "Editor labels"). Every entry of `units`, `button_sets`, `requirements` and `constants`, and every button, MAY also contain a string `label`, which SHALL have no effect on the result. The top level of a mod SHALL NOT contain a `label`; it MAY contain `labels`.
 
 #### Scenario: Unknown field
 - **WHEN** a mod contains a field that isn't defined for that object
@@ -65,6 +65,21 @@ Every object in a mod SHALL contain only the fields defined for it, apart from t
 #### Scenario: Label is ignored
 - **WHEN** two mods differ only in their `label` values
 - **THEN** they produce identical changes
+
+#### Scenario: Label at the top level
+- **WHEN** a mod has a `label` beside `patcher`, `format` and `game`
+- **THEN** the mod is rejected, with an error naming the field
+
+### Requirement: Editor labels
+A mod MAY contain a `labels` object, after `mod`, holding the names an editor shows for items instead of their usual ones, such as `"labels": {"units": {"0": "Rifleman"}}`. AxeGraft Patcher SHALL ignore `labels` and everything in it, whatever its type or contents. It SHALL have no effect on the result.
+
+#### Scenario: Labels are ignored
+- **WHEN** two mods differ only in their `labels`
+- **THEN** they produce identical changes
+
+#### Scenario: Labels of any shape
+- **WHEN** a mod's `labels` is an array, or has a unit ID beyond the button table, or gives a label that isn't a string
+- **THEN** the mod is accepted
 
 ### Requirement: Identifying game content and engine behaviour
 A mod SHALL refer to game content, meaning units, upgrades, techs, orders, button sets, icons and strings, by numeric ID. It SHALL refer to engine behaviour, meaning conditions, actions, status functions, opcodes and constants, by name. A mod SHALL NOT be able to supply an address or raw bytes.
