@@ -9357,56 +9357,6 @@ AxeGraft.registerCatalog({
       "availability": {"1.3": "food_4", "1.33": "food_4", "1.5": "food_4", "2.00": "food_4", "2.02": "food_4"}
     },
     {
-      "name": "dark_portal_unit",
-      "label": "Dark Portal: unit",
-      "group": ["Built-in levels", "Dark Portal"],
-      "kind": "number",
-      "range": {"min": 0, "max": 109},
-      "refers": "unit",
-      "help": "The Dark Portal. In the built-in levels 1450, 1452 and 1468 (the expansion's human levels 3, 4 and 12), only Khadgar can damage it. Not checked in custom scenarios or multiplayer games (the game keeps a flag for each; both are checked).",
-      "availability": {"1.3": 101, "1.33": 101, "1.5": 101, "2.00": 101, "2.02": 101}
-    },
-    {
-      "name": "dark_portal_attacker",
-      "label": "Dark Portal: attacker",
-      "group": ["Built-in levels", "Dark Portal"],
-      "kind": "number",
-      "range": {"min": 0, "max": 109},
-      "refers": "unit",
-      "help": "The unit that can damage the Dark Portal in those levels.",
-      "availability": {"1.3": 24, "1.33": 24, "1.5": 24, "2.00": 24, "2.02": 24}
-    },
-    {
-      "name": "dark_portal_level_1",
-      "label": "Dark Portal: first level",
-      "group": ["Built-in levels", "Dark Portal"],
-      "kind": "number",
-      "range": {"min": 0, "max": 45535},
-      "note": "Give the level number. 2.00 and 2.02 store it plus 20000 (21450), and the patcher converts it.",
-      "help": "The first level where only Khadgar can damage the Dark Portal: 1450, the expansion's human level 3.",
-      "availability": {"1.3": 1450, "1.33": 1450, "1.5": 1450, "2.00": 1450, "2.02": 1450}
-    },
-    {
-      "name": "dark_portal_level_2",
-      "label": "Dark Portal: second level",
-      "group": ["Built-in levels", "Dark Portal"],
-      "kind": "number",
-      "range": {"min": 0, "max": 45535},
-      "note": "Give the level number. 2.00 and 2.02 store it plus 20000 (21452), and the patcher converts it.",
-      "help": "The second such level: 1452, the expansion's human level 4.",
-      "availability": {"1.3": 1452, "1.33": 1452, "1.5": 1452, "2.00": 1452, "2.02": 1452}
-    },
-    {
-      "name": "dark_portal_level_3",
-      "label": "Dark Portal: third level",
-      "group": ["Built-in levels", "Dark Portal"],
-      "kind": "number",
-      "range": {"min": 0, "max": 45535},
-      "note": "Give the level number. 2.00 and 2.02 store it plus 20000 (21468), and the patcher converts it.",
-      "help": "The third such level: 1468, the expansion's human level 12.",
-      "availability": {"1.3": 1468, "1.33": 1468, "1.5": 1468, "2.00": 1468, "2.02": 1468}
-    },
-    {
       "name": "check_interval",
       "label": "Time between victory checks",
       "group": ["Victory conditions", "Checks"],
@@ -9435,78 +9385,6 @@ AxeGraft.registerCatalog({
       "note": "Counted in game cycles, whose length depends on the game speed.",
       "help": "The countdown for the attract-mode demo, the game that plays by itself at the title screen. It goes back to the main menu after (this value + 1) game cycles. In 1.3, 1.33 and 1.5 only the low word is stored, so the value can be at most 65535.",
       "availability": {"1.3": 1400, "1.33": 1400, "1.5": 1400, "2.00": 1400, "2.02": 1400}
-    },
-    {
-      "name": "standard_check_gold",
-      "label": "Standard check: gold",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 2147483647},
-      "help": "Gold below which a player without units loses, in the standard check.",
-      "availability": {"1.3": 400, "1.33": 400, "1.5": 400, "2.00": 400, "2.02": 400}
-    },
-    {
-      "name": "vicond_00_farms",
-      "label": "Human 1 and Orc 1: farms",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 255},
-      "help": "Complete farms the player needs, with a barracks, to win in vicond 0x00 (Human 1 and Orc 1).",
-      "availability": {"1.3": 4, "1.33": 4, "1.5": 4, "2.00": 4, "2.02": 4}
-    },
-    {
-      "name": "vicond_01_oil_platforms",
-      "label": "Human 3 and Orc 3: oil platforms",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 255},
-      "help": "Complete oil platforms the player needs to win in vicond 0x01 (Human 3 and Orc 3).",
-      "availability": {"1.3": 4, "1.33": 4, "1.5": 4, "2.00": 4, "2.02": 4}
-    },
-    {
-      "name": "vicond_0f_shipyards",
-      "label": "Orc 7x: shipyards",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 255},
-      "help": "Complete shipyards the player needs to win in vicond 0x0F (Orc 7x).",
-      "availability": {"1.3": 5, "1.33": 5, "1.5": 5, "2.00": 5, "2.02": 5}
-    },
-    {
-      "name": "vicond_18_shipyards",
-      "label": "Human 5x: shipyards",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 255},
-      "help": "Complete shipyards the player needs to win in vicond 0x18 (Human 5x).",
-      "availability": {"1.3": 3, "1.33": 3, "1.5": 3, "2.00": 3, "2.02": 3}
-    },
-    {
-      "name": "vicond_1b_runestone_hit_points",
-      "label": "Human 9x: Runestone hit points",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 65535},
-      "help": "Hit points given to Runestones when vicond 0x1B (Human 9x) starts. In 2.00 and 2.02 only the low word is stored, so the value can be at most 65535.",
-      "availability": {"1.3": 400, "1.33": 400, "1.5": 400, "2.00": 400, "2.02": 400}
-    },
-    {
-      "name": "vicond_1c_gold",
-      "label": "Human 10x: gold",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 2147483647},
-      "help": "Gold below which the other players must be to win in vicond 0x1C (Human 10x).",
-      "availability": {"1.3": 400, "1.33": 400, "1.5": 400, "2.00": 400, "2.02": 400}
-    },
-    {
-      "name": "circle_area_vicond",
-      "label": "Level that finds the Circle of Power",
-      "group": ["Victory conditions", "Values in the checks"],
-      "kind": "number",
-      "range": {"min": 0, "max": 255},
-      "help": "The vicond for which loading a map stores the area of the Circle of Power (CircleArea), which that level's check uses: 0x0A, Orc 9.",
-      "availability": {"1.3": 10, "1.33": 10, "1.5": 10, "2.00": 10, "2.02": 10}
     },
     {
       "name": "food_usage_label",
