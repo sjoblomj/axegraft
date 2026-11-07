@@ -818,17 +818,17 @@
       var cat = app.cat();
       var pos = cat.buttonKind.position.name;
       app.select("button_sets", "set:0");
-      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
+      T.equal(U.q(app, '[data-action="button-paste"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
       app.state.button["set:0"] = 1;
       app.render();
-      U.q(app, '[data-action="copy-button"]').click();
+      U.q(app, '[data-action="button-copy"]').click();
       var copied = D.effectiveButtons(app.doc(), cat, 0).buttons[1];
       app.select("button_sets", "set:5");
       app.state.button["set:5"] = 0;
       app.render();
       var target = D.effectiveButtons(app.doc(), cat, 5).buttons[0];
-      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), null);
-      U.q(app, '[data-action="paste-button"]').click();
+      T.equal(U.q(app, '[data-action="button-paste"]').getAttribute("aria-disabled"), null);
+      U.q(app, '[data-action="button-paste"]').click();
       var after = D.effectiveButtons(app.doc(), cat, 5).buttons;
       var want = Object.assign({}, copied);
       want[pos] = target[pos];
@@ -865,13 +865,13 @@
       app.select("button_sets", "set:0");
       U.q(app, '[data-action="set-copy"]').click();
       T.ok(app.state.setClipboard);
-      U.q(app, '[data-action="copy-button"]').click();
+      U.q(app, '[data-action="button-copy"]').click();
       T.ok(app.state.buttonClipboard);
       T.ok(!app.state.setClipboard, "copying a button discards the set");
       T.equal(U.q(app, '[data-action="set-paste"]').getAttribute("aria-disabled"), "true");
       U.q(app, '[data-action="set-copy"]').click();
       T.ok(!app.state.buttonClipboard, "copying a set discards the button");
-      T.equal(U.q(app, '[data-action="paste-button"]').getAttribute("aria-disabled"), "true");
+      T.equal(U.q(app, '[data-action="button-paste"]').getAttribute("aria-disabled"), "true");
       // A click on the preview, then focus lost: Ctrl+C copies the button.
       U.q(app, ".preview-box").dispatchEvent(new Event("pointerdown", { bubbles: true }));
       U.key(app.root.ownerDocument.body, "c", { ctrlKey: true });
@@ -883,6 +883,34 @@
       // Focus on the button list wins over the last click.
       U.key(U.q(app, ".button-list"), "c", { ctrlKey: true });
       T.ok(app.state.buttonClipboard && !app.state.setClipboard, "the button, from the focused list");
+    });
+  }, { dom: true });
+
+  T.test("copying a unit: Copy and Paste under the item list overwrite the chosen entry's fields, only those both have", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      function values(id) {
+        var eff = D.effectiveUnit(app.doc(), cat, id);
+        var out = {};
+        Object.keys(eff).forEach(function (f) {
+          out[f] = eff[f].value;
+        });
+        return out;
+      }
+      app.select("units", "unit:4");
+      T.equal(U.q(app, '[data-action="unit-paste"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
+      U.q(app, '[data-action="unit-copy"]').click();
+      app.select("units", "unit:5");
+      U.q(app, '[data-action="unit-paste"]').click();
+      T.equal(values(5), values(4));
+      // An entry that isn't a unit has only a button set to give.
+      app.select("units", "unit:232");
+      U.key(U.q(app, ".tree"), "c", { ctrlKey: true });
+      app.select("units", "unit:7");
+      var before = values(7);
+      U.key(U.q(app, ".tree"), "v", { metaKey: true });
+      before.button_set = 232;
+      T.equal(values(7), before);
     });
   }, { dom: true });
 

@@ -239,6 +239,44 @@
     ]);
   }
 
+  // A table entry's fields, copied over another entry's. Only the fields
+  // both have are pasted: a unit pasted onto an entry that isn't a unit
+  // gives it only its button set. Names given in AxeGraft aren't copied.
+  var unitCopy = AG.ui.copyPaste.make({
+    stateKey: "unitClipboard",
+    noun: "unit",
+    action: "unit",
+    chosen: function (app) {
+      var key = app.selected("units");
+      var k = key ? AG.core.tree.parseKey(key) : null;
+      return k && util.isInt(k.id) ? { id: k.id } : null;
+    },
+    label: function (app, u) {
+      var name = D.itemName(app.cat(), "unit", u.id, app.doc());
+      return name ? u.id + " " + name : "table entry " + u.id;
+    },
+    take: function (app, u) {
+      var eff = D.effectiveUnit(app.doc(), app.cat(), u.id);
+      var out = {};
+      Object.keys(eff).forEach(function (f) {
+        if (eff[f].value !== undefined) out[f] = eff[f].value;
+      });
+      return out;
+    },
+    put: function (d, app, u, fields) {
+      var cat = app.cat();
+      D.unitFieldsFor(cat, u.id).forEach(function (f) {
+        if (util.has(fields, f.name)) d = D.setUnitField(d, cat, u.id, f.name, fields[f.name]);
+      });
+      return d;
+    },
+    pasteText: function (to, from) {
+      return "Replace the fields of " + to + " with those copied from " + from;
+    }
+  });
+
   AG.ui.panels.units = panel;
+  AG.ui.treeActions.units = unitCopy.buttons;
+  AG.ui.clipboard.units = unitCopy;
   AG.ui.unitsTab = { setItems: setItems, unitItems: unitItems };
 })(AxeGraft);

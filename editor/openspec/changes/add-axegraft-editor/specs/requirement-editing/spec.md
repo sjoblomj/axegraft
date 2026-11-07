@@ -81,3 +81,10 @@ The tab SHALL be able to show the item's original record alongside the edited on
 #### Scenario: Comparing
 - **WHEN** a user has edited a record and asks to see the original
 - **THEN** both are visible, and the original differs by version where the catalog says so
+
+### Requirement: Copying a record
+The Requirements tab SHALL have Copy and Paste buttons under the item list. Copy SHALL copy the chosen record, and Paste SHALL replace the chosen record with it, whatever the two records' types. Paste SHALL be disabled until a record has been copied. Ctrl+C and Ctrl+V (Cmd+C and Cmd+V on a Mac) SHALL do the same, except in a text field or with text selected.
+
+#### Scenario: Pasting into a record of another type
+- **WHEN** a user copies a unit's record and pastes it onto a tech use record
+- **THEN** the tech use record holds the unit's rows, and any opcode a tech use record can't use is shown as a problem

@@ -33,6 +33,23 @@
 
   // ---- 7.2
 
+  T.test("copying a record: Copy and Paste under the item list, and Ctrl+C and Ctrl+V, replace the chosen record, of any type", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      app.select("requirements", "req:unit:0");
+      T.equal(U.q(app, '[data-action="req-paste"]').getAttribute("aria-disabled"), "true", "nothing copied yet");
+      U.q(app, '[data-action="req-copy"]').click();
+      app.select("requirements", "req:tech_use:0");
+      U.q(app, '[data-action="req-paste"]').click();
+      T.equal(D.effectiveRequirement(app.doc(), cat, "tech_use", 0).list, cat.requirements.get("unit:0").original["default"]);
+      app.select("requirements", "req:upgrade:3");
+      T.ok(U.key(U.q(app, ".tree"), "c", { ctrlKey: true }).defaultPrevented);
+      app.select("requirements", "req:unit:0");
+      T.ok(U.key(U.q(app, ".tree"), "v", { metaKey: true }).defaultPrevented);
+      T.equal(D.effectiveRequirement(app.doc(), cat, "unit", 0).list, cat.requirements.get("upgrade:3").original["default"]);
+    });
+  }, { dom: true });
+
   T.test("record editor: an opcode and its parameter share a row", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");

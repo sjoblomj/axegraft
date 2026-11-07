@@ -402,19 +402,11 @@
     });
     var listWithHelp = h("div", { class: "button-list-row", style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { flex: "1", "min-width": "0" } }, [list])].concat([help.described(list, help.text("buttonList"))[1]]));
 
-    // Add and Remove say what they do, and have no help. Sorting is only
+    // Add, Remove, Copy and Paste say what they do, and have no help. Sorting is only
     // offered for a set that's out of order, which only a mod opened that way
     // can be, as every edit keeps the order.
     function tool(label, action, onclick, disabled) {
       return h("button", { type: "button", class: "small", dataset: { action: action, plain: "" }, disabled: !!disabled, onclick: onclick }, label);
-    }
-    // Copy and Paste stay focusable when disabled, so their tooltips can
-    // say why.
-    var buttonClip = clipboard(app, "buttonClipboard");
-    function clipTool(label, action, title, disabled, onclick) {
-      return h("button", { type: "button", class: "small", title: title, "aria-disabled": disabled ? "true" : null, dataset: { action: action, focus: action, plain: "" }, onclick: function () {
-        if (!disabled) onclick();
-      } }, label);
     }
     var outOfOrder = cat.panel.ascending && AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) >= 0;
     var toolbar = h("div", { class: "toolbar" }, [
@@ -425,13 +417,8 @@
         editButtons(function (l) {
           l.splice(sel, 1);
         });
-      }, sel === null),
-      clipTool("Copy", "copy-button", sel === null ? "No button is chosen" : "Copy button " + (sel + 1) + " (" + shortcut("C") + ")", sel === null, function () {
-        copyButton(app);
-      }),
-      clipTool("Paste", "paste-button", !buttonClip ? "Copy a button first, to paste it here" : sel === null ? "No button is chosen" : "Replace button " + (sel + 1) + " with " + buttonClip.name + ", keeping its position (" + shortcut("V") + ")", !buttonClip || sel === null, function () {
-        pasteButton(app);
-      }),
+      }, sel === null)
+    ].concat(buttonCopy.buttons(app), [
       outOfOrder
         ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "sort-buttons" }, onclick: function () {
             app.edit(function (d) {
@@ -439,7 +426,7 @@
             });
           } }, "Sort by position"), help.text("sortButtons"))
         : null
-    ]);
+    ]));
 
     var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons, applyMove);
 
@@ -861,9 +848,11 @@
 
   // ---- Copying and pasting sets and buttons
   //
-  // What was copied is kept for the session, for the game it came from, so
-  // it can be pasted into another mod of that game. Only one of a set and a
-  // button is copied at a time.
+  // Only one of a set and a button is copied at a time, so what Paste does
+  // is never in doubt.
+
+  var CP = AG.ui.copyPaste;
+  var shortcut = CP.shortcut;
 
   // The chosen set's ID, or null.
   function chosenSet(app) {
@@ -872,40 +861,31 @@
     return util.isInt(id) ? id : null;
   }
 
-  // What was copied, a set or a button by `which`, if it's for this mod's
-  // game.
-  function clipboard(app, which) {
-    var clip = app.state[which || "setClipboard"];
-    return clip && clip.game === app.state.game ? clip : null;
-  }
+  // A set's buttons, copied over another set's.
+  var setCopy = CP.make({
+    stateKey: "setClipboard",
+    discard: ["buttonClipboard"],
+    noun: "set",
+    action: "set",
+    chosen: function (app) {
+      var id = chosenSet(app);
+      return id === null ? null : { id: id };
+    },
+    label: function (app, s) {
+      return D.setText(app.cat(), s.id, app.doc());
+    },
+    take: function (app, s) {
+      return D.effectiveButtons(app.doc(), app.cat(), s.id).buttons.slice();
+    },
+    put: function (d, app, s, buttons) {
+      return D.setButtons(d, app.cat(), s.id, buttons.slice());
+    },
+    pasteText: function (to, from) {
+      return "Replace the buttons of " + to + " with those copied from " + from;
+    }
+  });
 
-  // Copies the chosen set's buttons, discarding a copied button. False if
-  // no set is chosen.
-  function copySet(app) {
-    var id = chosenSet(app);
-    if (id === null) return false;
-    var cat = app.cat();
-    var doc = app.doc();
-    app.state.setClipboard = { game: app.state.game, id: id, name: D.setText(cat, id, doc), buttons: D.effectiveButtons(doc, cat, id).buttons.slice() };
-    app.state.buttonClipboard = null;
-    app.render();
-    return true;
-  }
-
-  // Replaces the chosen set's buttons with the copied ones. False if
-  // nothing was copied or no set is chosen.
-  function pasteSet(app) {
-    var id = chosenSet(app);
-    var clip = clipboard(app);
-    if (id === null || !clip) return false;
-    var cat = app.cat();
-    app.edit(function (d) {
-      return D.setButtons(d, cat, id, clip.buttons.slice());
-    });
-    return true;
-  }
-
-  // The chosen set and button, as { id, index, button }, or null.
+  // The chosen button, as { id, index, button }, or null.
   function chosenButton(app) {
     var id = chosenSet(app);
     if (id === null) return null;
@@ -915,35 +895,33 @@
     return { id: id, index: i, button: buttons[i] };
   }
 
-  // Copies the chosen button, discarding a copied set. False if no button
-  // is chosen.
-  function copyButton(app) {
-    var c = chosenButton(app);
-    if (!c) return false;
-    app.state.buttonClipboard = { game: app.state.game, name: "button " + (c.index + 1) + " of " + D.setText(app.cat(), c.id, app.doc()), button: Object.assign({}, c.button) };
-    app.state.setClipboard = null;
-    app.render();
-    return true;
-  }
-
-  // Replaces the chosen button with the copied one, keeping the chosen
-  // button's position, so the set's order is unchanged. False if nothing
-  // was copied or no button is chosen.
-  function pasteButton(app) {
-    var c = chosenButton(app);
-    var clip = clipboard(app, "buttonClipboard");
-    if (!c || !clip) return false;
-    var cat = app.cat();
-    var pos = cat.buttonKind.position.name;
-    app.edit(function (d) {
+  // One button, pasted over the chosen button but keeping that button's
+  // position, so the set's order is unchanged.
+  var buttonCopy = CP.make({
+    stateKey: "buttonClipboard",
+    discard: ["setClipboard"],
+    noun: "button",
+    action: "button",
+    chosen: chosenButton,
+    label: function (app, c) {
+      return "button " + (c.index + 1) + " of " + D.setText(app.cat(), c.id, app.doc());
+    },
+    take: function (app, c) {
+      return Object.assign({}, c.button);
+    },
+    put: function (d, app, c, button) {
+      var cat = app.cat();
+      var pos = cat.buttonKind.position.name;
       var list = D.effectiveButtons(d, cat, c.id).buttons.slice();
-      var b = Object.assign({}, clip.button);
+      var b = Object.assign({}, button);
       b[pos] = c.button[pos];
       list[c.index] = b;
       return D.setButtons(d, cat, c.id, list);
-    });
-    return true;
-  }
+    },
+    pasteText: function (to, from) {
+      return "Replace " + to + " with " + from + ", keeping its position";
+    }
+  });
 
   // What a click or focus on `target` makes Copy act on: "button" on the
   // button list, the preview or the button's fields, "set" on the item
@@ -955,12 +933,6 @@
     return null;
   }
 
-  // A shortcut as the platform writes it: Cmd on a Mac, Ctrl elsewhere.
-  function shortcut(k) {
-    var p = typeof navigator !== "undefined" ? navigator.platform || "" : "";
-    return (/^Mac|^iP/.test(p) ? "\u2318" : "Ctrl+") + k;
-  }
-
   // The buttons under the item list: add a set, remove a new one, and copy
   // and paste a set.
   function treeActions(app) {
@@ -969,25 +941,10 @@
     var id = chosenSet(app);
     var has = id !== null;
     var eff = has ? D.effectiveButtons(doc, cat, id) : null;
-    var clip = clipboard(app);
     var nextId = D.nextNewSet(doc, cat);
     var name = has ? D.setText(cat, id, doc) : "";
-
-    function button(action, label, title, disabled, onclick) {
-      return h("button", {
-        type: "button",
-        class: "small",
-        title: title,
-        "aria-disabled": disabled ? "true" : null,
-        dataset: { action: action, focus: action },
-        onclick: function () {
-          if (!disabled) onclick();
-        }
-      }, label);
-    }
-
     return [
-      button("set-add", "Add", nextId === null ? "Every new set ID is in use" : "Add a new set with no buttons, as set " + nextId, nextId === null, function () {
+      CP.actionButton("set-add", "Add", nextId === null ? "Every new set ID is in use" : "Add a new set with no buttons, as set " + nextId, nextId === null, function () {
         var made = null;
         app.edit(function (d) {
           made = D.addSet(d, cat, null);
@@ -995,34 +952,25 @@
         });
         if (made) app.select("button_sets", tree.key.set(made.id));
       }),
-      button("set-remove", "Remove", !has ? "No set is chosen" : eff.isNew ? "Remove " + name + " from the mod. Entries still assigned to it will show an error until they get another set." : "Only sets this mod adds can be removed", !has || !eff.isNew, function () {
+      CP.actionButton("set-remove", "Remove", !has ? "No set is chosen" : eff.isNew ? "Remove " + name + " from the mod. Entries still assigned to it will show an error until they get another set." : "Only sets this mod adds can be removed", !has || !eff.isNew, function () {
         app.edit(function (d) {
           return D.revertSet(d, cat, id);
         });
         app.state.selection.button_sets = null;
         app.render();
-      }),
-      button("set-copy", "Copy", has ? "Copy the buttons of " + name + " (" + shortcut("C") + ")" : "No set is chosen", !has, function () {
-        copySet(app);
-      }),
-      button("set-paste", "Paste", !clip ? "Copy a set first, to paste its buttons here" : !has ? "No set is chosen" : "Replace the buttons of " + name + " with those copied from " + clip.name + " (" + shortcut("V") + ")", !clip || !has, function () {
-        pasteSet(app);
       })
-    ];
+    ].concat(setCopy.buttons(app));
   }
 
   AG.ui.panels.button_sets = panel;
-  AG.ui.treeActions = AG.ui.treeActions || {};
   AG.ui.treeActions.button_sets = treeActions;
-  AG.ui.clipboard = AG.ui.clipboard || {};
   AG.ui.clipboard.button_sets = {
     areaOf: areaOf,
     copy: function (app, area) {
-      return area === "button" ? copyButton(app) : copySet(app);
+      return area === "button" ? buttonCopy.copy(app) : setCopy.copy(app);
     },
-    // Only one of a set and a button is ever copied, so paste is whichever.
     paste: function (app) {
-      return clipboard(app, "buttonClipboard") ? pasteButton(app) : pasteSet(app);
+      return buttonCopy.clip(app) ? buttonCopy.paste(app) : setCopy.paste(app);
     }
   };
   AG.ui.buttonSets = { usedBy: usedBy, newButton: newButton, iconEl: iconEl, mapItems: mapItems, stringItems: stringItems, showString: showString, entryItems: entryItems };

@@ -276,5 +276,33 @@
     ]);
   }
 
+  // A record, copied over another. It can be pasted onto a record of
+  // another type, where opcodes that type can't use show as problems.
+  var recordCopy = AG.ui.copyPaste.make({
+    stateKey: "recordClipboard",
+    noun: "record",
+    action: "req",
+    chosen: function (app) {
+      var key = app.selected("requirements");
+      var k = key ? tree.parseKey(key) : null;
+      return k && k.type && util.isInt(k.id) ? { type: k.type, id: k.id } : null;
+    },
+    label: function (app, r) {
+      var name = D.requirementName(app.cat(), r.type, r.id, app.doc());
+      return TYPE_TEXT[r.type] + " " + r.id + (name ? " " + name : "");
+    },
+    take: function (app, r) {
+      return D.effectiveRequirement(app.doc(), app.cat(), r.type, r.id).list.slice();
+    },
+    put: function (d, app, r, list) {
+      return D.setRequirement(d, app.cat(), r.type, r.id, list.slice());
+    },
+    pasteText: function (to, from) {
+      return "Replace the record of " + to + " with the one copied from " + from;
+    }
+  });
+
   AG.ui.panels.requirements = panel;
+  AG.ui.treeActions.requirements = recordCopy.buttons;
+  AG.ui.clipboard.requirements = recordCopy;
 })(AxeGraft);

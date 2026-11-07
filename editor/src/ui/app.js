@@ -1129,7 +1129,7 @@
         if (!clip || isTextEntry(e.target)) return;
         var sel = root.ownerDocument.getSelection && root.ownerDocument.getSelection();
         if (k === "c" && sel && !sel.isCollapsed && String(sel).trim()) return;
-        var done = k === "c" ? clip.copy(app, clip.areaOf(e.target) || S.clipArea[S.tab]) : clip.paste(app);
+        var done = k === "c" ? clip.copy(app, (clip.areaOf && clip.areaOf(e.target)) || S.clipArea[S.tab]) : clip.paste(app);
         if (done) e.preventDefault();
       }
     }
@@ -1140,7 +1140,7 @@
     S.clipArea = {};
     function noteArea(e) {
       var clip = AG.ui.clipboard && AG.ui.clipboard[S.tab];
-      var area = clip && clip.areaOf(e.target);
+      var area = clip && clip.areaOf && clip.areaOf(e.target);
       if (area) S.clipArea[S.tab] = area;
     }
     root.addEventListener("pointerdown", noteArea, true);

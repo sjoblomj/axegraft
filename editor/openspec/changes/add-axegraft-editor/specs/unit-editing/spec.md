@@ -110,3 +110,14 @@ The Units tab SHALL let the user rename any table entry, changed by the mod or n
 #### Scenario: Name used elsewhere
 - **WHEN** unit 0 is named Rifleman
 - **THEN** the lists of units in other tabs, such as the requirements list and a set's used-by list, show `0 Rifleman`
+
+### Requirement: Copying a unit
+The Units tab SHALL have Copy and Paste buttons under the item list. Copy SHALL copy the chosen table entry's fields, and Paste SHALL set the chosen entry's fields to the copied ones, for the fields both entries have. Names given in AxeGraft SHALL NOT be copied. Paste SHALL be disabled until an entry has been copied. Ctrl+C and Ctrl+V (Cmd+C and Cmd+V on a Mac) SHALL do the same, except in a text field or with text selected.
+
+#### Scenario: Pasting a unit
+- **WHEN** a user copies unit 4 and pastes it onto unit 5
+- **THEN** unit 5 has every field of unit 4
+
+#### Scenario: Pasting an entry that isn't a unit
+- **WHEN** a user copies a table entry that isn't a unit and pastes it onto a unit
+- **THEN** only the unit's button set changes
