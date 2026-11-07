@@ -7,7 +7,11 @@ Defines how AxeGraft Editor edits the buttons of a button set, and previews them
 ## ADDED Requirements
 
 ### Requirement: Button list
-The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them, and clear the set.
+The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them, and clear the set. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
+
+#### Scenario: Button title
+- **WHEN** a button's action is Move, and its string's clean name is `Move`
+- **THEN** the list titles it `Move`, not `Move — Move`, and a button whose string is `Stim Packs` is titled `Move — Stim Packs`
 
 #### Scenario: Clearing a set
 - **WHEN** a user clears a set

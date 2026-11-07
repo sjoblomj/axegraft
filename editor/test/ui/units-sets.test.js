@@ -680,4 +680,19 @@
       T.equal(app.selected("units"), "unit:238");
     });
   }, { dom: true });
+
+  T.test("jump from a variable: in a game without requirements, a unit leads to the Units tab and an upgrade offers no jump", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      app.select("button_sets", "set:0");
+      U.change(field(app, "set:0:0:action").querySelector("select"), "Train (w2_train)");
+      U.change(idBox(app, "set:0:0:action_variable"), "2");
+      U.q(app, '[data-field="set:0:0:action_variable"] [data-action="jump"]').click();
+      T.equal(app.state.tab, "units");
+      T.equal(app.selected("units"), "unit:2");
+      app.select("button_sets", "set:0");
+      U.change(field(app, "set:0:0:condition").querySelector("select"), "Has upgrade (w2_has_upgrade)");
+      U.change(idBox(app, "set:0:0:condition_variable"), "1");
+      T.equal(app.root.querySelector('[data-field="set:0:0:condition_variable"] [data-action="jump"]'), null);
+    });
+  }, { dom: true });
 })(AxeGraft);

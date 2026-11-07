@@ -96,13 +96,19 @@
     return null;
   }
 
-  // Where a variable of a type refers to.
-  function variableTarget(type, v) {
+  // Where a variable's "Go to" leads, or null when the game has no place for
+  // it, such as Warcraft II, which has no requirements.
+  function variableTarget(cat, type, v) {
     if (!util.isInt(v)) return null;
-    if (type === "unit") return { tab: "requirements", key: tree.key.req("unit", v), label: "Requirements of unit " + v };
-    if (type === "tech") return { tab: "requirements", key: tree.key.req("tech_research", v), label: "Research requirements of tech " + v };
-    if (type === "upgrade") return { tab: "requirements", key: tree.key.req("upgrade", v), label: "Requirements of upgrade " + v };
-    if (type === "tableEntry") return { tab: "units", key: tree.key.unit(v), label: "Table entry " + v };
+    var hasReq = cat.parts.indexOf("requirements") >= 0;
+    var hasUnits = cat.parts.indexOf("units") >= 0;
+    if (hasReq) {
+      if (type === "unit") return { tab: "requirements", key: tree.key.req("unit", v), label: "Requirements of unit " + v };
+      if (type === "tech") return { tab: "requirements", key: tree.key.req("tech_research", v), label: "Research requirements of tech " + v };
+      if (type === "upgrade") return { tab: "requirements", key: tree.key.req("upgrade", v), label: "Requirements of upgrade " + v };
+    }
+    if (hasUnits && type === "unit" && util.inRange(v, cat.limits.unit)) return { tab: "units", key: tree.key.unit(v), label: "Unit " + v };
+    if (hasUnits && type === "tableEntry") return { tab: "units", key: tree.key.unit(v), label: "Table entry " + v };
     return null;
   }
 
@@ -577,7 +583,7 @@
         } else if (type) {
           helpText += " " + owner.name + " reads a " + AG.core.validate.VARIABLE_NAME[type] + ".";
         }
-        var target = type ? variableTarget(type, v) : null;
+        var target = type ? variableTarget(cat, type, v) : null;
         if (target) {
           extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "jump" }, title: target.label, onclick: function () {
             app.select(target.tab, target.key);

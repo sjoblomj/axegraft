@@ -133,11 +133,15 @@ Every control in the tab panels SHALL have a help text, shown by a `?` button be
 - **THEN** its search box, filter and tree have no `?` button, and neither do the tabs
 
 ### Requirement: Following references
-Where a field refers to a unit, button set or requirement record, the editor SHALL offer a way to go to that item.
+Where a field refers to a unit, button set or requirement record, the editor SHALL offer a way to go to that item. A unit SHALL lead to its requirement record in a game with requirements, and to its entry in the Units tab in a game without them. A field whose item has no place in the game, such as an upgrade in a game without requirements, SHALL offer no way to go to it.
 
 #### Scenario: Jump from a variable
 - **WHEN** a button's action variable refers to a unit, and the user follows it
 - **THEN** the editor shows that unit's requirement record
+
+#### Scenario: Jump in a game without requirements
+- **WHEN** a Warcraft II button's action variable refers to a unit, and the user follows it
+- **THEN** the editor shows that unit in the Units tab, and a condition variable that refers to an upgrade offers no way to go to it
 
 ### Requirement: Keyboard use
 Every feature SHALL be usable from the keyboard, and the item list SHALL support the usual arrow-key navigation. The item list SHALL show where its keyboard cursor is, including on a group.
