@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Constant entries",
+  "scenario": "Constant entries: Value that isn't a whole number",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,

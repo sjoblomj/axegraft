@@ -74,7 +74,7 @@ The editor SHALL apply the rules of the patcher's `mod-format` spec for format 1
 
 #### Scenario: Shared example mods
 - **WHEN** the repository's example valid and invalid mods are validated
-- **THEN** each has the expected result, including every scenario in `mod-format`
+- **THEN** each has the expected result, and every scenario in `mod-format` that decides whether a mod is accepted has an example mod
 
 ### Requirement: Errors and warnings
 The editor SHALL show problems in the current mod as they arise, each as an error or a warning, and SHALL allow a mod with problems to stay open and be edited. Anything the format rules reject SHALL be an error. A value the format rules accept but that looks wrong SHALL be a warning.

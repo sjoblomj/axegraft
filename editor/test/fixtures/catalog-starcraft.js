@@ -74,6 +74,7 @@ AxeGraft.registerFixtureCatalog({
     { "name": "current_unit_is", "label": "Current unit is", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "must_have", "label": "Must have", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "not_lifted_off", "label": "Not lifted off", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
+    { "name": "must_have_addon", "label": "Must have addon", "parameter": "unit", "allowedIn": ["unit"] },
     { "name": "not_training_or_morphing", "label": "Not training or morphing", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "is_researched", "label": "Is researched", "parameter": "tech", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "upgrade_level_1", "label": "Level 1 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },

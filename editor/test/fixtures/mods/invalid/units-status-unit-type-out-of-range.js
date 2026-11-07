@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entries: Status unit type out of range",
+  "scenario": "Unit entry fields: Status unit type out of range",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,

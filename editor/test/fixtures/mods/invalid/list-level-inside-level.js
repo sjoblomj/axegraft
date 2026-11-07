@@ -12,7 +12,9 @@ AxeGraft.registerModFixture({
           "upgrade_level_1",
           132,
           "upgrade_level_2",
-          133
+          133,
+          "end_sublist",
+          "upgrade_level_3"
         ]
       }
     ]

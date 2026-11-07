@@ -20,7 +20,8 @@ AxeGraft.registerFixtureCatalog({
     "string": { "min": 0, "max": 65535 },
     "position": { "min": 0, "max": 8 },
     "conditionVariable": { "min": 0, "max": 255 },
-    "actionVariable": { "min": 0, "max": 255 }
+    "actionVariable": { "min": 0, "max": 255 },
+    "order": { "min": 0, "max": 60 }
   },
   "panel": { "columns": 3 },
   "buttonFields": [
@@ -57,7 +58,8 @@ AxeGraft.registerFixtureCatalog({
     "actions": [
       { "name": "w2_move", "label": "Move", "variable": null },
       { "name": "w2_train", "label": "Train", "variable": "unit" },
-      { "name": "w2_show_entry", "label": "Show table entry", "variable": "tableEntry" }
+      { "name": "w2_show_entry", "label": "Show table entry", "variable": "tableEntry" },
+      { "name": "order_spell", "label": "Cast spell", "variable": "order" }
     ],
     "statusChanged": [{ "name": "w2_stats_changed_unit", "label": "Unit", "variable": null }],
     "statusUpdate": [{ "name": "w2_stats_update_unit", "label": "Unit", "variable": null }]

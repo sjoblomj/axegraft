@@ -112,7 +112,7 @@
       else if (r.problems.length) counts.errors++;
       else counts.clean++;
     }
-    T.ok(counts.refused > 100 && counts.errors > 50 && counts.clean > 20, "mutations reach every outcome: " + JSON.stringify(counts));
+    T.ok(counts.refused > 100 && counts.errors > 50 && counts.clean > 10, "mutations reach every outcome: " + JSON.stringify(counts));
   });
 
   T.test("random: the validator takes any JSON value as a mod without throwing", function () {

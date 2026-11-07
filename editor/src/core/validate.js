@@ -581,6 +581,22 @@
       out.push({ index: index, message: message });
     }
     var levelOpen = false;
+    // Upgrade levels: if a record has any, it has each once, in order, after
+    // its other conditions, and every level but the last ends with
+    // end_sublist; the record's own end ends the last. The game finds the
+    // level's block by scanning for its opcode from the first level, so a
+    // missing or misplaced level makes it read other records, and an
+    // end_sublist after the last level ends its index of every record.
+    var levels = cat.opcodeList
+      .filter(function (o) {
+        return o.role === "level";
+      })
+      .map(function (o) {
+        return o.name;
+      });
+    var nextLevelIndex = 0; // the level expected next, after the last one seen
+    var levelsSeen = {};
+    var afterEnd = false; // just after an end_sublist: only a level may follow
     var atStart = true; // at the start of the list or of a sublist
     var lastOr = -1; // index of an `or` not yet followed by a condition
     var pending = null; // an opcode waiting for its parameter: { index, op }
@@ -596,6 +612,11 @@
           continue;
         }
         add(p.index, p.op.name + " needs a " + p.op.parameter + " after it.");
+      }
+      var nextLevel = levels[nextLevelIndex];
+      if (afterEnd) {
+        afterEnd = false;
+        if (levels.indexOf(t) < 0) add(k, "Only " + nextLevel + " can follow the end of a level.");
       }
       if (typeof t === "number") {
         if (!isInt(t)) add(k, "A unit ID must be a whole number, but it's " + t + ".");
@@ -623,6 +644,9 @@
       if (op.role === "level") {
         if (lastOr >= 0) add(lastOr, "or can't end a list or level.");
         if (levelOpen) add(k, op.name + " starts a level before the previous level has ended.");
+        else if (op.name !== nextLevel) add(k, nextLevel ? "Levels come once each, in order: " + nextLevel + " should be here, not " + op.name + "." : op.name + " comes after the last level.");
+        nextLevelIndex = levels.indexOf(op.name) + 1;
+        levelsSeen[op.name] = true;
         levelOpen = true;
         atStart = true;
         lastOr = -1;
@@ -631,6 +655,8 @@
       if (op.role === "endSublist") {
         if (lastOr >= 0) add(lastOr, "or can't end a list or level.");
         if (!levelOpen) add(k, op.name + " has no level to end.");
+        else if (nextLevelIndex >= levels.length) add(k, "The last level isn't ended with " + op.name + ": the end of the record ends it, and the game would read this as the end of its list of records.");
+        else afterEnd = true;
         levelOpen = false;
         atStart = false;
         lastOr = -1;
@@ -642,6 +668,11 @@
     }
     if (pending) add(pending.index, pending.op.name + " needs a " + pending.op.parameter + " after it.");
     if (lastOr >= 0) add(lastOr, "or can't end a list or level.");
+    var levelsAllowed = !type || (levels.length && cat.opcodes.get(levels[0]).allowedIn.indexOf(type) >= 0);
+    var missing = levels.filter(function (l) {
+      return !levelsSeen[l];
+    });
+    if (levelsAllowed && missing.length && missing.length < levels.length) add(null, "A record with upgrade levels needs all " + levels.length + " of them, and " + missing[0] + " is missing.");
     return out;
   }
 

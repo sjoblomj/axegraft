@@ -16,6 +16,8 @@ AxeGraft.registerCatalog({
     "unit": {"min": 0, "max": 109},
     "tableEntry": {"min": 0, "max": 119},
     "upgrade": {"min": 0, "max": 51},
+    "tech": {"min": 0, "max": 20},
+    "order": {"min": 0, "max": 60},
     "missile": {"min": 0, "max": 29},
     "spellSound": {"min": 0, "max": 16},
     "sound": {"min": 0, "max": 351},
@@ -25,8 +27,6 @@ AxeGraft.registerCatalog({
     "position": {"min": 0, "max": 8},
     "conditionVariable": {"min": 0, "max": 255},
     "actionVariable": {"min": 0, "max": 255},
-    "tech": {"min": 0, "max": 255},
-    "order": {"min": 0, "max": 255},
     "newButtonSet": {"min": 120, "max": 999}
   },
   "panel": {"columns": 3},
