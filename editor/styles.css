@@ -367,7 +367,7 @@ button, input, select, textarea { font: inherit; }
   padding: 1px 4px 1px calc(4px + var(--depth, 0) * 14px);
   cursor: default;
 }
-.tree .twisty { width: 10px; display: inline-block; text-align: center; color: var(--field-muted); }
+.tree .twisty { flex: none; width: 10px; display: inline-block; text-align: center; color: var(--field-muted); }
 .tree .row:hover { background: var(--hover-bg); }
 .tree [aria-selected="true"] > .row { background: var(--select-bg); color: var(--select-text); }
 /* The keyboard cursor, which can rest on a group as well as on an item. */
