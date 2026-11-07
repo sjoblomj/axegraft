@@ -30,7 +30,7 @@
   var BUTTON_KINDS_ONCE = ["position", "icon", "condition", "conditionVariable", "action", "actionVariable"];
   var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon", "string", "choice", "tableEntry"];
   var FUNCTION_LISTS = ["conditions", "actions", "statusChanged", "statusUpdate"];
-  var VARIABLE_TYPES = ["unit", "tech", "upgrade", "number", "tableEntry"];
+  var VARIABLE_TYPES = ["unit", "tech", "upgrade", "order", "number", "tableEntry"];
   var PARAMETER_TYPES = ["unit", "tech", "upgrade", "order"];
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var OPCODE_ROLES = ["or", "level", "endSublist"];
@@ -261,7 +261,7 @@
         if ((list === "statusChanged" || list === "statusUpdate") && fn.variable !== null) {
           problem(where + " can't read a variable");
         }
-        if (fn.variable === "tech" || fn.variable === "upgrade") needLimit(fn.variable, where);
+        if (fn.variable === "tech" || fn.variable === "upgrade" || fn.variable === "order") needLimit(fn.variable, where);
         checkVersions(fn.absentOn, where + " absentOn");
         if (fn.help !== undefined && !isText(fn.help)) problem(where + " has an empty help text");
       });

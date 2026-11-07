@@ -66,7 +66,7 @@ Icon and string fields SHALL accept a typed ID or a selection by name, and SHALL
 - **THEN** the ID is accepted, with a warning that says how many strings the table holds
 
 ### Requirement: Variables follow their function
-Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, number, table entry or none.
+Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, order, number, table entry or none.
 
 #### Scenario: Action reading a tech
 - **WHEN** a user chooses an action that reads a tech

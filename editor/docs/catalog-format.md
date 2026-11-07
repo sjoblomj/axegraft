@@ -118,7 +118,7 @@ A table entry outside `limits.unit` has only the `buttonSet` field. The editor s
 ```
 
 - `name` is the name mods use. Names must be unique within a list, and should be unique across all four, as the patcher's library requires.
-- `variable` is the type the function reads: `"unit"`, `"tech"`, `"upgrade"`, `"number"`, `"tableEntry"`, or `null` for none. Status functions read none. A function that reads a variable must be given one in a mod, within the range of its type. For `number` that's the variable field's own limit.
+- `variable` is the type the function reads: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"number"`, `"tableEntry"`, or `null` for none. Status functions read none. A function that reads a variable must be given one in a mod, within the range of its type. For `number` that's the variable field's own limit.
 - `absentOn`, optional, lists the versions that lack the function.
 - `help`, optional, explains the function when it's chosen.
 

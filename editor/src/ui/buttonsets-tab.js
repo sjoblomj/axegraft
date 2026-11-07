@@ -93,6 +93,7 @@
     if (type === "unit") return AG.ui.unitsTab.unitItems(cat);
     if (type === "tech") return namedItems(cat.raw.techs);
     if (type === "upgrade") return namedItems(cat.raw.upgrades);
+    if (type === "order") return namedItems(cat.raw.orders);
     if (type === "tableEntry") return entryItems(app);
     return null;
   }
@@ -107,6 +108,7 @@
       if (type === "unit") return { tab: "requirements", key: tree.key.req("unit", v), label: "Requirements of unit " + v };
       if (type === "tech") return { tab: "requirements", key: tree.key.req("tech_research", v), label: "Research requirements of tech " + v };
       if (type === "upgrade") return { tab: "requirements", key: tree.key.req("upgrade", v), label: "Requirements of upgrade " + v };
+      if (type === "order") return { tab: "requirements", key: tree.key.req("order", v), label: "Requirements of order " + v };
     }
     if (hasUnits && type === "unit" && util.inRange(v, cat.limits.unit)) return { tab: "units", key: tree.key.unit(v), label: "Unit " + v };
     if (hasUnits && type === "tableEntry") return { tab: "units", key: tree.key.unit(v), label: "Table entry " + v };

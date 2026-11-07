@@ -23,7 +23,7 @@
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var TYPE_LIMIT = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
   var TYPE_NAME = { unit: "unit", upgrade: "upgrade", tech_research: "tech research", tech_use: "tech use", order: "order" };
-  var VARIABLE_NAME = { unit: "unit", tech: "tech", upgrade: "upgrade", number: "number", tableEntry: "table entry" };
+  var VARIABLE_NAME = { unit: "unit", tech: "tech", upgrade: "upgrade", order: "order", number: "number", tableEntry: "table entry" };
 
   function Problems() {
     this.list = [];
