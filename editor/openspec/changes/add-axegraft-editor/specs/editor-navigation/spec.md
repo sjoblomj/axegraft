@@ -114,7 +114,7 @@ While the mod has errors or warnings, the item list SHALL offer a filter that sh
 - **THEN** these filters aren't offered
 
 ### Requirement: Help for controls
-Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The search box, the filter, the item list and the tabs explain themselves and SHALL NOT have `?` buttons. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
+Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The search box, the filter, the item list and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding and removing buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
 
 #### Scenario: Reading help
 - **WHEN** a user hovers over or focuses a control's `?` button

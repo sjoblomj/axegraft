@@ -7,15 +7,13 @@ Defines how AxeGraft Editor edits the buttons of a button set, and previews them
 ## ADDED Requirements
 
 ### Requirement: Button list
-The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them, and clear the set. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
+The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them. Add and Remove SHALL be above the list. Buttons SHALL be reorderable by dragging them in the list, and from the keyboard with Alt+Up and Alt+Down while the list has the focus, which drop the selected button one place on as if dragged there. Each button SHALL show a grip marking it as draggable.
+
+In a game whose catalog needs ascending positions, a drop in the list SHALL keep the order, and SHALL do what the same drop does in the preview. A drop onto a button SHALL put the dragged button at that button's position, last of those there, and outline that button while dragging. A drop between buttons x and y SHALL put it at y's position and push as a drop between positions in the preview does, marking the space while dragging and outlining every button that would be pushed; after the last button, it SHALL take the position after x's. Where x and y share a position, or the dragged button already has x's or y's, it SHALL only move in the list, keeping or taking that position. A drop just above or below the button itself SHALL change nothing. In other games, a drop between buttons SHALL only move the button in the list. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
 
 #### Scenario: Button title
 - **WHEN** a button's action is Move, and its string's clean name is `Move`
 - **THEN** the list titles it `Move`, not `Move — Move`, and a button whose string is `Stim Packs` is titled `Move — Stim Packs`
-
-#### Scenario: Clearing a set
-- **WHEN** a user clears a set
-- **THEN** the set has no buttons, and the mod defines it with an empty `buttons` array
 
 #### Scenario: Adding a button
 - **WHEN** a user adds a button
@@ -24,6 +22,22 @@ The Button Sets tab SHALL list the selected set's buttons, and SHALL let the use
 #### Scenario: Order of buttons
 - **WHEN** a user reorders a set's buttons
 - **THEN** the saved `buttons` array is in the new order
+
+#### Scenario: Dragging in the list
+- **WHEN** a user drags the second button of a set above the first
+- **THEN** the saved `buttons` array has them in the new order, and the dragged button is selected
+
+#### Scenario: Moving from the keyboard
+- **WHEN** in a game that doesn't need ascending positions, the list has the focus, the first button is selected, and a user presses Alt+Down
+- **THEN** it's the second button, it's still selected, and the list keeps the focus
+
+#### Scenario: Dropping onto a button in the list
+- **WHEN** in Warcraft II a set's buttons are at positions 0, 1, 2 and 4, and a user drags the last onto the second
+- **THEN** the buttons are at 0, 1, 1 and 2, the dragged one third
+
+#### Scenario: Dropping between buttons in the list
+- **WHEN** in Warcraft II a set's buttons are at positions 0, 1, 2 and 4, and a user drags the last between the first two
+- **THEN** while dragging, the space is marked and the buttons at 1 and 2 are outlined, and after the drop the buttons are at 0, 1, 2 and 3, the dragged one at 1
 
 ### Requirement: Button fields
 The form SHALL show every button field the catalog lists for the game, including position, icon, strings, condition and its variable, and action and its variable.
@@ -78,7 +92,11 @@ A variable on a function that doesn't read one SHALL be left out of the saved bu
 - **THEN** the saved button has no `action_variable`
 
 ### Requirement: Panel preview
-The preview SHALL show a grid with the game's panel layout, with each button at its position.
+The preview SHALL show a grid with the game's panel layout, with each button at its position. A filled position's button SHALL be draggable onto a position, or between two. Where several buttons share the position, the selected one SHALL be dragged if it's among them, otherwise the first. After a drop, the dragged button SHALL be selected.
+
+A drop between positions x and y SHALL put the button at y, and move the buttons from y up to the first empty position one position on. The position the dragged button leaves SHALL count as empty. If no position is empty, the buttons at the last position SHALL stay, joined by those from the one before. Between the last position of one row and the first of the next counts as between those two positions.
+
+While dragging, the preview SHALL mark where the button would go: a position it would go on SHALL be outlined; for a drop between positions, the space between them SHALL be marked, and every position whose buttons would be pushed outlined. A drop that would change nothing SHALL show no mark.
 
 #### Scenario: Selecting from the preview
 - **WHEN** a user clicks a filled position in the preview
@@ -87,6 +105,22 @@ The preview SHALL show a grid with the game's panel layout, with each button at 
 #### Scenario: Creating from the preview
 - **WHEN** a user double-clicks an empty position in the preview
 - **THEN** a new button is created at that position
+
+#### Scenario: Dropping on an empty position
+- **WHEN** a user drags the button at position 1 onto empty position 6
+- **THEN** that button's position is 6, and no other button changes
+
+#### Scenario: Dropping on a filled position
+- **WHEN** a user drags the button at position 1 onto position 2, which holds another button
+- **THEN** both buttons are at position 2, and no other button changes
+
+#### Scenario: Dropping between positions
+- **WHEN** a set's buttons are at positions 0, 1, 2 and 4, and a user drags the one at 4 between positions 0 and 1
+- **THEN** while dragging, the space between 0 and 1 is marked and positions 1 and 2 are outlined, and after the drop the buttons are at 0, 1, 2 and 3, the dragged one at 1
+
+#### Scenario: Dropping between positions with none empty
+- **WHEN** every position holds a button, and a user drags a button from the last position, which holds two, between the second and third positions
+- **THEN** the dragged button takes the third position, the buttons from there on move one position on, and the last position holds the button it kept and the one from the position before
 
 #### Scenario: Several buttons at one position
 - **WHEN** several buttons of a set use one position

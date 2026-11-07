@@ -9,6 +9,7 @@
   var D = AG.core.doc;
   var util = AG.util;
   var tree = AG.core.tree;
+  var drag = AG.ui.drag;
 
   // ---- Names and media
 
@@ -211,6 +212,42 @@
       app.state.button[key] = i;
       app.render();
     }
+    // Replaces the list with a moved one, `{ buttons, index }`, selecting the
+    // moved button. Nothing happens if nothing moved.
+    function applyMove(fn) {
+      editButtons(function (l) {
+        var r = fn(l);
+        app.state.button[key] = r.index;
+        return r.buttons;
+      });
+      if (app.state.button[key] !== sel) selectButton(app.state.button[key]);
+    }
+    // A new button, at the first unused position or the one given, put in
+    // order by its position.
+    function addButton(position) {
+      applyMove(function (l) {
+        l.push(newButton(cat, l, position));
+        return D.placeButton(cat, l, l.length - 1);
+      });
+    }
+    // Button i dropped in the list, as `D.dropInList` says, where the game
+    // needs ascending positions. Elsewhere the list is in any order, and a
+    // drop between buttons only moves it there.
+    function listDrop(l, i, drop) {
+      if (cat.panel.ascending) return D.dropInList(cat, l, i, drop);
+      if (drop.on !== undefined || drop.before < 0 || drop.before > l.length) return null;
+      var to = drop.before > i ? drop.before - 1 : drop.before;
+      if (to === i) return null;
+      var next = l.slice();
+      next.splice(to, 0, next.splice(i, 1)[0]);
+      return { buttons: next, index: to, pushed: [] };
+    }
+    function dropButton(i, drop) {
+      if (!listDrop(buttons, i, drop)) return;
+      applyMove(function (l) {
+        return listDrop(l, i, drop);
+      });
+    }
 
     var problems = app.problemsAt(function (l) {
       return l.key === key;
@@ -329,6 +366,7 @@
             return h("li", { role: "option", "aria-selected": String(i === sel), dataset: { index: i }, onclick: function () {
               selectButton(i);
             } }, [
+              drag.grip("Drag to move this button in the list"),
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
               h("span", { text: buttonTitle(actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?", text) }),
@@ -343,9 +381,18 @@
           })
         : [h("li", { class: "empty", text: "No buttons." })]
     );
+    if (buttons.length > 1) dragInList(cat, list, buttons, listDrop, dropButton);
     list.addEventListener("keydown", function (e) {
       if (!buttons.length) return;
       var cur = sel === null ? 0 : sel;
+      // Alt and an arrow drops the selected button one place on, as if
+      // dragged there: between the two buttons before it, or after it.
+      if (e.altKey && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+        e.preventDefault();
+        if (sel !== null) dropButton(sel, { before: e.key === "ArrowUp" ? sel - 1 : sel + 2 });
+        return;
+      }
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
       if (e.key === "ArrowDown") selectButton(Math.min(cur + 1, buttons.length - 1));
       else if (e.key === "ArrowUp") selectButton(Math.max(cur - 1, 0));
       else if (e.key === "Home") selectButton(0);
@@ -355,56 +402,32 @@
     });
     var listWithHelp = h("div", { class: "button-list-row", style: { display: "flex", gap: "4px", "align-items": "start" } }, [h("div", { style: { flex: "1", "min-width": "0" } }, [list])].concat([help.described(list, help.text("buttonList"))[1]]));
 
-    function tool(label, action, helpKey, onclick, disabled) {
-      return F.withHelp(h("button", { type: "button", class: "small", dataset: { action: action }, disabled: !!disabled, onclick: onclick }, label), help.text(helpKey));
+    // Add and Remove say what they do, and have no help. Sorting is only
+    // offered for a set that's out of order, which only a mod opened that way
+    // can be, as every edit keeps the order.
+    function tool(label, action, onclick, disabled) {
+      return h("button", { type: "button", class: "small", dataset: { action: action, plain: "" }, disabled: !!disabled, onclick: onclick }, label);
     }
+    var outOfOrder = cat.panel.ascending && AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) >= 0;
     var toolbar = h("div", { class: "toolbar" }, [
-      tool("Add", "add-button", "addButton", function () {
-        var at = buttons.length;
-        editButtons(function (l) {
-          l.push(newButton(cat, l));
-        });
-        app.state.button[key] = at;
-        app.render();
+      tool("Add", "add-button", function () {
+        addButton();
       }),
-      tool("Remove", "remove-button", "removeButton", function () {
+      tool("Remove", "remove-button", function () {
         editButtons(function (l) {
           l.splice(sel, 1);
         });
       }, sel === null),
-      tool("Up", "move-up", "moveUp", function () {
-        editButtons(function (l) {
-          var b = l[sel];
-          l[sel] = l[sel - 1];
-          l[sel - 1] = b;
-        });
-        app.state.button[key] = sel - 1;
-        app.render();
-      }, !sel),
-      tool("Down", "move-down", "moveDown", function () {
-        editButtons(function (l) {
-          var b = l[sel];
-          l[sel] = l[sel + 1];
-          l[sel + 1] = b;
-        });
-        app.state.button[key] = sel + 1;
-        app.render();
-      }, sel === null || sel >= buttons.length - 1),
-      tool("Clear set", "clear-set", "clearSet", function () {
-        editButtons(function () {
-          return [];
-        });
-      }, !buttons.length),
-      cat.panel.ascending
-        ? tool("Sort by position", "sort-buttons", "sortButtons", function () {
+      outOfOrder
+        ? F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "sort-buttons" }, onclick: function () {
             app.edit(function (d) {
               return D.sortButtons(d, cat, id);
             });
-          }, AG.core.catalog.firstOutOfOrder(buttons.filter(util.isObject), cat.buttonKind.position.name) < 0)
+          } }, "Sort by position"), help.text("sortButtons"))
         : null
     ]);
 
-    var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons);
+    var form = sel === null ? h("p", { class: "empty-panel", text: "This set has no buttons. Add one, or double-click a position in the preview." }) : buttonForm(app, id, key, sel, buttons[sel], buttonProblems, editButtons, applyMove);
 
     return h("div", { class: "buttonset-panel", dataset: { set: id } }, [
       header,
@@ -415,8 +438,8 @@
           }))
         : null,
       h("div", { class: "buttonset-layout" }, [
-        h("fieldset", { class: "buttons-box" }, [h("legend", { text: "Buttons" }), listWithHelp, toolbar]),
-        h("div", { class: "preview-box" }, [preview(app, key, buttons, sel, editButtons)])
+        h("fieldset", { class: "buttons-box" }, [h("legend", { text: "Buttons" }), toolbar, listWithHelp]),
+        h("div", { class: "preview-box" }, [preview(app, key, buttons, sel, applyMove, addButton)])
       ]),
       form,
       set ? originalSection(app, id) : null,
@@ -496,6 +519,61 @@
     ]);
   }
 
+  // How far into a row, from its top or bottom, a drop counts as between it
+  // and its neighbour rather than on it.
+  var ROW_EDGE = 0.25;
+
+  // Dragging buttons in the list, by the whole row. `listDrop(list, i, drop)`
+  // says what a drop does, or null for nothing; `dropButton(i, drop)` does it.
+  // A drop onto a row outlines it. A drop between rows marks the space, and
+  // outlines the rows whose buttons it would push on.
+  function dragInList(cat, list, buttons, listDrop, dropButton) {
+    var rows = Array.prototype.slice.call(list.children);
+    var posField = cat.buttonKind.position.name;
+    function dropAt(i, e) {
+      for (var k = 0; k < rows.length; k++) {
+        var r = rows[k].getBoundingClientRect();
+        if (!r.height || e.clientY < r.top || e.clientY >= r.bottom) continue;
+        var f = (e.clientY - r.top) / r.height;
+        var drop = f < ROW_EDGE ? { before: k } : f > 1 - ROW_EDGE ? { before: k + 1 } : { on: k };
+        var result = listDrop(buttons, i, drop);
+        return result ? { drop: drop, result: result } : null;
+      }
+      return null;
+    }
+    function unmark() {
+      rows.forEach(function (r) {
+        r.classList.remove("drop-before", "drop-after", "drop-target", "drop-pushed");
+      });
+    }
+    rows.forEach(function (row, i) {
+      drag.track(row, {
+        source: row,
+        area: list,
+        beside: true,
+        target: function (el, e) {
+          return dropAt(i, e);
+        },
+        mark: function (t) {
+          if (t.drop.on !== undefined) {
+            rows[t.drop.on].classList.add("drop-target");
+            return;
+          }
+          var k = t.drop.before;
+          if (k < rows.length) rows[k].classList.add("drop-before");
+          else rows[k - 1].classList.add("drop-after");
+          buttons.forEach(function (b, j) {
+            if (j !== i && util.isObject(b) && t.result.pushed.indexOf(b[posField]) >= 0) rows[j].classList.add("drop-pushed");
+          });
+        },
+        unmark: unmark,
+        drop: function (t) {
+          dropButton(i, t.drop);
+        }
+      });
+    });
+  }
+
   // A button's title in a list: its action, then its string's name, which is
   // left out when it only repeats the action.
   function buttonTitle(action, text) {
@@ -518,7 +596,7 @@
     });
   }
 
-  function buttonForm(app, id, key, i, b, buttonProblems, editButtons) {
+  function buttonForm(app, id, key, i, b, buttonProblems, editButtons, applyMove) {
     var cat = app.cat();
     var original = D.effectiveButtons(D.create(cat.game), cat, id).buttons;
     if (!util.isObject(b)) return h("p", { class: "notice error", text: "This button isn't an object." });
@@ -546,7 +624,12 @@
         setField(f.name, x);
       };
       if (f.kind === "position") {
-        controls = [F.select(positionOptions(cat), v, set, { class: "ctl", "aria-label": f.label })];
+        // A new position puts the button in order among the others.
+        controls = [F.select(positionOptions(cat), v, function (x) {
+          applyMove(function (l) {
+            return D.moveButtonTo(cat, l, i, x);
+          });
+        }, { class: "ctl", "aria-label": f.label })];
       } else if (f.kind === "icon") {
         controls = F.idPicker(mapItems(cat.icons), v, set, { label: f.label });
         helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
@@ -625,11 +708,16 @@
       .concat(rows));
   }
 
-  function preview(app, key, buttons, sel, editButtons) {
+  // How far into a position, from either side, a drop counts as between it
+  // and its neighbour rather than on it.
+  var GAP_EDGE = 0.25;
+
+  function preview(app, key, buttons, sel, applyMove, addButton) {
     var cat = app.cat();
     var r = cat.limits.position;
     var posField = cat.buttonKind.position.name;
     var cells = [];
+    var drags = [];
     for (var p = r.min; p <= r.max; p++) {
       (function (pos) {
         var at = [];
@@ -639,7 +727,7 @@
         var first = at.length ? buttons[at[0]] : null;
         var cell = h("button", {
           type: "button",
-          class: ["slot", at.length ? "filled" : null, at.indexOf(sel) >= 0 ? "selected" : null],
+          class: ["slot", at.length ? "filled draggable" : null, at.indexOf(sel) >= 0 ? "selected" : null],
           dataset: { position: pos, buttons: at.join(",") },
           "aria-label": "Position " + pos + (at.length ? ": " + at.length + (at.length === 1 ? " button" : " buttons") : ", empty"),
           title: at.length > 1 ? "Buttons " + at.join(", ") + " share this position" : null
@@ -655,27 +743,102 @@
           app.state.button[key] = next;
           app.render();
         });
-        function create() {
-          var index = buttons.length;
-          editButtons(function (l) {
-            l.push(newButton(cat, l, pos));
-          });
-          app.state.button[key] = index;
-          app.render();
-        }
         cell.addEventListener("dblclick", function () {
-          if (!at.length) create();
+          if (!at.length) addButton(pos);
         });
         cell.addEventListener("keydown", function (e) {
           if (e.key === "Enter" && !at.length) {
             e.preventDefault();
-            create();
+            addButton(pos);
           }
         });
         cells.push(cell);
+        // A drag from here moves the selected button if it's here, otherwise
+        // the first.
+        if (at.length) drags.push({ cell: cell, pos: pos, index: at.indexOf(sel) >= 0 ? sel : at[0] });
       })(p);
     }
     var grid = h("div", { class: "preview", style: { "--cols": String(cat.panel.columns) }, role: "group", "aria-label": "Command panel preview" }, cells);
+
+    function cellAt(pos) {
+      return cells[pos - r.min];
+    }
+    // What a drop at the pointer would do: put the button on a position, or
+    // between two, pushing those from the second on along. Null where
+    // nothing would change.
+    function dropAt(d, e) {
+      for (var k = 0; k < cells.length; k++) {
+        var pos = r.min + k;
+        var b = cells[k].getBoundingClientRect();
+        if (!b.width || e.clientX < b.left - 2 || e.clientX >= b.right + 2 || e.clientY < b.top - 2 || e.clientY >= b.bottom + 2) continue;
+        var f = (e.clientX - b.left) / b.width;
+        var t = f < GAP_EDGE ? { between: true, pos: pos } : f > 1 - GAP_EDGE && pos < r.max ? { between: true, pos: pos + 1 } : { between: false, pos: pos };
+        if (!t.between && t.pos === d.pos) return null;
+        t.move = function (list) {
+          return t.between ? D.pushButtonTo(cat, list, d.index, t.pos) : D.moveButtonTo(cat, list, d.index, t.pos);
+        };
+        if (util.equal(t.move(buttons).buttons, buttons)) return null;
+        t.pushed = t.between ? D.pushedPositions(cat, buttons, d.index, t.pos) : [];
+        return t;
+      }
+      return null;
+    }
+
+    // A bar in the space between two positions, or beside one at a row's end.
+    var bars = [];
+    function bar(x, rect) {
+      var g = grid.getBoundingClientRect();
+      var el = h("div", { class: "drop-gap", "aria-hidden": "true", style: {
+        left: x - g.left - grid.clientLeft - 1.5 + "px",
+        top: rect.top - g.top - grid.clientTop + "px",
+        height: rect.height + "px"
+      } });
+      grid.appendChild(el);
+      bars.push(el);
+    }
+    function markBetween(pos) {
+      var y = cellAt(pos).getBoundingClientRect();
+      var x = pos > r.min ? cellAt(pos - 1).getBoundingClientRect() : null;
+      if (x && Math.abs(x.top - y.top) < 1) {
+        bar((x.right + y.left) / 2, y);
+      } else {
+        bar(y.left - 3, y);
+        if (x) bar(x.right + 3, x);
+      }
+    }
+
+    drags.forEach(function (d) {
+      drag.track(d.cell, {
+        source: d.cell,
+        area: grid,
+        beside: true,
+        target: function (el, e) {
+          return dropAt(d, e);
+        },
+        mark: function (t) {
+          if (!t.between) {
+            cellAt(t.pos).classList.add("drop-target");
+            return;
+          }
+          markBetween(t.pos);
+          t.pushed.forEach(function (p) {
+            cellAt(p).classList.add("drop-pushed");
+          });
+        },
+        unmark: function () {
+          cells.forEach(function (c) {
+            c.classList.remove("drop-target", "drop-pushed");
+          });
+          bars.forEach(function (b) {
+            if (b.parentNode) b.parentNode.removeChild(b);
+          });
+          bars = [];
+        },
+        drop: function (t) {
+          applyMove(t.move);
+        }
+      });
+    });
     var helpBtn = help.button(help.text("preview"));
     cells.forEach(function (c) {
       c.setAttribute("aria-describedby", helpBtn.getAttribute("aria-describedby"));

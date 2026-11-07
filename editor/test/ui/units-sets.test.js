@@ -214,15 +214,6 @@
 
   // ---- Button sets: 6.3
 
-  T.test("button list: clearing a set defines it with no buttons", function (ctx) {
-    return start(ctx).then(function (app) {
-      app.select("button_sets", "set:7");
-      U.q(app, '[data-action="clear-set"]').click();
-      T.equal(app.doc().button_sets, [{ id: 7, label: "SCV", buttons: [] }]);
-      T.equal(U.texts(app, ".button-list li"), ["No buttons."]);
-    });
-  }, { dom: true });
-
   T.test("button list: an added button starts with valid default values", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:7");
@@ -238,16 +229,188 @@
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
       U.q(app, '.button-list [data-index="1"]').click();
-      U.q(app, '[data-action="move-up"]').click();
+      U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
       var saved = JSON.parse(AG.core.serialize(app.doc(), app.cat())).button_sets[0].buttons;
       T.equal(saved.map(function (b) {
         return b.icon;
       }), [237, 228]);
       T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0", "the moved button stays selected");
-      U.q(app, '[data-action="move-down"]').click();
+      U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });
       T.equal(app.doc().button_sets, undefined, "moving it back matches the original");
       U.q(app, '[data-action="remove-button"]').click();
       T.equal(app.doc().button_sets[0].buttons.length, 1);
+    });
+  }, { dom: true });
+
+  T.test("button list: dragging a button saves the buttons in the new order", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      T.equal(app.root.querySelectorAll(".button-list li .grip").length, 2, "each button has a grip");
+      U.drag(U.q(app, '.button-list [data-index="1"]'), U.q(app, '.button-list [data-index="0"]'));
+      T.equal(D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
+        return b.icon;
+      }), [237, 228]);
+      T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0", "the dragged button is selected");
+      U.drag(U.q(app, '.button-list [data-index="0"]'), U.q(app, '.button-list [data-index="1"]'), true);
+      T.equal(app.doc().button_sets, undefined, "dragging it back matches the original");
+      U.drag(U.q(app, '.button-list [data-index="0"]'), U.q(app, '.button-list [data-index="0"]'), true);
+      T.equal(app.doc().button_sets, undefined, "dropping a button where it was changes nothing");
+    });
+  }, { dom: true });
+
+  var MIDDLE = { x: 0.5, y: 0.5 };
+  var LEFT_EDGE = { x: 0.1, y: 0.5 };
+
+  T.test("preview: dragging a button onto an empty position moves it there; onto a filled one, it joins the button there", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      function positions() {
+        return D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
+          return b.position;
+        });
+      }
+      function slot(p) {
+        return U.q(app, '.slot[data-position="' + p + '"]');
+      }
+      var before = positions();
+      var empty = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(function (p) {
+        return before.indexOf(p) < 0;
+      })[0];
+      T.ok(slot(before[0]).classList.contains("draggable"), "a filled position is draggable");
+      T.ok(!slot(empty).classList.contains("draggable"), "an empty one isn't");
+      U.drag(slot(before[0]), slot(empty), MIDDLE);
+      T.equal(positions(), [empty, before[1]]);
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 1", "the moved button is selected");
+      U.drag(slot(empty), slot(before[1]), MIDDLE);
+      T.equal(positions(), [before[1], before[1]], "the two share a position");
+      T.equal(slot(before[1]).querySelector(".count").textContent, "2");
+    });
+  }, { dom: true });
+
+  // A Warcraft II set, which needs its buttons in position order, with
+  // buttons at the given positions, told apart by their icons.
+  function w2Set(app, positions) {
+    var cat = app.cat();
+    app.edit(function (d) {
+      return D.setButtons(d, cat, 0, positions.map(function (p, i) {
+        return Object.assign(AG.ui.buttonSets.newButton(cat, [], p), { icon: 10 + i });
+      }));
+    });
+    app.select("button_sets", "set:0");
+  }
+  function shape(app) {
+    return D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
+      return [b.position, b.icon];
+    });
+  }
+
+  T.test("preview: dropping between two positions puts the button in the second, and pushes the buttons from there to the next empty position on", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 2, 4]);
+      function slot(p) {
+        return U.q(app, '.slot[data-position="' + p + '"]');
+      }
+      U.dragStart(slot(4), slot(1), LEFT_EDGE);
+      T.equal(app.root.querySelectorAll(".preview .drop-gap").length, 1, "the space between 0 and 1 is marked");
+      T.equal(Array.prototype.map.call(app.root.querySelectorAll(".slot.drop-pushed"), function (c) {
+        return c.dataset.position;
+      }), ["1", "2"], "the buttons that would be pushed are outlined");
+      T.ok(!app.root.querySelector(".slot.drop-target"), "no position is marked as the target");
+      U.dragEnd(slot(1), LEFT_EDGE);
+      T.ok(!app.root.querySelector(".drop-gap, .drop-pushed"), "the marks are gone");
+      T.equal(shape(app), [[0, 10], [1, 13], [2, 11], [3, 12]], "in position order");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 2", "the dragged button is selected");
+      T.equal(app.errors(), []);
+    });
+  }, { dom: true });
+
+  T.test("preview: between the end of one row and the start of the next is marked on both sides", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 2, 3]);
+      U.dragStart(U.q(app, '.slot[data-position="0"]'), U.q(app, '.slot[data-position="3"]'), LEFT_EDGE);
+      T.equal(app.root.querySelectorAll(".preview .drop-gap").length, 2);
+      U.dragEnd(U.q(app, '.slot[data-position="3"]'), LEFT_EDGE);
+      T.equal(shape(app), [[2, 11], [3, 10], [4, 12]]);
+    });
+  }, { dom: true });
+
+  T.test("button list: in Warcraft II, a button dropped onto another joins its position, and the row is outlined while dragging", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 2, 4]);
+      function row(i) {
+        return U.q(app, '.button-list [data-index="' + i + '"]');
+      }
+      U.dragStart(row(3), row(1), MIDDLE);
+      T.ok(row(1).classList.contains("drop-target"));
+      T.equal(app.root.querySelectorAll(".button-list .drop-pushed, .button-list .drop-before").length, 0);
+      U.dragEnd(row(1), MIDDLE);
+      T.equal(shape(app), [[0, 10], [1, 11], [1, 13], [2, 12]]);
+      T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "2", "the dragged button is selected");
+    });
+  }, { dom: true });
+
+  T.test("button list: in Warcraft II, a button dropped between two pushes as in the preview, and the pushed rows are outlined", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 2, 4]);
+      function row(i) {
+        return U.q(app, '.button-list [data-index="' + i + '"]');
+      }
+      U.dragStart(row(3), row(1), { x: 0.5, y: 0.1 });
+      T.ok(row(1).classList.contains("drop-before"), "the space above the second row is marked");
+      T.equal(Array.prototype.map.call(app.root.querySelectorAll(".button-list .drop-pushed"), function (r) {
+        return r.dataset.index;
+      }), ["1", "2"]);
+      U.dragEnd(row(1), { x: 0.5, y: 0.1 });
+      T.equal(shape(app), [[0, 10], [1, 13], [2, 11], [3, 12]]);
+      T.equal(app.errors(), []);
+    });
+  }, { dom: true });
+
+  T.test("button list: in Warcraft II, Alt+Up and Alt+Down drop the button one place on, keeping the order", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 1, 3]);
+      app.select("button_sets", "set:0");
+      U.q(app, '.button-list [data-index="3"]').click();
+      U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
+      T.equal(shape(app), [[0, 10], [1, 11], [1, 13], [1, 12]], "between two at position 1, it joins them");
+      U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
+      T.equal(shape(app), [[0, 10], [1, 13], [1, 11], [1, 12]], "and moves among them");
+      U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
+      T.equal(shape(app), [[0, 13], [1, 10], [2, 11], [2, 12]], "before the first, it takes its position and pushes up to the first empty one");
+      T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "0");
+      T.equal(app.errors(), [], "always in order");
+    });
+  }, { dom: true });
+
+  T.test("button fields: changing a button's position moves it to its place in the list, in a game that needs that", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 2]);
+      U.change(U.q(app, '[data-field="set:0:0:position"] select'), "5");
+      T.equal(shape(app), [[1, 11], [2, 12], [5, 10]], "only the changed button moves");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 3", "and it stays selected");
+      U.q(app, '[data-action="add-button"]').click();
+      T.equal(shape(app).map(function (b) {
+        return b[0];
+      }), [0, 1, 2, 5], "an added button goes in its place too");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 1");
+    });
+  }, { dom: true });
+
+  T.test("button list: Alt+Up and Alt+Down move the selected button", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      var list = U.q(app, ".button-list");
+      list.focus();
+      U.key(list, "ArrowDown", { altKey: true });
+      T.equal(D.effectiveButtons(app.doc(), app.cat(), 0).buttons.map(function (b) {
+        return b.icon;
+      }), [237, 228]);
+      T.equal(U.q(app, '.button-list [aria-selected="true"]').dataset.index, "1", "it stays selected");
+      T.ok(app.root.ownerDocument.activeElement === U.q(app, ".button-list"), "the list keeps the focus");
+      U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });
+      T.equal(app.doc().button_sets[0].buttons.length, 2, "the last button can't go further");
+      U.key(U.q(app, ".button-list"), "ArrowUp", { altKey: true });
+      T.equal(app.doc().button_sets, undefined, "moving it back matches the original");
     });
   }, { dom: true });
 
@@ -326,7 +489,7 @@
     } };
     return start(ctx, "starcraft", { assets: assets }).then(function (app) {
       app.select("button_sets", "set:0");
-      T.equal(U.texts(app, ".button-list li > span:not(.pos):not(.marks):not(.icon-ph)"), ["Move", "Move — Stim Packs"]);
+      T.equal(U.texts(app, ".button-list li > span:not(.pos):not(.marks):not(.icon-ph):not(.grip)"), ["Move", "Move — Stim Packs"]);
     });
   }, { dom: true });
 
@@ -646,18 +809,38 @@
       T.equal(app.errors().length, 1, "out of order is an error");
       app.select("button_sets", "set:2");
       var sort = U.q(app, '[data-action="sort-buttons"]');
-      T.ok(!sort.disabled);
+      T.ok(sort.closest(".with-help").querySelector(".help"), "with its help");
+      T.ok(!/needs each set/.test(AG.ui.help.text("sortButtons")));
       sort.click();
       T.equal(app.errors(), []);
       T.equal(app.doc().button_sets, undefined, "sorted, the set matches the original");
-      T.ok(U.q(app, '[data-action="sort-buttons"]').disabled, "nothing to sort");
+      T.equal(app.root.querySelector('[data-action="sort-buttons"]'), null, "once sorted, it's gone");
     });
   }, { dom: true });
 
-  T.test("sort by position: not offered for StarCraft", function (ctx) {
-    return start(ctx).then(function (app) {
-      app.select("button_sets", "set:5");
+  T.test("sort by position: not offered for a set in order, or for a game that doesn't need it", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      app.select("button_sets", "set:2");
       T.equal(app.root.querySelector('[data-action="sort-buttons"]'), null);
+      return start(ctx).then(function (sc) {
+        var cat = sc.cat();
+        sc.edit(function (d) {
+          return D.setButtons(d, cat, 5, cat.sets.get(5).original.slice().reverse());
+        });
+        sc.select("button_sets", "set:5");
+        T.equal(sc.root.querySelector('[data-action="sort-buttons"]'), null);
+      });
+    });
+  }, { dom: true });
+
+  T.test("button list: Add and Remove are above the list, and there's no Up, Down or Clear set", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("button_sets", "set:0");
+      var box = U.q(app, ".buttons-box");
+      T.equal(U.texts(app, ".buttons-box .toolbar button"), ["Add", "Remove"]);
+      T.ok(box.querySelector(".toolbar").compareDocumentPosition(box.querySelector(".button-list")) & Node.DOCUMENT_POSITION_FOLLOWING, "the toolbar comes first");
+      T.equal(box.querySelectorAll(".toolbar .help").length, 0, "Add and Remove have no help");
+      T.equal(app.root.querySelector('[data-action="move-up"], [data-action="move-down"], [data-action="clear-set"]'), null);
     });
   }, { dom: true });
 

@@ -105,6 +105,29 @@
     el.dispatchEvent(new Event(el.tagName === "INPUT" && el.type === "search" ? "input" : "change", { bubbles: true }));
   }
 
+  // Dragging with pointer events, as a mouse would: press, move, release.
+  // `where` says where on `target` the pointer goes: its upper edge by
+  // default, its lower edge with true, or { x, y } as fractions of its size.
+  function point(el, where) {
+    var r = el.getBoundingClientRect();
+    if (where && typeof where === "object") return [r.left + r.width * where.x, r.top + r.height * where.y];
+    return [r.left + r.width / 2, where ? r.bottom - 1 : r.top + 1];
+  }
+  function pointer(type, el, xy) {
+    el.dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, pointerId: 1, pointerType: "mouse", isPrimary: true, button: 0, clientX: xy[0], clientY: xy[1] }));
+  }
+  function dragStart(handle, target, where) {
+    pointer("pointerdown", handle, point(handle, { x: 0.5, y: 0.5 }));
+    pointer("pointermove", target, point(target, where));
+  }
+  function dragEnd(target, where) {
+    pointer("pointerup", target, point(target, where));
+  }
+  function drag(handle, target, where) {
+    dragStart(handle, target, where);
+    dragEnd(target, where);
+  }
+
   function q(app, sel) {
     var el = app.root.querySelector(sel);
     if (!el) throw new Error("nothing matches " + sel);
@@ -127,5 +150,5 @@
     });
   }
 
-  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, q: q, texts: texts, answer: answer };
+  T.ui = { catalogs: catalogs, platform: platform, memoryPrefs: memoryPrefs, file: file, start: start, wait: wait, key: key, change: change, q: q, drag: drag, dragStart: dragStart, dragEnd: dragEnd, texts: texts, answer: answer };
 })(AxeGraft);

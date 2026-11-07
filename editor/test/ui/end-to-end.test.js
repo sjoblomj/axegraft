@@ -40,7 +40,7 @@
         U.q(app, '.slot[data-position="9"]').dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
         U.change(U.q(app, '[data-field="set:250:2:enabled_string"] input[data-role="id"]'), "689");
         treeItem(app, "set:7");
-        U.q(app, '[data-action="move-down"]').click();
+        U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });
         // Requirements: the Marine needs its Barracks, or must have an Academy under way.
         tabEl(app, "requirements").click();
         treeItem(app, "req:unit:0");

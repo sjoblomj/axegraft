@@ -11,6 +11,7 @@
   var R = AG.core.requirements;
   var tree = AG.core.tree;
   var util = AG.util;
+  var drag = AG.ui.drag;
 
   var TYPE_TEXT = { unit: "Unit", upgrade: "Upgrade", tech_research: "Tech research", tech_use: "Tech use", order: "Order" };
   var KIND_OF_TYPE = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
@@ -49,6 +50,15 @@
       text += ": " + r.param + (pn ? " " + pn : "");
     }
     return text;
+  }
+
+  // A trash can, drawn in the text colour. Fixed markup, which the HTML
+  // parser puts in the SVG namespace.
+  var TRASH = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4h11M6 4V2.5h4V4M4 4l.7 9.5h6.6L12 4M6.7 6.5v4.5M9.3 6.5v4.5"/></svg>';
+  function trashIcon() {
+    var holder = document.createElement("span");
+    holder.innerHTML = TRASH;
+    return holder.firstChild;
   }
 
   function rowClasses(s, problems) {
@@ -146,7 +156,7 @@
           }
         });
       }, { class: "ctl", "aria-label": "Row " + i + " kind" });
-      var parts = [h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
+      var parts = [drag.grip("Drag to move this row"), h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
       if (r.kind === "unit") {
         parts.push(paramControl("unit", r.unit, function (v) {
           update(function (next) {
@@ -163,26 +173,29 @@
       } else if (r.kind === "op" && util.has(r, "param")) {
         parts.push(h("span", { text: String(r.param) }));
       }
+      // Up, Down and Remove say what they do, and have no help.
       parts.push(
-        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-up" }, disabled: i === 0, "aria-label": "Move row " + i + " up", onclick: function () {
-          update(function (next) {
-            var x = next[i];
-            next[i] = next[i - 1];
-            next[i - 1] = x;
-          });
-        } }, "↑"), help.text("rowUp")),
-        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-down" }, disabled: i === rows.length - 1, "aria-label": "Move row " + i + " down", onclick: function () {
-          update(function (next) {
-            var x = next[i];
-            next[i] = next[i + 1];
-            next[i + 1] = x;
-          });
-        } }, "↓"), help.text("rowDown")),
-        F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "row-remove" }, "aria-label": "Remove row " + i, onclick: function () {
-          update(function (next) {
-            next.splice(i, 1);
-          });
-        } }, "Remove"), help.text("removeRow"))
+        h("span", { class: "row-tools" }, [
+          h("button", { type: "button", class: "small", dataset: { action: "row-up", plain: "" }, disabled: i === 0, "aria-label": "Move row " + i + " up", title: "Move up", onclick: function () {
+            update(function (next) {
+              var x = next[i];
+              next[i] = next[i - 1];
+              next[i - 1] = x;
+            });
+          } }, "↑"),
+          h("button", { type: "button", class: "small", dataset: { action: "row-down", plain: "" }, disabled: i === rows.length - 1, "aria-label": "Move row " + i + " down", title: "Move down", onclick: function () {
+            update(function (next) {
+              var x = next[i];
+              next[i] = next[i + 1];
+              next[i + 1] = x;
+            });
+          } }, "↓"),
+          h("button", { type: "button", class: "small icon-button", dataset: { action: "row-remove", plain: "" }, "aria-label": "Remove row " + i, title: "Remove", onclick: function () {
+            update(function (next) {
+              next.splice(i, 1);
+            });
+          } }, [trashIcon()])
+        ])
       );
       probs[i].forEach(function (m) {
         parts.push(h("span", { class: "row-problem", role: "alert", text: m }));
@@ -203,6 +216,17 @@
       { class: "rows", dataset: { field: fieldKey } },
       rows.map(rowEl)
     );
+    if (rows.length > 1) {
+      drag.list(list, Array.prototype.slice.call(list.children), function (from, to) {
+        var next = rows.map(function (x) {
+          return Object.assign({}, x);
+        });
+        next.splice(to, 0, next.splice(from, 1)[0]);
+        setRows(R.reindex(next));
+      }, function (row) {
+        return row.querySelector(".grip");
+      });
+    }
     Array.prototype.forEach.call(list.querySelectorAll("input[data-role=id]"), function (inp) {
       var sel = inp.parentNode.querySelector("select");
       if (sel && sel.getAttribute("aria-describedby")) inp.setAttribute("aria-describedby", sel.getAttribute("aria-describedby"));
@@ -214,9 +238,9 @@
       app.render();
     });
 
-    var addRow = F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "add-row" }, onclick: function () {
+    var addRow = h("button", { type: "button", class: "small", dataset: { action: "add-row", plain: "" }, onclick: function () {
       setRows(R.reindex(rows.concat([{ kind: "unit", unit: cat.limits.unit.min }])));
-    } }, "Add row"), help.text("addRow"));
+    } }, "Add row");
 
     var status;
     if (!eff.defined && !hasOriginal) status = "This item has no requirement record. Add a row to create one.";

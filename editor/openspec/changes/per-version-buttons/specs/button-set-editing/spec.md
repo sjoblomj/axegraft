@@ -50,8 +50,23 @@ In a game whose catalog needs ascending positions, a set whose buttons aren't in
 - **THEN** there is no error
 
 ### Requirement: Sorting by position
-In a game whose catalog needs ascending positions, the tab SHALL offer to sort a set's buttons by position, as one undoable change. Buttons with the same position SHALL keep their order.
+In a game whose catalog needs ascending positions, the tab SHALL offer to sort a set's buttons by position, as one undoable change, when they're out of order. Every edit keeps the order, so only a mod opened that way can be. The offer and its help SHALL NOT be shown for a set in order. Buttons with the same position SHALL keep their order.
 
 #### Scenario: Sorting
 - **WHEN** a user sorts a set whose buttons are at positions 5, 1, 1 and 3
 - **THEN** the buttons are at positions 1, 1, 3 and 5, the two at position 1 in their previous order
+
+### Requirement: Keeping position order
+In a game whose catalog needs ascending positions, a button whose position the user changes, whether in its form, in the list or in the preview, and a button the user adds SHALL be put in its place in the list: before the first other button at a higher position, so it's last of those sharing its position. No other button SHALL move in the list, and no other button's fields SHALL change, except where a push in the list or the preview moves them. The editor SHALL NOT sort a set the user didn't change, such as one in a mod it opens.
+
+#### Scenario: Changing a position
+- **WHEN** a set's buttons are at positions 0, 1 and 2, and a user changes the first button's position to 5
+- **THEN** the buttons are at positions 1, 2 and 5, the changed button is last, and it's still selected
+
+#### Scenario: Joining a position
+- **WHEN** a set's buttons are at positions 1, 3, 3 and 5, and a user moves the first to position 3
+- **THEN** it's the third button, after the two that were at position 3
+
+#### Scenario: Adding a button
+- **WHEN** a set's buttons are at positions 1, 2 and 5, and a user adds a button
+- **THEN** the new button is at position 0 and first in the list

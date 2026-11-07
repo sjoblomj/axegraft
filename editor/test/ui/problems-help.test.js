@@ -101,7 +101,8 @@
     var bad = [];
     var controls = app.root.querySelectorAll(".tabpanel input, .tabpanel select, .tabpanel textarea, .tabpanel button");
     Array.prototype.forEach.call(controls, function (c) {
-      if (c.classList.contains("help")) return;
+      // Buttons such as Add and Remove say what they do.
+      if (c.classList.contains("help") || c.hasAttribute("data-plain")) return;
       var id = c.getAttribute("aria-describedby");
       var tip = id && document.getElementById(id);
       var ok = tip && tip.closest(".help") && tip.textContent.trim().length > 10;

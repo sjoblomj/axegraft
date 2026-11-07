@@ -565,13 +565,15 @@ button.small { padding: var(--button-small-pad, 0 6px); }
 /* Button sets */
 .buttonset-layout { display: flex; gap: 12px; align-items: flex-start; }
 /* The box is as wide as its toolbar; the list fills it without widening it. */
-.buttonset-layout .buttons-box { width: max-content; min-width: 300px; flex: none; }
+/* The minimum width is what the toolbar took when it had Up, Down and Clear set. */
+.buttonset-layout .buttons-box { width: max-content; min-width: 417px; flex: none; }
+[data-theme="dark"] .buttonset-layout .buttons-box { min-width: 443px; }
 .buttonset-layout .buttons-box .toolbar { flex-wrap: nowrap; }
 .buttonset-layout .buttons-box .button-list-row > div { width: 0; min-width: 100%; }
 .buttonset-layout .preview-box { padding-top: 8px; }
 .button-list { list-style: none; margin: 0; padding: 0; background: var(--field-bg); color: var(--field-text); border: var(--bw) solid; border-color: var(--bevel-in); border-radius: var(--radius); min-height: 60px; font-family: var(--data-font); }
 .button-list li { padding: 2px 6px; display: flex; gap: 6px; align-items: center; cursor: default; }
-.button-list li > span:not(.pos):not(.mark):not(.marks) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.button-list li > span:not(.pos):not(.mark):not(.marks):not(.grip) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .button-list li:hover { background: var(--hover-bg); }
 .button-list li[aria-selected="true"] { background: var(--select-bg); color: var(--select-text); }
 .button-list li .pos { width: 22px; text-align: right; color: var(--field-muted); }
@@ -854,3 +856,30 @@ progress { width: 100%; }
 [data-theme="dark"] .app { border-inline-color: rgba(62, 166, 255, 0.18); box-shadow: 0 0 60px rgba(62, 166, 255, 0.07); }
 [data-theme="dark"] .tree .cursor > .row { outline: 1px solid rgba(34, 211, 238, 0.75); outline-offset: -1px; box-shadow: 0 0 10px rgba(34, 211, 238, 0.3); }
 [data-theme="dark"] .tree .cursor[aria-selected="true"] > .row { box-shadow: inset 2px 0 0 var(--accent), inset 0 0 16px rgba(62, 166, 255, 0.22), 0 0 12px rgba(34, 211, 238, 0.35); }
+
+/* Dragging */
+.grip { color: var(--field-muted); cursor: grab; user-select: none; touch-action: none; font-size: 14px; line-height: 1; flex: none; }
+.grip::before { content: "\283F"; }
+.button-list li .grip { opacity: 0.6; }
+.button-list li[aria-selected="true"] .grip { color: inherit; }
+.button-list li:hover .grip { opacity: 1; }
+.req-row .grip:hover { color: var(--field-text); }
+/* Less space on both sides of the grip than the row padding and flex gap give. */
+.button-list li .grip { margin: 0 -3px; }
+.req-row .grip { margin: 0 calc(var(--gap-x) * -0.75); }
+.button-list li:not(.empty) { cursor: grab; }
+.slot.draggable { cursor: grab; touch-action: none; }
+.drag-source { opacity: 0.4; }
+.drop-before { box-shadow: inset 0 3px 0 var(--slot-selected); }
+.drop-after { box-shadow: inset 0 -3px 0 var(--slot-selected); }
+.slot.drop-target { outline: 2px dashed var(--slot-selected); outline-offset: -2px; }
+.drag-ghost { position: fixed; z-index: 1000; margin: 0; pointer-events: none; opacity: 0.7; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+html.dragging, html.dragging * { cursor: grabbing !important; user-select: none !important; }
+.preview { position: relative; }
+.slot.drop-pushed { outline: 2px dashed var(--warning); outline-offset: -2px; }
+.drop-gap { position: absolute; width: 3px; background: var(--slot-selected); border-radius: 2px; pointer-events: none; }
+.button-list li.drop-target { outline: 2px dashed var(--slot-selected); outline-offset: -2px; }
+.button-list li.drop-pushed { outline: 2px dashed var(--warning); outline-offset: -2px; }
+.req-row .row-tools { margin-left: auto; display: inline-flex; gap: var(--gap-x); align-items: center; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; }
+.icon-button svg { display: block; }

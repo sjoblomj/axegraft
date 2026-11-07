@@ -53,6 +53,39 @@
     });
   }, { dom: true });
 
+  T.test("record editor: dragging a row by its grip moves it, keeping its parameter", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:unit:0");
+      T.equal(app.root.querySelectorAll(".tabpanel .req-row > .grip").length, 2, "each row has a grip");
+      U.drag(row(app, 1).querySelector(".grip"), row(app, 0));
+      T.equal(list(app, "unit", 0), ["not_lifted_off", "current_unit_is", 111]);
+      U.drag(row(app, 0).querySelector(".grip"), row(app, 1), true);
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "not_lifted_off"]);
+      T.equal(app.doc().requirements, undefined, "dragging it back matches the original");
+    });
+  }, { dom: true });
+
+  T.test("record editor: Up, Down and a trash can are at the right of each row, with no help; Add row has none either", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:unit:0");
+      var r = row(app, 0);
+      var tools = r.querySelector(".row-tools");
+      T.equal(Array.prototype.map.call(tools.querySelectorAll("button"), function (b) {
+        return b.dataset.action;
+      }), ["row-up", "row-down", "row-remove"]);
+      var remove = tools.querySelector('[data-action="row-remove"]');
+      T.ok(remove.querySelector("svg"), "a trash can");
+      T.equal(remove.textContent, "", "not the word");
+      T.equal(remove.getAttribute("aria-label"), "Remove row 0");
+      T.equal(tools.querySelectorAll(".help").length, 0);
+      T.equal(U.q(app, '[data-action="add-row"]').parentNode.querySelectorAll(".help").length, 0);
+      var sel = r.querySelector("select").getBoundingClientRect();
+      var box = r.getBoundingClientRect();
+      T.ok(box.right - remove.getBoundingClientRect().right < 12, "at the right of the row");
+      T.ok(tools.getBoundingClientRect().left > sel.right, "after the row's fields");
+    });
+  }, { dom: true });
+
   T.test("parameters follow their opcode: changing to an opcode that takes a unit shows a unit field, with a problem until it's filled", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");

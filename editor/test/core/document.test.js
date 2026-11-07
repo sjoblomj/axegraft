@@ -188,6 +188,111 @@
     T.equal(D.sortButtons(sorted, cat, 0), sorted, "sorting a sorted set changes nothing");
   });
 
+  // ---- Moving buttons between positions
+
+  function w2(p, icon) {
+    return { position: p, icon: icon, condition: "w2_always", action: "w2_move", string: 400, highlighted: 0 };
+  }
+  function shape(list) {
+    return list.map(function (b) {
+      return [b.position, b.icon];
+    });
+  }
+
+  T.test("moving buttons: a button whose position changes moves to its place in the list, and no other button changes", function () {
+    var cat = T.catalog("warcraft2");
+    var list = AG.util.freeze([w2(1, 10), w2(3, 11), w2(5, 12)]);
+    var r = D.moveButtonTo(cat, list, 2, 2);
+    T.equal(shape(r.buttons), [[1, 10], [2, 12], [3, 11]]);
+    T.equal(r.index, 1);
+    T.ok(r.buttons[0] === list[0] && r.buttons[2] === list[1], "the other buttons are the same objects");
+    var later = D.moveButtonTo(cat, list, 0, 4);
+    T.equal(shape(later.buttons), [[3, 11], [4, 10], [5, 12]]);
+    T.equal(later.index, 1);
+  });
+
+  T.test("moving buttons: a button moved onto a filled position joins the buttons there, last", function () {
+    var cat = T.catalog("warcraft2");
+    var r = D.moveButtonTo(cat, [w2(1, 10), w2(3, 11), w2(3, 12), w2(5, 13)], 0, 3);
+    T.equal(shape(r.buttons), [[3, 11], [3, 12], [3, 10], [5, 13]]);
+    T.equal(r.index, 2);
+  });
+
+  T.test("moving buttons: in a game that doesn't need ascending positions, the list keeps its order", function () {
+    var cat = T.catalog("starcraft");
+    T.ok(!cat.panel.ascending);
+    var b = function (p) {
+      return { position: p, icon: p, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 };
+    };
+    var r = D.moveButtonTo(cat, [b(1), b(3), b(5)], 2, 2);
+    T.equal(r.buttons.map(function (x) {
+      return x.position;
+    }), [1, 3, 2]);
+    T.equal(r.index, 2);
+  });
+
+  T.test("moving buttons: a push moves the buttons from that position up to the first empty one, one position on", function () {
+    var cat = T.catalog("warcraft2");
+    var list = AG.util.freeze([w2(0, 10), w2(1, 11), w2(2, 12), w2(2, 13), w2(4, 14), w2(6, 15)]);
+    T.equal(D.pushedPositions(cat, list, 5, 1), [1, 2]);
+    var r = D.pushButtonTo(cat, list, 5, 1);
+    T.equal(shape(r.buttons), [[0, 10], [1, 15], [2, 11], [3, 12], [3, 13], [4, 14]], "both buttons at 2 move, and 4 stays, as 3 was empty");
+    T.equal(r.index, 1);
+    T.equal(D.pushedPositions(cat, list, 5, 3), [], "into an empty position, nothing is pushed");
+    T.equal(shape(D.pushButtonTo(cat, list, 5, 3).buttons), [[0, 10], [1, 11], [2, 12], [2, 13], [3, 15], [4, 14]]);
+  });
+
+  T.test("moving buttons: the position a pushed button leaves counts as empty", function () {
+    var cat = T.catalog("warcraft2");
+    var list = [w2(0, 10), w2(1, 11), w2(2, 12)];
+    T.equal(D.pushedPositions(cat, list, 2, 1), [1]);
+    T.equal(shape(D.pushButtonTo(cat, list, 2, 1).buttons), [[0, 10], [1, 12], [2, 11]]);
+    T.equal(shape(D.pushButtonTo(cat, list, 1, 1).buttons), shape(list), "pushing a button into its own position changes nothing");
+  });
+
+  T.test("moving buttons: with no empty position, the last position's buttons stay and are joined by those before them", function () {
+    var cat = T.catalog("warcraft2");
+    var list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 8].map(function (p, i) {
+      return w2(p, 10 + i);
+    });
+    T.equal(D.pushedPositions(cat, list, 9, 2), [2, 3, 4, 5, 6, 7]);
+    var r = D.pushButtonTo(cat, list, 9, 2);
+    T.equal(shape(r.buttons), [[0, 10], [1, 11], [2, 19], [3, 12], [4, 13], [5, 14], [6, 15], [7, 16], [8, 17], [8, 18]]);
+    T.equal(r.index, 2);
+  });
+
+  T.test("dropping in the list: onto a button joins its position, last", function () {
+    var cat = T.catalog("warcraft2");
+    var r = D.dropInList(cat, [w2(0, 10), w2(1, 11), w2(2, 12), w2(4, 13)], 3, { on: 1 });
+    T.equal(shape(r.buttons), [[0, 10], [1, 11], [1, 13], [2, 12]]);
+    T.equal(r.index, 2);
+    T.equal(r.pushed, []);
+    T.equal(D.dropInList(cat, [w2(0, 10), w2(1, 11)], 1, { on: 1 }), null, "onto itself changes nothing");
+  });
+
+  T.test("dropping in the list: between two buttons takes the second's position and pushes, as in the preview", function () {
+    var cat = T.catalog("warcraft2");
+    var list = [w2(0, 10), w2(1, 11), w2(2, 12), w2(4, 13)];
+    var r = D.dropInList(cat, list, 3, { before: 1 });
+    T.equal(shape(r.buttons), [[0, 10], [1, 13], [2, 11], [3, 12]]);
+    T.equal(r.index, 1);
+    T.equal(r.pushed, [1, 2]);
+    T.equal(shape(D.dropInList(cat, list, 3, { before: 0 }).buttons), [[0, 13], [1, 10], [2, 11], [3, 12]], "before the first");
+    T.equal(shape(D.dropInList(cat, list, 0, { before: 4 }).buttons), [[1, 11], [2, 12], [4, 13], [5, 10]], "after the last, the position after it");
+  });
+
+  T.test("dropping in the list: next to itself, or among buttons it can join without pushing, it only moves in the list", function () {
+    var cat = T.catalog("warcraft2");
+    var list = [w2(0, 10), w2(1, 11), w2(1, 12), w2(2, 13)];
+    T.equal(D.dropInList(cat, list, 1, { before: 1 }), null);
+    T.equal(D.dropInList(cat, list, 1, { before: 2 }), null);
+    var r = D.dropInList(cat, list, 1, { before: 3 });
+    T.equal(shape(r.buttons), [[0, 10], [1, 12], [1, 11], [2, 13]], "within its position");
+    T.equal(r.pushed, []);
+    T.equal(shape(D.dropInList(cat, list, 0, { before: 2 }).buttons), [[1, 11], [1, 10], [1, 12], [2, 13]], "between two sharing a position, it joins them");
+    T.equal(D.dropInList(cat, list, 0, { before: 1 }), null, "just below itself changes nothing");
+  });
+
   T.test("only differences are saved: emptying an item that has no record matches the original", function () {
     var cat = sc();
     var doc = D.setRequirement(D.create("starcraft"), cat, "unit", 4, [111]);

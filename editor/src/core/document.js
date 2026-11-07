@@ -449,6 +449,118 @@
     return same ? doc : setButtons(doc, cat, id, sorted);
   }
 
+  // ---- Moving buttons between positions
+  //
+  // These take a set's list of buttons and return a new list, and the index
+  // the moved button ends up at. They never change the list they're given.
+
+  function posOf(cat, b) {
+    return isObject(b) ? b[cat.buttonKind.position.name] : undefined;
+  }
+
+  // Puts button i back in order after its position changed, in a game that
+  // needs ascending positions: before the first other button at a higher
+  // position, so it's last of those sharing its position. No other button
+  // moves. In other games the list stays as it is.
+  function placeButton(cat, list, i) {
+    if (!cat.panel.ascending) return { buttons: list, index: i };
+    var b = list[i];
+    var p = posOf(cat, b);
+    var rest = list.slice(0, i).concat(list.slice(i + 1));
+    var at = rest.length;
+    for (var k = 0; k < rest.length; k++) {
+      if (typeof posOf(cat, rest[k]) === "number" && posOf(cat, rest[k]) > p) {
+        at = k;
+        break;
+      }
+    }
+    rest.splice(at, 0, b);
+    return { buttons: rest, index: at };
+  }
+
+  function withPosition(cat, b, p) {
+    var copy = Object.assign({}, b);
+    copy[cat.buttonKind.position.name] = p;
+    return copy;
+  }
+
+  // Button i moved to `pos`, alone there or joining the buttons already there.
+  function moveButtonTo(cat, list, i, pos) {
+    var next = list.slice();
+    next[i] = withPosition(cat, list[i], pos);
+    return placeButton(cat, next, i);
+  }
+
+  // The positions whose buttons a push into `pos` shifts one place on: from
+  // `pos` up to the first empty position, not counting button i, which is
+  // leaving its own. With none empty, up to the last position, whose buttons
+  // stay and are joined by those from the one before.
+  function pushedPositions(cat, list, i, pos) {
+    var max = cat.limits.position.max;
+    var used = {};
+    list.forEach(function (b, k) {
+      if (k !== i && typeof posOf(cat, b) === "number") used[posOf(cat, b)] = true;
+    });
+    var out = [];
+    for (var p = pos; p < max && used[p]; p++) out.push(p);
+    return out;
+  }
+
+  // Button i put at `pos`, pushing the buttons from there on one position on
+  // to make room, as `pushedPositions` says.
+  function pushButtonTo(cat, list, i, pos) {
+    var shifted = pushedPositions(cat, list, i, pos);
+    var next = list.map(function (b, k) {
+      if (k === i) return withPosition(cat, b, pos);
+      var p = posOf(cat, b);
+      return shifted.indexOf(p) >= 0 ? withPosition(cat, b, p + 1) : b;
+    });
+    return placeButton(cat, next, i);
+  }
+
+  // A drop of button i in the list of a game that needs ascending positions.
+  // `drop` is { on: k }, onto button k, or { before: k }, between buttons
+  // k - 1 and k, where k may be the list's length, for after the last.
+  //
+  // Onto a button, it joins that button's position. Between x and y it
+  // takes y's position and pushes, as `pushButtonTo` does; after the last
+  // button, the position after x's. Where x and y share a position, or the
+  // button already has x's or y's, it only moves in the list, keeping or
+  // taking that position, as nothing needs pushing.
+  //
+  // Returns `{ buttons, index, pushed }`, `pushed` being the positions whose
+  // buttons a push moves on, or null when the drop changes nothing.
+  function dropInList(cat, list, i, drop) {
+    var r;
+    var pushed = [];
+    if (drop.on !== undefined) {
+      if (drop.on === i || typeof posOf(cat, list[drop.on]) !== "number") return null;
+      r = moveButtonTo(cat, list, i, posOf(cat, list[drop.on]));
+    } else {
+      var k = drop.before;
+      if (k < 0 || k > list.length || k === i || k === i + 1) return null;
+      var px = k > 0 ? posOf(cat, list[k - 1]) : undefined;
+      var py = k < list.length ? posOf(cat, list[k]) : undefined;
+      var pd = posOf(cat, list[i]);
+      var keep = pd === px || pd === py ? pd : px !== undefined && px === py ? py : undefined;
+      if (keep !== undefined) {
+        var next = list.slice();
+        var b = next.splice(i, 1)[0];
+        var at = k > i ? k - 1 : k;
+        next.splice(at, 0, keep === pd ? b : withPosition(cat, b, keep));
+        r = { buttons: next, index: at };
+      } else {
+        var p = py !== undefined ? py : typeof px === "number" ? Math.min(px + 1, cat.limits.position.max) : undefined;
+        if (typeof p !== "number") return null;
+        pushed = pushedPositions(cat, list, i, p);
+        r = pushButtonTo(cat, list, i, p);
+      }
+    }
+    if (util.equal(r.buttons, list)) return null;
+    r.pushed = pushed;
+    return r;
+  }
+
   function revertSet(doc, cat, id) {
     return withPart(
       doc,
@@ -761,6 +873,11 @@
     effectiveButtons: effectiveButtons,
     setButtons: setButtons,
     sortButtons: sortButtons,
+    placeButton: placeButton,
+    moveButtonTo: moveButtonTo,
+    pushedPositions: pushedPositions,
+    pushButtonTo: pushButtonTo,
+    dropInList: dropInList,
     alignButtons: alignButtons,
     sameButtons: sameButtons,
     revertSet: revertSet,

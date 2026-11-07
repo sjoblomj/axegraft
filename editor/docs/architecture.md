@@ -42,7 +42,7 @@ Keeping `src/core` free of the DOM means the rules are tested from the command l
 
 **Rendering by rebuilding.** There's no virtual DOM: after a change, the window is rebuilt from the state, and focus and scroll position are restored by field. With about 250 units, 554 buttons and 300 constants this is fast enough, and there's no diffing to maintain. Standard controls (`select`, `input`, `fieldset`, `dialog`, `details`) carry keyboard use and accessibility. The item list follows the WAI-ARIA tree pattern.
 
-**Help beside every control.** Each control is described (`aria-describedby`) by the text of a `?` button beside it, shown on hover and focus. Game-specific help comes from the catalog; help for controls every game shares is a table in `src/ui/help.js`. A test opens every item of every tab of both games and checks every control has a help text.
+**Help beside every control.** Each control is described (`aria-describedby`) by the text of a `?` button beside it, shown on hover and focus. Game-specific help comes from the catalog; help for controls every game shares is a table in `src/ui/help.js`. Buttons that say all there is to say, such as Add and Remove, are marked `data-plain` and have none. A test opens every item of every tab of both games and checks every other control has a help text.
 
 **Storage is a convenience.** Drafts and imported assets go in IndexedDB, behind a wrapper that falls back to memory for the session and says so. The saved file is always the real copy.
 
