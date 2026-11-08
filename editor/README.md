@@ -63,7 +63,8 @@ On 2026-11-05 the page was also run with the network cut off and every request l
 
 Some behaviour depends on the browser's own dialogs, so it can't be checked by the test page:
 
-- **Saving straight to the opened file**, through the browser's file picker, where it has one (Chromium). Not yet checked by hand. The code path is covered by a test with a stand-in file handle, and saving by download works everywhere.
+- **Saving straight to the opened file**, through the browser's file picker, where it has one (Chromium). Checked by hand in Chromium on 2026-11-08: Save As asked for a file, and Save then wrote to it without asking again. Saving by download works everywhere.
 - **Restoring unsaved work after the browser closes**: checked in Chromium by killing the browser after an edit and starting it again on the same profile. The editor offered the work back.
 - **Importing from a real game folder**: checked in Chromium with a StarCraft folder of 120 MB. It took about half a second, the page never stalled for more than 133 ms, and checksums of all 243 files were the same before and after.
-- **Looking at FireGraft side by side**: not yet done. `docs/architecture.md` compares the two from FireGraft's documented layout and behaviour.
+- **Looking at FireGraft side by side**: done on 2026-11-08, with no differences beyond those `docs/architecture.md` lists.
+- **Originals that differ by version**: checked in Firefox and Chromium on 2026-11-08 with Warcraft II's Goblin Zeppelin set. Both originals were shown side by side, and the compatibility report listed the DOS versions and showed its note about the patcher.

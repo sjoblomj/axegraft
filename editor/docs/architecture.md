@@ -78,4 +78,4 @@ Deliberate differences, and why:
 | Windows controls and fonts                                                | System fonts and standard browser controls, styled to look close to FireGraft                                      | No fonts or assets can be bundled, and standard controls bring keyboard use and accessibility                                        |
 | StarCraft only                                                            | StarCraft and Warcraft II, each from its catalog                                                                   | Everything game-specific is catalog data, including Warcraft II's `string` and `highlighted` fields                                  |
 
-The visual comparison was made against FireGraft's documented behaviour and layout (`firegraft.md` and its readme files). A side-by-side look with FireGraft running is still to be done; see the README's list of checks done by hand.
+The comparison was first made against FireGraft's documented behaviour and layout (`firegraft.md` and its readme files), and then checked side by side with FireGraft running on 2026-11-08, which found no further differences.
