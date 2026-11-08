@@ -50,6 +50,26 @@
     });
   }, { dom: true });
 
+  T.test("copying a record: pasted onto a type that can't use one of its opcodes, the rows are kept and that row shows an error", function (ctx) {
+    return start(ctx).then(function (app) {
+      var cat = app.cat();
+      app.edit(function (d) {
+        return D.setRequirement(d, cat, "unit", 0, ["must_have_addon", 107, "not_lifted_off"]);
+      });
+      app.select("requirements", "req:unit:0");
+      U.q(app, '[data-action="req-copy"]').click();
+      app.select("requirements", "req:tech_use:0");
+      U.q(app, '[data-action="req-paste"]').click();
+      T.equal(D.effectiveRequirement(app.doc(), cat, "tech_use", 0).list, ["must_have_addon", 107, "not_lifted_off"], "pasted whole");
+      T.ok(app.errors().some(function (p) {
+        return /must_have_addon can't be used in a tech use record/.test(p.message);
+      }), JSON.stringify(app.errors()));
+      var problem = row(app, 0).querySelector(".row-problem");
+      T.ok(problem && /can't be used/.test(problem.textContent), "shown at the row");
+      T.ok(!row(app, 1).querySelector(".row-problem"), "not at the row it can use");
+    });
+  }, { dom: true });
+
   T.test("record editor: an opcode and its parameter share a row", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");

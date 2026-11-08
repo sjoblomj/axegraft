@@ -95,6 +95,14 @@
       T.equal(idBox(app, "unit:0:equivalent_entry").value, "");
       U.change(idBox(app, "unit:0:equivalent_entry"), "5");
       T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", equivalent_entry: 5 }]);
+      var chosen = nameList(app, "unit:0:equivalent_entry");
+      T.ok(/^5 .* — set 5$/.test(chosen.options[chosen.selectedIndex].textContent), "the list shows entry 5 and its set: " + chosen.options[chosen.selectedIndex].textContent);
+      app.edit(function (d) {
+        return D.setUnitField(d, app.cat(), 5, "button_set", 7);
+      });
+      chosen = nameList(app, "unit:0:equivalent_entry");
+      T.ok(/^5 .* — set 7$/.test(chosen.options[chosen.selectedIndex].textContent), "the set it has now: " + chosen.options[chosen.selectedIndex].textContent);
+      app.undo();
       T.equal(app.errors(), []);
       var goTo = field(app, "unit:0:equivalent_entry").querySelector('[data-action="go-to-entry"]');
       T.ok(goTo, "it offers to go to entry 5");
@@ -413,6 +421,24 @@
       T.ok(!app.root.querySelector(".drop-gap, .drop-pushed"), "the marks are gone");
       T.equal(shape(app), [[0, 10], [1, 13], [2, 11], [3, 12]], "in position order");
       T.equal(U.q(app, ".button-form legend").textContent, "Button 2", "the dragged button is selected");
+      T.equal(app.errors(), []);
+    });
+  }, { dom: true });
+
+  T.test("preview: dropping between positions with none empty pushes the buttons on, and the last position keeps its button and gains the one before", function (ctx) {
+    return start(ctx, "warcraft2").then(function (app) {
+      w2Set(app, [0, 1, 2, 3, 4, 5, 6, 7, 8, 8]);
+      function slot(p) {
+        return U.q(app, '.slot[data-position="' + p + '"]');
+      }
+      // The second button at the last position, chosen so it's the one dragged.
+      U.q(app, '.button-list [data-index="9"]').click();
+      U.dragStart(slot(8), slot(2), LEFT_EDGE);
+      T.equal(Array.prototype.map.call(app.root.querySelectorAll(".slot.drop-pushed"), function (c) {
+        return c.dataset.position;
+      }), ["2", "3", "4", "5", "6", "7"], "the buttons that would be pushed are outlined");
+      U.dragEnd(slot(2), LEFT_EDGE);
+      T.equal(shape(app), [[0, 10], [1, 11], [2, 19], [3, 12], [4, 13], [5, 14], [6, 15], [7, 16], [8, 17], [8, 18]]);
       T.equal(app.errors(), []);
     });
   }, { dom: true });
