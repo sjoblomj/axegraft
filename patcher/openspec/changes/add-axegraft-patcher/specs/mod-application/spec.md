@@ -180,6 +180,10 @@ A requirement entry SHALL replace only that item's record in the running version
 - **WHEN** a requirement entry has an empty `list`
 - **THEN** that item's record isn't in the new stream
 
+#### Scenario: Record the version lacks
+- **WHEN** a mod defines the record for order 73, which 1.16 and later lack, and the running version is 1.16
+- **THEN** the record is added to that version's stream, and the mod isn't rejected
+
 ### Requirement: Constant changes
 A constant SHALL be written to every location listed for the running version, using each location's own encoding.
 
