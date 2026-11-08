@@ -21,6 +21,17 @@ The repository MAY ship icons and strings, in a folder separate from the code. E
 - **WHEN** a user imports assets while shipped ones are present
 - **THEN** the imported ones are shown
 
+### Requirement: Shipped logos
+The shipped assets MAY include each game's logo. The start screen's button that creates a mod for a game SHALL show that game's logo when it's shipped and can be loaded, and the game's name as text otherwise.
+
+#### Scenario: Logo shipped
+- **WHEN** the StarCraft logo is shipped
+- **THEN** the button that creates a StarCraft mod shows it
+
+#### Scenario: No logo
+- **WHEN** no logo is shipped for a game, or it fails to load
+- **THEN** that game's button shows its name as text
+
 ### Requirement: Importing from game files
 The user SHALL be able to import assets for the current game by selecting their game folder or its archive files. This SHALL NOT change those files.
 

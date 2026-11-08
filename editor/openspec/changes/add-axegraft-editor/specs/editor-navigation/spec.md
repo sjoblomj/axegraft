@@ -54,6 +54,32 @@ The item list SHALL show what the current tab edits. Each tab SHALL keep its own
 - **WHEN** the Constants tab is open
 - **THEN** the list shows constants, grouped as the catalog says
 
+### Requirement: Item actions under the list
+Under the item list, a tab MAY have a row of buttons acting on its items. The Button Sets tab SHALL have Add, Remove, Copy and Paste there, and the Units and Requirements tabs Copy and Paste. Add SHALL add a new set with no buttons, at the lowest unused new set ID, and select it. Remove SHALL remove the chosen set only if the mod adds it. A button that can't act SHALL be disabled, and its tooltip SHALL say why.
+
+#### Scenario: Removing an original set
+- **WHEN** an original set is chosen in the Button Sets tab
+- **THEN** Remove is disabled, and its tooltip says only sets the mod adds can be removed
+
+#### Scenario: Every new set ID in use
+- **WHEN** a mod uses every new set ID
+- **THEN** Add is disabled, and its tooltip says so
+
+### Requirement: What the panel shows
+Under each panel's title, the editor SHALL say what the item is and what the mod does to it:
+- a table entry: "Unit", or that it's a table entry that isn't a unit, so it has only a button set;
+- a button set: "Original set", "Original set, replaced by this mod" or "New set, added by this mod";
+- a requirement record: "Original record", "No original record" or "This mod replaces the whole record";
+- a constant: the name it's saved under in the mod file, as "Saved as" and that name.
+
+#### Scenario: Replaced set
+- **WHEN** a mod defines original set 0
+- **THEN** its panel says "Original set, replaced by this mod"
+
+#### Scenario: Constant's saved name
+- **WHEN** a user selects the supply limit constant
+- **THEN** its panel says "Saved as max_supply"
+
 ### Requirement: Item labels and order
 The item list SHALL be a tree using the catalog's groups, which SHALL expand and collapse. An item with an ID SHALL have a label that starts with its ID, and items in a group SHALL be sorted numerically by ID. Constants have no ID, and SHALL stay in catalog order.
 

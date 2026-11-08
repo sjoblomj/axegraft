@@ -98,11 +98,15 @@ The editor SHALL check a catalog before offering its game. A catalog that is mal
 - **THEN** the catalog is treated as malformed
 
 ### Requirement: Sample catalogs are marked
-A catalog MAY declare itself a sample. While a sample catalog is in use, the editor SHALL show clearly that its data is incomplete, and mods made with it may not match the patcher.
+A catalog MAY declare itself a sample. While a sample catalog is in use, the editor SHALL show clearly that its data is incomplete, and mods made with it may not match the patcher. A sample MAY list only some of the table's entries: the check that a catalog lists every entry from the lowest to the highest table entry ID SHALL NOT apply to it.
 
 #### Scenario: Editing with a sample
 - **WHEN** a user edits a mod using a sample catalog
 - **THEN** a persistent notice says the catalog is a sample
+
+#### Scenario: Sample with a few entries
+- **WHEN** a sample catalog lists only some table entries
+- **THEN** it loads without a problem about missing entries, while a complete catalog missing them is malformed
 
 ### Requirement: Catalog documentation
 The catalog format SHALL be documented in the repository, precisely enough for a conversion tool to target it.
