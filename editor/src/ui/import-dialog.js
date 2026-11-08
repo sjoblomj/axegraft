@@ -83,8 +83,9 @@
       });
     } }, "Delete imported assets");
 
+    var tblName = spec && spec.strings ? spec.strings.file.split("\\").pop() : "stat_txt.tbl";
     var body = [
-      h("p", { text: "Choose your " + cat.title + " folder, or its archive files (" + (spec ? spec.archives.join(", ") : "none") + "), or a " + (spec && spec.strings ? spec.strings.file.split("\\").pop() : "stat_txt.tbl") + " on its own. The files are only read, never changed, and nothing leaves this computer." }),
+      h("p", { text: "Choose your " + cat.title + " folder, or its archive files (" + (spec ? spec.archives.join(", ") : "none") + "), or a " + tblName + " on its own. A " + tblName + " chosen with the archive files is used in place of their strings. The files are only read, never changed, and nothing leaves this computer." }),
       status,
       h("div", { class: "toolbar" }, [F.withHelp(folderBtn, help.text("importFolder")), F.withHelp(filesBtn, help.text("importFiles")), F.withHelp(deleteBtn, "Deletes the icons and strings imported for this game. The editor then uses the shipped ones, if there are any, or names and IDs.")]),
       progress,

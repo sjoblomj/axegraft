@@ -49,22 +49,30 @@
       });
     });
 
+    function readTable(t) {
+      return Promise.resolve(t.arrayBuffer()).then(function (buf) {
+        try {
+          return I.tbl(new Uint8Array(buf));
+        } catch (e) {
+          throw new ImportError(t.name, e.message);
+        }
+      });
+    }
+
     // A string table chosen by itself.
     if (!archives.length && tables.length) {
       var t = tables[0];
       progress({ text: "Reading " + t.name, done: 0, total: 1 });
-      return Promise.resolve(t.arrayBuffer())
-        .then(function (buf) {
-          var strings;
-          try {
-            strings = I.tbl(new Uint8Array(buf));
-          } catch (e) {
-            throw new ImportError(t.name, e.message);
-          }
-          progress({ text: "Read " + strings.length + " strings", done: 1, total: 1 });
-          return { icons: null, strings: strings, source: t.name };
-        });
+      return readTable(t).then(function (strings) {
+        progress({ text: "Read " + strings.length + " strings", done: 1, total: 1 });
+        return { icons: null, strings: strings, source: t.name };
+      });
     }
+    // A string table chosen with archives is used in place of theirs. One
+    // that's only in a chosen folder isn't: the game doesn't read it there.
+    var ownTable = tables.filter(function (f) {
+      return !f.webkitRelativePath;
+    })[0] || null;
     if (!archives.length) {
       var needed = spec.archives.join(", ");
       return Promise.reject(
@@ -74,7 +82,7 @@
 
     var opened = [];
     var step = 0;
-    var total = archives.length + (spec.icons ? 2 : 0) + (spec.strings ? 1 : 0);
+    var total = archives.length + (spec.icons ? 2 : 0) + (spec.strings || ownTable ? 1 : 0);
     function tick(text) {
       progress({ text: text, done: ++step, total: total });
     }
@@ -112,9 +120,17 @@
         }
         var result = { icons: null, strings: null, source: opened.map(function (o) {
           return o.file.name;
-        }).join(", "), from: {} };
+        }).concat(ownTable ? [ownTable.name] : []).join(", "), from: {} };
         var chain = Promise.resolve();
-        if (spec.strings) {
+        if (ownTable) {
+          chain = chain.then(function () {
+            return readTable(ownTable).then(function (strings) {
+              tick("Read the strings from " + ownTable.name);
+              result.strings = strings;
+              result.from.strings = ownTable.name;
+            });
+          });
+        } else if (spec.strings) {
           chain = chain.then(function () {
             return read(spec.strings.file).then(function (r) {
               tick("Read the strings");

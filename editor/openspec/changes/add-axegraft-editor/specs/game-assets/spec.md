@@ -44,11 +44,19 @@ The user SHALL be able to import assets for the current game by selecting their 
 - **THEN** the editor says which files it needed, and keeps any previously imported assets
 
 ### Requirement: Importing a string table
-The user SHALL be able to import their own `stat_txt.tbl` file by itself, without an archive, to use in place of the current string table.
+The user SHALL be able to import their own `stat_txt.tbl` file by itself, without an archive, to use in place of the current string table. A `stat_txt.tbl` chosen together with archive files SHALL be used in place of the archives' strings, while the icons come from the archives. One found only inside a chosen folder SHALL NOT be, since the game doesn't read it there.
 
 #### Scenario: Selecting a string table
 - **WHEN** a user selects a `stat_txt.tbl` file
 - **THEN** the editor shows that file's strings
+
+#### Scenario: String table chosen with archives
+- **WHEN** a user chooses StarCraft's archive files and a `stat_txt.tbl` together
+- **THEN** the editor shows that file's strings and the archives' icons
+
+#### Scenario: String table in the chosen folder
+- **WHEN** a user chooses a StarCraft folder that has a loose `stat_txt.tbl` beside its archives
+- **THEN** the strings come from the archives
 
 ### Requirement: Patched assets take priority
 When several archives hold a file, the editor SHALL use the copy the game itself would use, in the archive order the catalog gives.

@@ -182,6 +182,34 @@
       });
   });
 
+  T.test("importing a string table: a stat_txt.tbl picked with the archives is used in place of theirs", function () {
+    var cat = catalog();
+    var svc = service();
+    return folder()
+      .then(function (files) {
+        return svc.importFiles("starcraft", cat, files.concat([B.file("stat_txt.tbl", B.tbl(["Mine", "Yours"]), true)]));
+      })
+      .then(function (r) {
+        T.equal(r.strings, ["Mine", "Yours"]);
+        T.equal(r.from.strings, "stat_txt.tbl");
+        T.equal(r.icons.images.length, 12, "the icons still come from the archives");
+        T.ok(/stat_txt\.tbl/.test(r.source), r.source);
+        T.equal(svc.string("starcraft", 2), "Yours");
+      });
+  });
+
+  T.test("importing a string table: a stat_txt.tbl that's only in the chosen folder doesn't replace the archives' strings", function () {
+    var cat = catalog();
+    return folder()
+      .then(function (files) {
+        return AG.assets.importFiles(files.concat([B.file("stat_txt.tbl", B.tbl(["Stray"]))]), cat);
+      })
+      .then(function (r) {
+        T.equal(r.strings.length, 700);
+        T.equal(r.from.strings, "Patch_rt.mpq");
+      });
+  });
+
   T.test("assets remembered: at the next start, icons and strings are there without choosing files, and deleting them goes back", function () {
     var cat = catalog();
     var storage = AG.core.storage.memory();

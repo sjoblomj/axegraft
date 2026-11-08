@@ -163,11 +163,13 @@
   }
 
   // A file object like the browser's, from bytes.
-  function file(name, bytes) {
+  // A chosen file, as if found in a chosen folder, or picked by itself when
+  // `picked` is true.
+  function file(name, bytes, picked) {
     var b = new Blob([bytes]);
     try {
       Object.defineProperty(b, "name", { value: name });
-      Object.defineProperty(b, "webkitRelativePath", { value: "game/" + name });
+      Object.defineProperty(b, "webkitRelativePath", { value: picked ? "" : "game/" + name });
     } catch (e) {
       b.name = name;
     }
