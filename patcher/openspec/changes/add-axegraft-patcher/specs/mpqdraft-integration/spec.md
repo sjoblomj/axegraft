@@ -7,15 +7,15 @@ Defines how AxeGraft Patcher appears in MPQDraft, what it does at each point in 
 ## ADDED Requirements
 
 ### Requirement: Loaded as an MPQDraft plugin
-AxeGraft Patcher SHALL be a 32-bit MPQDraft plugin that uses MPQDraft's new-style plugin interface, with a stable plugin ID and a name that includes its version.
+AxeGraft Patcher SHALL be a 32-bit MPQDraft plugin that uses MPQDraft's existing plugin interface: it exports `GetMPQDraftPlugin` and implements `IMPQDraftPlugin`. It SHALL have a stable plugin ID and a name that includes its version.
 
 #### Scenario: Plugin appears in MPQDraft
 - **WHEN** MPQDraft loads the AxeGraft Patcher plugin file
 - **THEN** AxeGraft Patcher is available as a plugin, shown with its name and version
 
-#### Scenario: MPQDraft without the new interface
-- **WHEN** a version of MPQDraft without the new-style interface loads the plugin
-- **THEN** that MPQDraft refuses the plugin rather than running it with its patch MPQs not yet open
+#### Scenario: Current MPQDraft
+- **WHEN** a release of MPQDraft without the plugin interface changes planned in its TODO loads the plugin
+- **THEN** AxeGraft Patcher is available and works
 
 ### Requirement: Offered only for supported games
 AxeGraft Patcher SHALL report that it can patch an executable only if that executable is a supported version.
@@ -32,18 +32,30 @@ AxeGraft Patcher SHALL report that it can patch an executable only if that execu
 - **WHEN** the executable can't be opened or read
 - **THEN** AxeGraft Patcher says it can't patch it, without crashing
 
-### Requirement: Settings through MPQDraft
-AxeGraft Patcher SHALL declare its settings as data, and SHALL show no dialogs of its own during setup. The only setting SHALL be the optional mod file.
+### Requirement: Choosing the mod file
+When MPQDraft calls `Configure`, AxeGraft Patcher SHALL show a file-open dialog for choosing the mod file, and SHALL show no other dialogs during setup. The choice SHALL be kept only in memory, for as long as MPQDraft has the plugin loaded, and SHALL NOT be saved to the registry or to any file. `GetModules` SHALL return the plugin itself and the chosen mod file, so that MPQDraft passes the file to the game and packs it into SEMPQs.
 
-#### Scenario: Setting offered
-- **WHEN** MPQDraft asks for the plugin's settings
-- **THEN** AxeGraft Patcher declares one optional file setting for a mod
+#### Scenario: File chosen
+- **WHEN** the user clicks Configure and chooses a `.json` file
+- **THEN** that file is the mod, and `GetModules` returns it beside the plugin
 
-### Requirement: Ready without a mod file
-AxeGraft Patcher SHALL report itself as ready to patch even when no mod file is set, because a mod may be in an MPQ it can't see during setup.
+#### Scenario: Dialog cancelled
+- **WHEN** the user clicks Configure and cancels the dialog
+- **THEN** the previous choice, if any, is kept, and `Configure` succeeds
+
+#### Scenario: Choosing again
+- **WHEN** the user clicks Configure again and chooses another file
+- **THEN** the new file replaces the previous choice
+
+### Requirement: Ready only with a mod file
+AxeGraft Patcher SHALL report itself as ready to patch only when a mod file is chosen.
 
 #### Scenario: No file chosen
-- **WHEN** MPQDraft asks whether AxeGraft Patcher is ready and no mod file is set
+- **WHEN** MPQDraft asks whether AxeGraft Patcher is ready and no mod file is chosen
+- **THEN** AxeGraft Patcher reports that it isn't ready
+
+#### Scenario: File chosen
+- **WHEN** MPQDraft asks whether AxeGraft Patcher is ready and a mod file is chosen
 - **THEN** AxeGraft Patcher reports that it's ready
 
 ### Requirement: Checking the version before game code runs
@@ -54,18 +66,14 @@ When first loaded in the game, before game code runs, AxeGraft Patcher SHALL ide
 - **THEN** the user gets an error naming the executable, and the game closes before any game code runs
 
 ### Requirement: Applying the mod before game code runs
-AxeGraft Patcher SHALL read, validate and apply mods when first loaded in the game, before game code runs, and only once per process. It SHALL rely on MPQDraft having already opened the patch MPQs.
+AxeGraft Patcher SHALL read, validate and apply the mod in `InitializePlugin`, which MPQDraft calls when it first loads the plugin in the game, before game code runs. It SHALL do so only once per process. It SHALL locate the mod file through the server's `GetPluginModule`.
 
 #### Scenario: Normal launch
 - **WHEN** MPQDraft loads AxeGraft Patcher in the game
-- **THEN** AxeGraft Patcher reads the inputs, and applies the merged mod before any game code runs
-
-#### Scenario: Game reopens its archives
-- **WHEN** the game closes all its MPQs and opens them again
-- **THEN** the mod isn't read or applied again
+- **THEN** AxeGraft Patcher reads the mod file, and applies the mod before any game code runs
 
 #### Scenario: Run without patch MPQs
-- **WHEN** the only input is the directly supplied file
+- **WHEN** the game is started with AxeGraft Patcher and no patch MPQs
 - **THEN** the mod is still applied
 
 ### Requirement: Failing closes the game
@@ -75,9 +83,9 @@ Any failure to identify the version, or to read, validate or apply a mod, SHALL 
 - **WHEN** a mod fails validation
 - **THEN** the user sees an error, and the game closes
 
-#### Scenario: MPQDraft doesn't add its own error
-- **WHEN** AxeGraft Patcher has shown an error and asked for the game to close
-- **THEN** the user doesn't also see a generic message from MPQDraft inside the game
+#### Scenario: AxeGraft Patcher's error comes first
+- **WHEN** AxeGraft Patcher fails in `InitializePlugin`
+- **THEN** it shows its own error, naming the log, and has flushed and closed the log, before returning `FALSE`. MPQDraft may then show its generic message that the plugins couldn't be loaded, and closes the game
 
 ### Requirement: Clear error messages
 Error messages SHALL say what went wrong and where to find the log. If there are too many problems to show, the message SHALL show the first ones and say how many more are in the log.

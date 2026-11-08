@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Defines how a merged mod becomes changes to the running version, including what gets skipped or rejected, what is checked first, and how memory is changed.
+Defines how a mod becomes changes to the running version, including what gets skipped or rejected, what is checked first, and how memory is changed.
 
 ## ADDED Requirements
 

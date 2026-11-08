@@ -7,7 +7,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 - **Repository:** `patcher/` holds no code yet. Rust 1.90 stable, the `i686-pc-windows-gnu` target, MinGW and Wine are installed. There's no Windows machine and no git remote.
 - **Reference data:** `~/axegraft/starcraft.md` and `~/Downloads/war2/w2_exe.md` hold the data for all 28 versions. Both are static analysis, and neither has been fully checked in a running game.
 - **Prior work:** an earlier prototype and `patcher.md` exist in `~/axegraft`. They are deliberately not inputs to this design.
-- **MPQDraft:** the plugin relies on the interfaces listed in `~/code/MPQDraft/TODO.md`, which don't exist yet.
+- **MPQDraft:** the plugin uses MPQDraft's existing plugin interface (`src/core/MPQDraftPlugin.h`). The interface changes listed in `~/code/MPQDraft/TODO.md` don't exist yet, and this first version doesn't need them.
 
 ## Goals / Non-Goals
 
@@ -24,6 +24,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 - Patches inside maps, which needs detecting map starts, undoing changes and patching a running game.
 - Handling problems seen only in menus or from the game overwriting edits, until they're actually observed.
 - Implementing the MPQDraft changes, which are separate work in that repository.
+- Reading mods from patch MPQs, and merging several mods with overlap detection. These wait for MPQDraft's per-MPQ file reads, and come in a later version.
 - CI, because this repository has no remote yet.
 
 ## Decisions
@@ -34,7 +35,6 @@ See `proposal.md` for motivation and the specs for required behaviour.
 axegraft-patcher-core      No Windows dependencies, no unsafe code, tested on Linux
   model            Typed mod, problems and library schema
   parse/validate   JSON --> typed mod, or problems
-  merge            Typed mods --> one mod, or overlap problems
   plan             Mod + library + image --> plan, or problems
   apply            Carries out a plan through the Memory trait
   report           Log lines from all of the above
@@ -121,20 +121,30 @@ Assignments only read the resolved sets, so they can't chain or depend on order.
 
 ```
 InitializePlugin    identify version; unsupported --> error, close
-  (patch MPQs open) read inputs --> parse --> merge --> plan
+                    GetPluginModule --> read file --> parse --> plan
                     log plan --> apply --> read back --> flush log
-                    any problem --> log, flush, error, return FALSE
+                    any problem --> log, flush, close log, error, return FALSE
 ```
 
-MPQDraft opens the patch MPQs before loading plugins, so a single step can read every input and patch before any game code runs. That also means the game can't have read a value before it's patched. *Alternative considered:* a second callback at the game's first archive open, which would have meant patching after some game code had run, plus once-only, locking and "never fired" handling in MPQDraft. Reading comes from `GetPatchMPQCount` and `ReadPatchFile`, and the direct file through `GetPluginModule` and ordinary file reads.
+MPQDraft loads plugins in the game before any game code runs, and before it opens any MPQs. The mod file is a plugin module, so a single step can read it and patch before the game can have read a value. `GetPluginModule` gives the file's path, and the plugin reads it with ordinary file reads.
+
+When `InitializePlugin` returns `FALSE`, MPQDraft unloads the plugin with `FreeLibrary`, then shows its own "the plugins could not be loaded" message and closes the game. The failure path therefore shows the plugin's own error first, and flushes and closes the log before returning. The second, generic message is an accepted cost of the existing interface.
+
+*Alternative considered:* MPQDraft's planned new-style interface, which opens patch MPQs before plugins load, adds per-MPQ file reads and declarative settings, and lets a plugin abort without the generic message. It's needed for reading mods from MPQs, and is deferred until that version, so this one doesn't wait on MPQDraft.
 
 Each ABI entry point wraps its work in `catch_unwind`, so release builds use `panic = "unwind"`. A panic becomes the normal error path.
 
-### 9. Direct Windows declarations in one module
+### 9. The existing interface, implemented by hand
+
+`IMPQDraftPlugin` and `IMPQDraftServer` are C++ classes with virtual `WINAPI` methods. Under the 32-bit MSVC ABI that MinGW follows for them, that's a vtable pointer at the start of the object, with `stdcall` methods that take `this` as their first argument. The `abi` module declares both vtables as `#[repr(C)]` structs of `extern "stdcall"` function pointers, in the header's order, and exports `GetMPQDraftPlugin` undecorated.
+
+`Configure(HWND)` opens a file-open dialog through `GetOpenFileNameA`, filtered to `.json`. The chosen path is held in the plugin's memory only, as long as MPQDraft keeps the DLL loaded. It isn't saved, because the plugin may only write its log, so the user chooses the file again in each MPQDraft session. `ReadyForPatch` returns `TRUE` only once a file is chosen. `GetModules` returns two modules, the plugin itself (`bExecute` set by MPQDraft) and the mod file under a fixed module ID, which MPQDraft copies into the game's patch context and packs into SEMPQs. MPQDraft's CLI can't call `Configure`, so the plugin can't be used from it yet.
+
+### 10. Direct Windows declarations in one module
 
 `win32` declares by hand the few functions the plugin calls. A test compares that list with an allowlist, which makes it easy to review what the plugin's own code can call. *Alternative considered:* `windows-sys`, which is safe and thorough, but it makes the list of callable functions much less obvious.
 
-### 10. Keep `std`, and check the footprint in two ways
+### 11. Keep `std`, and check the footprint in two ways
 
 Nothing suggests `std` fails on Windows 10+ or Wine, so the plugin uses it. `std` itself may add imports like `WS2_32.dll` that the plugin never calls, so footprint tests work like this:
 - **Own code:** the `win32` allowlist above covers every function the plugin declares.
@@ -142,13 +152,13 @@ Nothing suggests `std` fails on Windows 10+ or Wine, so the plugin uses it. `std
 
 Windows 7 stays best effort, using `i686-win7-windows-gnu` only if that turns out to be cheap.
 
-### 11. Test layers
+### 12. Test layers
 
 Everything is written test-first.
 
 | Layer                        | How | Runs on |
 | ---------------------------- | --- | ------- |
-| Parsing, validation, merging | Example tests per rule, property tests on arbitrary bytes and JSON | Linux |
+| Parsing, validation          | Example tests per rule, property tests on arbitrary bytes and JSON | Linux |
 | Planning, applying           | Fixture library, fake memory | Linux |
 | Library checks               | Deliberately bad fixtures | Linux |
 | Library data                 | `check` binary against real executables, reporting "not checked" when one is missing, and never passing silently | Local, with executables |
@@ -157,15 +167,14 @@ Everything is written test-first.
 
 Paths come from `AXEGRAFT_PATCHER_MPQDRAFT_DIR` and a per-version executable list. Wine tests are skipped visibly when MPQDraft isn't available.
 
-### 12. Starter data set
+### 13. Starter data set
 
 The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
 
 ## Risks / Trade-offs
 
 - **Reference data lists rows sharing an offset** → `starcraft.md` has rows that share a location on some versions, such as maximum and minimum supply. The "no shared locations" rule rejects these, so importing them needs a per-row choice: one combined constant, or leaving them out. The starter set avoids them, and the library check catches them.
-- **MPQDraft interfaces don't exist yet** → `axegraft-patcher-core` and `axegraft-patcher-library` don't depend on them. The `abi` module is written last and stays small, so interface changes stay contained.
-- **Opening patch MPQs early may not work on every game** → a game might set up Storm in its own code before its first open. MPQDraft will spike this on real games first. If some games fail, MPQDraft falls back to an opt-in flag for new-style plugins, which AxeGraft Patcher would set, but a game it supports could still misbehave. The early open has only been seen working under Wine, in runs that stopped during startup, so tasks 10.1-10.4 play real games with it.
+- **Limits of the existing interface** → the user sees MPQDraft's generic error after AxeGraft Patcher's own, chooses the mod file again in each MPQDraft session, and can't use MPQDraft's CLI. These go away with the new-style interface, which the later version reading patch MPQs needs anyway. The `abi` module stays small, so moving to it stays contained.
 - **The game may overwrite an edit** → patching before game code runs means a table the game fills during startup would lose the edit. Task 10.4 reads values back in a running game.
 - **Rearranging may need more than data** → some game rules may have no data form. Named options in Constants cover code-site checks. Rules needing a plugin function are out of scope, and would be added as named, fixed features.
 - **Wine differs from Windows** → in particular, relocation and error dialogs may not behave the same. Unit tests cover relocation, and the footprint is checked by inspection. Real Windows behaviour remains untested for now.
@@ -174,6 +183,4 @@ The first version ships complete structural data for StarCraft 1.16.1, StarCraft
 
 ## Open Questions
 
-These can be answered later without changing the approach:
-
-- **MPQDraft interface form:** a struct of function pointers or a vtable. This only affects the `abi` module.
+None for this version. The form of MPQDraft's new-style interface, a struct of function pointers or a vtable, matters only for the later version that reads patch MPQs.

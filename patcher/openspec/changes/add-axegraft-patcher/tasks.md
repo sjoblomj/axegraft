@@ -1,6 +1,6 @@
 # Tasks
 
-Work test-first: for each task, write the failing tests, then the code. Groups 8-10 need the MPQDraft changes in `MPQDraft/TODO.md`; groups 1-7 don't.
+Work test-first: for each task, write the failing tests, then the code. Every group works with MPQDraft's existing plugin interface, so none waits on `MPQDraft/TODO.md`.
 
 ## 1. Workspace
 
@@ -22,12 +22,9 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 - [ ] 2.10 Run every mod in AxeGraft Editor's shared example mods (`editor/test/fixtures/mods`) through the parser with a library built from the fixture catalogs' data, and verify each is accepted or rejected as its file expects
 - [ ] 2.11 Document the mod format in `docs/mod-format.md`, and verify each example in it passes through the parser in a test
 
-## 3. Merging inputs
+## 3. Mod input
 
-- [ ] 3.1 Merge non-overlapping mods, and verify the "Merging without overlaps" scenarios pass, with a property test showing input order doesn't matter
-- [ ] 3.2 Detect overlaps at unit-field, button-set, requirement-record and constant level, and verify the "What counts as an overlap" scenarios pass
-- [ ] 3.3 Report every overlap with input names, game mismatches and input-named errors, and verify the "Reporting overlaps", "Inputs must agree on the game" and "Errors name their input" scenarios pass
-- [ ] 3.4 Treat having no inputs as an error, and verify the "No mod anywhere" scenario passes at core level
+- [ ] 3.1 Treat a mod file that can't be read as an error, and reject a mod for another game, naming the file, and verify the "Mod file can't be read", "Mod for another game" and "Invalid mod" scenarios pass at core level
 
 ## 4. Library schema and checks
 
@@ -68,12 +65,12 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 
 ## 8. Plugin
 
-- [ ] 8.1 Spike a minimal plugin exporting the new entry point with its undecorated name, and verify with `i686-w64-mingw32-objdump -p` and a loader test under Wine
-- [ ] 8.2 Implement the `abi` module for the new-style interface, and verify the identification, `CanPatchExecutable` and settings scenarios with a test host under Wine
+- [ ] 8.1 Spike a minimal plugin exporting `GetMPQDraftPlugin` with its undecorated name, and verify with `i686-w64-mingw32-objdump -p` and a loader test under Wine
+- [ ] 8.2 Implement the `abi` module for the existing `IMPQDraftPlugin` and `IMPQDraftServer` vtables, and verify the identification, `CanPatchExecutable`, "Ready only with a mod file" and `GetModules` scenarios with a test host under Wine
 - [ ] 8.3 Implement the `win32` module and real `Memory`, with protection restored and instruction cache flushed, and verify under Wine that writes to code and data work and protection is restored
-- [ ] 8.4 Implement `InitializePlugin`, reading inputs and applying the mod in a single step, and verify the lifecycle scenarios with the test host, including the unsupported-version case and archives being reopened
-- [ ] 8.5 Read inputs through `GetPatchMPQCount`, `ReadPatchFile` and `GetPluginModule`, and verify the "Mods in patch MPQs" and "Directly supplied mod" scenarios with the test host
-- [ ] 8.6 Implement the failure path with `catch_unwind`, error dialog, log flush and `FALSE` return, and verify the "Failing closes the game" and "Internal faults stay contained" scenarios with the test host
+- [ ] 8.4 Implement `Configure` with a file-open dialog, and verify the "Choosing the mod file" scenarios with the test host and the dialog stubbed, and by hand in MPQDraft's GUI under Wine
+- [ ] 8.5 Implement `InitializePlugin`, locating the mod file through `GetPluginModule`, reading it and applying the mod in a single step, and verify the lifecycle scenarios with the test host, including the unsupported-version case and the "Mod file can't be read" scenario
+- [ ] 8.6 Implement the failure path with `catch_unwind`, error dialog, log flush and close and `FALSE` return, and verify the "Failing closes the game" and "Internal faults stay contained" scenarios with the test host
 - [ ] 8.7 Write the log to `%TEMP%\AxeGraftPatcher.log`, and verify under Wine that it replaces the old log, survives a forced exit during patching, and that an unwritable log doesn't stop a valid mod
 - [ ] 8.8 Add the version resource, and verify with `i686-w64-mingw32-objdump -p` or a test host that the file reports its product name and version
 - [ ] 8.9 Add footprint tests comparing `win32` declarations with an allowlist and scanning the DLL's imports for banned process and registry APIs, and verify that adding a banned import makes the test fail
@@ -81,9 +78,9 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 ## 9. End-to-end tests under Wine
 
 - [ ] 9.1 Build a fake game with known tables and a fake `Storm.dll`, and verify a test can start it through a pinned MPQDraft from `AXEGRAFT_PATCHER_MPQDRAFT_DIR`, skipping visibly when that isn't set
-- [ ] 9.2 Test an MPQ-based mod, a direct-file mod and both merged, and verify the fake game reports the expected table values
-- [ ] 9.3 Test overlapping inputs and an invalid mod, and verify the game closes, the tables are unchanged and the log names the problems
-- [ ] 9.4 Test a SEMPQ containing AxeGraft Patcher and a directly supplied mod, and verify the mod applies when the original file no longer exists
+- [ ] 9.2 Test a chosen mod file, and verify the fake game reports the expected table values, and that an `axegraft\patch.json` in a patch MPQ has no effect
+- [ ] 9.3 Test an invalid mod, and verify the game closes, the tables are unchanged and the log names the problems
+- [ ] 9.4 Test a SEMPQ containing AxeGraft Patcher and a chosen mod file, and verify the mod applies when the original file no longer exists
 
 ## 10. Real game verification
 
@@ -94,6 +91,6 @@ Work test-first: for each task, write the failing tests, then the code. Groups 8
 
 ## Workflow follow-up
 
-- Complete the MPQDraft changes in `MPQDraft/TODO.md` before starting groups 8-10.
+- In a later change, read `axegraft\patch.json` from each patch MPQ and merge several mods with overlap detection, once MPQDraft's new-style interface and per-MPQ file reads in `MPQDraft/TODO.md` exist.
 - Follow up with the full data import, after deciding how the reference documents become machine-readable. Add tests there for the real per-version facts the specs now describe generally: versions sharing a PE timestamp or version string, shifted and absent button sets, functions absent on older versions, and requirement records that differ between versions.
 - Archive the change after review.

@@ -21,11 +21,11 @@ The log SHALL start with AxeGraft Patcher's version, the game, the game version 
 - **THEN** the log records its own version, the game, the game version and the load address
 
 ### Requirement: Logging inputs
-The log SHALL list every input with its source, and every MPQ where the mod file wasn't found.
+The log SHALL name the mod file it read, with its path.
 
-#### Scenario: Inputs from two sources
-- **WHEN** a mod comes from one MPQ and the directly supplied file
-- **THEN** the log names both, and says where each came from
+#### Scenario: Mod file read
+- **WHEN** AxeGraft Patcher reads the chosen mod file
+- **THEN** the log names the file and its full path
 
 ### Requirement: Logging changes
 The log SHALL list each change the mod makes, and every location written, with its old and new bytes.
