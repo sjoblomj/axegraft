@@ -117,12 +117,26 @@ mod tests {
         info.protect
     }
 
+    // In a section of its own: a write makes its page non-executable for a
+    // moment, so no code that's running can share that page.
     #[inline(never)]
+    #[link_section = ".agcode"]
     fn never_called() -> u32 {
         std::hint::black_box(0x1234_5678)
     }
 
-    static DATA: [u8; 16] = [7; 16];
+    // Two pages in a section of their own, so that the writes across their
+    // boundary don't touch anything another test reads.
+    #[link_section = ".agdata"]
+    static DATA: [u8; 2 * PAGE as usize] = [7; 2 * PAGE as usize];
+
+    /// Held by the tests that write to `DATA`. A write changes its page's
+    /// protection for a moment, which another test would see.
+    static DATA_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    fn lock_data() -> std::sync::MutexGuard<'static, ()> {
+        DATA_LOCK.lock().unwrap_or_else(|poisoned| poisoned.into_inner())
+    }
 
     fn check_write_restores_protection(mem: &mut ProcessMemory, rva: u32) {
         let before = protection(mem.base() + rva);
@@ -147,6 +161,7 @@ mod tests {
 
     #[test]
     fn writes_to_read_only_data_and_restores_its_protection() {
+        let _data = lock_data();
         let mut mem = ProcessMemory::current().unwrap();
         let rva = DATA.as_ptr() as usize as u32 - mem.base();
         check_write_restores_protection(&mut mem, rva);
@@ -154,6 +169,7 @@ mod tests {
 
     #[test]
     fn writes_across_a_page_boundary() {
+        let _data = lock_data();
         let mut mem = ProcessMemory::current().unwrap();
         let rva = (DATA.as_ptr() as usize as u32 - mem.base()) & !(PAGE - 1);
         let rva = rva + PAGE - 2;
