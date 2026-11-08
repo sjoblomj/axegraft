@@ -24,7 +24,7 @@ Work test-first: for each task, write the failing tests, then the code.
 ## 4. Warcraft II catalog
 
 - [x] 4.1 Update the Warcraft II catalog (then `catalog/sample-warcraft2.js`, since replaced by `catalog/warcraft2.js`, generated from the knowledge base): add versions 1.3, 1.33 and 1.5 before 2.00, use the reference's function names, and give a set that differs on the DOS versions its DOS list from `w2_exe.md`'s appendix; verify it passes the catalog check and its values match the reference
-- [ ] 4.2 Check by hand in Firefox and Chromium that the Button Sets tab shows both originals for that set, that the compatibility report lists the DOS versions, and that the report's note about the patcher is visible
+- [x] 4.2 Check by hand in Firefox and Chromium that the Button Sets tab shows both originals for that set, that the compatibility report lists the DOS versions, and that the report's note about the patcher is visible
 
 ## Workflow follow-up
 

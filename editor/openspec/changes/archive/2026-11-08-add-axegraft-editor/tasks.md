@@ -44,7 +44,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 - [x] 5.4 Give each tab its own selection, and verify the "Switching tabs", "Requirements list" and "Constants list" scenarios
 - [x] 5.5 Add markers for changes, errors and warnings, and filters for each, and verify the "Marking changes", "Marking problems" and "Filtering by problem" scenarios
 - [x] 5.6 Add keyboard navigation for the tree and tabs, and verify the "Tree navigation" scenario with simulated key events
-- [ ] 5.7 Implement New, Open, Save and Save As, with a download fallback, and verify with DOM tests the "Creating a mod", "Opening a mod", "Refusing malformed files", "Opening a file with errors" and "Saving only mods without errors" scenarios, and check direct saving by hand in Chromium
+- [x] 5.7 Implement New, Open, Save and Save As, with a download fallback, and verify with DOM tests the "Creating a mod", "Opening a mod", "Refusing malformed files", "Opening a file with errors" and "Saving only mods without errors" scenarios, and check direct saving by hand in Chromium
 - [x] 5.8 Add the problem list, and undo and redo in the menu and on the keyboard, and verify the "Problem while editing" and "Undo across tabs" scenarios through the UI
 - [x] 5.9 Add drafts and the warning on closing, and verify the "Drafts" scenarios with DOM tests, and check by hand that a closed browser offers the work back
 - [x] 5.10 Add the `?` button and the help table for game-independent controls, and verify the "Help for controls" scenarios, including a DOM test that every control in every tab panel has a help text, that the item list and tabs have none, and that help text stays inside the window
@@ -90,7 +90,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 ## 9. Integration
 
 - [x] 9.1 Add a test that takes a mod through the UI from new to saved for each game, touching every available tab, and verify that the file reopens identically and passes validation
-- [ ] 9.2 Compare the app's look and workflow side by side with FireGraft, and record any deliberate differences in `docs/architecture.md` with the reasons for the main decisions
+- [x] 9.2 Compare the app's look and workflow side by side with FireGraft, and record any deliberate differences in `docs/architecture.md` with the reasons for the main decisions
 - [x] 9.3 Run the test page in current Firefox, Chromium and, where available, Safari, opened from disk and served statically, with the network disabled, and verify the same results on each and no network requests, and record any browser not checked in `README.md`
 
 ## Workflow follow-up
