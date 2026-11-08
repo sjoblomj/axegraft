@@ -24,6 +24,10 @@ A mod SHALL be reported as rejected on a version when it uses a button set, tabl
 - **WHEN** a button uses a condition a version lacks
 - **THEN** that version is reported as rejected, naming the condition and button
 
+#### Scenario: Requirements on every version
+- **WHEN** a StarCraft mod changes requirement records, with any opcodes and bare unit IDs
+- **THEN** no version is reported as rejected because of them, since every version's checkers handle every opcode and bare unit ID, and a record a version lacks is added there
+
 ### Requirement: Skipped constants on a version
 A constant that's `unknown` or `not_applicable` on a version SHALL be reported as skipped there, with that reason, and SHALL NOT make the version count as rejected.
 
