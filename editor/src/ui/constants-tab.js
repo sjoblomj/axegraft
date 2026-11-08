@@ -80,7 +80,7 @@
       if (chosen && chosen.help) helpText += " " + chosen.label + ": " + chosen.help;
     } else if (c.refers) {
       controls = F.idPicker(referItems(app, c.refers), eff.value, set, { label: c.label });
-      helpText += " " + help.text("constantValue") + " " + help.text("nameSelect") + " " + help.text("idInput");
+      helpText += " " + help.text("constantValue") + " " + help.text("idPicker");
     } else {
       controls = [F.numberInput(eff.value, function (v) {
         set(v === undefined ? "" : v);

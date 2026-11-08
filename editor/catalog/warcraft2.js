@@ -538,25 +538,25 @@ AxeGraft.registerCatalog({
         "name": "bldg_build_tech",
         "label": "Research upgrade",
         "variable": "upgrade",
-        "help": "Researches an upgrade: checks the cost of the upgrade for the selected building, and either shows why it cannot be paid or sends the order (build order 2)."
+        "help": "Researches an upgrade: checks the cost of the upgrade for the selected building, and either shows why it cannot be paid or sends the order (build order 2). To research this at a building other than its usual one, set the constant \"Check which building researches each spell and upgrade\" to Off (2.00 and 2.02 only)."
       },
       {
         "name": "bldg_build_spell",
         "label": "Research spell",
         "variable": "upgrade",
-        "help": "Researches a spell, or the upgrade to Paladins or Ogre-Magi, in the same way (build order 1)."
+        "help": "Researches a spell, or the upgrade to Paladins or Ogre-Magi, in the same way (build order 1). To research this at a building other than its usual one, set the constant \"Check which building researches each spell and upgrade\" to Off (2.00 and 2.02 only)."
       },
       {
         "name": "bldg_build_man",
         "label": "Train unit",
         "variable": "unit",
-        "help": "Trains a unit in the same way (build order 0)."
+        "help": "Trains a unit in the same way (build order 0). To train a unit at a building other than its usual one, set the constant \"Check which building trains each unit\" to Off (2.00 and 2.02 only)."
       },
       {
         "name": "bldg_build_upgrade",
         "label": "Upgrade building",
         "variable": "unit",
-        "help": "Upgrades the selected building to another unit type in the same way (build order 3): Keep, Castle, Guard Tower, Cannon Tower."
+        "help": "Upgrades the selected building to another unit type in the same way (build order 3): Keep, Castle, Guard Tower, Cannon Tower. To upgrade a building other than the usual one into this, set the constant \"Check which building upgrades into which\" to Off (2.00 and 2.02 only)."
       },
       {
         "name": "order_stop_build",
@@ -652,7 +652,7 @@ AxeGraft.registerCatalog({
         "name": "order_spell",
         "label": "Cast spell",
         "variable": "order",
-        "help": "Unless cheat flag 0x8 is on (`every little thing she does`), shows string 435 (\"Not enough mana to cast spell.\") if the selected unit has less mana than the casting cost of the action, when the unit is Me's. Otherwise orders Eye of Kilrogg (action 48) at once, and for any other spell lets the player pick the target."
+        "help": "Unless cheat flag 0x8 is on (`every little thing she does`), shows string 435 (\"Not enough mana to cast spell.\") if the selected unit has less mana than the casting cost of the action, when the unit is Me's. Otherwise orders Eye of Kilrogg (action 48) at once, and for any other spell lets the player pick the target. To let a unit cast a spell outside its usual group, set the constant \"Check who may cast each spell\" to Off (2.00 and 2.02 only). The unit also needs the Spellcaster flag."
       },
       {
         "name": "status_set_card",
@@ -9355,6 +9355,67 @@ AxeGraft.registerCatalog({
       "note": "1.3, 1.33 and 1.5 store a power of 2 and 2.00 and 2.02 one of four instruction bytes, so only these four amounts are offered on every version.",
       "help": "Food from a farm: 1, 2, 4 or 8.",
       "availability": {"1.3": "food_4", "1.33": "food_4", "1.5": "food_4", "2.00": "food_4", "2.02": "food_4"}
+    },
+    {
+      "name": "spell_caster_lists",
+      "label": "Check who may cast each spell",
+      "group": ["Game mechanics", "Casting, training and research"],
+      "kind": "option",
+      "options": [{"name": "original", "label": "On"}, {"name": "off", "label": "Off"}],
+      "note": "The Spellcaster flag is still required, and comes from the unit data rather than from here.",
+      "help": "Whether the game checks its lists of which unit types may cast which spell. When off, any unit with the Spellcaster flag can cast any spell it has a button for.",
+      "availability": {
+        "1.3": "not_applicable",
+        "1.33": "not_applicable",
+        "1.5": "not_applicable",
+        "2.00": "original",
+        "2.02": "original"
+      }
+    },
+    {
+      "name": "train_building_check",
+      "label": "Check which building trains each unit",
+      "group": ["Game mechanics", "Casting, training and research"],
+      "kind": "option",
+      "options": [{"name": "original", "label": "On"}, {"name": "off", "label": "Off"}],
+      "help": "Whether the game checks which building trains each unit. When off, any building with a button that trains a unit can train it. The unit's other requirements still apply, and only unit types 0 to 57 can be trained.",
+      "availability": {
+        "1.3": "not_applicable",
+        "1.33": "not_applicable",
+        "1.5": "not_applicable",
+        "2.00": "original",
+        "2.02": "original"
+      }
+    },
+    {
+      "name": "research_building_check",
+      "label": "Check which building researches each spell and upgrade",
+      "group": ["Game mechanics", "Casting, training and research"],
+      "kind": "option",
+      "options": [{"name": "original", "label": "On"}, {"name": "off", "label": "Off"}],
+      "help": "Whether the game checks which building researches each spell and upgrade. When off, any building with a button that researches one can research it.",
+      "availability": {
+        "1.3": "not_applicable",
+        "1.33": "not_applicable",
+        "1.5": "not_applicable",
+        "2.00": "original",
+        "2.02": "original"
+      }
+    },
+    {
+      "name": "upgrade_building_check",
+      "label": "Check which building upgrades into which",
+      "group": ["Game mechanics", "Casting, training and research"],
+      "kind": "option",
+      "options": [{"name": "original", "label": "On"}, {"name": "off", "label": "Off"}],
+      "help": "Whether the game checks which building upgrades into which, such as a Keep only from a Town Hall. When off, any building with an upgrade button can upgrade into that building. The prerequisites of the Keep, Castle and tower upgrades still apply.",
+      "availability": {
+        "1.3": "not_applicable",
+        "1.33": "not_applicable",
+        "1.5": "not_applicable",
+        "2.00": "original",
+        "2.02": "original"
+      }
     },
     {
       "name": "check_interval",

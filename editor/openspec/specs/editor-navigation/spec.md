@@ -190,7 +190,7 @@ While the mod has errors or warnings, the item list's toolbar SHALL offer a togg
 - **THEN** these filters aren't offered
 
 ### Requirement: Help for controls
-Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The item list, its toolbar and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding, removing, copying and pasting buttons of a set, and adding, moving and removing rows of a requirement record. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
+Every control in the tab panels SHALL have a help text, shown by a `?` button beside it on hover and on keyboard focus. Help for what's specific to a game SHALL come from its catalog. The item list, its toolbar and the tabs explain themselves and SHALL NOT have `?` buttons. Neither SHALL buttons whose label or symbol says all there is to say: adding, removing, copying and pasting buttons of a set, adding, moving and removing rows of a requirement record, "Go to" buttons and "Choose icon..." buttons. Help text SHALL be shown within the window, and SHALL NOT be hidden by other parts of the editor.
 
 #### Scenario: Reading help
 - **WHEN** a user hovers over or focuses a control's `?` button

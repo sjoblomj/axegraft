@@ -144,9 +144,9 @@ A saved mod SHALL contain only what the user changed: individual unit fields, wh
 - **THEN** the saved file doesn't set that constant
 
 ### Requirement: Reverting
-The editor SHALL let the user revert a field or a whole item to its original.
+The editor SHALL let the user revert a whole item to its original.
 
-Each changed field SHALL have a Revert button. A changed item SHALL have one beside its title: "Revert entry" for a table entry, "Revert set" for a button set, "Revert record" for a requirement record and "Revert" for a constant.
+A changed item SHALL have a Revert button beside its title: "Revert entry" for a table entry, "Revert set" for a button set, "Revert record" for a requirement record and "Revert" for a constant.
 
 #### Scenario: Revert a button set
 - **WHEN** a user reverts a button set

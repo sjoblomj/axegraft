@@ -363,25 +363,15 @@
     T.equal(doc.button_sets, undefined);
   });
 
-  T.test("reverting: a field, a whole unit, a record and a constant", function () {
+  T.test("reverting: a whole unit, a record and a constant", function () {
     var cat = sc();
     var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 5);
     doc = D.setUnitField(doc, cat, 0, "status_update", "statdraw_draw_none");
-    var oneField = D.revertUnitField(doc, cat, 0, "button_set");
-    T.equal(oneField.units, [{ id: 0, label: "Terran Marine", status_update: "statdraw_draw_none" }]);
-    T.equal(D.revertUnitField(oneField, cat, 0, "status_update").units, undefined);
     T.equal(D.revertUnit(doc, cat, 0).units, undefined);
     var r = D.setRequirement(doc, cat, "upgrade", 3, []);
     T.equal(D.revertRequirement(r, cat, "upgrade", 3), doc);
     var c = D.setConstant(doc, cat, "max_supply", 2);
     T.equal(D.revertConstant(c, cat, "max_supply"), doc);
-  });
-
-  T.test("reverting: a field set in a second entry for the same unit", function () {
-    var cat = sc();
-    var doc = { patcher: "AxeGraft", format: 1, game: "starcraft", units: [{ id: 5, button_set: 0 }, { id: 5, status_update: "statdraw_draw_none" }] };
-    T.equal(D.revertUnitField(doc, cat, 5, "status_update").units, [{ id: 5, button_set: 0 }]);
-    T.equal(D.effectiveUnit(doc, cat, 5).status_update.path, "units[1].status_update");
   });
 
   T.test("document: effective values for a table entry that isn't a unit", function () {

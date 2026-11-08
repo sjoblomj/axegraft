@@ -92,27 +92,19 @@
           return D.setUnitField(d, cat, id, f.name, v);
         });
       }
-      var revert = function () {
-        app.edit(function (d) {
-          return D.revertUnitField(d, cat, id, f.name);
-        });
-      };
       var controls;
       var extra = [];
       var original;
       var helpText = f.help;
       if (f.kind === "buttonSet") {
         controls = F.idPicker(setItems(app), e.value, set, { allowNone: true, noneLabel: "No buttons", label: f.label });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput") + " " + help.text("noButtons");
+        helpText += " " + help.text("idPicker") + " " + help.text("noButtons");
         original = e.hasOriginal ? setLabel(app, e.original) : null;
         if (util.isInt(e.value) && (cat.sets.has(e.value) || util.inRange(e.value, cat.limits.newButtonSet))) {
           extra.push(
-            F.withHelp(
-              h("button", { type: "button", class: "small", dataset: { action: "go-to-set" }, onclick: function () {
-                app.select("button_sets", AG.core.tree.key.set(e.value));
-              } }, "Go to →"),
-              help.text("goToSet")
-            )
+            h("button", { type: "button", class: "small", dataset: { action: "go-to-set", plain: "" }, onclick: function () {
+              app.select("button_sets", AG.core.tree.key.set(e.value));
+            } }, "Go to →")
           );
         }
       } else if (f.kind === "statusChanged" || f.kind === "statusUpdate") {
@@ -123,18 +115,18 @@
         if (fn && fn.help) helpText += " " + fn.help;
       } else if (f.kind === "icon") {
         controls = F.idPicker(AG.ui.buttonSets.mapItems(cat.icons), e.value, set, { label: f.label });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
         original = e.hasOriginal ? iconLabel(cat, e.original) : null;
         extra.push(h("span", { class: "icon-preview" }, [AG.ui.buttonSets.iconEl(app, e.value)]));
         if (AG.ui.iconPicker && app.assets && app.assets.hasIcons && app.assets.hasIcons(app.state.game)) {
-          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "pick-icon" }, onclick: function () {
+          extra.push(h("button", { type: "button", class: "small", dataset: { action: "pick-icon", plain: "" }, onclick: function () {
             AG.ui.iconPicker.show(app, e.value, set);
-          } }, "Choose icon..."), help.text("pickIcon")));
+          } }, "Choose icon..."));
         }
       } else if (f.kind === "string") {
         var hasTable = !!(app.assets && app.assets.strings && app.assets.strings(app.state.game));
         controls = F.idPicker(AG.ui.buttonSets.stringItems(app), e.value, set, { label: f.label, unknownLabel: hasTable ? "(not in the string table)" : null });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
         original = e.hasOriginal ? stringLabel(app, e.original) : null;
       } else if (f.kind === "choice") {
         var choices = f.options.map(function (o) {
@@ -147,22 +139,19 @@
         original = e.hasOriginal ? (origChoice ? origChoice.label : String(e.original)) : null;
       } else if (f.kind === "tableEntry") {
         controls = F.idPicker(AG.ui.buttonSets.entryItems(app), e.value, set, { allowNone: true, noneLabel: "None", label: f.label });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
         var origEntry = e.hasOriginal && util.isInt(e.original) ? cat.units.get(e.original) : null;
         original = e.hasOriginal ? (e.original === null ? "none" : e.original + (origEntry ? " " + D.itemName(cat, "unit", e.original, doc) : "")) : null;
         if (util.isInt(e.value) && e.value !== id && cat.units.has(e.value)) {
           extra.push(
-            F.withHelp(
-              h("button", { type: "button", class: "small", dataset: { action: "go-to-entry" }, onclick: function () {
-                app.select("units", AG.core.tree.key.unit(e.value));
-              } }, "Go to →"),
-              help.text("jump")
-            )
+            h("button", { type: "button", class: "small", dataset: { action: "go-to-entry", plain: "" }, onclick: function () {
+              app.select("units", AG.core.tree.key.unit(e.value));
+            } }, "Go to →")
           );
         }
       } else {
         controls = F.idPicker(unitItems(app), e.value, set, { label: f.label });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
         original = e.hasOriginal ? String(e.original) : null;
       }
       return F.field({
@@ -173,8 +162,7 @@
         key: fieldKey,
         changed: e.changed,
         problems: at(f.name),
-        original: original,
-        revert: revert
+        original: original
       });
     });
 

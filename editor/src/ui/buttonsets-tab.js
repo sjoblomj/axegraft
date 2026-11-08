@@ -609,17 +609,17 @@
         }, { class: "ctl", "aria-label": f.label })];
       } else if (f.kind === "icon") {
         controls = F.idPicker(mapItems(cat.icons), v, set, { label: f.label });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
         extra.push(h("span", { class: "icon-preview" }, [iconEl(app, v)]));
         if (AG.ui.iconPicker && app.assets && app.assets.hasIcons && app.assets.hasIcons(app.state.game)) {
-          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "pick-icon" }, onclick: function () {
+          extra.push(h("button", { type: "button", class: "small", dataset: { action: "pick-icon", plain: "" }, onclick: function () {
             AG.ui.iconPicker.show(app, v, set);
-          } }, "Choose icon..."), help.text("pickIcon")));
+          } }, "Choose icon..."));
         }
       } else if (f.kind === "string") {
         var hasTable = !!(app.assets && app.assets.strings && app.assets.strings(app.state.game));
         controls = F.idPicker(stringItems(app), v, set, { label: f.label, unknownLabel: hasTable ? "(not in the string table)" : null });
-        helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+        helpText += " " + help.text("idPicker");
       } else if (f.kind === "condition" || f.kind === "action") {
         var list = f.kind === "condition" ? "conditions" : "actions";
         controls = [F.select(functionOptions(cat, list), v, set, { class: "ctl wide", "aria-label": f.label })];
@@ -634,7 +634,7 @@
           controls = F.idPicker(items, v, function (x) {
             set(x === "" ? undefined : x);
           }, { label: f.label });
-          helpText += " " + help.text("nameSelect") + " " + help.text("idInput");
+          helpText += " " + help.text("idPicker");
         } else {
           controls = [F.numberInput(v, set, { "aria-label": f.label, placeholder: "0" })];
         }
@@ -645,9 +645,9 @@
         }
         var target = type ? variableTarget(cat, type, v) : null;
         if (target) {
-          extra.push(F.withHelp(h("button", { type: "button", class: "small", dataset: { action: "jump" }, title: target.label, onclick: function () {
+          extra.push(h("button", { type: "button", class: "small", dataset: { action: "jump", plain: "" }, title: target.label, onclick: function () {
             app.select(target.tab, target.key);
-          } }, "Go to →"), help.text("jump")));
+          } }, "Go to →"));
         }
       } else if (f.kind === "choice") {
         controls = [F.select(f.options.map(function (o) {

@@ -214,7 +214,7 @@
       var ctl = F.idPicker(items(app, kind), value, function (v) {
         onChange(v === "" ? undefined : v);
       }, { label: kind });
-      return h("span", { class: "with-help" }, ctl.concat([help.described(ctl[0], help.text("rowParameter") + " This one takes a " + kind + ". " + help.text("nameSelect") + " " + help.text("idInput"))[1]]));
+      return h("span", { class: "with-help" }, ctl.concat([help.described(ctl[0], help.text("rowParameter") + " This one takes a " + kind + ". " + help.text("idPicker"))[1]]));
     }
 
     // The ID boxes of a picker share the select's help.

@@ -638,13 +638,10 @@
               var entry = /^(units|button_sets|requirements|constants)\[\d+\]/.exec(p.path || "");
               var action = null;
               if (l) {
-                action = AG.ui.fields.withHelp(
-                  h("button", { type: "button", class: "small", dataset: { goto: p.path }, onclick: function () {
-                    dlgClose(null);
-                    app.goTo(p.path);
-                  } }, "Go to"),
-                  help.text("goToProblem")
-                );
+                action = h("button", { type: "button", class: "small", dataset: { goto: p.path }, onclick: function () {
+                  dlgClose(null);
+                  app.goTo(p.path);
+                } }, "Go to");
               } else if (/^mod\b/.test(p.path || "")) {
                 action = h("button", { type: "button", class: "small", dataset: { editInfo: p.path }, onclick: function () {
                   dlgClose(null);

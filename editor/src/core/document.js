@@ -244,22 +244,6 @@
     return tidyUnit(withPart(doc, "units", list), cat, id);
   }
 
-  function revertUnitField(doc, cat, id, field) {
-    var list = entries(doc, "units").map(function (e) {
-      return isObject(e) && e.id === id && util.has(e, field) ? util.omit(e, [field]) : e;
-    });
-    list = list.filter(function (e) {
-      return !(
-        isObject(e) &&
-        e.id === id &&
-        !Object.keys(e).some(function (k) {
-          return k !== "id" && k !== "label";
-        })
-      );
-    });
-    return withPart(doc, "units", list);
-  }
-
   function revertUnit(doc, cat, id) {
     return withPart(
       doc,
@@ -996,7 +980,6 @@
     unitFieldsFor: unitFieldsFor,
     effectiveUnit: effectiveUnit,
     setUnitField: setUnitField,
-    revertUnitField: revertUnitField,
     revertUnit: revertUnit,
     LABEL_KINDS: LABEL_KINDS,
     customName: customName,

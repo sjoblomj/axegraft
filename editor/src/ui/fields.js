@@ -85,7 +85,7 @@
   //   label, help (text), controls (elements), key (data-field),
   //   changed, problems ([{ severity, message }]), original (text, shown
   //   by the changed mark's tooltip),
-  //   note (text), revert (function), extra (elements after the controls)
+  //   note (text), extra (elements after the controls)
   function field(o) {
     var controls = [].concat(o.controls || []);
     var helpBtn = help.button(o.help);
@@ -121,14 +121,6 @@
     (o.extra || []).forEach(function (x) {
       ctlBox.appendChild(x);
     });
-    if (o.revert && o.changed) {
-      ctlBox.appendChild(
-        withHelp(
-          h("button", { type: "button", class: "small", dataset: { action: "revert" }, onclick: o.revert, text: "Revert" }),
-          help.text("revertField")
-        )
-      );
-    }
     row.appendChild(ctlBox);
     row.appendChild(helpBtn);
     if (o.note) row.appendChild(h("div", { class: "note", text: o.note }));
