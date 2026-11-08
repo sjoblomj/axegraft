@@ -118,7 +118,7 @@ The editor SHALL always be able to save by downloading a file. Where the browser
 - **THEN** the mod is the same as the one saved
 
 ### Requirement: Only differences are saved
-A saved mod SHALL contain only what the user changed: individual unit fields, whole button sets, whole requirement records and individual constants.
+A saved mod SHALL contain only what the user changed: individual unit fields, whole button sets, whole requirement records and individual constants. An entry SHALL be left out when it matches the original on every version; for a constant, on every version where its original is known.
 
 #### Scenario: Changed one button
 - **WHEN** a user changes one button in a set
@@ -132,12 +132,16 @@ A saved mod SHALL contain only what the user changed: individual unit fields, wh
 - **WHEN** a user edits an item so it again matches its original value on every version
 - **THEN** that entry is removed from the mod
 
+#### Scenario: Constant unknown on some versions
+- **WHEN** a constant's original is known on some versions and `unknown` or `not_applicable` on the rest, and a user sets it to the original of every version where it's known
+- **THEN** that entry is removed from the mod, since the patcher would skip it on the others anyway
+
 #### Scenario: Value matching only some versions
 - **WHEN** a user sets a constant to the original value of only some versions
 - **THEN** the entry stays in the mod
 
 #### Scenario: File sets a value to its original
-- **WHEN** a file sets a constant to its original value on every game version, and the user opens and saves it
+- **WHEN** a file sets a constant to its original value on every game version where that value is known, and the user opens and saves it
 - **THEN** the saved file doesn't set that constant
 
 ### Requirement: Reverting

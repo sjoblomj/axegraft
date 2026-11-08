@@ -10,7 +10,7 @@ Defines how AxeGraft Editor edits StarCraft's requirement records for units, upg
 The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit. An opcode and its parameter SHALL share one row. The tab SHALL let the user add, remove and reorder rows. An added row SHALL be a completed-unit row holding the lowest unit ID, which the user can change. Rows SHALL be reorderable both with Up and Down buttons and by dragging a row by its grip, which marks it as draggable. A record with one row SHALL show no grip. A row's Up, Down and Remove buttons SHALL be at the right of the row, and Remove SHALL show a trash can.
 
 #### Scenario: Showing a record
-- **WHEN** a record's list is `["current_unit_is", 106, "not_lifted_off"]`
+- **WHEN** a record's list is `["current_unit_is", 111, "not_lifted_off"]`
 - **THEN** there are two rows: one holding the first opcode and its unit, and one holding the other opcode
 
 #### Scenario: Saving rows
@@ -44,11 +44,15 @@ Rows SHALL match what the game stores. A bare unit ID, which requires a complete
 - **THEN** unit 132 is shown as a completed-unit row, unit 133 as a `must_have` row, and the list saves unchanged
 
 ### Requirement: Showing structure
-Rows SHALL be shown with `or` alternatives and upgrade level sublists visibly grouped.
+Rows SHALL show how the record is structured. An upgrade level's row SHALL be marked as a level, and each row after it in that level SHALL be indented under it with a line at its left. An `or` row SHALL be marked as one, and each condition an `or` joins SHALL have a line at its left of a different colour from a level's.
 
 #### Scenario: Upgrade with levels
 - **WHEN** an upgrade record has `upgrade_level_1`, `upgrade_level_2` and `upgrade_level_3` sublists
-- **THEN** each level's rows are visibly grouped under it
+- **THEN** each level's row is marked as a level, and the rows after it, up to the next level, are indented under it
+
+#### Scenario: Alternatives
+- **WHEN** a record's list is `["must_have", 111, "or", "must_have", 112]`
+- **THEN** the `or` row is marked as one, and both `must_have` rows have the alternatives' line
 
 #### Scenario: Structural problem
 - **WHEN** a row order leaves a dangling `or` or an unbalanced sublist

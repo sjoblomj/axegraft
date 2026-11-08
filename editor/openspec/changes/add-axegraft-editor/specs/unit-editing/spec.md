@@ -90,7 +90,7 @@ The Units tab SHALL offer a "Go to →" button beside the unit's set, which open
 - **THEN** the Button Sets tab opens on set 5
 
 ### Requirement: Unit names
-The Units tab SHALL let the user rename any table entry, changed by the mod or not, by clicking the panel's title, which becomes a text box with a Save button and a `?` button. Renaming SHALL work as described in "Item names" of `editor-navigation`. The name SHALL be saved in the mod's `labels`, which the patcher ignores, so it changes nothing in the game and the entry isn't marked as changed. The editor SHALL show the name wherever it names that entry. Saving empty text, or the catalog's name, SHALL remove the mod's name. Wrong `labels` in an opened file SHALL only be warnings.
+Table entries SHALL be renamed as "Item names" in `editor-navigation` describes, whether the mod changes them or not, and the name SHALL be saved under `labels.units` by the entry's ID.
 
 #### Scenario: Renaming an unchanged unit
 - **WHEN** a mod doesn't change unit 7, and the user renames it Worker
