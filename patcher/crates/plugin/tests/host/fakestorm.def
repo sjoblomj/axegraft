@@ -1,0 +1,7 @@
+LIBRARY Storm
+EXPORTS
+    SFileCloseArchive@4 @252 NONAME
+    SFileCloseFile@4 @253 NONAME
+    SFileOpenArchive@16 @266 NONAME
+    SFileOpenFileEx@16 @268 NONAME
+    SFileReadFile@20 @269 NONAME

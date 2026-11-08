@@ -14,7 +14,7 @@ AxeGraft Patcher SHALL NOT read or write the memory of any other process, start 
 - **THEN** none are found
 
 ### Requirement: No network, persistence or external programs
-AxeGraft Patcher SHALL NOT make network calls, write to the registry, set up anything to run automatically, or start other programs. The only file it SHALL write is its log.
+AxeGraft Patcher SHALL NOT make network calls, write to the registry, set up anything to run automatically, or start other programs. The only files it SHALL write are its log and, when the user chooses a mod file in `Configure`, the file that remembers that choice.
 
 #### Scenario: Checking the footprint
 - **WHEN** the plugin's own code is checked for network, registry, autostart and process creation calls

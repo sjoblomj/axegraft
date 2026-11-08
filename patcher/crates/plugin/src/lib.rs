@@ -4,3 +4,18 @@
 //!
 //! The Windows-facing parts are compiled only for Windows targets. Everything
 //! else is in `axegraft-patcher-core`.
+
+#[cfg(windows)]
+mod abi;
+#[cfg(windows)]
+mod log;
+#[cfg(windows)]
+mod memory;
+#[cfg(windows)]
+mod patch;
+#[cfg(windows)]
+mod remembered;
+#[cfg(windows)]
+mod text;
+#[cfg(windows)]
+mod win32;

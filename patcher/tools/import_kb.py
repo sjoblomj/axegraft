@@ -53,6 +53,10 @@ CONSTANTS = {
         "slow_duration",  # neg16 and neg32
         "rune_damage",  # u16 and neg8
         "farm_food",  # option
+        "spell_caster_lists",  # option
+        "train_building_check",  # option
+        "research_building_check",  # option, two sites
+        "upgrade_building_check",  # option
     ],
 }
 
@@ -464,13 +468,14 @@ class Warcraft2:
                     versions[v] = avail
                     continue
                 if cat["kind"] == "option":
-                    if len(mine) != 1 or len(mine[0]["offsets"][v]) != 1 or widths[mine[0]["type"][v]] != 1:
-                        fail("warcraft2: %s: only one-byte option sites are imported" % name)
+                    if len(mine) != 1 or len(mine[0]["original"][v]) != 1 or widths[mine[0]["type"][v]] != 1:
+                        fail("warcraft2: %s: only one-byte option sites holding one value are imported" % name)
                     r = mine[0]
                     orig = r["original"][v][0]
-                    opts = {o["name"]: [[o["stored"][v]]] for o in overlay[name]["options"]}
-                    opts.setdefault("original", [[orig]])
-                    versions[v] = {"options": {"sites": [{"rva": r["offsets"][v][0], "expected": [orig]}], "options": opts}}
+                    count = len(r["offsets"][v])
+                    opts = {o["name"]: [[o["stored"][v]]] * count for o in overlay[name]["options"]}
+                    opts.setdefault("original", [[orig]] * count)
+                    versions[v] = {"options": {"sites": [{"rva": off, "expected": [orig]} for off in r["offsets"][v]], "options": opts}}
                     continue
                 locations = []
                 for r in mine:

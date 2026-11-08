@@ -33,11 +33,11 @@ AxeGraft Patcher SHALL report that it can patch an executable only if that execu
 - **THEN** AxeGraft Patcher says it can't patch it, without crashing
 
 ### Requirement: Choosing the mod file
-When MPQDraft calls `Configure`, AxeGraft Patcher SHALL show a file-open dialog for choosing the mod file, and SHALL show no other dialogs during setup. The choice SHALL be kept only in memory, for as long as MPQDraft has the plugin loaded, and SHALL NOT be saved to the registry or to any file. `GetModules` SHALL return the plugin itself and the chosen mod file, so that MPQDraft passes the file to the game and packs it into SEMPQs.
+When MPQDraft calls `Configure`, AxeGraft Patcher SHALL show a file-open dialog for choosing the mod file, and SHALL show no other dialogs during setup. AxeGraft Patcher SHALL save the chosen path to `%APPDATA%\AxeGraft Patcher\last-mod.txt`, SHALL NOT save it to the registry, and SHALL use the saved path as the choice in later MPQDraft sessions, for as long as that file exists. Not being able to read or write the saved path SHALL NOT stop a choice made in the current session. `GetModules` SHALL return the chosen mod file as the plugin's only module, so that MPQDraft passes the file to the game and packs it into SEMPQs. MPQDraft adds the plugin itself.
 
 #### Scenario: File chosen
 - **WHEN** the user clicks Configure and chooses a `.json` file
-- **THEN** that file is the mod, and `GetModules` returns it beside the plugin
+- **THEN** that file is the mod, and `GetModules` returns it
 
 #### Scenario: Dialog cancelled
 - **WHEN** the user clicks Configure and cancels the dialog
@@ -46,6 +46,14 @@ When MPQDraft calls `Configure`, AxeGraft Patcher SHALL show a file-open dialog 
 #### Scenario: Choosing again
 - **WHEN** the user clicks Configure again and chooses another file
 - **THEN** the new file replaces the previous choice
+
+#### Scenario: Next MPQDraft session
+- **WHEN** a mod file was chosen in an earlier MPQDraft session and still exists
+- **THEN** it's the mod without the user clicking Configure, and the dialog starts on it
+
+#### Scenario: Remembered file is gone
+- **WHEN** the mod file chosen in an earlier MPQDraft session no longer exists
+- **THEN** no mod file is chosen
 
 ### Requirement: Ready only with a mod file
 AxeGraft Patcher SHALL report itself as ready to patch only when a mod file is chosen.

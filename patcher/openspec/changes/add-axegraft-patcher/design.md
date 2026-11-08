@@ -138,7 +138,7 @@ Each ABI entry point wraps its work in `catch_unwind`, so release builds use `pa
 
 `IMPQDraftPlugin` and `IMPQDraftServer` are C++ classes with virtual `WINAPI` methods. Under the 32-bit MSVC ABI that MinGW follows for them, that's a vtable pointer at the start of the object, with `stdcall` methods that take `this` as their first argument. The `abi` module declares both vtables as `#[repr(C)]` structs of `extern "stdcall"` function pointers, in the header's order, and exports `GetMPQDraftPlugin` undecorated.
 
-`Configure(HWND)` opens a file-open dialog through `GetOpenFileNameA`, filtered to `.json`. The chosen path is held in the plugin's memory only, as long as MPQDraft keeps the DLL loaded. It isn't saved, because the plugin may only write its log, so the user chooses the file again in each MPQDraft session. `ReadyForPatch` returns `TRUE` only once a file is chosen. `GetModules` returns two modules, the plugin itself (`bExecute` set by MPQDraft) and the mod file under a fixed module ID, which MPQDraft copies into the game's patch context and packs into SEMPQs. MPQDraft's CLI can't call `Configure`, so the plugin can't be used from it yet.
+`Configure(HWND)` opens a file-open dialog through `GetOpenFileNameA`, filtered to `.json`. The chosen path is also saved to `%APPDATA%\AxeGraft Patcher\last-mod.txt` through `std`, which adds no Windows imports and keeps the registry ban intact, so the user doesn't choose the file again in each MPQDraft session. A saved path is used only if its file still exists, and the dialog starts on it. `ReadyForPatch` returns `TRUE` only once a file is chosen. `GetModules` returns one module, the mod file under a fixed non-zero module ID with `bExecute` false. MPQDraft adds the plugin itself as module 0 with `bExecute` set, and copies both into the game's patch context and packs them into SEMPQs. MPQDraft's CLI can't call `Configure`, so the plugin can't be used from it yet.
 
 ### 10. Direct Windows declarations in one module
 
@@ -149,6 +149,8 @@ Each ABI entry point wraps its work in `catch_unwind`, so release builds use `pa
 Nothing suggests `std` fails on Windows 10+ or Wine, so the plugin uses it. `std` itself may add imports like `WS2_32.dll` that the plugin never calls, so footprint tests work like this:
 - **Own code:** the `win32` allowlist above covers every function the plugin declares.
 - **Built DLL:** a test inspects its import table and fails on banned process and registry APIs.
+
+The built DLL's import table does list `CreateProcessW`, `CreateToolhelp32Snapshot` and `OpenProcess`, which come from `std` and MinGW's runtime and which the plugin's own code never calls. They can't be removed on stable Rust, even with link-time optimization, so the test allows exactly these three. Whether scanners object to them is worth checking before a release.
 
 Windows 7 stays best effort, using `i686-win7-windows-gnu` only if that turns out to be cheap.
 

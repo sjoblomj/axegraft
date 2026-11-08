@@ -11,6 +11,11 @@ license.workspace = true
 name = "AxeGraftPatcher"
 crate-type = ["cdylib", "rlib"]
 
+[features]
+# Lets the Wine tests make the plugin panic, and choose a mod file without the
+# dialog. Never enabled in a release.
+test-hooks = []
+
 [dependencies]
 axegraft-patcher-core.workspace = true
 axegraft-patcher-library.workspace = true

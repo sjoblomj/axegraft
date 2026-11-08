@@ -725,6 +725,166 @@
      }
     }
    }
+  },
+  {
+   "name": "spell_caster_lists",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "off"
+     ]
+    }
+   },
+   "versions": {
+    "2.02": {
+     "options": {
+      "sites": [
+       {
+        "rva": 350255,
+        "expected": [
+         119
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         119
+        ]
+       ],
+       "off": [
+        [
+         235
+        ]
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "train_building_check",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "off"
+     ]
+    }
+   },
+   "versions": {
+    "2.02": {
+     "options": {
+      "sites": [
+       {
+        "rva": 55798,
+        "expected": [
+         116
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         116
+        ]
+       ],
+       "off": [
+        [
+         235
+        ]
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "research_building_check",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "off"
+     ]
+    }
+   },
+   "versions": {
+    "2.02": {
+     "options": {
+      "sites": [
+       {
+        "rva": 55905,
+        "expected": [
+         195
+        ]
+       },
+       {
+        "rva": 55953,
+        "expected": [
+         195
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         195
+        ],
+        [
+         195
+        ]
+       ],
+       "off": [
+        [
+         192
+        ],
+        [
+         192
+        ]
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "upgrade_building_check",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "off"
+     ]
+    }
+   },
+   "versions": {
+    "2.02": {
+     "options": {
+      "sites": [
+       {
+        "rva": 56006,
+        "expected": [
+         61
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         61
+        ]
+       ],
+       "off": [
+        [
+         0
+        ]
+       ]
+      }
+     }
+    }
+   }
   }
  ]
 }

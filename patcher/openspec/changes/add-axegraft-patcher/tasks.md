@@ -65,22 +65,22 @@ Work test-first: for each task, write the failing tests, then the code. Every gr
 
 ## 8. Plugin
 
-- [ ] 8.1 Spike a minimal plugin exporting `GetMPQDraftPlugin` with its undecorated name, and verify with `i686-w64-mingw32-objdump -p` and a loader test under Wine
-- [ ] 8.2 Implement the `abi` module for the existing `IMPQDraftPlugin` and `IMPQDraftServer` vtables, and verify the identification, `CanPatchExecutable`, "Ready only with a mod file" and `GetModules` scenarios with a test host under Wine
-- [ ] 8.3 Implement the `win32` module and real `Memory`, with protection restored and instruction cache flushed, and verify under Wine that writes to code and data work and protection is restored
+- [x] 8.1 Spike a minimal plugin exporting `GetMPQDraftPlugin` with its undecorated name, and verify with `i686-w64-mingw32-objdump -p` and a loader test under Wine
+- [x] 8.2 Implement the `abi` module for the existing `IMPQDraftPlugin` and `IMPQDraftServer` vtables, and verify the identification, `CanPatchExecutable`, "Ready only with a mod file" and `GetModules` scenarios with a test host under Wine
+- [x] 8.3 Implement the `win32` module and real `Memory`, with protection restored and instruction cache flushed, and verify under Wine that writes to code and data work and protection is restored
 - [ ] 8.4 Implement `Configure` with a file-open dialog, and verify the "Choosing the mod file" scenarios with the test host and the dialog stubbed, and by hand in MPQDraft's GUI under Wine
-- [ ] 8.5 Implement `InitializePlugin`, locating the mod file through `GetPluginModule`, reading it and applying the mod in a single step, and verify the lifecycle scenarios with the test host, including the unsupported-version case and the "Mod file can't be read" scenario
-- [ ] 8.6 Implement the failure path with `catch_unwind`, error dialog, log flush and close and `FALSE` return, and verify the "Failing closes the game" and "Internal faults stay contained" scenarios with the test host
-- [ ] 8.7 Write the log to `%TEMP%\AxeGraftPatcher.log`, and verify under Wine that it replaces the old log, survives a forced exit during patching, and that an unwritable log doesn't stop a valid mod
-- [ ] 8.8 Add the version resource, and verify with `i686-w64-mingw32-objdump -p` or a test host that the file reports its product name and version
-- [ ] 8.9 Add footprint tests comparing `win32` declarations with an allowlist and scanning the DLL's imports for banned process and registry APIs, and verify that adding a banned import makes the test fail
+- [x] 8.5 Implement `InitializePlugin`, locating the mod file through `GetPluginModule`, reading it and applying the mod in a single step, and verify the lifecycle scenarios with the test host, including the unsupported-version case and the "Mod file can't be read" scenario
+- [x] 8.6 Implement the failure path with `catch_unwind`, error dialog, log flush and close and `FALSE` return, and verify the "Failing closes the game" and "Internal faults stay contained" scenarios with the test host
+- [x] 8.7 Write the log to `%TEMP%\AxeGraftPatcher.log`, and verify under Wine that it replaces the old log, survives a forced exit during patching, and that an unwritable log doesn't stop a valid mod
+- [x] 8.8 Add the version resource, and verify with `i686-w64-mingw32-objdump -p` or a test host that the file reports its product name and version
+- [x] 8.9 Add footprint tests comparing `win32` declarations with an allowlist and scanning the DLL's imports for banned process and registry APIs, and verify that adding a banned import makes the test fail
 
 ## 9. End-to-end tests under Wine
 
-- [ ] 9.1 Build a fake game with known tables and a fake `Storm.dll`, and verify a test can start it through a pinned MPQDraft from `AXEGRAFT_PATCHER_MPQDRAFT_DIR`, skipping visibly when that isn't set
-- [ ] 9.2 Test a chosen mod file, and verify the fake game reports the expected table values, and that an `axegraft\patch.json` in a patch MPQ has no effect
-- [ ] 9.3 Test an invalid mod, and verify the game closes, the tables are unchanged and the log names the problems
-- [ ] 9.4 Test a SEMPQ containing AxeGraft Patcher and a chosen mod file, and verify the mod applies when the original file no longer exists
+- [x] 9.1 Build a fake game with known tables and a fake `Storm.dll`, and verify a test can start it through a pinned MPQDraft from `AXEGRAFT_PATCHER_MPQDRAFT_DIR`, skipping visibly when that isn't set
+- [x] 9.2 Test a chosen mod file, and verify the fake game reports the expected table values, and that an `axegraft\patch.json` in a patch MPQ has no effect
+- [x] 9.3 Test an invalid mod, and verify the game closes, the tables are unchanged and the log names the problems
+- [x] 9.4 Test a SEMPQ containing AxeGraft Patcher and a chosen mod file, and verify the mod applies when the original file no longer exists
 
 ## 10. Real game verification
 

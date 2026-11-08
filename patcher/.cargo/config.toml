@@ -1,2 +1,7 @@
 [target.i686-pc-windows-gnu]
 linker = "i686-w64-mingw32-gcc"
+
+[env]
+# The pinned MPQDraft used by the end-to-end tests. A variable set in the
+# environment takes precedence.
+AXEGRAFT_PATCHER_MPQDRAFT_DIR = "/home/jj/code/MPQDraft/build-mingw32/MPQDraft-2026-11-05.exe"

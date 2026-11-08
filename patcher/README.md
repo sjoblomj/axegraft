@@ -26,6 +26,8 @@ Run the tests natively:
 cargo test
 ```
 
+This includes tests of the real plugin DLL under Wine, which say `SKIPPED` when Wine or MinGW isn't installed. The end-to-end tests also start a fake game through a real MPQDraft, named by `AXEGRAFT_PATCHER_MPQDRAFT_DIR` as either its executable or a folder holding `MPQDraft.exe`. It's set in `.cargo/config.toml`, and a variable in the environment takes precedence.
+
 Build the plugin:
 
 ```sh
