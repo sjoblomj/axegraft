@@ -1,0 +1,1336 @@
+{
+ "game": "starcraft",
+ "limits": {
+  "unit": {
+   "min": 0,
+   "max": 227
+  },
+  "table_entries": 250,
+  "max_set_id": 999,
+  "tech": {
+   "min": 0,
+   "max": 43
+  },
+  "upgrade": {
+   "min": 0,
+   "max": 60
+  },
+  "order": {
+   "min": 0,
+   "max": 188
+  },
+  "position": {
+   "min": 1,
+   "max": 9
+  },
+  "icon": {
+   "min": 0,
+   "max": 65535
+  },
+  "string": {
+   "min": 0,
+   "max": 65535
+  },
+  "condition_variable": {
+   "min": 0,
+   "max": 255
+  },
+  "action_variable": {
+   "min": 0,
+   "max": 65535
+  }
+ },
+ "conditions": [
+  {
+   "name": "bf_always",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_build",
+   "variable": null
+  },
+  {
+   "name": "bf_no_exit",
+   "variable": null
+  },
+  {
+   "name": "bf_can_move_stop_unburrowed",
+   "variable": null
+  },
+  {
+   "name": "bf_can_move_patrol_unburrowed",
+   "variable": null
+  },
+  {
+   "name": "bf_lifted",
+   "variable": null
+  },
+  {
+   "name": "bf_is_ship",
+   "variable": null
+  },
+  {
+   "name": "bf_battery",
+   "variable": null
+  },
+  {
+   "name": "bf_load",
+   "variable": null
+  },
+  {
+   "name": "bf_no_load",
+   "variable": null
+  },
+  {
+   "name": "bf_not_comp",
+   "variable": null
+  },
+  {
+   "name": "bf_larva_sel",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_unit",
+   "variable": null
+  },
+  {
+   "name": "bf_load_scv",
+   "variable": null
+  },
+  {
+   "name": "bf_no_load_scv",
+   "variable": null
+  },
+  {
+   "name": "bf_scv_can_repair",
+   "variable": null
+  },
+  {
+   "name": "bf_scv_can_attack",
+   "variable": null
+  },
+  {
+   "name": "bf_scv_can_move_stop",
+   "variable": null
+  },
+  {
+   "name": "bf_scv_can_move",
+   "variable": null
+  },
+  {
+   "name": "bf_has_scarab",
+   "variable": null
+  },
+  {
+   "name": "bf_has_interceptor",
+   "variable": null
+  },
+  {
+   "name": "bf_load_drone",
+   "variable": null
+  },
+  {
+   "name": "bf_no_load_drone",
+   "variable": null
+  },
+  {
+   "name": "bf_liftoff_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_has_nuke",
+   "variable": null
+  },
+  {
+   "name": "bf_can_tank_move",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_research",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_upgrade",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_addon",
+   "variable": null
+  },
+  {
+   "name": "bf_empty_silo",
+   "variable": "unit"
+  },
+  {
+   "name": "bf_terran_build_advanced",
+   "variable": null
+  },
+  {
+   "name": "bf_terran_build_basic",
+   "variable": null
+  },
+  {
+   "name": "bf_protoss_build_advanced",
+   "variable": null
+  },
+  {
+   "name": "bf_protoss_build_basic",
+   "variable": null
+  },
+  {
+   "name": "bf_zerg_build_advanced",
+   "variable": null
+  },
+  {
+   "name": "bf_zerg_build_basic",
+   "variable": null
+  },
+  {
+   "name": "bf_can_move_stop",
+   "variable": null
+  },
+  {
+   "name": "bf_can_move_patrol",
+   "variable": null
+  },
+  {
+   "name": "bf_build_fighter_ok",
+   "variable": "unit"
+  },
+  {
+   "name": "bf_building_ok",
+   "variable": "unit"
+  },
+  {
+   "name": "bf_trans_has_passenger",
+   "variable": null
+  },
+  {
+   "name": "bf_tower",
+   "variable": null
+  },
+  {
+   "name": "bf_can_attack",
+   "variable": null
+  },
+  {
+   "name": "bf_can_attack_unburrowed",
+   "variable": null
+  },
+  {
+   "name": "bf_trans",
+   "variable": null
+  },
+  {
+   "name": "bf_burrowed",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_can_burrow",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_is_sieged",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_can_siege",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_is_hero_cloaked",
+   "variable": null
+  },
+  {
+   "name": "bf_can_cloak_hero",
+   "variable": null
+  },
+  {
+   "name": "bf_is_cloaked",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_can_cloak",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_upgrade",
+   "variable": "upgrade"
+  },
+  {
+   "name": "bf_has_mines",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_has_spell",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_research",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_rally",
+   "variable": null
+  },
+  {
+   "name": "bf_can_make_darchon",
+   "variable": null
+  },
+  {
+   "name": "bf_can_make_darchon_need2",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_can_make_archon",
+   "variable": null
+  },
+  {
+   "name": "bf_can_make_archon_need2",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_make_lurker",
+   "variable": null
+  },
+  {
+   "name": "bf_hatch_rally",
+   "variable": null
+  },
+  {
+   "name": "bf_replay_play",
+   "variable": null
+  },
+  {
+   "name": "bf_replay_speedup",
+   "variable": null
+  },
+  {
+   "name": "bf_replay_slowdown",
+   "variable": null
+  }
+ ],
+ "actions": [
+  {
+   "name": "order_none",
+   "variable": null
+  },
+  {
+   "name": "order_cancel_nuke",
+   "variable": null
+  },
+  {
+   "name": "order_summon_darchon",
+   "variable": null
+  },
+  {
+   "name": "order_summon_archon",
+   "variable": null
+  },
+  {
+   "name": "order_bldg_liftoff",
+   "variable": null
+  },
+  {
+   "name": "order_decloak",
+   "variable": null
+  },
+  {
+   "name": "order_deburrow",
+   "variable": null
+  },
+  {
+   "name": "order_burrow",
+   "variable": null
+  },
+  {
+   "name": "order_cancel_addon",
+   "variable": null
+  },
+  {
+   "name": "order_cancel_upgrade",
+   "variable": null
+  },
+  {
+   "name": "order_upgrade",
+   "variable": "upgrade"
+  },
+  {
+   "name": "order_cancel_research",
+   "variable": null
+  },
+  {
+   "name": "order_research",
+   "variable": "tech"
+  },
+  {
+   "name": "order_hold_pos",
+   "variable": null
+  },
+  {
+   "name": "order_build_fighter",
+   "variable": null
+  },
+  {
+   "name": "order_trilobyte_stop",
+   "variable": null
+  },
+  {
+   "name": "order_carrier_stop",
+   "variable": null
+  },
+  {
+   "name": "order_stop",
+   "variable": null
+  },
+  {
+   "name": "order_kill_egg",
+   "variable": null
+  },
+  {
+   "name": "order_kill",
+   "variable": null
+  },
+  {
+   "name": "order_siege",
+   "variable": null
+  },
+  {
+   "name": "order_tank_mode",
+   "variable": null
+  },
+  {
+   "name": "order_stop_build",
+   "variable": "number"
+  },
+  {
+   "name": "order_build",
+   "variable": "unit"
+  },
+  {
+   "name": "order_stim",
+   "variable": null
+  },
+  {
+   "name": "order_cloak",
+   "variable": null
+  },
+  {
+   "name": "order_return",
+   "variable": null
+  },
+  {
+   "name": "order_morph",
+   "variable": "unit"
+  },
+  {
+   "name": "order_upgrade_bldg",
+   "variable": "unit"
+  },
+  {
+   "name": "order_select_larva",
+   "variable": null
+  },
+  {
+   "name": "order_heal",
+   "variable": null
+  },
+  {
+   "name": "order_nuke_paint",
+   "variable": null
+  },
+  {
+   "name": "order_recharge",
+   "variable": null
+  },
+  {
+   "name": "order_unload",
+   "variable": null
+  },
+  {
+   "name": "order_pickup",
+   "variable": null
+  },
+  {
+   "name": "order_harvest",
+   "variable": null
+  },
+  {
+   "name": "order_repair",
+   "variable": null
+  },
+  {
+   "name": "order_land",
+   "variable": "unit"
+  },
+  {
+   "name": "order_nydus_exit",
+   "variable": "unit"
+  },
+  {
+   "name": "order_zerg_place",
+   "variable": "unit"
+  },
+  {
+   "name": "order_place_addon",
+   "variable": "unit"
+  },
+  {
+   "name": "order_place_protoss",
+   "variable": "unit"
+  },
+  {
+   "name": "order_place_cop",
+   "variable": null
+  },
+  {
+   "name": "order_place",
+   "variable": "unit"
+  },
+  {
+   "name": "order_tech",
+   "variable": "tech"
+  },
+  {
+   "name": "order_patrol",
+   "variable": null
+  },
+  {
+   "name": "order_reaver_attack",
+   "variable": null
+  },
+  {
+   "name": "order_carrier_attack",
+   "variable": null
+  },
+  {
+   "name": "order_carrier_move",
+   "variable": null
+  },
+  {
+   "name": "order_tower_attack",
+   "variable": null
+  },
+  {
+   "name": "order_attack_unit",
+   "variable": null
+  },
+  {
+   "name": "order_attack",
+   "variable": null
+  },
+  {
+   "name": "order_move",
+   "variable": null
+  },
+  {
+   "name": "order_rally",
+   "variable": null
+  },
+  {
+   "name": "order_target_off",
+   "variable": null
+  },
+  {
+   "name": "order_cancel_land",
+   "variable": null
+  },
+  {
+   "name": "statcmd_set_ctrl",
+   "variable": "table_entry"
+  },
+  {
+   "name": "order_replay_speedup",
+   "variable": null
+  },
+  {
+   "name": "order_replay_play",
+   "variable": null
+  },
+  {
+   "name": "order_replay_slowdown",
+   "variable": null
+  }
+ ],
+ "status_functions": [
+  {
+   "name": "statdraw_query_never",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_unit",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_bldg",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_transport",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_carrier",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_archon",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_egg",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_overlord",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_powerup",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_draw_unit",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_bldg",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_transport",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_carrier",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_archon",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_egg",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_overlord",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_powerup",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_none",
+   "kind": "status_update"
+  }
+ ],
+ "opcodes": [
+  {
+   "name": "or",
+   "code": 65281,
+   "parameter": null,
+   "role": "or",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "current_unit_is",
+   "code": 65282,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "must_have",
+   "code": 65283,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "must_have_addon",
+   "code": 65284,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "not_lifted_off",
+   "code": 65285,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_lifted_off",
+   "code": 65286,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "not_training_or_morphing",
+   "code": 65287,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "not_constructing_addon",
+   "code": 65288,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "not_researching",
+   "code": 65289,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "not_upgrading",
+   "code": 65290,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "not_constructing",
+   "code": 65291,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "does_not_have_addon",
+   "code": 65292,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "does_not_have_exit",
+   "code": 65293,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "has_hangar_space",
+   "code": 65294,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "must_be_researched",
+   "code": 65295,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "tech_research",
+    "tech_use"
+   ]
+  },
+  {
+   "name": "does_not_have_nuke",
+   "code": 65296,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "not_burrowed",
+   "code": 65297,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "can_attack",
+   "code": 65298,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "can_set_rally_point",
+   "code": 65299,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "can_move",
+   "code": 65300,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "has_weapon",
+   "code": 65301,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_worker",
+   "code": 65302,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_flying_building",
+   "code": 65303,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_transport",
+   "code": 65304,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_powerup",
+   "code": 65305,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_subunit",
+   "code": 65306,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "has_spider_mines",
+   "code": 65307,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_hero",
+   "code": 65308,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "can_hold_position",
+   "code": 65309,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "allow_on_hallucinations",
+   "code": 65310,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "upgrade_level_1",
+   "code": 65311,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "upgrade_level_2",
+   "code": 65312,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "upgrade_level_3",
+   "code": 65313,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "return_grey",
+   "code": 65314,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "return_blank",
+   "code": 65315,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "must_be_brood_war",
+   "code": 65316,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "is_researched",
+   "code": 65317,
+   "parameter": "tech",
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "is_burrowed",
+   "code": 65318,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "end_sublist",
+   "code": 65535,
+   "parameter": null,
+   "role": "end_sublist",
+   "allowed_in": [
+    "upgrade"
+   ]
+  }
+ ],
+ "constants": [
+  {
+   "name": "start_building_zerg",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 227
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 645089,
+        "encoding": "u8",
+        "expected": [
+         131
+        ]
+       }
+      ]
+     }
+    },
+    "1.17": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 515878,
+        "encoding": "u8",
+        "expected": [
+         131
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "max_supply",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 561095,
+        "encoding": "u16",
+        "expected": [
+         144,
+         1
+        ]
+       }
+      ]
+     }
+    },
+    "1.17": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 83014,
+        "encoding": "u16",
+        "expected": [
+         144,
+         1
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "energy_regen",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 963934,
+        "encoding": "i8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    },
+    "1.17": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 233123,
+        "encoding": "i8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "recharge_shields_amount",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 603335,
+        "encoding": "i32",
+        "expected": [
+         0,
+         5,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "1.17": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 196848,
+        "encoding": "i32",
+        "expected": [
+         0,
+         5,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "mineral_field_reduce",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 128
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 431716,
+        "encoding": "neg8",
+        "expected": [
+         248
+        ]
+       }
+      ]
+     }
+    },
+    "1.17": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 147028,
+        "encoding": "neg8",
+        "expected": [
+         248
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "permanent_cloak_energy",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "changed"
+     ]
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "options": {
+      "sites": [
+       {
+        "rva": 636476,
+        "expected": [
+         1
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         1
+        ]
+       ],
+       "changed": [
+        [
+         9
+        ]
+       ]
+      }
+     }
+    },
+    "1.17": {
+     "options": {
+      "sites": [
+       {
+        "rva": 119466,
+        "expected": [
+         1
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         1
+        ]
+       ],
+       "changed": [
+        [
+         9
+        ]
+       ]
+      }
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+[package]
+name = "axegraft-patcher-plugin"
+description = "AxeGraft Patcher, an MPQDraft plugin."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lib]
+# Built as AxeGraftPatcher.dll, which is shipped as AxeGraftPatcher.qdp.
+name = "AxeGraftPatcher"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+axegraft-patcher-core.workspace = true
+axegraft-patcher-library.workspace = true

@@ -1,0 +1,23 @@
+[workspace]
+resolver = "2"
+members = ["crates/core", "crates/library", "crates/plugin"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+license = "MIT"
+
+[workspace.dependencies]
+axegraft-patcher-core = { path = "crates/core" }
+axegraft-patcher-library = { path = "crates/library" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+proptest = "1"
+
+[profile.release]
+# Each ABI entry point catches panics, so panics must unwind (design decision 8).
+panic = "unwind"
+
+[profile.dev]
+panic = "unwind"

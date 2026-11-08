@@ -1,0 +1,14 @@
+[package]
+name = "axegraft-patcher-core"
+description = "AxeGraft Patcher's engine: mod format, library schema, planning and applying. No Windows code and no unsafe code."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

@@ -1,0 +1,231 @@
+{
+ "id": "1.16.1",
+ "identity": {
+  "timestamp": 1231391322,
+  "product_version": [
+   1,
+   16,
+   1,
+   1
+  ]
+ },
+ "button_table": {
+  "rva": 4096,
+  "entries": 6,
+  "card": "starcraft",
+  "button": "starcraft"
+ },
+ "status_table": {
+  "rva": 4352,
+  "layout": "starcraft"
+ },
+ "entries": {
+  "0": {
+   "number": 0,
+   "equivalent": null
+  },
+  "1": {
+   "number": 1,
+   "equivalent": null
+  },
+  "2": {
+   "number": 2,
+   "equivalent": null
+  },
+  "3": {
+   "number": 3,
+   "equivalent": 1
+  },
+  "4": {
+   "number": 4,
+   "equivalent": null
+  },
+  "5": {
+   "number": 5,
+   "equivalent": null
+  }
+ },
+ "sets": {
+  "0": {
+   "array": 8192,
+   "entries": [
+    0,
+    2
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 237,
+     "condition": "bf_research",
+     "condition_variable": 0,
+     "action": "order_research",
+     "action_variable": 0,
+     "enabled_string": 334,
+     "disabled_string": 346
+    }
+   ]
+  },
+  "1": {
+   "array": 8232,
+   "entries": [
+    1
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 4,
+     "enabled_string": 678,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "4": {
+   "array": 8256,
+   "entries": [
+    4
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 131,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 613,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 5,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "5": {
+   "array": 8296,
+   "entries": [
+    5
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_replay",
+     "action_variable": 0,
+     "enabled_string": 689,
+     "disabled_string": 0
+    }
+   ]
+  }
+ },
+ "units": [
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 1
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 2
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  }
+ ],
+ "functions": {
+  "bf_always": 12288,
+  "bf_research": 12304,
+  "order_move": 12320,
+  "order_research": 12336,
+  "statcmd_set_ctrl": 12352,
+  "order_replay": 12368,
+  "statdraw_query_unit": 12384,
+  "statdraw_query_never": 12400,
+  "statdraw_draw_unit": 12416,
+  "statdraw_draw_none": 12432
+ },
+ "streams": {
+  "unit": {
+   "rva": 16384,
+   "length": 12,
+   "base_refs": [
+    20480,
+    20496
+   ],
+   "plus2_refs": [
+    20484
+   ]
+  },
+  "upgrade": {
+   "rva": 16400,
+   "length": 26,
+   "base_refs": [
+    20512
+   ],
+   "plus2_refs": [
+    20516
+   ]
+  },
+  "tech_research": {
+   "rva": 16432,
+   "length": 12,
+   "base_refs": [
+    20528
+   ],
+   "plus2_refs": [
+    20532
+   ]
+  },
+  "tech_use": {
+   "rva": 16448,
+   "length": 18,
+   "base_refs": [
+    20544
+   ],
+   "plus2_refs": [
+    20548
+   ]
+  },
+  "order": {
+   "rva": 16480,
+   "length": 18,
+   "base_refs": [
+    20560,
+    20568
+   ],
+   "plus2_refs": [
+    20564
+   ]
+  }
+ }
+}

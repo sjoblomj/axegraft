@@ -1,0 +1,5528 @@
+{
+ "id": "2.02",
+ "identity": {
+  "timestamp": 990481940,
+  "product_version": [
+   2,
+   0,
+   2,
+   1
+  ]
+ },
+ "button_table": {
+  "rva": 670104,
+  "entries": 120,
+  "card": "warcraft2_bne",
+  "button": "warcraft2_bne"
+ },
+ "status_table": {
+  "rva": 671064,
+  "layout": "warcraft2_bne"
+ },
+ "entries": {
+  "0": {
+   "number": 0,
+   "equivalent": null
+  },
+  "1": {
+   "number": 1,
+   "equivalent": null
+  },
+  "2": {
+   "number": 2,
+   "equivalent": null
+  },
+  "3": {
+   "number": 3,
+   "equivalent": null
+  },
+  "4": {
+   "number": 4,
+   "equivalent": null
+  },
+  "5": {
+   "number": 5,
+   "equivalent": null
+  },
+  "6": {
+   "number": 6,
+   "equivalent": null
+  },
+  "7": {
+   "number": 7,
+   "equivalent": null
+  },
+  "8": {
+   "number": 8,
+   "equivalent": null
+  },
+  "9": {
+   "number": 9,
+   "equivalent": null
+  },
+  "10": {
+   "number": 10,
+   "equivalent": null
+  },
+  "11": {
+   "number": 11,
+   "equivalent": null
+  },
+  "12": {
+   "number": 12,
+   "equivalent": null
+  },
+  "13": {
+   "number": 13,
+   "equivalent": null
+  },
+  "14": {
+   "number": 14,
+   "equivalent": null
+  },
+  "15": {
+   "number": 15,
+   "equivalent": null
+  },
+  "16": {
+   "number": 16,
+   "equivalent": null
+  },
+  "17": {
+   "number": 17,
+   "equivalent": null
+  },
+  "18": {
+   "number": 18,
+   "equivalent": null
+  },
+  "19": {
+   "number": 19,
+   "equivalent": null
+  },
+  "20": {
+   "number": 20,
+   "equivalent": null
+  },
+  "21": {
+   "number": 21,
+   "equivalent": null
+  },
+  "22": {
+   "number": 22,
+   "equivalent": null
+  },
+  "23": {
+   "number": 23,
+   "equivalent": null
+  },
+  "24": {
+   "number": 24,
+   "equivalent": null
+  },
+  "25": {
+   "number": 25,
+   "equivalent": null
+  },
+  "26": {
+   "number": 26,
+   "equivalent": null
+  },
+  "27": {
+   "number": 27,
+   "equivalent": null
+  },
+  "28": {
+   "number": 28,
+   "equivalent": null
+  },
+  "29": {
+   "number": 29,
+   "equivalent": null
+  },
+  "30": {
+   "number": 30,
+   "equivalent": null
+  },
+  "31": {
+   "number": 31,
+   "equivalent": null
+  },
+  "32": {
+   "number": 32,
+   "equivalent": null
+  },
+  "33": {
+   "number": 33,
+   "equivalent": null
+  },
+  "34": {
+   "number": 34,
+   "equivalent": null
+  },
+  "35": {
+   "number": 35,
+   "equivalent": null
+  },
+  "36": {
+   "number": 36,
+   "equivalent": null
+  },
+  "37": {
+   "number": 37,
+   "equivalent": null
+  },
+  "38": {
+   "number": 38,
+   "equivalent": null
+  },
+  "39": {
+   "number": 39,
+   "equivalent": null
+  },
+  "40": {
+   "number": 40,
+   "equivalent": null
+  },
+  "41": {
+   "number": 41,
+   "equivalent": null
+  },
+  "42": {
+   "number": 42,
+   "equivalent": null
+  },
+  "43": {
+   "number": 43,
+   "equivalent": null
+  },
+  "44": {
+   "number": 44,
+   "equivalent": null
+  },
+  "45": {
+   "number": 45,
+   "equivalent": null
+  },
+  "46": {
+   "number": 46,
+   "equivalent": null
+  },
+  "47": {
+   "number": 47,
+   "equivalent": null
+  },
+  "48": {
+   "number": 48,
+   "equivalent": null
+  },
+  "49": {
+   "number": 49,
+   "equivalent": null
+  },
+  "50": {
+   "number": 50,
+   "equivalent": null
+  },
+  "51": {
+   "number": 51,
+   "equivalent": null
+  },
+  "52": {
+   "number": 52,
+   "equivalent": null
+  },
+  "53": {
+   "number": 53,
+   "equivalent": null
+  },
+  "54": {
+   "number": 54,
+   "equivalent": null
+  },
+  "55": {
+   "number": 55,
+   "equivalent": null
+  },
+  "56": {
+   "number": 56,
+   "equivalent": null
+  },
+  "57": {
+   "number": 57,
+   "equivalent": null
+  },
+  "58": {
+   "number": 58,
+   "equivalent": null
+  },
+  "59": {
+   "number": 59,
+   "equivalent": null
+  },
+  "60": {
+   "number": 60,
+   "equivalent": null
+  },
+  "61": {
+   "number": 61,
+   "equivalent": null
+  },
+  "62": {
+   "number": 62,
+   "equivalent": null
+  },
+  "63": {
+   "number": 63,
+   "equivalent": null
+  },
+  "64": {
+   "number": 64,
+   "equivalent": null
+  },
+  "65": {
+   "number": 65,
+   "equivalent": null
+  },
+  "66": {
+   "number": 66,
+   "equivalent": null
+  },
+  "67": {
+   "number": 67,
+   "equivalent": null
+  },
+  "68": {
+   "number": 68,
+   "equivalent": null
+  },
+  "69": {
+   "number": 69,
+   "equivalent": null
+  },
+  "70": {
+   "number": 70,
+   "equivalent": null
+  },
+  "71": {
+   "number": 71,
+   "equivalent": null
+  },
+  "72": {
+   "number": 72,
+   "equivalent": null
+  },
+  "73": {
+   "number": 73,
+   "equivalent": null
+  },
+  "74": {
+   "number": 74,
+   "equivalent": null
+  },
+  "75": {
+   "number": 75,
+   "equivalent": null
+  },
+  "76": {
+   "number": 76,
+   "equivalent": null
+  },
+  "77": {
+   "number": 77,
+   "equivalent": null
+  },
+  "78": {
+   "number": 78,
+   "equivalent": null
+  },
+  "79": {
+   "number": 79,
+   "equivalent": null
+  },
+  "80": {
+   "number": 80,
+   "equivalent": null
+  },
+  "81": {
+   "number": 81,
+   "equivalent": null
+  },
+  "82": {
+   "number": 82,
+   "equivalent": null
+  },
+  "83": {
+   "number": 83,
+   "equivalent": null
+  },
+  "84": {
+   "number": 84,
+   "equivalent": null
+  },
+  "85": {
+   "number": 85,
+   "equivalent": null
+  },
+  "86": {
+   "number": 86,
+   "equivalent": null
+  },
+  "87": {
+   "number": 87,
+   "equivalent": null
+  },
+  "88": {
+   "number": 88,
+   "equivalent": null
+  },
+  "89": {
+   "number": 89,
+   "equivalent": null
+  },
+  "90": {
+   "number": 90,
+   "equivalent": null
+  },
+  "91": {
+   "number": 91,
+   "equivalent": null
+  },
+  "92": {
+   "number": 92,
+   "equivalent": null
+  },
+  "93": {
+   "number": 93,
+   "equivalent": null
+  },
+  "94": {
+   "number": 94,
+   "equivalent": null
+  },
+  "95": {
+   "number": 95,
+   "equivalent": null
+  },
+  "96": {
+   "number": 96,
+   "equivalent": null
+  },
+  "97": {
+   "number": 97,
+   "equivalent": null
+  },
+  "98": {
+   "number": 98,
+   "equivalent": null
+  },
+  "99": {
+   "number": 99,
+   "equivalent": null
+  },
+  "100": {
+   "number": 100,
+   "equivalent": null
+  },
+  "101": {
+   "number": 101,
+   "equivalent": null
+  },
+  "102": {
+   "number": 102,
+   "equivalent": null
+  },
+  "103": {
+   "number": 103,
+   "equivalent": null
+  },
+  "104": {
+   "number": 104,
+   "equivalent": null
+  },
+  "105": {
+   "number": 105,
+   "equivalent": null
+  },
+  "106": {
+   "number": 106,
+   "equivalent": null
+  },
+  "107": {
+   "number": 107,
+   "equivalent": null
+  },
+  "108": {
+   "number": 108,
+   "equivalent": null
+  },
+  "109": {
+   "number": 109,
+   "equivalent": null
+  },
+  "110": {
+   "number": 110,
+   "equivalent": null
+  },
+  "111": {
+   "number": 111,
+   "equivalent": null
+  },
+  "112": {
+   "number": 112,
+   "equivalent": null
+  },
+  "113": {
+   "number": 113,
+   "equivalent": null
+  },
+  "114": {
+   "number": 114,
+   "equivalent": null
+  },
+  "115": {
+   "number": 115,
+   "equivalent": null
+  },
+  "116": {
+   "number": 116,
+   "equivalent": null
+  },
+  "117": {
+   "number": 117,
+   "equivalent": null
+  },
+  "118": {
+   "number": 118,
+   "equivalent": null
+  },
+  "119": {
+   "number": 119,
+   "equivalent": null
+  }
+ },
+ "sets": {
+  "0": {
+   "array": 663096,
+   "entries": [
+    0,
+    4,
+    22,
+    36,
+    42,
+    46
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 117,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 118,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 178,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 182,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  },
+  "1": {
+   "array": 663296,
+   "entries": [
+    1,
+    5,
+    25,
+    35,
+    37,
+    43,
+    47,
+    55,
+    56
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 120,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 121,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 183,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  },
+  "2": {
+   "array": 663944,
+   "entries": [
+    2
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 85,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_repair",
+     "action_variable": 0,
+     "string": 395,
+     "highlighted": 256
+    },
+    {
+     "position": 4,
+     "icon": 86,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "string": 396,
+     "highlighted": 64
+    },
+    {
+     "position": 5,
+     "icon": 89,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "string": 401,
+     "highlighted": 128
+    },
+    {
+     "position": 6,
+     "icon": 87,
+     "condition": "bf_wood",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 111,
+     "string": 398,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 88,
+     "condition": "bf_stone",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 112,
+     "string": 399,
+     "highlighted": 0
+    }
+   ]
+  },
+  "3": {
+   "array": 664104,
+   "entries": [
+    3
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 85,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_repair",
+     "action_variable": 0,
+     "string": 395,
+     "highlighted": 256
+    },
+    {
+     "position": 4,
+     "icon": 86,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "string": 396,
+     "highlighted": 64
+    },
+    {
+     "position": 5,
+     "icon": 90,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "string": 401,
+     "highlighted": 128
+    },
+    {
+     "position": 6,
+     "icon": 87,
+     "condition": "bf_wood",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 113,
+     "string": 398,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 88,
+     "condition": "bf_stone",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 114,
+     "string": 399,
+     "highlighted": 0
+    }
+   ]
+  },
+  "6": {
+   "array": 665320,
+   "entries": [
+    6
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 117,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 118,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 178,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "7": {
+   "array": 665504,
+   "entries": [
+    7
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 120,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 121,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "8": {
+   "array": 663576,
+   "entries": [
+    8,
+    18,
+    20
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 124,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 125,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 126,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 178,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "9": {
+   "array": 663760,
+   "entries": [
+    9,
+    19,
+    53
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 127,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 128,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 129,
+     "condition": "bf_has_Arrows",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "10": {
+   "array": 664952,
+   "entries": [
+    10,
+    24
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 99,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 348,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 101,
+     "condition": "bf_has_spell",
+     "condition_variable": 5,
+     "action": "order_spell",
+     "action_variable": 43,
+     "string": 349,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 94,
+     "condition": "bf_has_spell",
+     "condition_variable": 6,
+     "action": "order_spell",
+     "action_variable": 44,
+     "string": 351,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 100,
+     "condition": "bf_has_spell",
+     "condition_variable": 4,
+     "action": "order_spell",
+     "action_variable": 42,
+     "string": 350,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 95,
+     "condition": "bf_has_spell",
+     "condition_variable": 7,
+     "action": "order_spell",
+     "action_variable": 45,
+     "string": 352,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 115,
+     "condition": "bf_has_spell",
+     "condition_variable": 8,
+     "action": "order_spell",
+     "action_variable": 46,
+     "string": 353,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 105,
+     "condition": "bf_has_spell",
+     "condition_variable": 9,
+     "action": "order_spell",
+     "action_variable": 47,
+     "string": 354,
+     "highlighted": 0
+    }
+   ]
+  },
+  "11": {
+   "array": 665136,
+   "entries": [
+    11,
+    21,
+    51
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 102,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 355,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 108,
+     "condition": "bf_has_spell",
+     "condition_variable": 14,
+     "action": "order_spell",
+     "action_variable": 51,
+     "string": 357,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 96,
+     "condition": "bf_has_spell",
+     "condition_variable": 16,
+     "action": "order_spell",
+     "action_variable": 53,
+     "string": 358,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 114,
+     "condition": "bf_has_spell",
+     "condition_variable": 13,
+     "action": "order_spell",
+     "action_variable": 50,
+     "string": 369,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 104,
+     "condition": "bf_has_spell",
+     "condition_variable": 15,
+     "action": "order_spell",
+     "action_variable": 52,
+     "string": 361,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 98,
+     "condition": "bf_has_spell",
+     "condition_variable": 17,
+     "action": "order_spell",
+     "action_variable": 54,
+     "string": 359,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 103,
+     "condition": "bf_has_spell",
+     "condition_variable": 19,
+     "action": "order_spell",
+     "action_variable": 56,
+     "string": 356,
+     "highlighted": 0
+    }
+   ]
+  },
+  "12": {
+   "array": 665688,
+   "entries": [
+    12,
+    44,
+    50,
+    52
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 117,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 118,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 178,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 6,
+     "icon": 106,
+     "condition": "bf_has_spell",
+     "condition_variable": 0,
+     "action": "order_spell",
+     "action_variable": 38,
+     "string": 362,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 107,
+     "condition": "bf_has_spell",
+     "condition_variable": 1,
+     "action": "order_spell",
+     "action_variable": 39,
+     "string": 363,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 110,
+     "condition": "bf_has_spell",
+     "condition_variable": 3,
+     "action": "order_spell",
+     "action_variable": 41,
+     "string": 365,
+     "highlighted": 0
+    }
+   ]
+  },
+  "13": {
+   "array": 665928,
+   "entries": [
+    13,
+    23
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 120,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 121,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 6,
+     "icon": 111,
+     "condition": "bf_has_spell",
+     "condition_variable": 10,
+     "action": "order_spell",
+     "action_variable": 48,
+     "string": 366,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 112,
+     "condition": "bf_has_spell",
+     "condition_variable": 11,
+     "action": "order_spell",
+     "action_variable": 49,
+     "string": 367,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 97,
+     "condition": "bf_has_spell",
+     "condition_variable": 18,
+     "action": "order_spell",
+     "action_variable": 55,
+     "string": 360,
+     "highlighted": 0
+    }
+   ]
+  },
+  "14": {
+   "array": 662728,
+   "entries": [
+    14
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 117,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 118,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 184,
+     "condition": "bf_enhanced_mode",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 8,
+     "icon": 142,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_demolish",
+     "action_variable": 0,
+     "string": 406,
+     "highlighted": 32
+    }
+   ]
+  },
+  "15": {
+   "array": 662912,
+   "entries": [
+    15
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 120,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 121,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 185,
+     "condition": "bf_enhanced_mode",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 8,
+     "icon": 143,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_demolish",
+     "action_variable": 0,
+     "string": 406,
+     "highlighted": 32
+    }
+   ]
+  },
+  "16": {
+   "array": 663496,
+   "entries": [
+    16
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    }
+   ]
+  },
+  "17": {
+   "array": 663536,
+   "entries": [
+    17
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    }
+   ]
+  },
+  "26": {
+   "array": 666408,
+   "entries": [
+    26
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 157,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 153,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 3,
+     "icon": 54,
+     "condition": "bf_single",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 86,
+     "string": 309,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 161,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "string": 397,
+     "highlighted": 64
+    },
+    {
+     "position": 5,
+     "icon": 158,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "string": 401,
+     "highlighted": 128
+    }
+   ]
+  },
+  "27": {
+   "array": 666552,
+   "entries": [
+    27
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 156,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 150,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 151,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 152,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 3,
+     "icon": 55,
+     "condition": "bf_single",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 87,
+     "string": 309,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 160,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "string": 397,
+     "highlighted": 64
+    },
+    {
+     "position": 5,
+     "icon": 159,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "string": 401,
+     "highlighted": 128
+    }
+   ]
+  },
+  "28": {
+   "array": 667464,
+   "entries": [
+    28
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 157,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 153,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 162,
+     "condition": "bf_trans_has_passenger",
+     "condition_variable": 0,
+     "action": "order_unload_all",
+     "action_variable": 0,
+     "string": 405,
+     "highlighted": 0
+    }
+   ]
+  },
+  "29": {
+   "array": 667568,
+   "entries": [
+    29
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 156,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 150,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 151,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 152,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 163,
+     "condition": "bf_trans_has_passenger",
+     "condition_variable": 0,
+     "action": "order_unload_all",
+     "action_variable": 0,
+     "string": 405,
+     "highlighted": 0
+    }
+   ]
+  },
+  "30": {
+   "array": 667064,
+   "entries": [
+    30,
+    32,
+    34
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 157,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 153,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 144,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 145,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 146,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 184,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 182,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  },
+  "31": {
+   "array": 667264,
+   "entries": [
+    31,
+    33
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 156,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 150,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 151,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 152,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 147,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 148,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 149,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 185,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 183,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  },
+  "38": {
+   "array": 666696,
+   "entries": [
+    38
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 157,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 153,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 144,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 145,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 146,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 184,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "39": {
+   "array": 666880,
+   "entries": [
+    39
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 156,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 150,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 151,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 152,
+     "condition": "bf_has_boat_armor",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 147,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 148,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 149,
+     "condition": "bf_has_boat_attack",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 185,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    }
+   ]
+  },
+  "40": {
+   "array": 667672,
+   "entries": [
+    40
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 3,
+     "icon": 184,
+     "condition": "bf_enhanced_mode",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    }
+   ]
+  },
+  "41": {
+   "array": 667776,
+   "entries": [
+    41,
+    45
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 3,
+     "icon": 185,
+     "condition": "bf_enhanced_mode",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    }
+   ]
+  },
+  "49": {
+   "array": 666168,
+   "entries": [
+    49
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_has_Swords",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 120,
+     "condition": "bf_has_Swords",
+     "condition_variable": 1,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 2,
+     "icon": 121,
+     "condition": "bf_has_Swords",
+     "condition_variable": 2,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 6,
+     "icon": 111,
+     "condition": "bf_always",
+     "condition_variable": 10,
+     "action": "order_spell",
+     "action_variable": 48,
+     "string": 366,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 112,
+     "condition": "bf_always",
+     "condition_variable": 11,
+     "action": "order_spell",
+     "action_variable": 49,
+     "string": 367,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 97,
+     "condition": "bf_always",
+     "condition_variable": 18,
+     "action": "order_spell",
+     "action_variable": 55,
+     "string": 360,
+     "highlighted": 0
+    }
+   ]
+  },
+  "60": {
+   "array": 668984,
+   "entries": [
+    60
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 2,
+     "condition": "bf_gr_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 0,
+     "string": 283,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 4,
+     "condition": "bf_sp_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 8,
+     "string": 272,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 6,
+     "condition": "bf_rang_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 18,
+     "string": 273,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 16,
+     "condition": "bf_cat_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 4,
+     "string": 284,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 8,
+     "condition": "bf_kni_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 6,
+     "string": 275,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 10,
+     "condition": "bf_cleric_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 12,
+     "string": 277,
+     "highlighted": 0
+    }
+   ]
+  },
+  "61": {
+   "array": 669104,
+   "entries": [
+    61
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 3,
+     "condition": "bf_gr_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 1,
+     "string": 282,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 5,
+     "condition": "bf_sp_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 9,
+     "string": 271,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 7,
+     "condition": "bf_rang_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 19,
+     "string": 274,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 17,
+     "condition": "bf_cat_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 5,
+     "string": 285,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 9,
+     "condition": "bf_kni_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 7,
+     "string": 276,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 11,
+     "condition": "bf_cleric_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 13,
+     "string": 278,
+     "highlighted": 0
+    }
+   ]
+  },
+  "62": {
+   "array": 669544,
+   "entries": [
+    62
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 10,
+     "condition": "bf_build_Spell",
+     "condition_variable": 20,
+     "action": "bldg_build_spell",
+     "action_variable": 33,
+     "string": 370,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 107,
+     "condition": "bf_build_CSpell",
+     "condition_variable": 1,
+     "action": "bldg_build_spell",
+     "action_variable": 35,
+     "string": 385,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 110,
+     "condition": "bf_build_CSpell",
+     "condition_variable": 3,
+     "action": "bldg_build_spell",
+     "action_variable": 36,
+     "string": 387,
+     "highlighted": 0
+    }
+   ]
+  },
+  "63": {
+   "array": 669608,
+   "entries": [
+    63
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 11,
+     "condition": "bf_build_Spell",
+     "condition_variable": 20,
+     "action": "bldg_build_spell",
+     "action_variable": 32,
+     "string": 371,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 112,
+     "condition": "bf_build_CSpell",
+     "condition_variable": 11,
+     "action": "bldg_build_spell",
+     "action_variable": 44,
+     "string": 389,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 97,
+     "condition": "bf_build_CSpell",
+     "condition_variable": 18,
+     "action": "bldg_build_spell",
+     "action_variable": 50,
+     "string": 382,
+     "highlighted": 0
+    }
+   ]
+  },
+  "64": {
+   "array": 669224,
+   "entries": [
+    64,
+    96,
+    98
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 75,
+     "condition": "bf_upgrade_tower",
+     "condition_variable": 0,
+     "action": "bldg_build_upgrade",
+     "action_variable": 96,
+     "string": 319,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 76,
+     "condition": "bf_upgrade_tower",
+     "condition_variable": 1,
+     "action": "bldg_build_upgrade",
+     "action_variable": 98,
+     "string": 320,
+     "highlighted": 0
+    }
+   ]
+  },
+  "65": {
+   "array": 669264,
+   "entries": [
+    65,
+    97,
+    99
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 77,
+     "condition": "bf_upgrade_tower",
+     "condition_variable": 0,
+     "action": "bldg_build_upgrade",
+     "action_variable": 97,
+     "string": 319,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 78,
+     "condition": "bf_upgrade_tower",
+     "condition_variable": 1,
+     "action": "bldg_build_upgrade",
+     "action_variable": 99,
+     "string": 320,
+     "highlighted": 0
+    }
+   ]
+  },
+  "68": {
+   "array": 668904,
+   "entries": [
+    68
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 28,
+     "condition": "bf_flyer_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 40,
+     "string": 294,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 12,
+     "condition": "bf_demoteam_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 14,
+     "string": 297,
+     "highlighted": 0
+    }
+   ]
+  },
+  "69": {
+   "array": 668944,
+   "entries": [
+    69
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 29,
+     "condition": "bf_flyer_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 41,
+     "string": 293,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 13,
+     "condition": "bf_demoteam_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 15,
+     "string": 298,
+     "highlighted": 0
+    }
+   ]
+  },
+  "70": {
+   "array": 668856,
+   "entries": [
+    70
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 30,
+     "condition": "bf_dragon_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 42,
+     "string": 295,
+     "highlighted": 0
+    }
+   ]
+  },
+  "71": {
+   "array": 668880,
+   "entries": [
+    71
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 31,
+     "condition": "bf_dragon_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 43,
+     "string": 296,
+     "highlighted": 0
+    }
+   ]
+  },
+  "72": {
+   "array": 667880,
+   "entries": [
+    72
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 18,
+     "condition": "bf_tanker_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 26,
+     "string": 286,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 22,
+     "condition": "bf_destroyer_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 30,
+     "string": 287,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 20,
+     "condition": "bf_transport_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 28,
+     "string": 288,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 24,
+     "condition": "bf_battleship_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 32,
+     "string": 289,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 26,
+     "condition": "bf_sub_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 38,
+     "string": 291,
+     "highlighted": 0
+    }
+   ]
+  },
+  "73": {
+   "array": 667984,
+   "entries": [
+    73
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 19,
+     "condition": "bf_tanker_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 27,
+     "string": 286,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 23,
+     "condition": "bf_destroyer_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 31,
+     "string": 287,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 21,
+     "condition": "bf_transport_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 29,
+     "string": 288,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 25,
+     "condition": "bf_battleship_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 33,
+     "string": 290,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 27,
+     "condition": "bf_sub_ok",
+     "condition_variable": 0,
+     "action": "bldg_build_man",
+     "action_variable": 39,
+     "string": 292,
+     "highlighted": 0
+    }
+   ]
+  },
+  "74": {
+   "array": 668728,
+   "entries": [
+    74,
+    88,
+    90
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 0,
+     "condition": "bf_peon_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 2,
+     "string": 270,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 66,
+     "condition": "bf_upgrade_townhall",
+     "condition_variable": 0,
+     "action": "bldg_build_upgrade",
+     "action_variable": 88,
+     "string": 317,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 68,
+     "condition": "bf_upgrade_townhall",
+     "condition_variable": 1,
+     "action": "bldg_build_upgrade",
+     "action_variable": 90,
+     "string": 315,
+     "highlighted": 0
+    }
+   ]
+  },
+  "75": {
+   "array": 668792,
+   "entries": [
+    75,
+    89,
+    91
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 1,
+     "condition": "bf_peon_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 3,
+     "string": 269,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 67,
+     "condition": "bf_upgrade_townhall",
+     "condition_variable": 0,
+     "action": "bldg_build_upgrade",
+     "action_variable": 89,
+     "string": 318,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 69,
+     "condition": "bf_upgrade_townhall",
+     "condition_variable": 1,
+     "action": "bldg_build_upgrade",
+     "action_variable": 91,
+     "string": 316,
+     "highlighted": 0
+    }
+   ]
+  },
+  "76": {
+   "array": 668248,
+   "entries": [
+    76
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 125,
+     "condition": "bf_build_Arrows",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 4,
+     "string": 332,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 126,
+     "condition": "bf_build_Arrows",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 5,
+     "string": 332,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 6,
+     "condition": "bf_build_ranger",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 24,
+     "string": 338,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 133,
+     "condition": "bf_build_scouts",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 26,
+     "string": 340,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 132,
+     "condition": "bf_build_longbow",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 25,
+     "string": 339,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 134,
+     "condition": "bf_build_marks",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 27,
+     "string": 341,
+     "highlighted": 0
+    }
+   ]
+  },
+  "77": {
+   "array": 668368,
+   "entries": [
+    77
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 128,
+     "condition": "bf_build_Arrows",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 6,
+     "string": 330,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 129,
+     "condition": "bf_build_Arrows",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 7,
+     "string": 330,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 7,
+     "condition": "bf_build_ranger",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 28,
+     "string": 342,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 136,
+     "condition": "bf_build_scouts",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 30,
+     "string": 344,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 135,
+     "condition": "bf_build_longbow",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 29,
+     "string": 343,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 137,
+     "condition": "bf_build_marks",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 31,
+     "string": 345,
+     "highlighted": 0
+    }
+   ]
+  },
+  "78": {
+   "array": 668088,
+   "entries": [
+    78
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 145,
+     "condition": "bf_build_boat_attack",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 12,
+     "string": 335,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 146,
+     "condition": "bf_build_boat_attack",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 13,
+     "string": 335,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_build_boat_armor",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 16,
+     "string": 336,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_build_boat_armor",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 17,
+     "string": 336,
+     "highlighted": 0
+    }
+   ]
+  },
+  "79": {
+   "array": 668168,
+   "entries": [
+    79
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 148,
+     "condition": "bf_build_boat_attack",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 14,
+     "string": 335,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 149,
+     "condition": "bf_build_boat_attack",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 15,
+     "string": 335,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 151,
+     "condition": "bf_build_boat_armor",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 18,
+     "string": 336,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 152,
+     "condition": "bf_build_boat_armor",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 19,
+     "string": 336,
+     "highlighted": 0
+    }
+   ]
+  },
+  "80": {
+   "array": 669304,
+   "entries": [
+    80
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 14,
+     "condition": "bf_wiz_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 10,
+     "string": 281,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 94,
+     "condition": "bf_build_Spell",
+     "condition_variable": 6,
+     "action": "bldg_build_spell",
+     "action_variable": 39,
+     "string": 374,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 100,
+     "condition": "bf_build_Spell",
+     "condition_variable": 4,
+     "action": "bldg_build_spell",
+     "action_variable": 37,
+     "string": 373,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 95,
+     "condition": "bf_build_Spell",
+     "condition_variable": 7,
+     "action": "bldg_build_spell",
+     "action_variable": 40,
+     "string": 375,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 115,
+     "condition": "bf_build_Spell",
+     "condition_variable": 8,
+     "action": "bldg_build_spell",
+     "action_variable": 41,
+     "string": 376,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 105,
+     "condition": "bf_build_Spell",
+     "condition_variable": 9,
+     "action": "bldg_build_spell",
+     "action_variable": 42,
+     "string": 377,
+     "highlighted": 0
+    }
+   ]
+  },
+  "81": {
+   "array": 669424,
+   "entries": [
+    81
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 15,
+     "condition": "bf_wiz_ok",
+     "condition_variable": 1,
+     "action": "bldg_build_man",
+     "action_variable": 11,
+     "string": 279,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 96,
+     "condition": "bf_build_Spell",
+     "condition_variable": 16,
+     "action": "bldg_build_spell",
+     "action_variable": 48,
+     "string": 380,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 114,
+     "condition": "bf_build_Spell",
+     "condition_variable": 13,
+     "action": "bldg_build_spell",
+     "action_variable": 45,
+     "string": 391,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 104,
+     "condition": "bf_build_Spell",
+     "condition_variable": 15,
+     "action": "bldg_build_spell",
+     "action_variable": 47,
+     "string": 383,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 98,
+     "condition": "bf_build_Spell",
+     "condition_variable": 17,
+     "action": "bldg_build_spell",
+     "action_variable": 49,
+     "string": 381,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 103,
+     "condition": "bf_build_Spell",
+     "condition_variable": 19,
+     "action": "bldg_build_spell",
+     "action_variable": 51,
+     "string": 378,
+     "highlighted": 0
+    }
+   ]
+  },
+  "82": {
+   "array": 668488,
+   "entries": [
+    82
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 117,
+     "condition": "bf_build_Swords",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 0,
+     "string": 329,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 118,
+     "condition": "bf_build_Swords",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 1,
+     "string": 329,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_build_Shields",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 8,
+     "string": 333,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_build_Shields",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 9,
+     "string": 333,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 140,
+     "condition": "bf_build_catdmg",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 22,
+     "string": 347,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 141,
+     "condition": "bf_build_catdmg",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 23,
+     "string": 347,
+     "highlighted": 0
+    }
+   ]
+  },
+  "83": {
+   "array": 668608,
+   "entries": [
+    83
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 120,
+     "condition": "bf_build_Swords",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 2,
+     "string": 331,
+     "highlighted": 0
+    },
+    {
+     "position": 0,
+     "icon": 121,
+     "condition": "bf_build_Swords",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 3,
+     "string": 331,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_build_Shields",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 10,
+     "string": 334,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_build_Shields",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 11,
+     "string": 334,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 138,
+     "condition": "bf_build_catdmg",
+     "condition_variable": 0,
+     "action": "bldg_build_tech",
+     "action_variable": 20,
+     "string": 346,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 139,
+     "condition": "bf_build_catdmg",
+     "condition_variable": 1,
+     "action": "bldg_build_tech",
+     "action_variable": 21,
+     "string": 346,
+     "highlighted": 0
+    }
+   ]
+  },
+  "111": {
+   "array": 664264,
+   "entries": [
+    111
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 38,
+     "condition": "bf_farm_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 58,
+     "string": 306,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 42,
+     "condition": "bf_barrack_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 60,
+     "string": 299,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 40,
+     "condition": "bf_thall_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 74,
+     "string": 307,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 44,
+     "condition": "bf_mill_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 76,
+     "string": 300,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 46,
+     "condition": "bf_smith_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 82,
+     "string": 314,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 60,
+     "condition": "bf_tower_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 64,
+     "string": 303,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 92,
+     "condition": "bf_wall_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 103,
+     "string": 312,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 110,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "112": {
+   "array": 664584,
+   "entries": [
+    112
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 48,
+     "condition": "bf_shipyard_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 72,
+     "string": 313,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 52,
+     "condition": "bf_foundry_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 78,
+     "string": 311,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 50,
+     "condition": "bf_refinery_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 84,
+     "string": 310,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 58,
+     "condition": "bf_inventor_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 68,
+     "string": 321,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 56,
+     "condition": "bf_stable_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 66,
+     "string": 301,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 62,
+     "condition": "bf_church_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 62,
+     "string": 304,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 64,
+     "condition": "bf_wiz_tower_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 80,
+     "string": 325,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 72,
+     "condition": "bf_aviary_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 70,
+     "string": 323,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 110,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "113": {
+   "array": 664424,
+   "entries": [
+    113
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 39,
+     "condition": "bf_farm_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 59,
+     "string": 306,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 43,
+     "condition": "bf_barrack_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 61,
+     "string": 299,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 41,
+     "condition": "bf_thall_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 75,
+     "string": 308,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 45,
+     "condition": "bf_mill_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 77,
+     "string": 300,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 47,
+     "condition": "bf_smith_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 83,
+     "string": 314,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 61,
+     "condition": "bf_tower_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 65,
+     "string": 303,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 93,
+     "condition": "bf_wall_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 104,
+     "string": 312,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 110,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "114": {
+   "array": 664768,
+   "entries": [
+    114
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 49,
+     "condition": "bf_shipyard_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 73,
+     "string": 313,
+     "highlighted": 0
+    },
+    {
+     "position": 1,
+     "icon": 53,
+     "condition": "bf_foundry_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 79,
+     "string": 311,
+     "highlighted": 0
+    },
+    {
+     "position": 2,
+     "icon": 51,
+     "condition": "bf_refinery_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 85,
+     "string": 310,
+     "highlighted": 0
+    },
+    {
+     "position": 3,
+     "icon": 59,
+     "condition": "bf_inventor_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 69,
+     "string": 322,
+     "highlighted": 0
+    },
+    {
+     "position": 4,
+     "icon": 57,
+     "condition": "bf_stable_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 67,
+     "string": 302,
+     "highlighted": 0
+    },
+    {
+     "position": 5,
+     "icon": 63,
+     "condition": "bf_church_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 63,
+     "string": 305,
+     "highlighted": 0
+    },
+    {
+     "position": 6,
+     "icon": 65,
+     "condition": "bf_wiz_tower_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 81,
+     "string": 326,
+     "highlighted": 0
+    },
+    {
+     "position": 7,
+     "icon": 73,
+     "condition": "bf_aviary_ok",
+     "condition_variable": 0,
+     "action": "order_place",
+     "action_variable": 71,
+     "string": 324,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "status_set_card",
+     "action_variable": 110,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "115": {
+   "array": 669672,
+   "entries": [
+    115
+   ],
+   "buttons": [
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "target_off",
+     "action_variable": 1,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "116": {
+   "array": 669696,
+   "entries": [
+    116
+   ],
+   "buttons": [
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "placebox_off",
+     "action_variable": 1,
+     "string": 407,
+     "highlighted": 0
+    }
+   ]
+  },
+  "117": {
+   "array": 669720,
+   "entries": [
+    117
+   ],
+   "buttons": [
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_not_comp",
+     "condition_variable": 0,
+     "action": "order_kill",
+     "action_variable": 0,
+     "string": 408,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 0,
+     "string": 410,
+     "highlighted": 0
+    },
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 0,
+     "string": 409,
+     "highlighted": 0
+    }
+   ]
+  },
+  "118": {
+   "array": 669944,
+   "entries": [
+    118
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 166,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 116,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 178,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 180,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 182,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  },
+  "119": {
+   "array": 669784,
+   "entries": [
+    119
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 84,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 167,
+     "condition": "bf_has_Shields",
+     "condition_variable": 0,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 168,
+     "condition": "bf_has_Shields",
+     "condition_variable": 1,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 169,
+     "condition": "bf_has_Shields",
+     "condition_variable": 2,
+     "action": "order_guard",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 2,
+     "icon": 119,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "string": 394,
+     "highlighted": 8
+    },
+    {
+     "position": 3,
+     "icon": 179,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "string": 404,
+     "highlighted": 4
+    },
+    {
+     "position": 4,
+     "icon": 181,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stand_ground",
+     "action_variable": 0,
+     "string": 403,
+     "highlighted": 16
+    },
+    {
+     "position": 5,
+     "icon": 183,
+     "condition": "bf_attack_ground",
+     "condition_variable": 0,
+     "action": "order_attack_ground",
+     "action_variable": 0,
+     "string": 402,
+     "highlighted": 32
+    }
+   ]
+  }
+ },
+ "units": [
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 2,
+   "stats_frame": 1,
+   "name_string": 2
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 3,
+   "stats_frame": 1,
+   "name_string": 3
+  },
+  {
+   "status_changed": "statdraw_query_peon",
+   "status_update": "statdraw_draw_peon",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 4
+  },
+  {
+   "status_changed": "statdraw_query_peon",
+   "status_update": "statdraw_draw_peon",
+   "icon": 1,
+   "stats_frame": 1,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_catapult",
+   "icon": 16,
+   "stats_frame": 1,
+   "name_string": 6
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_catapult",
+   "icon": 17,
+   "stats_frame": 1,
+   "name_string": 7
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 8,
+   "stats_frame": 1,
+   "name_string": 8
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 9,
+   "stats_frame": 1,
+   "name_string": 9
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 4,
+   "stats_frame": 1,
+   "name_string": 10
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 5,
+   "stats_frame": 1,
+   "name_string": 11
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 14,
+   "stats_frame": 2,
+   "name_string": 12
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 15,
+   "stats_frame": 2,
+   "name_string": 13
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 10,
+   "stats_frame": 2,
+   "name_string": 14
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 11,
+   "stats_frame": 2,
+   "name_string": 15
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 12,
+   "stats_frame": 1,
+   "name_string": 244
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 13,
+   "stats_frame": 1,
+   "name_string": 17
+  },
+  {
+   "status_changed": "statdraw_query_peon",
+   "status_update": "statdraw_draw_peon",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 4
+  },
+  {
+   "status_changed": "statdraw_query_peon",
+   "status_update": "statdraw_draw_peon",
+   "icon": 1,
+   "stats_frame": 1,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 6,
+   "stats_frame": 1,
+   "name_string": 20
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 7,
+   "stats_frame": 1,
+   "name_string": 21
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 187,
+   "stats_frame": 1,
+   "name_string": 22
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 189,
+   "stats_frame": 2,
+   "name_string": 23
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 191,
+   "stats_frame": 1,
+   "name_string": 24
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 194,
+   "stats_frame": 1,
+   "name_string": 25
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 193,
+   "stats_frame": 2,
+   "name_string": 26
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 190,
+   "stats_frame": 1,
+   "name_string": 27
+  },
+  {
+   "status_changed": "statdraw_query_tanker",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 18,
+   "stats_frame": 1,
+   "name_string": 245
+  },
+  {
+   "status_changed": "statdraw_query_tanker",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 19,
+   "stats_frame": 1,
+   "name_string": 246
+  },
+  {
+   "status_changed": "statdraw_query_transport",
+   "status_update": "statdraw_draw_transport",
+   "icon": 20,
+   "stats_frame": 1,
+   "name_string": 247
+  },
+  {
+   "status_changed": "statdraw_query_transport",
+   "status_update": "statdraw_draw_transport",
+   "icon": 21,
+   "stats_frame": 1,
+   "name_string": 248
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 22,
+   "stats_frame": 1,
+   "name_string": 32
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 23,
+   "stats_frame": 1,
+   "name_string": 33
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 24,
+   "stats_frame": 1,
+   "name_string": 34
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 25,
+   "stats_frame": 1,
+   "name_string": 35
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 192,
+   "stats_frame": 1,
+   "name_string": 37
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 26,
+   "stats_frame": 1,
+   "name_string": 40
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_destroyer",
+   "icon": 27,
+   "stats_frame": 1,
+   "name_string": 41
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 28,
+   "stats_frame": 1,
+   "name_string": 42
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 29,
+   "stats_frame": 1,
+   "name_string": 43
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 30,
+   "stats_frame": 1,
+   "name_string": 44
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 31,
+   "stats_frame": 1,
+   "name_string": 45
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 195,
+   "stats_frame": 1,
+   "name_string": 46
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 111,
+   "stats_frame": 1,
+   "name_string": 267
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 188,
+   "stats_frame": 1,
+   "name_string": 48
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 186,
+   "stats_frame": 1,
+   "name_string": 49
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 0
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 36,
+   "stats_frame": 1,
+   "name_string": 51
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 32,
+   "stats_frame": 1,
+   "name_string": 52
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 33,
+   "stats_frame": 1,
+   "name_string": 53
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 34,
+   "stats_frame": 1,
+   "name_string": 54
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_archer",
+   "icon": 35,
+   "stats_frame": 1,
+   "name_string": 55
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 0
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_grunt",
+   "icon": 114,
+   "stats_frame": 1,
+   "name_string": 57
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 37,
+   "stats_frame": 1,
+   "name_string": 58
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 115,
+   "stats_frame": 1,
+   "name_string": 59
+  },
+  {
+   "status_changed": "statdraw_query_farm",
+   "status_update": "statdraw_draw_farm",
+   "icon": 38,
+   "stats_frame": 1,
+   "name_string": 60
+  },
+  {
+   "status_changed": "statdraw_query_farm",
+   "status_update": "statdraw_draw_farm",
+   "icon": 39,
+   "stats_frame": 1,
+   "name_string": 61
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 42,
+   "stats_frame": 3,
+   "name_string": 249
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 43,
+   "stats_frame": 3,
+   "name_string": 250
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_church",
+   "icon": 62,
+   "stats_frame": 3,
+   "name_string": 64
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_church",
+   "icon": 63,
+   "stats_frame": 3,
+   "name_string": 65
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_scout_tower",
+   "icon": 60,
+   "stats_frame": 3,
+   "name_string": 66
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_scout_tower",
+   "icon": 61,
+   "stats_frame": 3,
+   "name_string": 67
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 56,
+   "stats_frame": 3,
+   "name_string": 68
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 57,
+   "stats_frame": 3,
+   "name_string": 69
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 58,
+   "stats_frame": 3,
+   "name_string": 70
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 59,
+   "stats_frame": 3,
+   "name_string": 71
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 72,
+   "stats_frame": 3,
+   "name_string": 72
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_barracks",
+   "icon": 73,
+   "stats_frame": 3,
+   "name_string": 73
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_shipyard",
+   "icon": 48,
+   "stats_frame": 3,
+   "name_string": 251
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_shipyard",
+   "icon": 49,
+   "stats_frame": 3,
+   "name_string": 252
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 40,
+   "stats_frame": 3,
+   "name_string": 76
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 41,
+   "stats_frame": 3,
+   "name_string": 77
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_mill",
+   "icon": 44,
+   "stats_frame": 3,
+   "name_string": 78
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_mill",
+   "icon": 45,
+   "stats_frame": 3,
+   "name_string": 79
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_smith",
+   "icon": 52,
+   "stats_frame": 3,
+   "name_string": 253
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_smith",
+   "icon": 53,
+   "stats_frame": 3,
+   "name_string": 254
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_mage_tower",
+   "icon": 64,
+   "stats_frame": 3,
+   "name_string": 261
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_mage_tower",
+   "icon": 65,
+   "stats_frame": 3,
+   "name_string": 262
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_smith",
+   "icon": 46,
+   "stats_frame": 3,
+   "name_string": 255
+  },
+  {
+   "status_changed": "statdraw_query_barracks",
+   "status_update": "statdraw_draw_smith",
+   "icon": 47,
+   "stats_frame": 3,
+   "name_string": 256
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_refinery",
+   "icon": 50,
+   "stats_frame": 3,
+   "name_string": 257
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_refinery",
+   "icon": 51,
+   "stats_frame": 3,
+   "name_string": 258
+  },
+  {
+   "status_changed": "statdraw_query_oilrig",
+   "status_update": "statdraw_draw_oilrig",
+   "icon": 54,
+   "stats_frame": 3,
+   "name_string": 259
+  },
+  {
+   "status_changed": "statdraw_query_oilrig",
+   "status_update": "statdraw_draw_oilrig",
+   "icon": 55,
+   "stats_frame": 3,
+   "name_string": 260
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 66,
+   "stats_frame": 3,
+   "name_string": 90
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 67,
+   "stats_frame": 3,
+   "name_string": 91
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 70,
+   "stats_frame": 3,
+   "name_string": 92
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_town_hall",
+   "icon": 71,
+   "stats_frame": 3,
+   "name_string": 93
+  },
+  {
+   "status_changed": "statdraw_query_mine",
+   "status_update": "statdraw_draw_mine",
+   "icon": 74,
+   "stats_frame": 1,
+   "name_string": 94
+  },
+  {
+   "status_changed": "statdraw_query_oilrig",
+   "status_update": "statdraw_draw_oilrig",
+   "icon": 79,
+   "stats_frame": 3,
+   "name_string": 95
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 0
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 0
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_attack_tower",
+   "icon": 75,
+   "stats_frame": 3,
+   "name_string": 263
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_attack_tower",
+   "icon": 77,
+   "stats_frame": 3,
+   "name_string": 264
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_attack_tower",
+   "icon": 76,
+   "stats_frame": 3,
+   "name_string": 265
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_attack_tower",
+   "icon": 78,
+   "stats_frame": 3,
+   "name_string": 266
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 81,
+   "stats_frame": 1,
+   "name_string": 102
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 80,
+   "stats_frame": 3,
+   "name_string": 103
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 82,
+   "stats_frame": 1,
+   "name_string": 104
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 92,
+   "stats_frame": 3,
+   "name_string": 105
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "icon": 93,
+   "stats_frame": 3,
+   "name_string": 105
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 5
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 0,
+   "name_string": 5
+  }
+ ],
+ "functions": {
+  "bf_always": 278768,
+  "bf_single": 277984,
+  "bf_not_comp": 278000,
+  "bf_stop_upgrade": 278032,
+  "bf_stop_unit": 278064,
+  "bf_build_Arrows": 278096,
+  "bf_has_Arrows": 278176,
+  "bf_build_Swords": 278208,
+  "bf_build_catdmg": 278288,
+  "bf_build_ranger": 278368,
+  "bf_build_longbow": 278480,
+  "bf_build_scouts": 278576,
+  "bf_build_marks": 278672,
+  "bf_can_attack": null,
+  "bf_has_Swords": 278784,
+  "bf_build_Shields": 278816,
+  "bf_has_Shields": 278896,
+  "bf_build_boat_attack": 278928,
+  "bf_has_boat_attack": 279008,
+  "bf_build_boat_armor": 279040,
+  "bf_has_boat_armor": 279120,
+  "bf_attack_ground": 279168,
+  "bf_upgrade_townhall": 279216,
+  "bf_upgrade_tower": 279408,
+  "bf_build_Spell": 279488,
+  "bf_build_CSpell": 279568,
+  "bf_has_spell": 279664,
+  "bf_peon_ok": 279712,
+  "bf_sp_ok": 279760,
+  "bf_rang_ok": 279840,
+  "bf_gr_ok": 279920,
+  "bf_cat_ok": 279968,
+  "bf_kni_ok": 280048,
+  "bf_cleric_ok": 280144,
+  "bf_wiz_ok": 280240,
+  "bf_tanker_ok": 280288,
+  "bf_destroyer_ok": 280336,
+  "bf_transport_ok": 280384,
+  "bf_battleship_ok": 280464,
+  "bf_sub_ok": 280544,
+  "bf_flyer_ok": 280624,
+  "bf_demoteam_ok": 280704,
+  "bf_dragon_ok": 280784,
+  "bf_wall_ok": 281744,
+  "bf_thall_ok": 281808,
+  "bf_mill_ok": 281840,
+  "bf_smith_ok": 281888,
+  "bf_farm_ok": 281936,
+  "bf_barrack_ok": 281984,
+  "bf_tower_ok": 282032,
+  "bf_wood": 282080,
+  "bf_shipyard_ok": 282240,
+  "bf_foundry_ok": 282304,
+  "bf_refinery_ok": 282368,
+  "bf_stable_ok": 282432,
+  "bf_inventor_ok": 282496,
+  "bf_church_ok": 282560,
+  "bf_wiz_tower_ok": 282608,
+  "bf_aviary_ok": 282656,
+  "bf_stone": 282704,
+  "bf_no_load": 282976,
+  "bf_load": 283040,
+  "bf_trans_has_passenger": 283104,
+  "bf_enhanced_mode": 277968,
+  "bldg_build_tech": 58960,
+  "bldg_build_spell": 59024,
+  "bldg_build_man": 59088,
+  "bldg_build_upgrade": 59152,
+  "order_stop_build": 221568,
+  "order_kill": 221584,
+  "order_guard": 221680,
+  "order_unload_all": 221712,
+  "order_patrol": 222848,
+  "order_move": 222864,
+  "order_attack_ground": 223232,
+  "order_stand_ground": 223520,
+  "order_attack": 223552,
+  "order_demolish": 223568,
+  "order_harvest": 223760,
+  "order_repair": 223856,
+  "order_return": 224048,
+  "order_place": 224128,
+  "placebox_off": 283184,
+  "order_spell": 270768,
+  "status_set_card": 304752,
+  "target_off": 283168,
+  "statdraw_query_none": 284416,
+  "statdraw_query_unit": 284496,
+  "statdraw_query_bldg": 290688,
+  "statdraw_query_peon": 291328,
+  "statdraw_query_tanker": 291584,
+  "statdraw_query_transport": 291808,
+  "statdraw_query_farm": 293936,
+  "statdraw_query_mine": 295360,
+  "statdraw_query_barracks": 296112,
+  "statdraw_query_oilrig": 303920,
+  "statdraw_draw_none": 284432,
+  "statdraw_draw_unit": 284656,
+  "statdraw_draw_grunt": 285600,
+  "statdraw_draw_catapult": 288288,
+  "statdraw_draw_archer": 289664,
+  "statdraw_draw_bldg": 290816,
+  "statdraw_draw_peon": 291552,
+  "statdraw_draw_transport": 292016,
+  "statdraw_draw_destroyer": 292928,
+  "statdraw_draw_farm": 294192,
+  "statdraw_draw_mine": 295504,
+  "statdraw_draw_barracks": 296256,
+  "statdraw_draw_town_hall": 297008,
+  "statdraw_draw_shipyard": 297840,
+  "statdraw_draw_mill": 298592,
+  "statdraw_draw_smith": 299392,
+  "statdraw_draw_church": 300096,
+  "statdraw_draw_mage_tower": 300800,
+  "statdraw_draw_scout_tower": 301616,
+  "statdraw_draw_attack_tower": 302384,
+  "statdraw_draw_refinery": 303200,
+  "statdraw_draw_oilrig": 304064
+ }
+}

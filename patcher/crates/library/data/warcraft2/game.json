@@ -1,0 +1,730 @@
+{
+ "game": "warcraft2",
+ "limits": {
+  "unit": {
+   "min": 0,
+   "max": 109
+  },
+  "table_entries": 120,
+  "max_set_id": 999,
+  "tech": {
+   "min": 0,
+   "max": 20
+  },
+  "upgrade": {
+   "min": 0,
+   "max": 51
+  },
+  "order": {
+   "min": 0,
+   "max": 60
+  },
+  "position": {
+   "min": 0,
+   "max": 8
+  },
+  "icon": {
+   "min": 0,
+   "max": 65535
+  },
+  "string": {
+   "min": 0,
+   "max": 65535
+  },
+  "condition_variable": {
+   "min": 0,
+   "max": 255
+  },
+  "action_variable": {
+   "min": 0,
+   "max": 255
+  }
+ },
+ "conditions": [
+  {
+   "name": "bf_always",
+   "variable": null
+  },
+  {
+   "name": "bf_single",
+   "variable": null
+  },
+  {
+   "name": "bf_not_comp",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_upgrade",
+   "variable": null
+  },
+  {
+   "name": "bf_stop_unit",
+   "variable": null
+  },
+  {
+   "name": "bf_build_Arrows",
+   "variable": "number"
+  },
+  {
+   "name": "bf_has_Arrows",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_Swords",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_catdmg",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_ranger",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_longbow",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_scouts",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_marks",
+   "variable": "number"
+  },
+  {
+   "name": "bf_can_attack",
+   "variable": null
+  },
+  {
+   "name": "bf_has_Swords",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_Shields",
+   "variable": "number"
+  },
+  {
+   "name": "bf_has_Shields",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_boat_attack",
+   "variable": "number"
+  },
+  {
+   "name": "bf_has_boat_attack",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_boat_armor",
+   "variable": "number"
+  },
+  {
+   "name": "bf_has_boat_armor",
+   "variable": "number"
+  },
+  {
+   "name": "bf_attack_ground",
+   "variable": null
+  },
+  {
+   "name": "bf_upgrade_townhall",
+   "variable": "number"
+  },
+  {
+   "name": "bf_upgrade_tower",
+   "variable": "number"
+  },
+  {
+   "name": "bf_build_Spell",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_build_CSpell",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_has_spell",
+   "variable": "tech"
+  },
+  {
+   "name": "bf_peon_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_sp_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_rang_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_gr_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_cat_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_kni_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_cleric_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_wiz_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_tanker_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_destroyer_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_transport_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_battleship_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_sub_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_flyer_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_demoteam_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_dragon_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_wall_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_thall_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_mill_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_smith_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_farm_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_barrack_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_tower_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_wood",
+   "variable": null
+  },
+  {
+   "name": "bf_shipyard_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_foundry_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_refinery_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_stable_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_inventor_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_church_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_wiz_tower_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_aviary_ok",
+   "variable": null
+  },
+  {
+   "name": "bf_stone",
+   "variable": null
+  },
+  {
+   "name": "bf_no_load",
+   "variable": null
+  },
+  {
+   "name": "bf_load",
+   "variable": null
+  },
+  {
+   "name": "bf_trans_has_passenger",
+   "variable": null
+  },
+  {
+   "name": "bf_enhanced_mode",
+   "variable": null
+  }
+ ],
+ "actions": [
+  {
+   "name": "bldg_build_tech",
+   "variable": "upgrade"
+  },
+  {
+   "name": "bldg_build_spell",
+   "variable": "upgrade"
+  },
+  {
+   "name": "bldg_build_man",
+   "variable": "unit"
+  },
+  {
+   "name": "bldg_build_upgrade",
+   "variable": "unit"
+  },
+  {
+   "name": "order_stop_build",
+   "variable": null
+  },
+  {
+   "name": "order_kill",
+   "variable": null
+  },
+  {
+   "name": "order_guard",
+   "variable": null
+  },
+  {
+   "name": "order_unload_all",
+   "variable": null
+  },
+  {
+   "name": "order_patrol",
+   "variable": null
+  },
+  {
+   "name": "order_move",
+   "variable": null
+  },
+  {
+   "name": "order_attack_ground",
+   "variable": null
+  },
+  {
+   "name": "order_stand_ground",
+   "variable": null
+  },
+  {
+   "name": "order_attack",
+   "variable": null
+  },
+  {
+   "name": "order_demolish",
+   "variable": null
+  },
+  {
+   "name": "order_harvest",
+   "variable": null
+  },
+  {
+   "name": "order_repair",
+   "variable": null
+  },
+  {
+   "name": "order_return",
+   "variable": null
+  },
+  {
+   "name": "order_place",
+   "variable": "unit"
+  },
+  {
+   "name": "placebox_off",
+   "variable": "number"
+  },
+  {
+   "name": "order_spell",
+   "variable": "order"
+  },
+  {
+   "name": "status_set_card",
+   "variable": "table_entry"
+  },
+  {
+   "name": "target_off",
+   "variable": "number"
+  }
+ ],
+ "status_functions": [
+  {
+   "name": "statdraw_query_none",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_unit",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_bldg",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_peon",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_tanker",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_transport",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_farm",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_mine",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_barracks",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_oilrig",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_draw_none",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_unit",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_grunt",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_catapult",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_archer",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_bldg",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_peon",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_transport",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_destroyer",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_farm",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_mine",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_barracks",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_town_hall",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_shipyard",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_mill",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_smith",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_church",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_mage_tower",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_scout_tower",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_attack_tower",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_refinery",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_oilrig",
+   "kind": "status_update"
+  }
+ ],
+ "opcodes": [],
+ "constants": [
+  {
+   "name": "flame_shield_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 69722,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "flame_shield_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272736,
+        "encoding": "u16",
+        "expected": [
+         244,
+         1
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "haste_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 32767
+    }
+   },
+   "versions": {
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275379,
+        "encoding": "u16",
+        "expected": [
+         232,
+         3
+        ]
+       },
+       {
+        "rva": 275384,
+        "encoding": "u32",
+        "expected": [
+         232,
+         3,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "slow_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 32767
+    }
+   },
+   "versions": {
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272995,
+        "encoding": "neg16",
+        "expected": [
+         24,
+         252
+        ]
+       },
+       {
+        "rva": 273000,
+        "encoding": "neg32",
+        "expected": [
+         24,
+         252,
+         255,
+         255
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271442,
+        "encoding": "u16",
+        "expected": [
+         50,
+         0
+        ]
+       },
+       {
+        "rva": 271459,
+        "encoding": "neg8",
+        "expected": [
+         206
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "farm_food",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "food_1",
+      "food_2",
+      "food_4",
+      "food_8"
+     ]
+    }
+   },
+   "versions": {
+    "2.02": {
+     "options": {
+      "sites": [
+       {
+        "rva": 95504,
+        "expected": [
+         141
+        ]
+       }
+      ],
+      "options": {
+       "food_1": [
+        [
+         13
+        ]
+       ],
+       "food_2": [
+        [
+         77
+        ]
+       ],
+       "food_4": [
+        [
+         141
+        ]
+       ],
+       "food_8": [
+        [
+         205
+        ]
+       ],
+       "original": [
+        [
+         141
+        ]
+       ]
+      }
+     }
+    }
+   }
+  }
+ ]
+}

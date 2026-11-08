@@ -1,0 +1,152 @@
+{
+ "id": "2.02",
+ "identity": {
+  "timestamp": 1046088588,
+  "product_version": [
+   2,
+   0,
+   2,
+   0
+  ]
+ },
+ "button_table": {
+  "rva": 4096,
+  "entries": 4,
+  "card": "warcraft2_bne",
+  "button": "warcraft2_bne"
+ },
+ "status_table": {
+  "rva": 4352,
+  "layout": "warcraft2_bne"
+ },
+ "entries": {
+  "0": {
+   "number": 0,
+   "equivalent": null
+  },
+  "1": {
+   "number": 1,
+   "equivalent": null
+  },
+  "2": {
+   "number": 2,
+   "equivalent": null
+  },
+  "3": {
+   "number": 3,
+   "equivalent": null
+  }
+ },
+ "sets": {
+  "0": {
+   "array": 8192,
+   "entries": [
+    0,
+    1
+   ],
+   "buttons": [
+    {
+     "position": 0,
+     "icon": 83,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 392,
+     "highlighted": 2
+    },
+    {
+     "position": 1,
+     "icon": 164,
+     "condition": "bf_has_upgrade",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    },
+    {
+     "position": 1,
+     "icon": 165,
+     "condition": "bf_has_upgrade",
+     "condition_variable": 1,
+     "action": "order_move",
+     "action_variable": 0,
+     "string": 393,
+     "highlighted": 1
+    }
+   ]
+  },
+  "2": {
+   "array": 8256,
+   "entries": [
+    2
+   ],
+   "buttons": [
+    {
+     "position": 6,
+     "icon": 90,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 3,
+     "string": 420,
+     "highlighted": 0
+    }
+   ]
+  },
+  "3": {
+   "array": 8288,
+   "entries": [
+    3
+   ],
+   "buttons": [
+    {
+     "position": 8,
+     "icon": 91,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 0,
+     "string": 430,
+     "highlighted": 0
+    }
+   ]
+  }
+ },
+ "units": [
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 2,
+   "stats_frame": 1,
+   "name_string": 2
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "icon": 3,
+   "stats_frame": 1,
+   "name_string": 3
+  },
+  {
+   "status_changed": "statdraw_query_none",
+   "status_update": "statdraw_draw_none",
+   "icon": 0,
+   "stats_frame": 1,
+   "name_string": 4
+  }
+ ],
+ "functions": {
+  "bf_always": 12288,
+  "bf_has_upgrade": 12304,
+  "bf_can_attack": null,
+  "order_move": 12336,
+  "statcmd_set_ctrl": 12352,
+  "order_spell": 12368,
+  "statdraw_query_unit": 12384,
+  "statdraw_query_none": 12400,
+  "statdraw_draw_unit": 12416,
+  "statdraw_draw_none": 12432
+ }
+}

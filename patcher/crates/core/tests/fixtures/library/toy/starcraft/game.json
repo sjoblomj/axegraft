@@ -1,0 +1,612 @@
+{
+ "game": "starcraft",
+ "limits": {
+  "unit": {
+   "min": 0,
+   "max": 3
+  },
+  "table_entries": 6,
+  "max_set_id": 999,
+  "tech": {
+   "min": 0,
+   "max": 3
+  },
+  "upgrade": {
+   "min": 0,
+   "max": 3
+  },
+  "order": {
+   "min": 0,
+   "max": 9
+  },
+  "position": {
+   "min": 1,
+   "max": 9
+  },
+  "icon": {
+   "min": 0,
+   "max": 65535
+  },
+  "string": {
+   "min": 0,
+   "max": 65535
+  },
+  "condition_variable": {
+   "min": 0,
+   "max": 255
+  },
+  "action_variable": {
+   "min": 0,
+   "max": 65535
+  }
+ },
+ "conditions": [
+  {
+   "name": "bf_always",
+   "variable": null
+  },
+  {
+   "name": "bf_research",
+   "variable": "tech"
+  }
+ ],
+ "actions": [
+  {
+   "name": "order_move",
+   "variable": null
+  },
+  {
+   "name": "order_research",
+   "variable": "tech"
+  },
+  {
+   "name": "statcmd_set_ctrl",
+   "variable": "table_entry"
+  },
+  {
+   "name": "order_replay",
+   "variable": null
+  }
+ ],
+ "status_functions": [
+  {
+   "name": "statdraw_query_unit",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_query_never",
+   "kind": "status_changed"
+  },
+  {
+   "name": "statdraw_draw_unit",
+   "kind": "status_update"
+  },
+  {
+   "name": "statdraw_draw_none",
+   "kind": "status_update"
+  }
+ ],
+ "opcodes": [
+  {
+   "name": "or",
+   "code": 65281,
+   "parameter": null,
+   "role": "or",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "current_unit_is",
+   "code": 65282,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "must_have",
+   "code": 65283,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "must_have_addon",
+   "code": 65284,
+   "parameter": "unit",
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "not_lifted_off",
+   "code": 65285,
+   "parameter": null,
+   "role": "condition",
+   "allowed_in": [
+    "unit",
+    "upgrade",
+    "tech_research",
+    "tech_use",
+    "order"
+   ]
+  },
+  {
+   "name": "upgrade_level_1",
+   "code": 65311,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "upgrade_level_2",
+   "code": 65312,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "upgrade_level_3",
+   "code": 65313,
+   "parameter": null,
+   "role": "level",
+   "allowed_in": [
+    "upgrade"
+   ]
+  },
+  {
+   "name": "is_researched",
+   "code": 65317,
+   "parameter": "tech",
+   "role": "condition",
+   "allowed_in": [
+    "unit"
+   ]
+  },
+  {
+   "name": "end_sublist",
+   "code": 65535,
+   "parameter": null,
+   "role": "end_sublist",
+   "allowed_in": [
+    "upgrade"
+   ]
+  }
+ ],
+ "constants": [
+  {
+   "name": "max_supply",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24576,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         144,
+         1
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24576,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         144,
+         1
+        ]
+       },
+       {
+        "rva": 24592,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         144,
+         1
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "spell_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 32767
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24608,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         50,
+         0
+        ]
+       },
+       {
+        "rva": 24612,
+        "encoding": "neg16",
+        "scale": 1,
+        "expected": [
+         206,
+         255
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24608,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         50,
+         0
+        ]
+       },
+       {
+        "rva": 24612,
+        "encoding": "neg16",
+        "scale": 1,
+        "expected": [
+         206,
+         255
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "team_multiplier",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24624,
+        "encoding": "u8",
+        "scale": 1,
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": "not_applicable"
+   }
+  },
+  {
+   "name": "web_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24640,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         104,
+         1
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24640,
+        "encoding": "u16",
+        "scale": 1,
+        "expected": [
+         132,
+         3
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "nuke_cost",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "1.16.1": "unknown",
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24688,
+        "encoding": "u8",
+        "scale": 1,
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "start_minerals",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24656,
+        "encoding": {
+         "byte_of": {
+          "index": 0,
+          "width": 2
+         }
+        },
+        "scale": 1,
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 24664,
+        "encoding": {
+         "byte_of": {
+          "index": 1,
+          "width": 2
+         }
+        },
+        "scale": 1,
+        "expected": [
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24656,
+        "encoding": {
+         "byte_of": {
+          "index": 0,
+          "width": 2
+         }
+        },
+        "scale": 1,
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 24664,
+        "encoding": {
+         "byte_of": {
+          "index": 1,
+          "width": 2
+         }
+        },
+        "scale": 1,
+        "expected": [
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "sight_bonus",
+   "kind": {
+    "number": {
+     "min": -128,
+     "max": 127
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24672,
+        "encoding": "i8",
+        "scale": 1,
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    },
+    "1.07": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 24672,
+        "encoding": "i8",
+        "scale": 1,
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "cloak_energy",
+   "kind": {
+    "options": {
+     "options": [
+      "original",
+      "regain"
+     ]
+    }
+   },
+   "versions": {
+    "1.16.1": {
+     "options": {
+      "sites": [
+       {
+        "rva": 28672,
+        "expected": [
+         116,
+         5
+        ]
+       },
+       {
+        "rva": 28928,
+        "expected": [
+         15,
+         132
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         116,
+         5
+        ],
+        [
+         15,
+         132
+        ]
+       ],
+       "regain": [
+        [
+         144,
+         144
+        ],
+        [
+         15,
+         133
+        ]
+       ]
+      }
+     }
+    },
+    "1.07": {
+     "options": {
+      "sites": [
+       {
+        "rva": 28672,
+        "expected": [
+         117,
+         3
+        ]
+       },
+       {
+        "rva": 28928,
+        "expected": [
+         235,
+         0
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         117,
+         3
+        ],
+        [
+         235,
+         0
+        ]
+       ],
+       "regain": [
+        [
+         144,
+         144
+        ],
+        [
+         235,
+         16
+        ]
+       ]
+      }
+     }
+    }
+   }
+  }
+ ]
+}

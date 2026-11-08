@@ -1,0 +1,18 @@
+[package]
+name = "axegraft-patcher-library"
+description = "AxeGraft Patcher's game library: the data for each supported version, validated and compiled in at build time."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+build = "build.rs"
+
+[dependencies]
+axegraft-patcher-core.workspace = true
+
+[build-dependencies]
+axegraft-patcher-core.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

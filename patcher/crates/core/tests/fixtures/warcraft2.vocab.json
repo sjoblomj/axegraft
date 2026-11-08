@@ -1,0 +1,41 @@
+{
+  "game": "warcraft2",
+  "limits": {
+    "unit": {"min": 0, "max": 109},
+    "table_entries": 120,
+    "max_set_id": 999,
+    "tech": {"min": 0, "max": 20},
+    "upgrade": {"min": 0, "max": 51},
+    "order": {"min": 0, "max": 60},
+    "position": {"min": 0, "max": 8},
+    "icon": {"min": 0, "max": 65535},
+    "string": {"min": 0, "max": 65535},
+    "condition_variable": {"min": 0, "max": 255},
+    "action_variable": {"min": 0, "max": 255}
+  },
+  "conditions": [
+    {"name": "bf_always", "variable": null},
+    {"name": "bf_has_upgrade", "variable": "upgrade"},
+    {"name": "bf_has_spell", "variable": "tech"}
+  ],
+  "actions": [
+    {"name": "order_move", "variable": null},
+    {"name": "order_train", "variable": "unit"},
+    {"name": "statcmd_set_ctrl", "variable": "table_entry"},
+    {"name": "order_spell", "variable": "order"},
+    {"name": "order_research_spell", "variable": "tech"}
+  ],
+  "status_functions": [
+    {"name": "statdraw_query_unit", "kind": "status_changed"},
+    {"name": "statdraw_draw_unit", "kind": "status_update"}
+  ],
+  "opcodes": [],
+  "sets": [
+    {"id": 0, "entries": [0]},
+    {"id": 2, "entries": [2]},
+    {"id": 111, "entries": [111]}
+  ],
+  "constants": [
+    {"name": "mana_cycles", "kind": {"number": {"min": 0, "max": 255}}}
+  ]
+}

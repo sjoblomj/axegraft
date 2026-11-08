@@ -169,7 +169,7 @@ Paths come from `AXEGRAFT_PATCHER_MPQDRAFT_DIR` and a per-version executable lis
 
 ### 13. Starter data set
 
-The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
+The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding the real data uses. `i16` and `byte_of` have no real location yet, so only the toy library covers them. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
 
 ## Risks / Trade-offs
 
