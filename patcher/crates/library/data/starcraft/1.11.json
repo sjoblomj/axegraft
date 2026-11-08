@@ -1,0 +1,8716 @@
+{
+ "id": "1.11",
+ "identity": {
+  "timestamp": 1083038942,
+  "product_version": [
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "button_table": {
+  "rva": 1006088,
+  "entries": 248,
+  "card": "starcraft",
+  "button": "starcraft"
+ },
+ "status_table": {
+  "rva": 1009064,
+  "layout": "starcraft"
+ },
+ "entries": {
+  "0": {
+   "number": 0,
+   "equivalent": null
+  },
+  "1": {
+   "number": 1,
+   "equivalent": null
+  },
+  "2": {
+   "number": 2,
+   "equivalent": null
+  },
+  "3": {
+   "number": 3,
+   "equivalent": null
+  },
+  "4": {
+   "number": 4,
+   "equivalent": null
+  },
+  "5": {
+   "number": 5,
+   "equivalent": null
+  },
+  "6": {
+   "number": 6,
+   "equivalent": null
+  },
+  "7": {
+   "number": 7,
+   "equivalent": null
+  },
+  "8": {
+   "number": 8,
+   "equivalent": null
+  },
+  "9": {
+   "number": 9,
+   "equivalent": null
+  },
+  "10": {
+   "number": 10,
+   "equivalent": null
+  },
+  "11": {
+   "number": 11,
+   "equivalent": null
+  },
+  "12": {
+   "number": 12,
+   "equivalent": null
+  },
+  "13": {
+   "number": 13,
+   "equivalent": null
+  },
+  "14": {
+   "number": 14,
+   "equivalent": null
+  },
+  "15": {
+   "number": 15,
+   "equivalent": null
+  },
+  "16": {
+   "number": 16,
+   "equivalent": 1
+  },
+  "17": {
+   "number": 17,
+   "equivalent": null
+  },
+  "18": {
+   "number": 18,
+   "equivalent": null
+  },
+  "19": {
+   "number": 19,
+   "equivalent": 2
+  },
+  "20": {
+   "number": 20,
+   "equivalent": null
+  },
+  "21": {
+   "number": 21,
+   "equivalent": null
+  },
+  "22": {
+   "number": 22,
+   "equivalent": null
+  },
+  "23": {
+   "number": 23,
+   "equivalent": null
+  },
+  "24": {
+   "number": 24,
+   "equivalent": null
+  },
+  "25": {
+   "number": 25,
+   "equivalent": null
+  },
+  "26": {
+   "number": 26,
+   "equivalent": null
+  },
+  "27": {
+   "number": 27,
+   "equivalent": null
+  },
+  "28": {
+   "number": 28,
+   "equivalent": null
+  },
+  "29": {
+   "number": 29,
+   "equivalent": null
+  },
+  "30": {
+   "number": 30,
+   "equivalent": null
+  },
+  "31": {
+   "number": 31,
+   "equivalent": null
+  },
+  "32": {
+   "number": 32,
+   "equivalent": null
+  },
+  "33": {
+   "number": 33,
+   "equivalent": null
+  },
+  "34": {
+   "number": 34,
+   "equivalent": null
+  },
+  "35": {
+   "number": 35,
+   "equivalent": null
+  },
+  "36": {
+   "number": 36,
+   "equivalent": null
+  },
+  "37": {
+   "number": 37,
+   "equivalent": null
+  },
+  "38": {
+   "number": 38,
+   "equivalent": null
+  },
+  "39": {
+   "number": 39,
+   "equivalent": null
+  },
+  "40": {
+   "number": 40,
+   "equivalent": null
+  },
+  "41": {
+   "number": 41,
+   "equivalent": null
+  },
+  "42": {
+   "number": 42,
+   "equivalent": null
+  },
+  "43": {
+   "number": 43,
+   "equivalent": null
+  },
+  "44": {
+   "number": 44,
+   "equivalent": null
+  },
+  "45": {
+   "number": 45,
+   "equivalent": null
+  },
+  "46": {
+   "number": 46,
+   "equivalent": null
+  },
+  "47": {
+   "number": 47,
+   "equivalent": null
+  },
+  "48": {
+   "number": 48,
+   "equivalent": null
+  },
+  "49": {
+   "number": 49,
+   "equivalent": null
+  },
+  "50": {
+   "number": 50,
+   "equivalent": null
+  },
+  "51": {
+   "number": 51,
+   "equivalent": null
+  },
+  "52": {
+   "number": 52,
+   "equivalent": null
+  },
+  "53": {
+   "number": 53,
+   "equivalent": null
+  },
+  "54": {
+   "number": 54,
+   "equivalent": null
+  },
+  "55": {
+   "number": 55,
+   "equivalent": null
+  },
+  "56": {
+   "number": 56,
+   "equivalent": null
+  },
+  "57": {
+   "number": 57,
+   "equivalent": null
+  },
+  "58": {
+   "number": 58,
+   "equivalent": null
+  },
+  "59": {
+   "number": 59,
+   "equivalent": null
+  },
+  "60": {
+   "number": 60,
+   "equivalent": null
+  },
+  "61": {
+   "number": 61,
+   "equivalent": null
+  },
+  "62": {
+   "number": 62,
+   "equivalent": null
+  },
+  "63": {
+   "number": 63,
+   "equivalent": null
+  },
+  "64": {
+   "number": 64,
+   "equivalent": null
+  },
+  "65": {
+   "number": 65,
+   "equivalent": null
+  },
+  "66": {
+   "number": 66,
+   "equivalent": null
+  },
+  "67": {
+   "number": 67,
+   "equivalent": null
+  },
+  "68": {
+   "number": 68,
+   "equivalent": null
+  },
+  "69": {
+   "number": 69,
+   "equivalent": null
+  },
+  "70": {
+   "number": 70,
+   "equivalent": null
+  },
+  "71": {
+   "number": 71,
+   "equivalent": null
+  },
+  "72": {
+   "number": 72,
+   "equivalent": null
+  },
+  "73": {
+   "number": 73,
+   "equivalent": null
+  },
+  "74": {
+   "number": 74,
+   "equivalent": null
+  },
+  "75": {
+   "number": 75,
+   "equivalent": null
+  },
+  "76": {
+   "number": 76,
+   "equivalent": null
+  },
+  "77": {
+   "number": 77,
+   "equivalent": null
+  },
+  "78": {
+   "number": 78,
+   "equivalent": null
+  },
+  "79": {
+   "number": 79,
+   "equivalent": null
+  },
+  "80": {
+   "number": 80,
+   "equivalent": null
+  },
+  "81": {
+   "number": 81,
+   "equivalent": null
+  },
+  "82": {
+   "number": 82,
+   "equivalent": null
+  },
+  "83": {
+   "number": 83,
+   "equivalent": null
+  },
+  "84": {
+   "number": 84,
+   "equivalent": null
+  },
+  "85": {
+   "number": 85,
+   "equivalent": null
+  },
+  "86": {
+   "number": 86,
+   "equivalent": null
+  },
+  "87": {
+   "number": 87,
+   "equivalent": null
+  },
+  "88": {
+   "number": 88,
+   "equivalent": null
+  },
+  "89": {
+   "number": 89,
+   "equivalent": null
+  },
+  "90": {
+   "number": 90,
+   "equivalent": null
+  },
+  "91": {
+   "number": 91,
+   "equivalent": null
+  },
+  "92": {
+   "number": 92,
+   "equivalent": null
+  },
+  "93": {
+   "number": 93,
+   "equivalent": null
+  },
+  "94": {
+   "number": 94,
+   "equivalent": null
+  },
+  "95": {
+   "number": 95,
+   "equivalent": null
+  },
+  "96": {
+   "number": 96,
+   "equivalent": null
+  },
+  "97": {
+   "number": 97,
+   "equivalent": null
+  },
+  "98": {
+   "number": 98,
+   "equivalent": null
+  },
+  "99": {
+   "number": 99,
+   "equivalent": null
+  },
+  "100": {
+   "number": 100,
+   "equivalent": null
+  },
+  "101": {
+   "number": 101,
+   "equivalent": null
+  },
+  "102": {
+   "number": 102,
+   "equivalent": null
+  },
+  "103": {
+   "number": 103,
+   "equivalent": null
+  },
+  "104": {
+   "number": 104,
+   "equivalent": null
+  },
+  "105": {
+   "number": 105,
+   "equivalent": null
+  },
+  "106": {
+   "number": 106,
+   "equivalent": null
+  },
+  "107": {
+   "number": 107,
+   "equivalent": null
+  },
+  "108": {
+   "number": 108,
+   "equivalent": null
+  },
+  "109": {
+   "number": 109,
+   "equivalent": null
+  },
+  "110": {
+   "number": 110,
+   "equivalent": null
+  },
+  "111": {
+   "number": 111,
+   "equivalent": null
+  },
+  "112": {
+   "number": 112,
+   "equivalent": null
+  },
+  "113": {
+   "number": 113,
+   "equivalent": null
+  },
+  "114": {
+   "number": 114,
+   "equivalent": null
+  },
+  "115": {
+   "number": 115,
+   "equivalent": null
+  },
+  "116": {
+   "number": 116,
+   "equivalent": null
+  },
+  "117": {
+   "number": 117,
+   "equivalent": null
+  },
+  "118": {
+   "number": 118,
+   "equivalent": null
+  },
+  "119": {
+   "number": 119,
+   "equivalent": null
+  },
+  "120": {
+   "number": 120,
+   "equivalent": null
+  },
+  "121": {
+   "number": 121,
+   "equivalent": null
+  },
+  "122": {
+   "number": 122,
+   "equivalent": null
+  },
+  "123": {
+   "number": 123,
+   "equivalent": null
+  },
+  "124": {
+   "number": 124,
+   "equivalent": null
+  },
+  "125": {
+   "number": 125,
+   "equivalent": null
+  },
+  "126": {
+   "number": 126,
+   "equivalent": null
+  },
+  "127": {
+   "number": 127,
+   "equivalent": null
+  },
+  "128": {
+   "number": 128,
+   "equivalent": null
+  },
+  "129": {
+   "number": 129,
+   "equivalent": null
+  },
+  "130": {
+   "number": 130,
+   "equivalent": null
+  },
+  "131": {
+   "number": 131,
+   "equivalent": null
+  },
+  "132": {
+   "number": 132,
+   "equivalent": null
+  },
+  "133": {
+   "number": 133,
+   "equivalent": null
+  },
+  "134": {
+   "number": 134,
+   "equivalent": null
+  },
+  "135": {
+   "number": 135,
+   "equivalent": null
+  },
+  "136": {
+   "number": 136,
+   "equivalent": null
+  },
+  "137": {
+   "number": 137,
+   "equivalent": null
+  },
+  "138": {
+   "number": 138,
+   "equivalent": null
+  },
+  "139": {
+   "number": 139,
+   "equivalent": null
+  },
+  "140": {
+   "number": 140,
+   "equivalent": null
+  },
+  "141": {
+   "number": 141,
+   "equivalent": null
+  },
+  "142": {
+   "number": 142,
+   "equivalent": null
+  },
+  "143": {
+   "number": 143,
+   "equivalent": null
+  },
+  "144": {
+   "number": 144,
+   "equivalent": null
+  },
+  "145": {
+   "number": 145,
+   "equivalent": null
+  },
+  "146": {
+   "number": 146,
+   "equivalent": null
+  },
+  "147": {
+   "number": 147,
+   "equivalent": null
+  },
+  "148": {
+   "number": 148,
+   "equivalent": null
+  },
+  "149": {
+   "number": 149,
+   "equivalent": null
+  },
+  "150": {
+   "number": 150,
+   "equivalent": null
+  },
+  "151": {
+   "number": 151,
+   "equivalent": null
+  },
+  "152": {
+   "number": 152,
+   "equivalent": null
+  },
+  "153": {
+   "number": 153,
+   "equivalent": null
+  },
+  "154": {
+   "number": 154,
+   "equivalent": null
+  },
+  "155": {
+   "number": 155,
+   "equivalent": null
+  },
+  "156": {
+   "number": 156,
+   "equivalent": null
+  },
+  "157": {
+   "number": 157,
+   "equivalent": null
+  },
+  "158": {
+   "number": 158,
+   "equivalent": null
+  },
+  "159": {
+   "number": 159,
+   "equivalent": null
+  },
+  "160": {
+   "number": 160,
+   "equivalent": null
+  },
+  "161": {
+   "number": 161,
+   "equivalent": null
+  },
+  "162": {
+   "number": 162,
+   "equivalent": null
+  },
+  "163": {
+   "number": 163,
+   "equivalent": null
+  },
+  "164": {
+   "number": 164,
+   "equivalent": null
+  },
+  "165": {
+   "number": 165,
+   "equivalent": null
+  },
+  "166": {
+   "number": 166,
+   "equivalent": null
+  },
+  "167": {
+   "number": 167,
+   "equivalent": null
+  },
+  "168": {
+   "number": 168,
+   "equivalent": null
+  },
+  "169": {
+   "number": 169,
+   "equivalent": null
+  },
+  "170": {
+   "number": 170,
+   "equivalent": null
+  },
+  "171": {
+   "number": 171,
+   "equivalent": null
+  },
+  "172": {
+   "number": 172,
+   "equivalent": null
+  },
+  "173": {
+   "number": 173,
+   "equivalent": null
+  },
+  "174": {
+   "number": 174,
+   "equivalent": null
+  },
+  "175": {
+   "number": 175,
+   "equivalent": null
+  },
+  "176": {
+   "number": 176,
+   "equivalent": null
+  },
+  "177": {
+   "number": 177,
+   "equivalent": null
+  },
+  "178": {
+   "number": 178,
+   "equivalent": null
+  },
+  "179": {
+   "number": 179,
+   "equivalent": null
+  },
+  "180": {
+   "number": 180,
+   "equivalent": null
+  },
+  "181": {
+   "number": 181,
+   "equivalent": null
+  },
+  "182": {
+   "number": 182,
+   "equivalent": null
+  },
+  "183": {
+   "number": 183,
+   "equivalent": null
+  },
+  "184": {
+   "number": 184,
+   "equivalent": null
+  },
+  "185": {
+   "number": 185,
+   "equivalent": null
+  },
+  "186": {
+   "number": 186,
+   "equivalent": null
+  },
+  "187": {
+   "number": 187,
+   "equivalent": null
+  },
+  "188": {
+   "number": 188,
+   "equivalent": null
+  },
+  "189": {
+   "number": 189,
+   "equivalent": null
+  },
+  "190": {
+   "number": 190,
+   "equivalent": null
+  },
+  "191": {
+   "number": 191,
+   "equivalent": null
+  },
+  "192": {
+   "number": 192,
+   "equivalent": null
+  },
+  "193": {
+   "number": 193,
+   "equivalent": null
+  },
+  "194": {
+   "number": 194,
+   "equivalent": null
+  },
+  "195": {
+   "number": 195,
+   "equivalent": null
+  },
+  "196": {
+   "number": 196,
+   "equivalent": null
+  },
+  "197": {
+   "number": 197,
+   "equivalent": null
+  },
+  "198": {
+   "number": 198,
+   "equivalent": null
+  },
+  "199": {
+   "number": 199,
+   "equivalent": null
+  },
+  "200": {
+   "number": 200,
+   "equivalent": null
+  },
+  "201": {
+   "number": 201,
+   "equivalent": null
+  },
+  "202": {
+   "number": 202,
+   "equivalent": null
+  },
+  "203": {
+   "number": 203,
+   "equivalent": null
+  },
+  "204": {
+   "number": 204,
+   "equivalent": null
+  },
+  "205": {
+   "number": 205,
+   "equivalent": null
+  },
+  "206": {
+   "number": 206,
+   "equivalent": null
+  },
+  "207": {
+   "number": 207,
+   "equivalent": null
+  },
+  "208": {
+   "number": 208,
+   "equivalent": null
+  },
+  "209": {
+   "number": 209,
+   "equivalent": null
+  },
+  "210": {
+   "number": 210,
+   "equivalent": null
+  },
+  "211": {
+   "number": 211,
+   "equivalent": null
+  },
+  "212": {
+   "number": 212,
+   "equivalent": null
+  },
+  "213": {
+   "number": 213,
+   "equivalent": null
+  },
+  "214": {
+   "number": 214,
+   "equivalent": null
+  },
+  "215": {
+   "number": 215,
+   "equivalent": null
+  },
+  "216": {
+   "number": 216,
+   "equivalent": null
+  },
+  "217": {
+   "number": 217,
+   "equivalent": null
+  },
+  "218": {
+   "number": 218,
+   "equivalent": null
+  },
+  "219": {
+   "number": 219,
+   "equivalent": null
+  },
+  "220": {
+   "number": 220,
+   "equivalent": null
+  },
+  "221": {
+   "number": 221,
+   "equivalent": null
+  },
+  "222": {
+   "number": 222,
+   "equivalent": null
+  },
+  "223": {
+   "number": 223,
+   "equivalent": null
+  },
+  "224": {
+   "number": 224,
+   "equivalent": null
+  },
+  "225": {
+   "number": 225,
+   "equivalent": null
+  },
+  "226": {
+   "number": 226,
+   "equivalent": null
+  },
+  "227": {
+   "number": 227,
+   "equivalent": null
+  },
+  "228": {
+   "number": 228,
+   "equivalent": null
+  },
+  "229": {
+   "number": 229,
+   "equivalent": null
+  },
+  "230": {
+   "number": 230,
+   "equivalent": null
+  },
+  "231": {
+   "number": 231,
+   "equivalent": null
+  },
+  "232": null,
+  "233": {
+   "number": 232,
+   "equivalent": null
+  },
+  "234": null,
+  "235": {
+   "number": 233,
+   "equivalent": null
+  },
+  "236": {
+   "number": 234,
+   "equivalent": null
+  },
+  "237": {
+   "number": 235,
+   "equivalent": null
+  },
+  "238": {
+   "number": 236,
+   "equivalent": null
+  },
+  "239": {
+   "number": 237,
+   "equivalent": null
+  },
+  "240": {
+   "number": 238,
+   "equivalent": null
+  },
+  "241": {
+   "number": 239,
+   "equivalent": null
+  },
+  "242": {
+   "number": 240,
+   "equivalent": null
+  },
+  "243": {
+   "number": 241,
+   "equivalent": null
+  },
+  "244": {
+   "number": 242,
+   "equivalent": null
+  },
+  "245": {
+   "number": 243,
+   "equivalent": null
+  },
+  "246": {
+   "number": 244,
+   "equivalent": null
+  },
+  "247": {
+   "number": 245,
+   "equivalent": null
+  },
+  "248": {
+   "number": 246,
+   "equivalent": null
+  },
+  "249": {
+   "number": 247,
+   "equivalent": null
+  }
+ },
+ "sets": {
+  "248": {
+   "array": 994904,
+   "entries": [
+    248
+   ],
+   "buttons": [
+    {
+     "position": 7,
+     "icon": 386,
+     "condition": "bf_replay_play",
+     "condition_variable": 0,
+     "action": "order_replay_play",
+     "action_variable": 0,
+     "enabled_string": 1542,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 389,
+     "condition": "bf_replay_slowdown",
+     "condition_variable": 0,
+     "action": "order_replay_slowdown",
+     "action_variable": 0,
+     "enabled_string": 1544,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 388,
+     "condition": "bf_replay_speedup",
+     "condition_variable": 0,
+     "action": "order_replay_speedup",
+     "action_variable": 0,
+     "enabled_string": 1541,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "249": {
+   "array": 994964,
+   "entries": [
+    249
+   ],
+   "buttons": [
+    {
+     "position": 7,
+     "icon": 387,
+     "condition": "bf_replay_play",
+     "condition_variable": 0,
+     "action": "order_replay_play",
+     "action_variable": 0,
+     "enabled_string": 1543,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 389,
+     "condition": "bf_replay_slowdown",
+     "condition_variable": 0,
+     "action": "order_replay_slowdown",
+     "action_variable": 0,
+     "enabled_string": 1544,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 388,
+     "condition": "bf_replay_speedup",
+     "condition_variable": 0,
+     "action": "order_replay_speedup",
+     "action_variable": 0,
+     "enabled_string": 1541,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "229": {
+   "array": 995024,
+   "entries": [
+    229
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_target_off",
+     "action_variable": 0,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "230": {
+   "array": 995044,
+   "entries": [
+    230
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_cancel_land",
+     "action_variable": 0,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "231": {
+   "array": 995064,
+   "entries": [
+    231
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_not_comp",
+     "condition_variable": 0,
+     "action": "order_kill",
+     "action_variable": 0,
+     "enabled_string": 689,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "232": null,
+  "233": {
+   "array": 995084,
+   "entries": [
+    233
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_not_comp",
+     "condition_variable": 0,
+     "action": "order_kill",
+     "action_variable": 0,
+     "enabled_string": 696,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "234": null,
+  "235": {
+   "array": 995104,
+   "entries": [
+    235
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_not_comp",
+     "condition_variable": 0,
+     "action": "order_none",
+     "action_variable": 0,
+     "enabled_string": 697,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "236": {
+   "array": 995124,
+   "entries": [
+    236
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 35,
+     "condition": "bf_larva_sel",
+     "condition_variable": 0,
+     "action": "order_select_larva",
+     "action_variable": 0,
+     "enabled_string": 674,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 286,
+     "condition": "bf_hatch_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_not_comp",
+     "condition_variable": 0,
+     "action": "order_kill",
+     "action_variable": 0,
+     "enabled_string": 698,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "237": {
+   "array": 995184,
+   "entries": [
+    237
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_cancel_nuke",
+     "action_variable": 0,
+     "enabled_string": 699,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "244": {
+   "array": 995208,
+   "entries": [
+    244
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_stop",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "3": {
+   "array": 995312,
+   "entries": [
+    3,
+    15,
+    17,
+    27,
+    39,
+    40,
+    44,
+    47,
+    48,
+    55,
+    56,
+    58,
+    62,
+    65,
+    66,
+    68,
+    70,
+    74,
+    75,
+    76,
+    77,
+    78,
+    80,
+    84,
+    88,
+    89,
+    90,
+    93,
+    94,
+    95,
+    96
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "245": {
+   "array": 995416,
+   "entries": [
+    245
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 231,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "enabled_string": 675,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 233,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "enabled_string": 676,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "11": {
+   "array": 995520,
+   "entries": [
+    11,
+    42,
+    57,
+    69
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 309,
+     "condition": "bf_trans",
+     "condition_variable": 0,
+     "action": "order_pickup",
+     "action_variable": 0,
+     "enabled_string": 683,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 312,
+     "condition": "bf_trans_has_passenger",
+     "condition_variable": 0,
+     "action": "order_unload",
+     "action_variable": 0,
+     "enabled_string": 684,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "124": {
+   "array": 995660,
+   "entries": [
+    124,
+    144,
+    146,
+    162
+   ],
+   "buttons": [
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_tower",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_tower",
+     "condition_variable": 0,
+     "action": "order_tower_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "35": {
+   "array": 995704,
+   "entries": [
+    35
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 41,
+     "condition": "bf_building_ok",
+     "condition_variable": 41,
+     "action": "order_morph",
+     "action_variable": 41,
+     "enabled_string": 578,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 37,
+     "condition": "bf_building_ok",
+     "condition_variable": 37,
+     "action": "order_morph",
+     "action_variable": 37,
+     "enabled_string": 575,
+     "disabled_string": 738
+    },
+    {
+     "position": 3,
+     "icon": 42,
+     "condition": "bf_building_ok",
+     "condition_variable": 42,
+     "action": "order_morph",
+     "action_variable": 42,
+     "enabled_string": 579,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 38,
+     "condition": "bf_building_ok",
+     "condition_variable": 38,
+     "action": "order_morph",
+     "action_variable": 38,
+     "enabled_string": 576,
+     "disabled_string": 739
+    },
+    {
+     "position": 5,
+     "icon": 43,
+     "condition": "bf_building_ok",
+     "condition_variable": 43,
+     "action": "order_morph",
+     "action_variable": 43,
+     "enabled_string": 580,
+     "disabled_string": 741
+    },
+    {
+     "position": 6,
+     "icon": 47,
+     "condition": "bf_building_ok",
+     "condition_variable": 47,
+     "action": "order_morph",
+     "action_variable": 47,
+     "enabled_string": 584,
+     "disabled_string": 745
+    },
+    {
+     "position": 7,
+     "icon": 45,
+     "condition": "bf_building_ok",
+     "condition_variable": 45,
+     "action": "order_morph",
+     "action_variable": 45,
+     "enabled_string": 582,
+     "disabled_string": 743
+    },
+    {
+     "position": 8,
+     "icon": 39,
+     "condition": "bf_building_ok",
+     "condition_variable": 39,
+     "action": "order_morph",
+     "action_variable": 39,
+     "enabled_string": 577,
+     "disabled_string": 740
+    },
+    {
+     "position": 9,
+     "icon": 46,
+     "condition": "bf_building_ok",
+     "condition_variable": 46,
+     "action": "order_morph",
+     "action_variable": 46,
+     "enabled_string": 583,
+     "disabled_string": 744
+    }
+   ]
+  },
+  "36": {
+   "array": 995884,
+   "entries": [
+    36,
+    59,
+    97
+   ],
+   "buttons": [
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_kill_egg",
+     "action_variable": 0,
+     "enabled_string": 695,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "41": {
+   "array": 995904,
+   "entries": [
+    41
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack_unburrowed",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 231,
+     "condition": "bf_no_load_drone",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "enabled_string": 675,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 233,
+     "condition": "bf_load_drone",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "enabled_string": 676,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 257,
+     "condition": "bf_zerg_build_basic",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 236,
+     "enabled_string": 680,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 258,
+     "condition": "bf_zerg_build_advanced",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 239,
+     "enabled_string": 681,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "238": {
+   "array": 996088,
+   "entries": [
+    238
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 131,
+     "condition": "bf_building_ok",
+     "condition_variable": 131,
+     "action": "order_zerg_place",
+     "action_variable": 131,
+     "enabled_string": 613,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 143,
+     "condition": "bf_building_ok",
+     "condition_variable": 143,
+     "action": "order_zerg_place",
+     "action_variable": 143,
+     "enabled_string": 614,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 149,
+     "condition": "bf_building_ok",
+     "condition_variable": 149,
+     "action": "order_zerg_place",
+     "action_variable": 149,
+     "enabled_string": 615,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 142,
+     "condition": "bf_building_ok",
+     "condition_variable": 142,
+     "action": "order_zerg_place",
+     "action_variable": 142,
+     "enabled_string": 616,
+     "disabled_string": 756
+    },
+    {
+     "position": 5,
+     "icon": 139,
+     "condition": "bf_building_ok",
+     "condition_variable": 139,
+     "action": "order_zerg_place",
+     "action_variable": 139,
+     "enabled_string": 617,
+     "disabled_string": 753
+    },
+    {
+     "position": 7,
+     "icon": 135,
+     "condition": "bf_building_ok",
+     "condition_variable": 135,
+     "action": "order_zerg_place",
+     "action_variable": 135,
+     "enabled_string": 618,
+     "disabled_string": 749
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "241": {
+   "array": 996232,
+   "entries": [
+    241
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 141,
+     "condition": "bf_building_ok",
+     "condition_variable": 141,
+     "action": "order_zerg_place",
+     "action_variable": 141,
+     "enabled_string": 620,
+     "disabled_string": 750
+    },
+    {
+     "position": 2,
+     "icon": 138,
+     "condition": "bf_building_ok",
+     "condition_variable": 138,
+     "action": "order_zerg_place",
+     "action_variable": 138,
+     "enabled_string": 621,
+     "disabled_string": 752
+    },
+    {
+     "position": 3,
+     "icon": 134,
+     "condition": "bf_building_ok",
+     "condition_variable": 134,
+     "action": "order_zerg_place",
+     "action_variable": 134,
+     "enabled_string": 619,
+     "disabled_string": 748
+    },
+    {
+     "position": 4,
+     "icon": 140,
+     "condition": "bf_building_ok",
+     "condition_variable": 140,
+     "action": "order_zerg_place",
+     "action_variable": 140,
+     "enabled_string": 622,
+     "disabled_string": 754
+    },
+    {
+     "position": 5,
+     "icon": 136,
+     "condition": "bf_building_ok",
+     "condition_variable": 136,
+     "action": "order_zerg_place",
+     "action_variable": 136,
+     "enabled_string": 623,
+     "disabled_string": 755
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "37": {
+   "array": 996352,
+   "entries": [
+    37,
+    53,
+    54,
+    247
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack_unburrowed",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "38": {
+   "array": 996496,
+   "entries": [
+    38
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack_unburrowed",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 103,
+     "condition": "bf_make_lurker",
+     "condition_variable": 103,
+     "action": "order_morph",
+     "action_variable": 103,
+     "enabled_string": 1289,
+     "disabled_string": 1298
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "43": {
+   "array": 996656,
+   "entries": [
+    43
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 44,
+     "condition": "bf_building_ok",
+     "condition_variable": 44,
+     "action": "order_morph",
+     "action_variable": 44,
+     "enabled_string": 581,
+     "disabled_string": 742
+    },
+    {
+     "position": 8,
+     "icon": 62,
+     "condition": "bf_building_ok",
+     "condition_variable": 62,
+     "action": "order_morph",
+     "action_variable": 62,
+     "enabled_string": 1288,
+     "disabled_string": 1297
+    }
+   ]
+  },
+  "103": {
+   "array": 996800,
+   "entries": [
+    103
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_stop_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "45": {
+   "array": 996944,
+   "entries": [
+    45,
+    49
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 313,
+     "condition": "bf_has_spell",
+     "condition_variable": 12,
+     "action": "order_tech",
+     "action_variable": 12,
+     "enabled_string": 374,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 271,
+     "condition": "bf_has_spell",
+     "condition_variable": 18,
+     "action": "order_tech",
+     "action_variable": 18,
+     "enabled_string": 377,
+     "disabled_string": 386
+    },
+    {
+     "position": 8,
+     "icon": 40,
+     "condition": "bf_has_spell",
+     "condition_variable": 13,
+     "action": "order_tech",
+     "action_variable": 13,
+     "enabled_string": 375,
+     "disabled_string": 384
+    },
+    {
+     "position": 9,
+     "icon": 267,
+     "condition": "bf_has_spell",
+     "condition_variable": 17,
+     "action": "order_tech",
+     "action_variable": 17,
+     "enabled_string": 381,
+     "disabled_string": 389
+    }
+   ]
+  },
+  "46": {
+   "array": 997128,
+   "entries": [
+    46,
+    52
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 302,
+     "condition": "bf_has_spell",
+     "condition_variable": 16,
+     "action": "order_tech",
+     "action_variable": 16,
+     "enabled_string": 379,
+     "disabled_string": 388
+    },
+    {
+     "position": 7,
+     "icon": 270,
+     "condition": "bf_has_spell",
+     "condition_variable": 14,
+     "action": "order_tech",
+     "action_variable": 14,
+     "enabled_string": 376,
+     "disabled_string": 385
+    },
+    {
+     "position": 8,
+     "icon": 265,
+     "condition": "bf_has_spell",
+     "condition_variable": 15,
+     "action": "order_tech",
+     "action_variable": 15,
+     "enabled_string": 378,
+     "disabled_string": 387
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "50": {
+   "array": 997312,
+   "entries": [
+    50
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack_unburrowed",
+     "condition_variable": 0,
+     "action": "order_attack_unit",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_move_patrol_unburrowed",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 259,
+     "condition": "bf_can_burrow",
+     "condition_variable": 11,
+     "action": "order_burrow",
+     "action_variable": 11,
+     "enabled_string": 372,
+     "disabled_string": 382
+    },
+    {
+     "position": 9,
+     "icon": 260,
+     "condition": "bf_burrowed",
+     "condition_variable": 11,
+     "action": "order_deburrow",
+     "action_variable": 0,
+     "enabled_string": 373,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "51": {
+   "array": 997456,
+   "entries": [
+    51
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 302,
+     "condition": "bf_has_spell",
+     "condition_variable": 16,
+     "action": "order_tech",
+     "action_variable": 16,
+     "enabled_string": 380,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak_hero",
+     "condition_variable": 10,
+     "action": "order_cloak",
+     "action_variable": 10,
+     "enabled_string": 344,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_hero_cloaked",
+     "condition_variable": 10,
+     "action": "order_decloak",
+     "action_variable": 10,
+     "enabled_string": 345,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 267,
+     "condition": "bf_has_spell",
+     "condition_variable": 17,
+     "action": "order_tech",
+     "action_variable": 17,
+     "enabled_string": 381,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 275,
+     "condition": "bf_has_spell",
+     "condition_variable": 19,
+     "action": "order_tech",
+     "action_variable": 19,
+     "enabled_string": 400,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "104": {
+   "array": 997656,
+   "entries": [
+    104
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak_hero",
+     "condition_variable": 10,
+     "action": "order_cloak",
+     "action_variable": 10,
+     "enabled_string": 344,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_hero_cloaked",
+     "condition_variable": 10,
+     "action": "order_decloak",
+     "action_variable": 10,
+     "enabled_string": 345,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 240,
+     "condition": "bf_has_spell",
+     "condition_variable": 1,
+     "action": "order_tech",
+     "action_variable": 1,
+     "enabled_string": 335,
+     "disabled_string": 347
+    },
+    {
+     "position": 9,
+     "icon": 302,
+     "condition": "bf_has_spell",
+     "condition_variable": 16,
+     "action": "order_tech",
+     "action_variable": 16,
+     "enabled_string": 380,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "131": {
+   "array": 997840,
+   "entries": [
+    131
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 35,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_select_larva",
+     "action_variable": 0,
+     "enabled_string": 674,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 259,
+     "condition": "bf_research",
+     "condition_variable": 11,
+     "action": "order_research",
+     "action_variable": 11,
+     "enabled_string": 364,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 132,
+     "condition": "bf_building_ok",
+     "condition_variable": 132,
+     "action": "order_upgrade_bldg",
+     "action_variable": 132,
+     "enabled_string": 624,
+     "disabled_string": 746
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "132": {
+   "array": 997944,
+   "entries": [
+    132
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 35,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_select_larva",
+     "action_variable": 0,
+     "enabled_string": 674,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 259,
+     "condition": "bf_research",
+     "condition_variable": 11,
+     "action": "order_research",
+     "action_variable": 11,
+     "enabled_string": 364,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 261,
+     "condition": "bf_upgrade",
+     "condition_variable": 24,
+     "action": "order_upgrade",
+     "action_variable": 24,
+     "enabled_string": 480,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 262,
+     "condition": "bf_upgrade",
+     "condition_variable": 25,
+     "action": "order_upgrade",
+     "action_variable": 25,
+     "enabled_string": 481,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 296,
+     "condition": "bf_upgrade",
+     "condition_variable": 26,
+     "action": "order_upgrade",
+     "action_variable": 26,
+     "enabled_string": 482,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 133,
+     "condition": "bf_building_ok",
+     "condition_variable": 133,
+     "action": "order_upgrade_bldg",
+     "action_variable": 133,
+     "enabled_string": 625,
+     "disabled_string": 747
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "133": {
+   "array": 998128,
+   "entries": [
+    133
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 35,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_select_larva",
+     "action_variable": 0,
+     "enabled_string": 674,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 259,
+     "condition": "bf_research",
+     "condition_variable": 11,
+     "action": "order_research",
+     "action_variable": 11,
+     "enabled_string": 364,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 261,
+     "condition": "bf_upgrade",
+     "condition_variable": 24,
+     "action": "order_upgrade",
+     "action_variable": 24,
+     "enabled_string": 480,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 262,
+     "condition": "bf_upgrade",
+     "condition_variable": 25,
+     "action": "order_upgrade",
+     "action_variable": 25,
+     "enabled_string": 481,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 296,
+     "condition": "bf_upgrade",
+     "condition_variable": 26,
+     "action": "order_upgrade",
+     "action_variable": 26,
+     "enabled_string": 482,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "134": {
+   "array": 998288,
+   "entries": [
+    134
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 134,
+     "condition": "bf_no_exit",
+     "condition_variable": 134,
+     "action": "order_nydus_exit",
+     "action_variable": 134,
+     "enabled_string": 629,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "141": {
+   "array": 998312,
+   "entries": [
+    141
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 301,
+     "condition": "bf_upgrade",
+     "condition_variable": 12,
+     "action": "order_upgrade",
+     "action_variable": 12,
+     "enabled_string": 468,
+     "disabled_string": 528
+    },
+    {
+     "position": 2,
+     "icon": 298,
+     "condition": "bf_upgrade",
+     "condition_variable": 4,
+     "action": "order_upgrade",
+     "action_variable": 4,
+     "enabled_string": 460,
+     "disabled_string": 531
+    },
+    {
+     "position": 7,
+     "icon": 137,
+     "condition": "bf_building_ok",
+     "condition_variable": 137,
+     "action": "order_upgrade_bldg",
+     "action_variable": 137,
+     "enabled_string": 626,
+     "disabled_string": 751
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "137": {
+   "array": 998392,
+   "entries": [
+    137
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 301,
+     "condition": "bf_upgrade",
+     "condition_variable": 12,
+     "action": "order_upgrade",
+     "action_variable": 12,
+     "enabled_string": 468,
+     "disabled_string": 528
+    },
+    {
+     "position": 2,
+     "icon": 298,
+     "condition": "bf_upgrade",
+     "condition_variable": 4,
+     "action": "order_upgrade",
+     "action_variable": 4,
+     "enabled_string": 460,
+     "disabled_string": 531
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "142": {
+   "array": 998452,
+   "entries": [
+    142
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 263,
+     "condition": "bf_upgrade",
+     "condition_variable": 27,
+     "action": "order_upgrade",
+     "action_variable": 27,
+     "enabled_string": 483,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 264,
+     "condition": "bf_upgrade",
+     "condition_variable": 28,
+     "action": "order_upgrade",
+     "action_variable": 28,
+     "enabled_string": 484,
+     "disabled_string": 534
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "143": {
+   "array": 998512,
+   "entries": [
+    143
+   ],
+   "buttons": [
+    {
+     "position": 7,
+     "icon": 144,
+     "condition": "bf_building_ok",
+     "condition_variable": 144,
+     "action": "order_upgrade_bldg",
+     "action_variable": 144,
+     "enabled_string": 627,
+     "disabled_string": 757
+    },
+    {
+     "position": 8,
+     "icon": 146,
+     "condition": "bf_building_ok",
+     "condition_variable": 146,
+     "action": "order_upgrade_bldg",
+     "action_variable": 146,
+     "enabled_string": 628,
+     "disabled_string": 758
+    }
+   ]
+  },
+  "135": {
+   "array": 998552,
+   "entries": [
+    135
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 266,
+     "condition": "bf_upgrade",
+     "condition_variable": 29,
+     "action": "order_upgrade",
+     "action_variable": 29,
+     "enabled_string": 485,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 268,
+     "condition": "bf_upgrade",
+     "condition_variable": 30,
+     "action": "order_upgrade",
+     "action_variable": 30,
+     "enabled_string": 486,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 103,
+     "condition": "bf_research",
+     "condition_variable": 32,
+     "action": "order_research",
+     "action_variable": 32,
+     "enabled_string": 1253,
+     "disabled_string": 1254
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "138": {
+   "array": 998656,
+   "entries": [
+    138
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 40,
+     "condition": "bf_research",
+     "condition_variable": 13,
+     "action": "order_research",
+     "action_variable": 13,
+     "enabled_string": 366,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 267,
+     "condition": "bf_research",
+     "condition_variable": 17,
+     "action": "order_research",
+     "action_variable": 17,
+     "enabled_string": 370,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 294,
+     "condition": "bf_upgrade",
+     "condition_variable": 31,
+     "action": "order_upgrade",
+     "action_variable": 31,
+     "enabled_string": 487,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "136": {
+   "array": 998760,
+   "entries": [
+    136
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 265,
+     "condition": "bf_research",
+     "condition_variable": 15,
+     "action": "order_research",
+     "action_variable": 15,
+     "enabled_string": 369,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 302,
+     "condition": "bf_research",
+     "condition_variable": 16,
+     "action": "order_research",
+     "action_variable": 16,
+     "enabled_string": 371,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 295,
+     "condition": "bf_upgrade",
+     "condition_variable": 32,
+     "action": "order_upgrade",
+     "action_variable": 32,
+     "enabled_string": 488,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "139": {
+   "array": 998864,
+   "entries": [
+    139
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 299,
+     "condition": "bf_upgrade",
+     "condition_variable": 10,
+     "action": "order_upgrade",
+     "action_variable": 10,
+     "enabled_string": 466,
+     "disabled_string": 519
+    },
+    {
+     "position": 2,
+     "icon": 300,
+     "condition": "bf_upgrade",
+     "condition_variable": 11,
+     "action": "order_upgrade",
+     "action_variable": 11,
+     "enabled_string": 467,
+     "disabled_string": 522
+    },
+    {
+     "position": 3,
+     "icon": 297,
+     "condition": "bf_upgrade",
+     "condition_variable": 3,
+     "action": "order_upgrade",
+     "action_variable": 3,
+     "enabled_string": 459,
+     "disabled_string": 525
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "140": {
+   "array": 998944,
+   "entries": [
+    140
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 378,
+     "condition": "bf_upgrade",
+     "condition_variable": 53,
+     "action": "order_upgrade",
+     "action_variable": 53,
+     "enabled_string": 1283,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 379,
+     "condition": "bf_upgrade",
+     "condition_variable": 52,
+     "action": "order_upgrade",
+     "action_variable": 52,
+     "enabled_string": 1284,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "154": {
+   "array": 999004,
+   "entries": [
+    154
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 64,
+     "condition": "bf_building_ok",
+     "condition_variable": 64,
+     "action": "order_build",
+     "action_variable": 64,
+     "enabled_string": 599,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "64": {
+   "array": 999064,
+   "entries": [
+    64
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 231,
+     "condition": "bf_no_load",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "enabled_string": 675,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 233,
+     "condition": "bf_load",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "enabled_string": 676,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 272,
+     "condition": "bf_protoss_build_basic",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 238,
+     "enabled_string": 678,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 273,
+     "condition": "bf_protoss_build_advanced",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 241,
+     "enabled_string": 679,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "240": {
+   "array": 999208,
+   "entries": [
+    240
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 154,
+     "condition": "bf_building_ok",
+     "condition_variable": 154,
+     "action": "order_place_protoss",
+     "action_variable": 154,
+     "enabled_string": 630,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 156,
+     "condition": "bf_building_ok",
+     "condition_variable": 156,
+     "action": "order_place_protoss",
+     "action_variable": 156,
+     "enabled_string": 631,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 157,
+     "condition": "bf_building_ok",
+     "condition_variable": 157,
+     "action": "order_place_protoss",
+     "action_variable": 157,
+     "enabled_string": 632,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 160,
+     "condition": "bf_building_ok",
+     "condition_variable": 160,
+     "action": "order_place_protoss",
+     "action_variable": 160,
+     "enabled_string": 633,
+     "disabled_string": 725
+    },
+    {
+     "position": 5,
+     "icon": 166,
+     "condition": "bf_building_ok",
+     "condition_variable": 166,
+     "action": "order_place_protoss",
+     "action_variable": 166,
+     "enabled_string": 634,
+     "disabled_string": 726
+    },
+    {
+     "position": 6,
+     "icon": 162,
+     "condition": "bf_building_ok",
+     "condition_variable": 162,
+     "action": "order_place_protoss",
+     "action_variable": 162,
+     "enabled_string": 635,
+     "disabled_string": 727
+    },
+    {
+     "position": 7,
+     "icon": 164,
+     "condition": "bf_building_ok",
+     "condition_variable": 164,
+     "action": "order_place_protoss",
+     "action_variable": 164,
+     "enabled_string": 636,
+     "disabled_string": 729
+    },
+    {
+     "position": 8,
+     "icon": 172,
+     "condition": "bf_building_ok",
+     "condition_variable": 172,
+     "action": "order_place_protoss",
+     "action_variable": 172,
+     "enabled_string": 637,
+     "disabled_string": 728
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "243": {
+   "array": 999392,
+   "entries": [
+    243
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 155,
+     "condition": "bf_building_ok",
+     "condition_variable": 155,
+     "action": "order_place_protoss",
+     "action_variable": 155,
+     "enabled_string": 638,
+     "disabled_string": 730
+    },
+    {
+     "position": 2,
+     "icon": 167,
+     "condition": "bf_building_ok",
+     "condition_variable": 167,
+     "action": "order_place_protoss",
+     "action_variable": 167,
+     "enabled_string": 642,
+     "disabled_string": 731
+    },
+    {
+     "position": 3,
+     "icon": 163,
+     "condition": "bf_building_ok",
+     "condition_variable": 163,
+     "action": "order_place_protoss",
+     "action_variable": 163,
+     "enabled_string": 640,
+     "disabled_string": 732
+    },
+    {
+     "position": 4,
+     "icon": 171,
+     "condition": "bf_building_ok",
+     "condition_variable": 171,
+     "action": "order_place_protoss",
+     "action_variable": 171,
+     "enabled_string": 645,
+     "disabled_string": 734
+    },
+    {
+     "position": 5,
+     "icon": 169,
+     "condition": "bf_building_ok",
+     "condition_variable": 169,
+     "action": "order_place_protoss",
+     "action_variable": 169,
+     "enabled_string": 643,
+     "disabled_string": 735
+    },
+    {
+     "position": 6,
+     "icon": 165,
+     "condition": "bf_building_ok",
+     "condition_variable": 165,
+     "action": "order_place_protoss",
+     "action_variable": 165,
+     "enabled_string": 641,
+     "disabled_string": 736
+    },
+    {
+     "position": 7,
+     "icon": 159,
+     "condition": "bf_building_ok",
+     "condition_variable": 159,
+     "action": "order_place_protoss",
+     "action_variable": 159,
+     "enabled_string": 639,
+     "disabled_string": 733
+    },
+    {
+     "position": 8,
+     "icon": 170,
+     "condition": "bf_building_ok",
+     "condition_variable": 170,
+     "action": "order_place_protoss",
+     "action_variable": 170,
+     "enabled_string": 644,
+     "disabled_string": 737
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "67": {
+   "array": 999576,
+   "entries": [
+    67
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 275,
+     "condition": "bf_has_spell",
+     "condition_variable": 19,
+     "action": "order_tech",
+     "action_variable": 19,
+     "enabled_string": 400,
+     "disabled_string": 405
+    },
+    {
+     "position": 8,
+     "icon": 277,
+     "condition": "bf_has_spell",
+     "condition_variable": 20,
+     "action": "order_tech",
+     "action_variable": 20,
+     "enabled_string": 401,
+     "disabled_string": 406
+    },
+    {
+     "position": 9,
+     "icon": 68,
+     "condition": "bf_can_make_archon_need2",
+     "condition_variable": 23,
+     "action": "order_stop",
+     "action_variable": 23,
+     "enabled_string": 404,
+     "disabled_string": 409
+    },
+    {
+     "position": 9,
+     "icon": 68,
+     "condition": "bf_can_make_archon",
+     "condition_variable": 68,
+     "action": "order_summon_archon",
+     "action_variable": 68,
+     "enabled_string": 404,
+     "disabled_string": 410
+    }
+   ]
+  },
+  "61": {
+   "array": 999736,
+   "entries": [
+    61
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 68,
+     "condition": "bf_can_make_darchon_need2",
+     "condition_variable": 28,
+     "action": "order_stop",
+     "action_variable": 28,
+     "enabled_string": 1264,
+     "disabled_string": 1271
+    },
+    {
+     "position": 9,
+     "icon": 63,
+     "condition": "bf_can_make_darchon",
+     "condition_variable": 63,
+     "action": "order_summon_darchon",
+     "action_variable": 63,
+     "enabled_string": 1264,
+     "disabled_string": 1272
+    }
+   ]
+  },
+  "72": {
+   "array": 999880,
+   "entries": [
+    72,
+    82
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_carrier_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_carrier_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_has_interceptor",
+     "condition_variable": 0,
+     "action": "order_carrier_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 759
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 73,
+     "condition": "bf_build_fighter_ok",
+     "condition_variable": 73,
+     "action": "order_build_fighter",
+     "action_variable": 73,
+     "enabled_string": 607,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "81": {
+   "array": 1000024,
+   "entries": [
+    81,
+    83
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_carrier_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_trilobyte_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_has_scarab",
+     "condition_variable": 0,
+     "action": "order_reaver_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 760
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 85,
+     "condition": "bf_build_fighter_ok",
+     "condition_variable": 85,
+     "action": "order_build_fighter",
+     "action_variable": 85,
+     "enabled_string": 609,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "71": {
+   "array": 1000168,
+   "entries": [
+    71,
+    86
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 280,
+     "condition": "bf_has_spell",
+     "condition_variable": 21,
+     "action": "order_tech",
+     "action_variable": 21,
+     "enabled_string": 402,
+     "disabled_string": 407
+    },
+    {
+     "position": 8,
+     "icon": 278,
+     "condition": "bf_has_spell",
+     "condition_variable": 22,
+     "action": "order_tech",
+     "action_variable": 22,
+     "enabled_string": 403,
+     "disabled_string": 408
+    }
+   ]
+  },
+  "79": {
+   "array": 1000312,
+   "entries": [
+    79,
+    87
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 275,
+     "condition": "bf_has_spell",
+     "condition_variable": 19,
+     "action": "order_tech",
+     "action_variable": 19,
+     "enabled_string": 400,
+     "disabled_string": 405
+    },
+    {
+     "position": 8,
+     "icon": 277,
+     "condition": "bf_has_spell",
+     "condition_variable": 20,
+     "action": "order_tech",
+     "action_variable": 20,
+     "enabled_string": 401,
+     "disabled_string": 406
+    }
+   ]
+  },
+  "60": {
+   "array": 1000456,
+   "entries": [
+    60,
+    98
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 369,
+     "condition": "bf_has_spell",
+     "condition_variable": 25,
+     "action": "order_tech",
+     "action_variable": 25,
+     "enabled_string": 1265,
+     "disabled_string": 1269
+    }
+   ]
+  },
+  "63": {
+   "array": 1000576,
+   "entries": [
+    63
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 372,
+     "condition": "bf_has_spell",
+     "condition_variable": 29,
+     "action": "order_tech",
+     "action_variable": 29,
+     "enabled_string": 1267,
+     "disabled_string": 1273
+    },
+    {
+     "position": 8,
+     "icon": 371,
+     "condition": "bf_has_spell",
+     "condition_variable": 27,
+     "action": "order_tech",
+     "action_variable": 27,
+     "enabled_string": 1266,
+     "disabled_string": 1270
+    },
+    {
+     "position": 9,
+     "icon": 381,
+     "condition": "bf_has_spell",
+     "condition_variable": 31,
+     "action": "order_tech",
+     "action_variable": 31,
+     "enabled_string": 1268,
+     "disabled_string": 1274
+    }
+   ]
+  },
+  "155": {
+   "array": 1000720,
+   "entries": [
+    155
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 69,
+     "condition": "bf_building_ok",
+     "condition_variable": 69,
+     "action": "order_build",
+     "action_variable": 69,
+     "enabled_string": 603,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 83,
+     "condition": "bf_building_ok",
+     "condition_variable": 83,
+     "action": "order_build",
+     "action_variable": 83,
+     "enabled_string": 608,
+     "disabled_string": 723
+    },
+    {
+     "position": 3,
+     "icon": 84,
+     "condition": "bf_building_ok",
+     "condition_variable": 84,
+     "action": "order_build",
+     "action_variable": 84,
+     "enabled_string": 598,
+     "disabled_string": 724
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "160": {
+   "array": 1000824,
+   "entries": [
+    160
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 65,
+     "condition": "bf_building_ok",
+     "condition_variable": 65,
+     "action": "order_build",
+     "action_variable": 65,
+     "enabled_string": 600,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 66,
+     "condition": "bf_building_ok",
+     "condition_variable": 66,
+     "action": "order_build",
+     "action_variable": 66,
+     "enabled_string": 601,
+     "disabled_string": 719
+    },
+    {
+     "position": 3,
+     "icon": 67,
+     "condition": "bf_building_ok",
+     "condition_variable": 67,
+     "action": "order_build",
+     "action_variable": 67,
+     "enabled_string": 602,
+     "disabled_string": 720
+    },
+    {
+     "position": 4,
+     "icon": 61,
+     "condition": "bf_building_ok",
+     "condition_variable": 61,
+     "action": "order_build",
+     "action_variable": 61,
+     "enabled_string": 1293,
+     "disabled_string": 1296
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "167": {
+   "array": 1000944,
+   "entries": [
+    167
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 70,
+     "condition": "bf_building_ok",
+     "condition_variable": 70,
+     "action": "order_build",
+     "action_variable": 70,
+     "enabled_string": 604,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 72,
+     "condition": "bf_building_ok",
+     "condition_variable": 72,
+     "action": "order_build",
+     "action_variable": 72,
+     "enabled_string": 606,
+     "disabled_string": 722
+    },
+    {
+     "position": 3,
+     "icon": 71,
+     "condition": "bf_building_ok",
+     "condition_variable": 71,
+     "action": "order_build",
+     "action_variable": 71,
+     "enabled_string": 605,
+     "disabled_string": 721
+    },
+    {
+     "position": 4,
+     "icon": 60,
+     "condition": "bf_building_ok",
+     "condition_variable": 60,
+     "action": "order_build",
+     "action_variable": 60,
+     "enabled_string": 1292,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "163": {
+   "array": 1001064,
+   "entries": [
+    163
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 307,
+     "condition": "bf_upgrade",
+     "condition_variable": 34,
+     "action": "order_upgrade",
+     "action_variable": 34,
+     "enabled_string": 490,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "164": {
+   "array": 1001104,
+   "entries": [
+    164
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 306,
+     "condition": "bf_upgrade",
+     "condition_variable": 14,
+     "action": "order_upgrade",
+     "action_variable": 14,
+     "enabled_string": 470,
+     "disabled_string": 538
+    },
+    {
+     "position": 2,
+     "icon": 304,
+     "condition": "bf_upgrade",
+     "condition_variable": 6,
+     "action": "order_upgrade",
+     "action_variable": 6,
+     "enabled_string": 462,
+     "disabled_string": 544
+    },
+    {
+     "position": 3,
+     "icon": 281,
+     "condition": "bf_upgrade",
+     "condition_variable": 33,
+     "action": "order_upgrade",
+     "action_variable": 33,
+     "enabled_string": 489,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "165": {
+   "array": 1001184,
+   "entries": [
+    165
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 275,
+     "condition": "bf_research",
+     "condition_variable": 19,
+     "action": "order_research",
+     "action_variable": 19,
+     "enabled_string": 395,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 277,
+     "condition": "bf_research",
+     "condition_variable": 20,
+     "action": "order_research",
+     "action_variable": 20,
+     "enabled_string": 396,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 318,
+     "condition": "bf_upgrade",
+     "condition_variable": 40,
+     "action": "order_upgrade",
+     "action_variable": 40,
+     "enabled_string": 496,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 371,
+     "condition": "bf_research",
+     "condition_variable": 27,
+     "action": "order_research",
+     "action_variable": 27,
+     "enabled_string": 1261,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 381,
+     "condition": "bf_research",
+     "condition_variable": 31,
+     "action": "order_research",
+     "action_variable": 31,
+     "enabled_string": 1263,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 385,
+     "condition": "bf_upgrade",
+     "condition_variable": 49,
+     "action": "order_upgrade",
+     "action_variable": 49,
+     "enabled_string": 1286,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "166": {
+   "array": 1001344,
+   "entries": [
+    166
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 305,
+     "condition": "bf_upgrade",
+     "condition_variable": 13,
+     "action": "order_upgrade",
+     "action_variable": 13,
+     "enabled_string": 469,
+     "disabled_string": 535
+    },
+    {
+     "position": 2,
+     "icon": 303,
+     "condition": "bf_upgrade",
+     "condition_variable": 5,
+     "action": "order_upgrade",
+     "action_variable": 5,
+     "enabled_string": 461,
+     "disabled_string": 541
+    },
+    {
+     "position": 3,
+     "icon": 310,
+     "condition": "bf_upgrade",
+     "condition_variable": 15,
+     "action": "order_upgrade",
+     "action_variable": 15,
+     "enabled_string": 471,
+     "disabled_string": 547
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "169": {
+   "array": 1001424,
+   "entries": [
+    169
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 319,
+     "condition": "bf_upgrade",
+     "condition_variable": 41,
+     "action": "order_upgrade",
+     "action_variable": 41,
+     "enabled_string": 497,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 320,
+     "condition": "bf_upgrade",
+     "condition_variable": 42,
+     "action": "order_upgrade",
+     "action_variable": 42,
+     "enabled_string": 498,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 321,
+     "condition": "bf_upgrade",
+     "condition_variable": 43,
+     "action": "order_upgrade",
+     "action_variable": 43,
+     "enabled_string": 499,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 368,
+     "condition": "bf_research",
+     "condition_variable": 25,
+     "action": "order_research",
+     "action_variable": 25,
+     "enabled_string": 1260,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 383,
+     "condition": "bf_upgrade",
+     "condition_variable": 47,
+     "action": "order_upgrade",
+     "action_variable": 47,
+     "enabled_string": 1285,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "170": {
+   "array": 1001568,
+   "entries": [
+    170
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 280,
+     "condition": "bf_research",
+     "condition_variable": 21,
+     "action": "order_research",
+     "action_variable": 21,
+     "enabled_string": 397,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 278,
+     "condition": "bf_research",
+     "condition_variable": 22,
+     "action": "order_research",
+     "action_variable": 22,
+     "enabled_string": 398,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 322,
+     "condition": "bf_upgrade",
+     "condition_variable": 44,
+     "action": "order_upgrade",
+     "action_variable": 44,
+     "enabled_string": 500,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "171": {
+   "array": 1001672,
+   "entries": [
+    171
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 314,
+     "condition": "bf_upgrade",
+     "condition_variable": 35,
+     "action": "order_upgrade",
+     "action_variable": 35,
+     "enabled_string": 491,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 315,
+     "condition": "bf_upgrade",
+     "condition_variable": 36,
+     "action": "order_upgrade",
+     "action_variable": 36,
+     "enabled_string": 492,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 316,
+     "condition": "bf_upgrade",
+     "condition_variable": 37,
+     "action": "order_upgrade",
+     "action_variable": 37,
+     "enabled_string": 493,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "172": {
+   "array": 1001752,
+   "entries": [
+    172
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 308,
+     "condition": "bf_battery",
+     "condition_variable": 0,
+     "action": "order_recharge",
+     "action_variable": 0,
+     "enabled_string": 673,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "159": {
+   "array": 1001772,
+   "entries": [
+    159
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 276,
+     "condition": "bf_upgrade",
+     "condition_variable": 39,
+     "action": "order_upgrade",
+     "action_variable": 39,
+     "enabled_string": 495,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 317,
+     "condition": "bf_upgrade",
+     "condition_variable": 38,
+     "action": "order_upgrade",
+     "action_variable": 38,
+     "enabled_string": 494,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "246": {
+   "array": 1001832,
+   "entries": [
+    246
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak_hero",
+     "condition_variable": 0,
+     "action": "order_cloak",
+     "action_variable": 0,
+     "enabled_string": 344,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_hero_cloaked",
+     "condition_variable": 0,
+     "action": "order_decloak",
+     "action_variable": 0,
+     "enabled_string": 345,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "0": {
+   "array": 1001976,
+   "entries": [
+    0,
+    10,
+    20,
+    32
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 237,
+     "condition": "bf_has_spell",
+     "condition_variable": 0,
+     "action": "order_stim",
+     "action_variable": 0,
+     "enabled_string": 334,
+     "disabled_string": 346
+    }
+   ]
+  },
+  "34": {
+   "array": 1002096,
+   "entries": [
+    34
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 365,
+     "condition": "bf_has_spell",
+     "condition_variable": 34,
+     "action": "order_heal",
+     "action_variable": 34,
+     "enabled_string": 1247,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 367,
+     "condition": "bf_has_spell",
+     "condition_variable": 24,
+     "action": "order_tech",
+     "action_variable": 24,
+     "enabled_string": 1248,
+     "disabled_string": 1250
+    },
+    {
+     "position": 9,
+     "icon": 373,
+     "condition": "bf_has_spell",
+     "condition_variable": 30,
+     "action": "order_tech",
+     "action_variable": 30,
+     "enabled_string": 1249,
+     "disabled_string": 1251
+    }
+   ]
+  },
+  "7": {
+   "array": 1002240,
+   "entries": [
+    7
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_scv_can_move",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_scv_can_move_stop",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_scv_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 232,
+     "condition": "bf_scv_can_repair",
+     "condition_variable": 0,
+     "action": "order_repair",
+     "action_variable": 0,
+     "enabled_string": 677,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 231,
+     "condition": "bf_no_load_scv",
+     "condition_variable": 0,
+     "action": "order_harvest",
+     "action_variable": 0,
+     "enabled_string": 675,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 233,
+     "condition": "bf_load_scv",
+     "condition_variable": 0,
+     "action": "order_return",
+     "action_variable": 0,
+     "enabled_string": 676,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 234,
+     "condition": "bf_terran_build_basic",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 237,
+     "enabled_string": 678,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 235,
+     "condition": "bf_terran_build_advanced",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 240,
+     "enabled_string": 679,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_build",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 700,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "239": {
+   "array": 1002424,
+   "entries": [
+    239
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 106,
+     "condition": "bf_building_ok",
+     "condition_variable": 106,
+     "action": "order_place",
+     "action_variable": 106,
+     "enabled_string": 646,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 109,
+     "condition": "bf_building_ok",
+     "condition_variable": 109,
+     "action": "order_place",
+     "action_variable": 109,
+     "enabled_string": 647,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 110,
+     "condition": "bf_building_ok",
+     "condition_variable": 110,
+     "action": "order_place",
+     "action_variable": 110,
+     "enabled_string": 648,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 111,
+     "condition": "bf_building_ok",
+     "condition_variable": 111,
+     "action": "order_place",
+     "action_variable": 111,
+     "enabled_string": 649,
+     "disabled_string": 710
+    },
+    {
+     "position": 5,
+     "icon": 122,
+     "condition": "bf_building_ok",
+     "condition_variable": 122,
+     "action": "order_place",
+     "action_variable": 122,
+     "enabled_string": 650,
+     "disabled_string": 715
+    },
+    {
+     "position": 6,
+     "icon": 124,
+     "condition": "bf_building_ok",
+     "condition_variable": 124,
+     "action": "order_place",
+     "action_variable": 124,
+     "enabled_string": 651,
+     "disabled_string": 717
+    },
+    {
+     "position": 7,
+     "icon": 112,
+     "condition": "bf_building_ok",
+     "condition_variable": 112,
+     "action": "order_place",
+     "action_variable": 112,
+     "enabled_string": 652,
+     "disabled_string": 711
+    },
+    {
+     "position": 8,
+     "icon": 125,
+     "condition": "bf_building_ok",
+     "condition_variable": 125,
+     "action": "order_place",
+     "action_variable": 125,
+     "enabled_string": 653,
+     "disabled_string": 718
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "242": {
+   "array": 1002608,
+   "entries": [
+    242
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 113,
+     "condition": "bf_building_ok",
+     "condition_variable": 113,
+     "action": "order_place",
+     "action_variable": 113,
+     "enabled_string": 654,
+     "disabled_string": 712
+    },
+    {
+     "position": 2,
+     "icon": 114,
+     "condition": "bf_building_ok",
+     "condition_variable": 114,
+     "action": "order_place",
+     "action_variable": 114,
+     "enabled_string": 655,
+     "disabled_string": 713
+    },
+    {
+     "position": 3,
+     "icon": 116,
+     "condition": "bf_building_ok",
+     "condition_variable": 116,
+     "action": "order_place",
+     "action_variable": 116,
+     "enabled_string": 656,
+     "disabled_string": 714
+    },
+    {
+     "position": 4,
+     "icon": 123,
+     "condition": "bf_building_ok",
+     "condition_variable": 123,
+     "action": "order_place",
+     "action_variable": 123,
+     "enabled_string": 657,
+     "disabled_string": 716
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "statcmd_set_ctrl",
+     "action_variable": 228,
+     "enabled_string": 688,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "1": {
+   "array": 1002712,
+   "entries": [
+    1
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak",
+     "condition_variable": 10,
+     "action": "order_cloak",
+     "action_variable": 10,
+     "enabled_string": 344,
+     "disabled_string": 355
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_cloaked",
+     "condition_variable": 10,
+     "action": "order_decloak",
+     "action_variable": 0,
+     "enabled_string": 345,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 240,
+     "condition": "bf_has_spell",
+     "condition_variable": 1,
+     "action": "order_tech",
+     "action_variable": 1,
+     "enabled_string": 335,
+     "disabled_string": 347
+    },
+    {
+     "position": 9,
+     "icon": 311,
+     "condition": "bf_has_nuke",
+     "condition_variable": 0,
+     "action": "order_nuke_paint",
+     "action_variable": 0,
+     "enabled_string": 685,
+     "disabled_string": 761
+    }
+   ]
+  },
+  "16": {
+   "array": 1002896,
+   "entries": [
+    16,
+    99,
+    100
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak",
+     "condition_variable": 10,
+     "action": "order_cloak",
+     "action_variable": 10,
+     "enabled_string": 344,
+     "disabled_string": 355
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_cloaked",
+     "condition_variable": 10,
+     "action": "order_decloak",
+     "action_variable": 0,
+     "enabled_string": 345,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 240,
+     "condition": "bf_has_spell",
+     "condition_variable": 1,
+     "action": "order_tech",
+     "action_variable": 1,
+     "enabled_string": 335,
+     "disabled_string": 347
+    }
+   ]
+  },
+  "2": {
+   "array": 1003056,
+   "entries": [
+    2
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 243,
+     "condition": "bf_has_mines",
+     "condition_variable": 3,
+     "action": "order_tech",
+     "action_variable": 3,
+     "enabled_string": 336,
+     "disabled_string": 348
+    }
+   ]
+  },
+  "5": {
+   "array": 1003176,
+   "entries": [
+    5,
+    23,
+    25,
+    30
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_can_tank_move",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_can_tank_move",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_can_tank_move",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 245,
+     "condition": "bf_can_siege",
+     "condition_variable": 5,
+     "action": "order_siege",
+     "action_variable": 5,
+     "enabled_string": 338,
+     "disabled_string": 349
+    },
+    {
+     "position": 7,
+     "icon": 246,
+     "condition": "bf_is_sieged",
+     "condition_variable": 5,
+     "action": "order_tank_mode",
+     "action_variable": 0,
+     "enabled_string": 339,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "8": {
+   "array": 1003320,
+   "entries": [
+    8,
+    21
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 252,
+     "condition": "bf_can_cloak",
+     "condition_variable": 9,
+     "action": "order_cloak",
+     "action_variable": 9,
+     "enabled_string": 344,
+     "disabled_string": 354
+    },
+    {
+     "position": 7,
+     "icon": 253,
+     "condition": "bf_is_cloaked",
+     "condition_variable": 9,
+     "action": "order_decloak",
+     "action_variable": 0,
+     "enabled_string": 345,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "9": {
+   "array": 1003464,
+   "entries": [
+    9,
+    22
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 247,
+     "condition": "bf_has_spell",
+     "condition_variable": 6,
+     "action": "order_tech",
+     "action_variable": 6,
+     "enabled_string": 340,
+     "disabled_string": 350
+    },
+    {
+     "position": 8,
+     "icon": 241,
+     "condition": "bf_has_spell",
+     "condition_variable": 2,
+     "action": "order_tech",
+     "action_variable": 2,
+     "enabled_string": 341,
+     "disabled_string": 351
+    },
+    {
+     "position": 9,
+     "icon": 242,
+     "condition": "bf_has_spell",
+     "condition_variable": 7,
+     "action": "order_tech",
+     "action_variable": 7,
+     "enabled_string": 342,
+     "disabled_string": 352
+    }
+   ]
+  },
+  "12": {
+   "array": 1003624,
+   "entries": [
+    12,
+    28,
+    29,
+    102
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 251,
+     "condition": "bf_has_spell",
+     "condition_variable": 8,
+     "action": "order_tech",
+     "action_variable": 8,
+     "enabled_string": 343,
+     "disabled_string": 353
+    }
+   ]
+  },
+  "19": {
+   "array": 1003744,
+   "entries": [
+    19
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 230,
+     "condition": "bf_can_attack",
+     "condition_variable": 0,
+     "action": "order_attack",
+     "action_variable": 0,
+     "enabled_string": 666,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 254,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_patrol",
+     "action_variable": 0,
+     "enabled_string": 667,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 255,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_hold_pos",
+     "action_variable": 0,
+     "enabled_string": 668,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 243,
+     "condition": "bf_has_spell",
+     "condition_variable": 3,
+     "action": "order_tech",
+     "action_variable": 3,
+     "enabled_string": 336,
+     "disabled_string": 348
+    }
+   ]
+  },
+  "106": {
+   "array": 1003864,
+   "entries": [
+    106
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 7,
+     "condition": "bf_building_ok",
+     "condition_variable": 7,
+     "action": "order_build",
+     "action_variable": 7,
+     "enabled_string": 592,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 107,
+     "condition": "bf_building_ok",
+     "condition_variable": 107,
+     "action": "order_place_addon",
+     "action_variable": 107,
+     "enabled_string": 658,
+     "disabled_string": 708
+    },
+    {
+     "position": 8,
+     "icon": 108,
+     "condition": "bf_building_ok",
+     "condition_variable": 108,
+     "action": "order_place_addon",
+     "action_variable": 108,
+     "enabled_string": 659,
+     "disabled_string": 709
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 106,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_addon",
+     "condition_variable": 0,
+     "action": "order_cancel_addon",
+     "action_variable": 0,
+     "enabled_string": 694,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "107": {
+   "array": 1004064,
+   "entries": [
+    107
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 250,
+     "condition": "bf_has_spell",
+     "condition_variable": 4,
+     "action": "order_tech",
+     "action_variable": 4,
+     "enabled_string": 337,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "108": {
+   "array": 1004084,
+   "entries": [
+    108
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 14,
+     "condition": "bf_empty_silo",
+     "condition_variable": 14,
+     "action": "order_build",
+     "action_variable": 14,
+     "enabled_string": 597,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "125": {
+   "array": 1004124,
+   "entries": [
+    125
+   ],
+   "buttons": [
+    {
+     "position": 8,
+     "icon": 309,
+     "condition": "bf_trans",
+     "condition_variable": 0,
+     "action": "order_pickup",
+     "action_variable": 0,
+     "enabled_string": 683,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 312,
+     "condition": "bf_trans_has_passenger",
+     "condition_variable": 0,
+     "action": "order_unload",
+     "action_variable": 0,
+     "enabled_string": 684,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "111": {
+   "array": 1004168,
+   "entries": [
+    111
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 0,
+     "condition": "bf_building_ok",
+     "condition_variable": 0,
+     "action": "order_build",
+     "action_variable": 0,
+     "enabled_string": 586,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 32,
+     "condition": "bf_building_ok",
+     "condition_variable": 32,
+     "action": "order_build",
+     "action_variable": 32,
+     "enabled_string": 588,
+     "disabled_string": 702
+    },
+    {
+     "position": 3,
+     "icon": 1,
+     "condition": "bf_building_ok",
+     "condition_variable": 1,
+     "action": "order_build",
+     "action_variable": 1,
+     "enabled_string": 587,
+     "disabled_string": 701
+    },
+    {
+     "position": 4,
+     "icon": 34,
+     "condition": "bf_building_ok",
+     "condition_variable": 34,
+     "action": "order_build",
+     "action_variable": 34,
+     "enabled_string": 1290,
+     "disabled_string": 1294
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 111,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_addon",
+     "condition_variable": 0,
+     "action": "order_cancel_addon",
+     "action_variable": 0,
+     "enabled_string": 694,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "113": {
+   "array": 1004392,
+   "entries": [
+    113
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 2,
+     "condition": "bf_building_ok",
+     "condition_variable": 2,
+     "action": "order_build",
+     "action_variable": 2,
+     "enabled_string": 589,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 5,
+     "condition": "bf_building_ok",
+     "condition_variable": 5,
+     "action": "order_build",
+     "action_variable": 5,
+     "enabled_string": 591,
+     "disabled_string": 704
+    },
+    {
+     "position": 3,
+     "icon": 3,
+     "condition": "bf_building_ok",
+     "condition_variable": 3,
+     "action": "order_build",
+     "action_variable": 3,
+     "enabled_string": 590,
+     "disabled_string": 703
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 120,
+     "condition": "bf_building_ok",
+     "condition_variable": 120,
+     "action": "order_place_addon",
+     "action_variable": 120,
+     "enabled_string": 663,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 113,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_addon",
+     "condition_variable": 0,
+     "action": "order_cancel_addon",
+     "action_variable": 0,
+     "enabled_string": 694,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "116": {
+   "array": 1004632,
+   "entries": [
+    116
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 241,
+     "condition": "bf_research",
+     "condition_variable": 2,
+     "action": "order_research",
+     "action_variable": 2,
+     "enabled_string": 326,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 242,
+     "condition": "bf_research",
+     "condition_variable": 7,
+     "action": "order_research",
+     "action_variable": 7,
+     "enabled_string": 330,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 248,
+     "condition": "bf_upgrade",
+     "condition_variable": 19,
+     "action": "order_upgrade",
+     "action_variable": 19,
+     "enabled_string": 475,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 117,
+     "condition": "bf_building_ok",
+     "condition_variable": 117,
+     "action": "order_place_addon",
+     "action_variable": 117,
+     "enabled_string": 661,
+     "disabled_string": 0
+    },
+    {
+     "position": 8,
+     "icon": 118,
+     "condition": "bf_building_ok",
+     "condition_variable": 118,
+     "action": "order_place_addon",
+     "action_variable": 118,
+     "enabled_string": 662,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 116,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_addon",
+     "condition_variable": 0,
+     "action": "order_cancel_addon",
+     "action_variable": 0,
+     "enabled_string": 694,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "114": {
+   "array": 1004872,
+   "entries": [
+    114
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 8,
+     "condition": "bf_building_ok",
+     "condition_variable": 8,
+     "action": "order_build",
+     "action_variable": 8,
+     "enabled_string": 593,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 11,
+     "condition": "bf_building_ok",
+     "condition_variable": 11,
+     "action": "order_build",
+     "action_variable": 11,
+     "enabled_string": 595,
+     "disabled_string": 706
+    },
+    {
+     "position": 3,
+     "icon": 9,
+     "condition": "bf_building_ok",
+     "condition_variable": 9,
+     "action": "order_build",
+     "action_variable": 9,
+     "enabled_string": 594,
+     "disabled_string": 705
+    },
+    {
+     "position": 4,
+     "icon": 12,
+     "condition": "bf_building_ok",
+     "condition_variable": 12,
+     "action": "order_build",
+     "action_variable": 12,
+     "enabled_string": 596,
+     "disabled_string": 707
+    },
+    {
+     "position": 5,
+     "icon": 58,
+     "condition": "bf_building_ok",
+     "condition_variable": 58,
+     "action": "order_build",
+     "action_variable": 58,
+     "enabled_string": 1291,
+     "disabled_string": 1295
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 7,
+     "icon": 115,
+     "condition": "bf_building_ok",
+     "condition_variable": 115,
+     "action": "order_place_addon",
+     "action_variable": 115,
+     "enabled_string": 660,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 114,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_addon",
+     "condition_variable": 0,
+     "action": "order_cancel_addon",
+     "action_variable": 0,
+     "enabled_string": 694,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "115": {
+   "array": 1005136,
+   "entries": [
+    115
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 252,
+     "condition": "bf_research",
+     "condition_variable": 9,
+     "action": "order_research",
+     "action_variable": 9,
+     "enabled_string": 332,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 284,
+     "condition": "bf_upgrade",
+     "condition_variable": 22,
+     "action": "order_upgrade",
+     "action_variable": 22,
+     "enabled_string": 478,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "122": {
+   "array": 1005216,
+   "entries": [
+    122
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 288,
+     "condition": "bf_upgrade",
+     "condition_variable": 7,
+     "action": "order_upgrade",
+     "action_variable": 7,
+     "enabled_string": 463,
+     "disabled_string": 504
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 292,
+     "condition": "bf_upgrade",
+     "condition_variable": 0,
+     "action": "order_upgrade",
+     "action_variable": 0,
+     "enabled_string": 456,
+     "disabled_string": 501
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 122,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "117": {
+   "array": 1005360,
+   "entries": [
+    117
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 240,
+     "condition": "bf_research",
+     "condition_variable": 1,
+     "action": "order_research",
+     "action_variable": 1,
+     "enabled_string": 325,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 252,
+     "condition": "bf_research",
+     "condition_variable": 10,
+     "action": "order_research",
+     "action_variable": 10,
+     "enabled_string": 333,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 249,
+     "condition": "bf_upgrade",
+     "condition_variable": 20,
+     "action": "order_upgrade",
+     "action_variable": 20,
+     "enabled_string": 476,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 256,
+     "condition": "bf_upgrade",
+     "condition_variable": 21,
+     "action": "order_upgrade",
+     "action_variable": 21,
+     "enabled_string": 477,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "118": {
+   "array": 1005480,
+   "entries": [
+    118
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 251,
+     "condition": "bf_research",
+     "condition_variable": 8,
+     "action": "order_research",
+     "action_variable": 8,
+     "enabled_string": 331,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 285,
+     "condition": "bf_upgrade",
+     "condition_variable": 23,
+     "action": "order_upgrade",
+     "action_variable": 23,
+     "enabled_string": 479,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "123": {
+   "array": 1005560,
+   "entries": [
+    123
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 289,
+     "condition": "bf_upgrade",
+     "condition_variable": 8,
+     "action": "order_upgrade",
+     "action_variable": 8,
+     "enabled_string": 464,
+     "disabled_string": 507
+    },
+    {
+     "position": 2,
+     "icon": 290,
+     "condition": "bf_upgrade",
+     "condition_variable": 9,
+     "action": "order_upgrade",
+     "action_variable": 9,
+     "enabled_string": 465,
+     "disabled_string": 513
+    },
+    {
+     "position": 4,
+     "icon": 293,
+     "condition": "bf_upgrade",
+     "condition_variable": 1,
+     "action": "order_upgrade",
+     "action_variable": 1,
+     "enabled_string": 457,
+     "disabled_string": 510
+    },
+    {
+     "position": 5,
+     "icon": 291,
+     "condition": "bf_upgrade",
+     "condition_variable": 2,
+     "action": "order_upgrade",
+     "action_variable": 2,
+     "enabled_string": 458,
+     "disabled_string": 516
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "112": {
+   "array": 1005664,
+   "entries": [
+    112
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 238,
+     "condition": "bf_upgrade",
+     "condition_variable": 16,
+     "action": "order_upgrade",
+     "action_variable": 16,
+     "enabled_string": 472,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 237,
+     "condition": "bf_research",
+     "condition_variable": 0,
+     "action": "order_research",
+     "action_variable": 0,
+     "enabled_string": 324,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 366,
+     "condition": "bf_research",
+     "condition_variable": 24,
+     "action": "order_research",
+     "action_variable": 24,
+     "enabled_string": 1245,
+     "disabled_string": 0
+    },
+    {
+     "position": 5,
+     "icon": 373,
+     "condition": "bf_research",
+     "condition_variable": 30,
+     "action": "order_research",
+     "action_variable": 30,
+     "enabled_string": 1246,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 384,
+     "condition": "bf_upgrade",
+     "condition_variable": 51,
+     "action": "order_upgrade",
+     "action_variable": 51,
+     "enabled_string": 1281,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "120": {
+   "array": 1005808,
+   "entries": [
+    120
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 287,
+     "condition": "bf_upgrade",
+     "condition_variable": 17,
+     "action": "order_upgrade",
+     "action_variable": 17,
+     "enabled_string": 473,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 243,
+     "condition": "bf_research",
+     "condition_variable": 3,
+     "action": "order_research",
+     "action_variable": 3,
+     "enabled_string": 327,
+     "disabled_string": 0
+    },
+    {
+     "position": 3,
+     "icon": 245,
+     "condition": "bf_research",
+     "condition_variable": 5,
+     "action": "order_research",
+     "action_variable": 5,
+     "enabled_string": 328,
+     "disabled_string": 0
+    },
+    {
+     "position": 4,
+     "icon": 380,
+     "condition": "bf_upgrade",
+     "condition_variable": 54,
+     "action": "order_upgrade",
+     "action_variable": 54,
+     "enabled_string": 1282,
+     "disabled_string": 1287
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_research",
+     "condition_variable": 0,
+     "action": "order_cancel_research",
+     "action_variable": 0,
+     "enabled_string": 692,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_upgrade",
+     "condition_variable": 0,
+     "action": "order_cancel_upgrade",
+     "action_variable": 0,
+     "enabled_string": 691,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "130": {
+   "array": 1005928,
+   "entries": [
+    130
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 228,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_move",
+     "action_variable": 0,
+     "enabled_string": 664,
+     "disabled_string": 0
+    },
+    {
+     "position": 1,
+     "icon": 50,
+     "condition": "bf_building_ok",
+     "condition_variable": 50,
+     "action": "order_build",
+     "action_variable": 50,
+     "enabled_string": 585,
+     "disabled_string": 0
+    },
+    {
+     "position": 2,
+     "icon": 229,
+     "condition": "bf_is_ship",
+     "condition_variable": 0,
+     "action": "order_stop",
+     "action_variable": 0,
+     "enabled_string": 665,
+     "disabled_string": 0
+    },
+    {
+     "position": 6,
+     "icon": 286,
+     "condition": "bf_rally",
+     "condition_variable": 0,
+     "action": "order_rally",
+     "action_variable": 0,
+     "enabled_string": 672,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 283,
+     "condition": "bf_lifted",
+     "condition_variable": 0,
+     "action": "order_land",
+     "action_variable": 130,
+     "enabled_string": 670,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 282,
+     "condition": "bf_liftoff_ok",
+     "condition_variable": 0,
+     "action": "order_bldg_liftoff",
+     "action_variable": 0,
+     "enabled_string": 671,
+     "disabled_string": 0
+    },
+    {
+     "position": 9,
+     "icon": 236,
+     "condition": "bf_stop_unit",
+     "condition_variable": 0,
+     "action": "order_stop_build",
+     "action_variable": 254,
+     "enabled_string": 693,
+     "disabled_string": 0
+    }
+   ]
+  },
+  "197": {
+   "array": 1006068,
+   "entries": [
+    197,
+    198,
+    199
+   ],
+   "buttons": [
+    {
+     "position": 1,
+     "icon": 283,
+     "condition": "bf_always",
+     "condition_variable": 0,
+     "action": "order_place_cop",
+     "action_variable": 0,
+     "enabled_string": 686,
+     "disabled_string": 0
+    }
+   ]
+  }
+ },
+ "units": [
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 1
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 2
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 3
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 4
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 5
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 6
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 7
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 8
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 9
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 10
+  },
+  {
+   "status_changed": "statdraw_query_transport",
+   "status_update": "statdraw_draw_transport",
+   "status_unit_type": 11
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 12
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 13
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 14
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 15
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 16
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 17
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 18
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 19
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 20
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 21
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 22
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 23
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 24
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 25
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 26
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 27
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 28
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 29
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 30
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 31
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 32
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 33
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 34
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 35
+  },
+  {
+   "status_changed": "statdraw_query_egg",
+   "status_update": "statdraw_draw_egg",
+   "status_unit_type": 36
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 37
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 38
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 39
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 40
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 41
+  },
+  {
+   "status_changed": "statdraw_query_overlord",
+   "status_update": "statdraw_draw_overlord",
+   "status_unit_type": 42
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 43
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 44
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 45
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 46
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 47
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 48
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 49
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 50
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 51
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 52
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 53
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 54
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 55
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 56
+  },
+  {
+   "status_changed": "statdraw_query_overlord",
+   "status_update": "statdraw_draw_overlord",
+   "status_unit_type": 57
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 58
+  },
+  {
+   "status_changed": "statdraw_query_egg",
+   "status_update": "statdraw_draw_egg",
+   "status_unit_type": 59
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 60
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 61
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 62
+  },
+  {
+   "status_changed": "statdraw_query_archon",
+   "status_update": "statdraw_draw_archon",
+   "status_unit_type": 63
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 64
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 65
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 66
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 67
+  },
+  {
+   "status_changed": "statdraw_query_archon",
+   "status_update": "statdraw_draw_archon",
+   "status_unit_type": 68
+  },
+  {
+   "status_changed": "statdraw_query_transport",
+   "status_update": "statdraw_draw_transport",
+   "status_unit_type": 69
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 70
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 71
+  },
+  {
+   "status_changed": "statdraw_query_carrier",
+   "status_update": "statdraw_draw_carrier",
+   "status_unit_type": 72
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 73
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 74
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 75
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 76
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 77
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 78
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 79
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 80
+  },
+  {
+   "status_changed": "statdraw_query_carrier",
+   "status_update": "statdraw_draw_carrier",
+   "status_unit_type": 81
+  },
+  {
+   "status_changed": "statdraw_query_carrier",
+   "status_update": "statdraw_draw_carrier",
+   "status_unit_type": 82
+  },
+  {
+   "status_changed": "statdraw_query_carrier",
+   "status_update": "statdraw_draw_carrier",
+   "status_unit_type": 83
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 84
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 85
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 86
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 87
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 88
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 89
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 90
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 93
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 94
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 95
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 96
+  },
+  {
+   "status_changed": "statdraw_query_egg",
+   "status_update": "statdraw_draw_egg",
+   "status_unit_type": 97
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 98
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 99
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 100
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 101
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 102
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 103
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_unit",
+   "status_unit_type": 104
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 105
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 106
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 107
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 108
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 109
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 110
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 111
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 112
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 113
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 114
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 115
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 116
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 117
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 118
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 119
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 120
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 121
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 122
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 123
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 124
+  },
+  {
+   "status_changed": "statdraw_query_transport",
+   "status_update": "statdraw_draw_transport",
+   "status_unit_type": 125
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 126
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 127
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 128
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 129
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 130
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 131
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 132
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 133
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 134
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 135
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 136
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 137
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 138
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 139
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 140
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 141
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 142
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 143
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 144
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 145
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 146
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 147
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 148
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 149
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 150
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 151
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 152
+  },
+  {
+   "status_changed": "statdraw_query_unit",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 153
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 154
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 155
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 156
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 157
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 158
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 159
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 160
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 162
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 163
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 164
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 165
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 166
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 167
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 168
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 169
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 170
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 171
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 172
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 173
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 174
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 175
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 176
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 177
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 178
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 179
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 180
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 181
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 182
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 183
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 184
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 185
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 186
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 187
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 188
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 189
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 190
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 194
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 195
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 196
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 197
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 198
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 199
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 200
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 201
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 203
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 204
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 205
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 206
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 207
+  },
+  {
+   "status_changed": "statdraw_query_never",
+   "status_update": "statdraw_draw_none",
+   "status_unit_type": 208
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 209
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 210
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 211
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 212
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 213
+  },
+  {
+   "status_changed": "statdraw_query_bldg",
+   "status_update": "statdraw_draw_bldg",
+   "status_unit_type": 0
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 215
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 216
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 217
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 218
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 219
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 220
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 221
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 222
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 223
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 224
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 225
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 226
+  },
+  {
+   "status_changed": "statdraw_query_powerup",
+   "status_update": "statdraw_draw_powerup",
+   "status_unit_type": 227
+  }
+ ],
+ "functions": {
+  "bf_always": 659296,
+  "bf_stop_build": 663152,
+  "bf_no_exit": 662224,
+  "bf_can_move_stop_unburrowed": 662128,
+  "bf_can_move_patrol_unburrowed": 661808,
+  "bf_lifted": 661424,
+  "bf_is_ship": 661392,
+  "bf_battery": 661328,
+  "bf_load": 660032,
+  "bf_no_load": 659984,
+  "bf_not_comp": 659888,
+  "bf_larva_sel": 659776,
+  "bf_stop_unit": 659728,
+  "bf_load_scv": 663344,
+  "bf_no_load_scv": 663248,
+  "bf_scv_can_repair": 663200,
+  "bf_scv_can_attack": 663200,
+  "bf_scv_can_move_stop": 663200,
+  "bf_scv_can_move": 663200,
+  "bf_has_scarab": 662608,
+  "bf_has_interceptor": 662528,
+  "bf_load_drone": 662048,
+  "bf_no_load_drone": 661968,
+  "bf_liftoff_ok": 661472,
+  "bf_has_nuke": 661296,
+  "bf_can_tank_move": 661232,
+  "bf_stop_research": 659952,
+  "bf_stop_upgrade": 659920,
+  "bf_stop_addon": 659760,
+  "bf_empty_silo": 663792,
+  "bf_terran_build_advanced": 663648,
+  "bf_terran_build_basic": 663440,
+  "bf_protoss_build_advanced": 662976,
+  "bf_protoss_build_basic": 662800,
+  "bf_zerg_build_advanced": 662400,
+  "bf_zerg_build_basic": 662256,
+  "bf_can_move_stop": 659520,
+  "bf_can_move_patrol": 659456,
+  "bf_build_fighter_ok": 659376,
+  "bf_building_ok": 659312,
+  "bf_trans_has_passenger": 660144,
+  "bf_tower": 659632,
+  "bf_can_attack": 659568,
+  "bf_can_attack_unburrowed": 661856,
+  "bf_trans": 660080,
+  "bf_burrowed": 661680,
+  "bf_can_burrow": 661568,
+  "bf_is_sieged": 661152,
+  "bf_can_siege": 661072,
+  "bf_is_hero_cloaked": 660960,
+  "bf_can_cloak_hero": 660848,
+  "bf_is_cloaked": 660736,
+  "bf_can_cloak": 660624,
+  "bf_upgrade": 660608,
+  "bf_has_mines": 660384,
+  "bf_has_spell": 660368,
+  "bf_research": 660352,
+  "bf_rally": 659824,
+  "bf_can_make_darchon": 662752,
+  "bf_can_make_darchon_need2": 662720,
+  "bf_can_make_archon": 662672,
+  "bf_can_make_archon_need2": 662720,
+  "bf_make_lurker": 661792,
+  "bf_hatch_rally": 659840,
+  "bf_replay_play": 528288,
+  "bf_replay_speedup": 528224,
+  "bf_replay_slowdown": 528160,
+  "order_none": 576768,
+  "order_cancel_nuke": 508848,
+  "order_summon_darchon": 508800,
+  "order_summon_archon": 508784,
+  "order_bldg_liftoff": 508672,
+  "order_decloak": 508656,
+  "order_deburrow": 508496,
+  "order_burrow": 508480,
+  "order_cancel_addon": 508064,
+  "order_cancel_upgrade": 508048,
+  "order_upgrade": 508032,
+  "order_cancel_research": 507248,
+  "order_research": 507232,
+  "order_hold_pos": 507216,
+  "order_build_fighter": 507184,
+  "order_trilobyte_stop": 507136,
+  "order_carrier_stop": 507120,
+  "order_stop": 506960,
+  "order_kill_egg": 506928,
+  "order_kill": 506912,
+  "order_siege": 506896,
+  "order_tank_mode": 506880,
+  "order_stop_build": 506864,
+  "order_build": 506848,
+  "order_stim": 507952,
+  "order_cloak": 508512,
+  "order_return": 508448,
+  "order_morph": 508384,
+  "order_upgrade_bldg": 508304,
+  "order_select_larva": 506640,
+  "order_heal": 508864,
+  "order_nuke_paint": 508832,
+  "order_recharge": 508816,
+  "order_unload": 508736,
+  "order_pickup": 508688,
+  "order_harvest": 508432,
+  "order_repair": 508368,
+  "order_land": 508352,
+  "order_nydus_exit": 508288,
+  "order_zerg_place": 508240,
+  "order_place_addon": 508192,
+  "order_place_protoss": 508144,
+  "order_place_cop": 508128,
+  "order_place": 508080,
+  "order_tech": 507264,
+  "order_patrol": 507200,
+  "order_reaver_attack": 507168,
+  "order_carrier_attack": 507152,
+  "order_carrier_move": 507088,
+  "order_tower_attack": 507072,
+  "order_attack_unit": 507056,
+  "order_attack": 506976,
+  "order_move": 506944,
+  "order_rally": 506624,
+  "order_target_off": 663824,
+  "order_cancel_land": 663840,
+  "statcmd_set_ctrl": 663872,
+  "order_replay_speedup": 528080,
+  "order_replay_play": 528048,
+  "order_replay_slowdown": 527968,
+  "statdraw_query_never": 785072,
+  "statdraw_query_unit": 676000,
+  "statdraw_query_bldg": 679712,
+  "statdraw_query_transport": 684272,
+  "statdraw_query_carrier": 685584,
+  "statdraw_query_archon": 686576,
+  "statdraw_query_egg": 687184,
+  "statdraw_query_overlord": 688064,
+  "statdraw_query_powerup": 689584,
+  "statdraw_draw_unit": 676384,
+  "statdraw_draw_bldg": 680016,
+  "statdraw_draw_transport": 684544,
+  "statdraw_draw_carrier": 685792,
+  "statdraw_draw_archon": 686672,
+  "statdraw_draw_egg": 687296,
+  "statdraw_draw_overlord": 688608,
+  "statdraw_draw_powerup": 689616,
+  "statdraw_draw_none": 689728
+ },
+ "streams": {
+  "unit": {
+   "rva": 1013536,
+   "length": 1090,
+   "base_refs": [
+    747893,
+    748001,
+    748167,
+    748697,
+    748749,
+    749292,
+    749361
+   ],
+   "plus2_refs": [
+    747844,
+    747903,
+    748068,
+    748568,
+    748635,
+    748713,
+    749250,
+    749302,
+    749373
+   ]
+  },
+  "upgrade": {
+   "rva": 947552,
+   "length": 838,
+   "base_refs": [
+    4485,
+    4780
+   ],
+   "plus2_refs": [
+    4429,
+    4495
+   ]
+  },
+  "tech_research": {
+   "rva": 948392,
+   "length": 318,
+   "base_refs": [
+    6285,
+    6590
+   ],
+   "plus2_refs": [
+    6245,
+    6295
+   ]
+  },
+  "tech_use": {
+   "rva": 948712,
+   "length": 688,
+   "base_refs": [
+    6749,
+    7029
+   ],
+   "plus2_refs": [
+    6709,
+    6759
+   ]
+  },
+  "order": {
+   "rva": 949400,
+   "length": 1324,
+   "base_refs": [
+    7165,
+    7579
+   ],
+   "plus2_refs": [
+    7124,
+    7175
+   ]
+  }
+ }
+}

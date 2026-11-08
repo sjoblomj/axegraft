@@ -330,16 +330,15 @@ fn real_executables_can_be_patched() {
         eprintln!("SKIPPED: no executables.local.txt");
         return;
     };
-    let supported = ["1.16.1", "1.17", "2.02"];
     let mut checked = 0;
     for line in list.lines().filter(|l| !l.starts_with('#')) {
         let mut parts = line.splitn(3, ' ');
-        let (Some(_), Some(version), Some(path)) = (parts.next(), parts.next(), parts.next()) else { continue };
+        let (Some(_), Some(_), Some(path)) = (parts.next(), parts.next(), parts.next()) else { continue };
         if !Path::new(path).exists() {
             continue;
         }
         let r = release(&[&format!("can_patch:{}", windows_path(Path::new(path)))]);
-        r.is("can_patch", if supported.contains(&version) { "1" } else { "0" });
+        r.is("can_patch", "1");
         checked += 1;
     }
     assert!(checked > 0 || list.is_empty(), "no listed executable exists");

@@ -2,8 +2,8 @@
 //!
 //! A mod's value is always in the game's stored scale. An encoding only
 //! decides how many bytes hold it, whether they're signed, and whether the
-//! game stores it negated. Nothing a mod gives can cause any other
-//! computation.
+//! game stores it negated or as a distance from a fixed number. Nothing a mod
+//! gives can cause any other computation.
 
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -24,6 +24,12 @@ pub enum Encoding {
     /// One byte of a value whose whole is `width` bytes, unsigned, little-endian.
     /// Byte 0 is the lowest. The other bytes are separate locations.
     ByteOf { index: u8, width: u8 },
+    /// The value minus `base`, in `width` bytes: a value tested as `x - 131`
+    /// is stored as the distance from 131.
+    Offset { width: u8, signed: bool, base: i32 },
+    /// `base` minus the value, signed, in `width` bytes: a radius of 3 stored
+    /// as 1 - 3.
+    Reflected { width: u8, base: i32 },
 }
 
 impl Encoding {
@@ -33,13 +39,15 @@ impl Encoding {
             Encoding::U8 | Encoding::I8 | Encoding::Neg8 | Encoding::ByteOf { .. } => 1,
             Encoding::U16 | Encoding::I16 | Encoding::Neg16 => 2,
             Encoding::U32 | Encoding::I32 | Encoding::Neg32 => 4,
+            Encoding::Offset { width, .. } | Encoding::Reflected { width, .. } => width as usize,
         }
     }
 
-    /// Whether the encoding itself is well formed. Only `byte_of` can fail.
+    /// Whether the encoding itself is well formed. Only `byte_of`, `offset` and `reflected` can fail.
     pub fn is_valid(self) -> bool {
         match self {
             Encoding::ByteOf { index, width } => (1..=4).contains(&width) && index < width,
+            Encoding::Offset { width, .. } | Encoding::Reflected { width, .. } => matches!(width, 1 | 2 | 4),
             _ => true,
         }
     }
@@ -57,6 +65,15 @@ impl Encoding {
             Encoding::Neg16 => (-(i16::MAX as i64), -(i16::MIN as i64)),
             Encoding::Neg32 => (-(i32::MAX as i64), -(i32::MIN as i64)),
             Encoding::ByteOf { width, .. } => (0, (1i64 << (8 * width.min(4) as u32)) - 1),
+            Encoding::Offset { width, signed, base } => {
+                let bits = 8 * width.min(4) as u32;
+                let (lo, hi) = if signed { (-(1i64 << (bits - 1)), (1i64 << (bits - 1)) - 1) } else { (0, (1i64 << bits) - 1) };
+                (lo + base as i64, hi + base as i64)
+            }
+            Encoding::Reflected { width, base } => {
+                let bits = 8 * width.min(4) as u32;
+                (base as i64 - ((1i64 << (bits - 1)) - 1), base as i64 + (1i64 << (bits - 1)))
+            }
         }
     }
 
@@ -78,6 +95,8 @@ impl Encoding {
             Encoding::Neg16 => ((-value) as i16).to_le_bytes().to_vec(),
             Encoding::Neg32 => ((-value) as i32).to_le_bytes().to_vec(),
             Encoding::ByteOf { index, .. } => vec![((value >> (8 * index as u32)) & 0xFF) as u8],
+            Encoding::Offset { width, base, .. } => (value - base as i64).to_le_bytes()[..width as usize].to_vec(),
+            Encoding::Reflected { width, base } => (base as i64 - value).to_le_bytes()[..width as usize].to_vec(),
         })
     }
 
@@ -99,6 +118,16 @@ impl Encoding {
             Encoding::Neg16 => -(i16::from_le_bytes([b[0], b[1]]) as i64),
             Encoding::Neg32 => -(i32::from_le_bytes([b[0], b[1], b[2], b[3]]) as i64),
             Encoding::ByteOf { index, .. } => (b[0] as i64) << (8 * index as u32),
+            Encoding::Offset { signed, base, .. } => {
+                let mut wide = [if signed && b[b.len() - 1] & 0x80 != 0 { 0xFF } else { 0 }; 8];
+                wide[..b.len()].copy_from_slice(b);
+                i64::from_le_bytes(wide) + base as i64
+            }
+            Encoding::Reflected { base, .. } => {
+                let mut wide = [if b[b.len() - 1] & 0x80 != 0 { 0xFF } else { 0 }; 8];
+                wide[..b.len()].copy_from_slice(b);
+                base as i64 - i64::from_le_bytes(wide)
+            }
         })
     }
 }
@@ -107,6 +136,8 @@ impl fmt::Display for Encoding {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Encoding::ByteOf { index, width } => write!(f, "byte {index} of {width}"),
+            Encoding::Offset { width, signed, base } => write!(f, "{}{} minus {base}", if *signed { "i" } else { "u" }, 8 * *width as u32),
+            Encoding::Reflected { width, base } => write!(f, "{base} minus the value, in i{}", 8 * *width as u32),
             other => write!(f, "{}", format!("{other:?}").to_lowercase()),
         }
     }
@@ -116,8 +147,25 @@ impl fmt::Display for Encoding {
 mod tests {
     use super::Encoding::{self, *};
 
-    const ALL: [Encoding; 13] =
-        [U8, U16, U32, I8, I16, I32, Neg8, Neg16, Neg32, ByteOf { index: 0, width: 1 }, ByteOf { index: 0, width: 2 }, ByteOf { index: 1, width: 2 }, ByteOf { index: 3, width: 4 }];
+    const ALL: [Encoding; 17] = [
+        U8,
+        U16,
+        U32,
+        I8,
+        I16,
+        I32,
+        Neg8,
+        Neg16,
+        Neg32,
+        ByteOf { index: 0, width: 1 },
+        ByteOf { index: 0, width: 2 },
+        ByteOf { index: 1, width: 2 },
+        ByteOf { index: 3, width: 4 },
+        Offset { width: 1, signed: false, base: 1 },
+        Offset { width: 1, signed: true, base: 131 },
+        Offset { width: 2, signed: false, base: 228 },
+        Reflected { width: 1, base: 1 },
+    ];
 
     #[test]
     fn round_trip_at_the_ends_and_middle() {
@@ -174,6 +222,29 @@ mod tests {
         assert!(!ByteOf { index: 2, width: 2 }.is_valid());
         assert!(!ByteOf { index: 0, width: 5 }.is_valid());
         assert_eq!(ByteOf { index: 2, width: 2 }.encode(1), None);
+    }
+
+    #[test]
+    fn stored_as_a_distance_from_a_base() {
+        let hallucinations = Offset { width: 1, signed: false, base: 1 };
+        assert_eq!(hallucinations.range(), (1, 256));
+        assert_eq!(hallucinations.encode(2), Some(vec![1]));
+        assert_eq!(hallucinations.decode(&[1]), Some(2));
+        let creep = Offset { width: 1, signed: true, base: 131 };
+        assert_eq!(creep.range(), (3, 258));
+        assert_eq!(creep.encode(133), Some(vec![2]));
+        assert_eq!(creep.encode(30), Some(vec![0x9B]));
+        assert_eq!(creep.decode(&[0x9B]), Some(30));
+        assert!(!Offset { width: 3, signed: false, base: 0 }.is_valid());
+    }
+
+    #[test]
+    fn stored_as_a_base_minus_the_value() {
+        let radius = Reflected { width: 1, base: 1 };
+        assert_eq!(radius.range(), (-126, 129));
+        assert_eq!(radius.encode(3), Some(vec![0xFE]));
+        assert_eq!(radius.decode(&[0xFE]), Some(3));
+        assert!(!Reflected { width: 3, base: 0 }.is_valid());
     }
 
     #[test]

@@ -10,10 +10,12 @@ The library's data is JSON, in `crates/library/data`. `build.rs` reads it, check
 data/
   starcraft/
     game.json       game-level facts and constants
-    1.16.1.json     one file for each supported version, named by its id
+    1.05.json       one file for each supported version, named by its id
+    ...
     1.17.json
   warcraft2/
     game.json
+    2.00.json
     2.02.json
 ```
 
@@ -88,6 +90,8 @@ A constant whose entry is `unknown` or `not_applicable` on the running version i
 | `i8`, `i16`, `i32` | Signed. |
 | `neg8`, `neg16`, `neg32` | The value negated, signed: a mod's 50 is stored as -50. |
 | `{"byte_of": {"index", "width"}}` | One byte of a value `width` bytes wide, byte 0 being the lowest. Each byte is a location of its own. |
+| `{"offset": {"width", "signed", "base"}}` | The value minus `base`, in `width` bytes: a mod's 133 with a base of 131 is stored as 2. |
+| `{"reflected": {"width", "base"}}` | `base` minus the value, signed, in `width` bytes: a mod's 3 with a base of 1 is stored as -2. |
 
 A mod's value is always in the game's stored scale, and is written as it is at every location, in that location's encoding. `scale` records the stored scale (1 if left out). It must be the same everywhere a constant is stored.
 
@@ -136,7 +140,7 @@ The build fails, naming the game, version and entry, unless:
 - Two names share an address only where the version's original data uses both.
 - Every constant has an entry for every version. Every location has expected bytes of its encoding's width, and every value in the constant's range fits every location. A constant has one scale everywhere.
 - An option constant has `original`, whose bytes are the expected bytes, and every option gives bytes for every site.
-- No two properties write the same bytes on any version: constants, button table entries, status entries and stream references.
+- No two properties write the same bytes on any version: constants, button table entries, status entries and stream references. The one exception is constants the game stores in exactly the same place on a version, with the same expected bytes. A mod may set both to the same value there; setting them to different values is an error on that version.
 - Nothing unconfirmed or incomplete is left in.
 
 ## Example

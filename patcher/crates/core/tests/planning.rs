@@ -4,7 +4,8 @@
 mod common;
 
 use axegraft_patcher_core::apply::apply;
-use axegraft_patcher_core::library::{GameLibrary, Library, Version};
+use axegraft_patcher_core::library::{Availability, GameLibrary, Library, Version};
+use axegraft_patcher_core::library_check::check_library;
 use axegraft_patcher_core::memory::{FakeMemory, Memory, FAKE_BASE};
 use axegraft_patcher_core::parse::parse_mod;
 use axegraft_patcher_core::plan::{plan, Plan, SkipReason};
@@ -95,6 +96,51 @@ fn changed_rvas(version: &str, mem: &FakeMemory) -> Vec<u32> {
 }
 
 // ---- Constant changes
+
+/// The toy library with max_supply_copy, stored exactly where max_supply is.
+fn library_with_a_shared_location() -> Library {
+    let mut l = lib();
+    let g = l.games.iter_mut().find(|g| g.game == Game::StarCraft).unwrap();
+    let mut copy = g.constants.iter().find(|c| c.name == "max_supply").unwrap().clone();
+    copy.name = "max_supply_copy".to_string();
+    g.constants.push(copy);
+    l
+}
+
+fn plan_shared(first: i64, second: i64) -> Result<Plan, Vec<Problem>> {
+    let l = library_with_a_shared_location();
+    let (g, v) = gv(&l, "1.16.1");
+    let m = with_header("starcraft", json!({"constants": [{"name": "max_supply", "value": first}, {"name": "max_supply_copy", "value": second}]}));
+    let parsed = parse_mod("mod.json", m.to_string().as_bytes(), &g.vocabulary()).unwrap_or_else(|p| panic!("the mod is invalid: {p:#?}"));
+    plan("mod.json", &parsed, g, v, &memory(g, v, BASE))
+}
+
+#[test]
+fn constants_in_the_same_place_pass_the_library_check() {
+    assert_eq!(check_library(&library_with_a_shared_location()), Vec::<String>::new());
+}
+
+#[test]
+fn constants_in_the_same_place_with_different_expected_bytes_fail_the_library_check() {
+    let mut l = library_with_a_shared_location();
+    let g = l.games.iter_mut().find(|g| g.game == Game::StarCraft).unwrap();
+    let copy = g.constants.iter_mut().find(|c| c.name == "max_supply_copy").unwrap();
+    let Some(Availability::Locations { locations, .. }) = copy.versions.get_mut("1.16.1") else { panic!("max_supply has locations") };
+    locations[0].expected[0] ^= 1;
+    let problems = check_library(&l);
+    assert!(problems.iter().any(|p| p.contains("max_supply_copy") && p.contains("overlap")), "{problems:#?}");
+}
+
+#[test]
+fn a_mod_may_set_constants_in_the_same_place_to_one_value() {
+    plan_shared(500, 500).unwrap_or_else(|e| panic!("planning failed: {e:#?}"));
+}
+
+#[test]
+fn a_mod_cant_set_constants_in_the_same_place_to_different_values() {
+    let problems = plan_shared(500, 600).unwrap_err();
+    assert!(problems.iter().any(|p| p.message.contains("max_supply_copy") && p.message.contains("would both write")), "{problems:#?}");
+}
 
 #[test]
 fn constant_with_several_locations() {

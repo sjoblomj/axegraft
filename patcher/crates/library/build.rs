@@ -9,6 +9,7 @@
 use axegraft_patcher_core::library_check::check_library;
 use axegraft_patcher_core::library_files::{data_files, load_dir};
 use axegraft_patcher_core::library::Library;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 fn main() {
@@ -40,43 +41,88 @@ fn main() {
     std::fs::write(out, generate(&lib)).unwrap();
 }
 
-/// The library as Rust functions. Each version, and each of its sets, gets
-/// a function of its own, because one huge expression is slow to compile.
+/// The library as Rust functions, each building a small part of it: a
+/// compiled-in expression is built on the stack, so one huge expression would
+/// overflow it on the game's thread, and is slow to compile. Parts that are
+/// the same on several versions, such as button lists, are built by one
+/// function.
 fn generate(lib: &Library) -> String {
     let rust = |v: &dyn erased::Value| v.rust().unwrap_or_else(|e| panic!("the library can't be written as Rust: {e}"));
-    let mut out = String::new();
+    let mut out = Functions::default();
     let mut games = Vec::new();
-    for (gi, g) in lib.games.iter().enumerate() {
-        let mut versions = Vec::new();
-        for (vi, v) in g.versions.iter().enumerate() {
-            let name = format!("version_{gi}_{vi}");
+    for g in &lib.games {
+        let mut versions = String::new();
+        for v in &g.versions {
             let mut sets = String::new();
-            for (si, (id, set)) in v.sets.iter().enumerate() {
-                let f = format!("{name}_set_{si}");
-                out.push_str(&format!("fn {f}() -> Option<SetOnVersion> {{ {} }}\n", rust(set)));
+            for (id, set) in &v.sets {
+                let f = match set {
+                    None => out.add("Option<SetOnVersion>", "None".to_string()),
+                    Some(s) => {
+                        let buttons = out.add("Vec<OriginalButton>", rust(&s.buttons));
+                        let mut rest = s.clone();
+                        rest.buttons = Vec::new();
+                        out.add("Option<SetOnVersion>", format!("let mut s = {}; s.buttons = {buttons}(); Some(s)", rust(&rest)))
+                    }
+                };
                 sets.push_str(&format!("m.insert({id}, {f}());"));
             }
+            let entries = out.add("::std::collections::BTreeMap<u16, Option<EntryOnVersion>>", rust(&v.entries));
+            let units = out.add("Vec<UnitOriginal>", rust(&v.units));
+            let functions = out.add("::std::collections::BTreeMap<String, Option<u32>>", rust(&v.functions));
             let mut rest = v.clone();
             rest.sets = Default::default();
             rest.entries = Default::default();
             rest.units = Default::default();
             rest.functions = Default::default();
-            out.push_str(&format!(
-                "fn {name}() -> Version {{ let mut v = {}; v.entries = {}; v.units = {}; v.functions = {}; let mut m = ::std::collections::BTreeMap::new(); {sets} v.sets = m; v }}\n",
-                rust(&rest),
-                rust(&v.entries),
-                rust(&v.units),
-                rust(&v.functions)
-            ));
-            versions.push(format!("{name}()"));
+            let f = out.add(
+                "Version",
+                format!("let mut v = {}; v.entries = {entries}(); v.units = {units}(); v.functions = {functions}(); let mut m = ::std::collections::BTreeMap::new(); {sets} v.sets = m; v", rust(&rest)),
+            );
+            versions.push_str(&format!("g.versions.push({f}());"));
+        }
+        let mut constants = String::new();
+        for c in &g.constants {
+            let mut inserts = String::new();
+            for (id, a) in &c.versions {
+                let f = out.add("Availability", rust(a));
+                inserts.push_str(&format!("c.versions.insert({}, {f}());", rust(id)));
+            }
+            let mut rest = c.clone();
+            rest.versions = Default::default();
+            let f = out.add("Constant", format!("let mut c = {}; {inserts} c", rust(&rest)));
+            constants.push_str(&format!("g.constants.push({f}());"));
         }
         let mut rest = g.clone();
         rest.versions = Vec::new();
-        out.push_str(&format!("fn game_{gi}() -> GameLibrary {{ let mut g = {}; g.versions = vec![{}]; g }}\n", rust(&rest), versions.join(",")));
-        games.push(format!("game_{gi}()"));
+        rest.constants = Vec::new();
+        games.push(out.add("GameLibrary", format!("let mut g = {}; {constants} {versions} g", rust(&rest))));
     }
-    out.push_str(&format!("pub(crate) fn build() -> Library {{ Library {{ games: vec![{}] }} }}\n", games.join(",")));
-    out
+    let build: Vec<String> = games.iter().map(|g| format!("{g}()")).collect();
+    let mut text = out.text;
+    text.push_str(&format!("pub(crate) fn build() -> Library {{ Library {{ games: vec![{}] }} }}\n", build.join(",")));
+    text
+}
+
+/// The generated functions. A body written twice gets one function.
+#[derive(Default)]
+struct Functions {
+    text: String,
+    names: HashMap<(String, String), String>,
+}
+
+impl Functions {
+    /// The name of the function with this return type and body.
+    fn add(&mut self, ty: &str, body: String) -> String {
+        let next = format!("part_{}", self.names.len());
+        let text = &mut self.text;
+        self.names
+            .entry((ty.to_string(), body))
+            .or_insert_with_key(|(ty, body)| {
+                text.push_str(&format!("fn {next}() -> {ty} {{ {body} }}\n"));
+                next
+            })
+            .clone()
+    }
 }
 
 /// Lets `generate` write values of different types through one closure.

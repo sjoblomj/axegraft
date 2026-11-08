@@ -1,4 +1,4 @@
-//! The starter data against the real executables, and facts about the real
+//! The library against the real executables, and facts about the real
 //! games that the data must keep.
 //!
 //! The executables are listed as for `check`: `AXEGRAFT_PATCHER_EXECUTABLES`,
@@ -39,8 +39,9 @@ fn version<'a>(lib: &'a Library, game: Game, v: &str) -> (&'a axegraft_patcher_l
 fn requirement_streams_round_trip() {
     // Records per stream, from starcraft.md §4.2: order 73's record is gone from 1.16 on.
     let records = [(ReqType::Unit, 91), (ReqType::Upgrade, 51), (ReqType::TechResearch, 26), (ReqType::TechUse, 33), (ReqType::Order, 112)];
-    for v in ["1.16.1", "1.17"] {
+    for v in library().game(Game::StarCraft).unwrap().versions.iter().map(|v| v.id.as_str()) {
         let Some(file) = executable(Game::StarCraft, v) else { continue };
+        let counted = matches!(v, "1.16" | "1.16.1" | "1.17");
         let (g, ver) = version(library(), Game::StarCraft, v);
         let h = pe::headers(&file).unwrap();
         for (t, count) in records {
@@ -48,6 +49,9 @@ fn requirement_streams_round_trip() {
             let bytes = pe::at_rva(&file, &h, Layout::File, s.rva, s.length).unwrap();
             let decoded = stream::decode(bytes, &g.opcodes).unwrap_or_else(|e| panic!("{v} {t:?}: {e}"));
             assert_eq!(stream::encode(&decoded), bytes, "{v} {t:?} doesn't encode back to its bytes");
+            if !counted {
+                continue;
+            }
             assert_eq!(decoded.len(), count, "{v} {t:?}");
             if t == ReqType::Order {
                 assert!(decoded.iter().all(|r| r.id != 73), "{v} has no record for order 73");
@@ -218,16 +222,23 @@ fn facts() -> Vec<Fact> {
             let g = l.game(Game::StarCraft).unwrap();
             ensure(g.versions.iter().all(|v| v.entries[&16].unwrap().equivalent == Some(1)), "unit 16's equivalent entry")
         }),
-        ("StarCraft has 98 button sets and 554 buttons from 1.12 on", |l| {
+        ("StarCraft has 94 sets and 544 buttons up to 1.07, 96 and 550 up to 1.11b, and 98 and 554 from 1.12 on", |l| {
             let g = l.game(Game::StarCraft).unwrap();
             ensure(
-                g.versions.iter().all(|v| v.sets.values().flatten().count() == 98 && v.sets.values().flatten().map(|s| s.buttons.len()).sum::<usize>() == 554),
+                g.versions.iter().all(|v| {
+                    let expected = match v.button_table.entries {
+                        246 => (94, 544),
+                        248 => (96, 550),
+                        _ => (98, 554),
+                    };
+                    (v.sets.values().flatten().count(), v.sets.values().flatten().map(|s| s.buttons.len()).sum::<usize>()) == expected
+                }),
                 "StarCraft's sets",
             )
         }),
-        ("Warcraft II has 58 command lists in 2.02", |l| ensure(l.game(Game::Warcraft2).unwrap().versions[0].sets.values().flatten().count() == 58, "Warcraft II's sets")),
+        ("Warcraft II has 58 command lists in 2.02", |l| ensure(l.game(Game::Warcraft2).unwrap().version("2.02").unwrap().sets.values().flatten().count() == 58, "Warcraft II's sets")),
         ("bf_can_attack is bf_always in 2.02, whose buttons use only bf_always", |l| {
-            let v = &l.game(Game::Warcraft2).unwrap().versions[0];
+            let v = l.game(Game::Warcraft2).unwrap().version("2.02").unwrap();
             ensure(v.functions["bf_can_attack"].is_none() && v.functions["bf_always"].is_some(), "bf_can_attack's absence")
         }),
         ("1.17's tables aren't where 1.16.1's are", |l| {
@@ -238,10 +249,14 @@ fn facts() -> Vec<Fact> {
 }
 
 #[test]
-fn facts_about_the_starter_versions() {
+fn facts_about_the_games() {
     for (what, f) in facts() {
         f(library()).unwrap_or_else(|e| panic!("{what}: {e}"));
     }
+}
+
+fn version_mut<'a>(l: &'a mut Library, game: usize, id: &str) -> &'a mut axegraft_patcher_library::Version {
+    l.games[game].versions.iter_mut().find(|v| v.id == id).unwrap()
 }
 
 /// Each fact fails when the data it's about is altered.
@@ -256,11 +271,11 @@ fn facts_fail_on_altered_data() {
         |l| l.games[0].versions[1].sets.get_mut(&37).unwrap().as_mut().unwrap().entries.retain(|e| *e != 247),
         |l| l.games[0].versions[0].entries.get_mut(&16).unwrap().as_mut().unwrap().equivalent = None,
         |l| l.games[0].versions[1].sets.get_mut(&0).unwrap().as_mut().unwrap().buttons.pop().map(|_| ()).unwrap(),
-        |l| *l.games[1].versions[0].sets.get_mut(&2).unwrap() = None,
-        |l| *l.games[1].versions[0].functions.get_mut("bf_can_attack").unwrap() = Some(0x1000),
+        |l| *version_mut(l, 1, "2.02").sets.get_mut(&2).unwrap() = None,
+        |l| *version_mut(l, 1, "2.02").functions.get_mut("bf_can_attack").unwrap() = Some(0x1000),
         |l| {
-            let rva = l.games[0].versions[0].button_table.rva;
-            l.games[0].versions[1].button_table.rva = rva;
+            let rva = version_mut(l, 0, "1.16.1").button_table.rva;
+            version_mut(l, 0, "1.17").button_table.rva = rva;
         },
     ];
     let facts = facts();

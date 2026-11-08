@@ -77,11 +77,19 @@ Every location the library can change SHALL record the bytes expected there in t
 - **THEN** each version's entry records its own expected bytes
 
 ### Requirement: No shared locations
-No two properties SHALL write to the same location, or to overlapping bytes, on any version. This SHALL be checked when the library is built, not when a mod runs.
+No two properties SHALL write to the same location, or to overlapping bytes, on any version, except constants that the game stores in exactly the same place on that version, with the same expected bytes. This SHALL be checked when the library is built, not when a mod runs.
 
-#### Scenario: Two constants on one offset
-- **WHEN** two constants have overlapping locations on any version
+#### Scenario: Two constants on overlapping bytes
+- **WHEN** two constants have locations that overlap without being exactly the same place on any version
 - **THEN** the library check fails, naming both constants and the version
+
+#### Scenario: Two constants stored in the same place
+- **WHEN** two constants are stored in exactly the same place on a version, with the same expected bytes
+- **THEN** the library check passes, and a mod may set both to the same value on that version
+
+#### Scenario: A mod gives constants in the same place different values
+- **WHEN** a mod sets two constants stored in the same place on the running version to different values
+- **THEN** planning fails, naming both, and nothing is written
 
 ### Requirement: Grouping locations into constants
 Each value the game lets differ SHALL be its own constant. Locations that hold one value the game needs to agree SHALL be one constant, and code sites that only work together SHALL be one option constant whose options write all of them.

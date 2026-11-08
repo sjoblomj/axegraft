@@ -521,30 +521,6 @@
  "opcodes": [],
  "constants": [
   {
-   "name": "flame_shield_damage",
-   "kind": {
-    "number": {
-     "min": 0,
-     "max": 255
-    }
-   },
-   "versions": {
-    "2.02": {
-     "locations": {
-      "locations": [
-       {
-        "rva": 69722,
-        "encoding": "u8",
-        "expected": [
-         4
-        ]
-       }
-      ]
-     }
-    }
-   }
-  },
-  {
    "name": "flame_shield_duration",
    "kind": {
     "number": {
@@ -553,6 +529,20 @@
     }
    },
    "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269744,
+        "encoding": "u16",
+        "expected": [
+         244,
+         1
+        ]
+       }
+      ]
+     }
+    },
     "2.02": {
      "locations": {
       "locations": [
@@ -570,41 +560,6 @@
    }
   },
   {
-   "name": "haste_duration",
-   "kind": {
-    "number": {
-     "min": 0,
-     "max": 32767
-    }
-   },
-   "versions": {
-    "2.02": {
-     "locations": {
-      "locations": [
-       {
-        "rva": 275379,
-        "encoding": "u16",
-        "expected": [
-         232,
-         3
-        ]
-       },
-       {
-        "rva": 275384,
-        "encoding": "u32",
-        "expected": [
-         232,
-         3,
-         0,
-         0
-        ]
-       }
-      ]
-     }
-    }
-   }
-  },
-  {
    "name": "slow_duration",
    "kind": {
     "number": {
@@ -613,6 +568,30 @@
     }
    },
    "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270003,
+        "encoding": "neg16",
+        "expected": [
+         24,
+         252
+        ]
+       },
+       {
+        "rva": 270008,
+        "encoding": "neg32",
+        "expected": [
+         24,
+         252,
+         255,
+         255
+        ]
+       }
+      ]
+     }
+    },
     "2.02": {
      "locations": {
       "locations": [
@@ -640,6 +619,743 @@
    }
   },
   {
+   "name": "invisibility_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270170,
+        "encoding": "u16",
+        "expected": [
+         208,
+         7
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273162,
+        "encoding": "u16",
+        "expected": [
+         208,
+         7
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "bloodlust_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270778,
+        "encoding": "u16",
+        "expected": [
+         232,
+         3
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273770,
+        "encoding": "u16",
+        "expected": [
+         232,
+         3
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "whirlwind_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 69020,
+        "encoding": "u16",
+        "expected": [
+         32,
+         3
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 70028,
+        "encoding": "u16",
+        "expected": [
+         32,
+         3
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "haste_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 32767
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272371,
+        "encoding": "u16",
+        "expected": [
+         232,
+         3
+        ]
+       },
+       {
+        "rva": 272376,
+        "encoding": "u32",
+        "expected": [
+         232,
+         3,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275379,
+        "encoding": "u16",
+        "expected": [
+         232,
+         3
+        ]
+       },
+       {
+        "rva": 275384,
+        "encoding": "u32",
+        "expected": [
+         232,
+         3,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "unholy_armor_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272543,
+        "encoding": "u16",
+        "expected": [
+         244,
+         1
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275551,
+        "encoding": "u16",
+        "expected": [
+         244,
+         1
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272896,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 273108,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 273319,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 273484,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 273897,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275904,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 276116,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 276327,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 276492,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       },
+       {
+        "rva": 276905,
+        "encoding": "u16",
+        "expected": [
+         0,
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "heal_amount",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268966,
+        "encoding": "u16",
+        "expected": [
+         40,
+         0
+        ]
+       },
+       {
+        "rva": 268971,
+        "encoding": "u32",
+        "expected": [
+         40,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271958,
+        "encoding": "u16",
+        "expected": [
+         40,
+         0
+        ]
+       },
+       {
+        "rva": 271963,
+        "encoding": "u32",
+        "expected": [
+         40,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "flame_shield_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 68714,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 69722,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "fireball_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67245,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       },
+       {
+        "rva": 67793,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 68253,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       },
+       {
+        "rva": 68801,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "blizzard_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66680,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67688,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "blizzard_repeats",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270460,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 270468,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 270476,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 270484,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 270492,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273452,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 273460,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 273468,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 273476,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 273484,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_coil_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271872,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 271893,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 271915,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 271919,
+        "encoding": "u32",
+        "expected": [
+         50,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 271926,
+        "encoding": "u32",
+        "expected": [
+         50,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 274877,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 274898,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 274920,
+        "encoding": "u8",
+        "expected": [
+         50
+        ]
+       },
+       {
+        "rva": 274924,
+        "encoding": "u32",
+        "expected": [
+         50,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 274931,
+        "encoding": "u32",
+        "expected": [
+         50,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "whirlwind_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 69025,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 70033,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
    "name": "rune_damage",
    "kind": {
     "number": {
@@ -648,6 +1364,27 @@
     }
    },
    "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268450,
+        "encoding": "u16",
+        "expected": [
+         50,
+         0
+        ]
+       },
+       {
+        "rva": 268467,
+        "encoding": "neg8",
+        "expected": [
+         206
+        ]
+       }
+      ]
+     }
+    },
     "2.02": {
      "locations": {
       "locations": [
@@ -672,6 +1409,3162 @@
    }
   },
   {
+   "name": "rune_refund_count",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273551,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 276559,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_refund_divisor",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "death_and_decay_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66951,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67959,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_and_decay_duration",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273996,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 274004,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 274012,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 274020,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 274028,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 277004,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 277012,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 277020,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 277028,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       },
+       {
+        "rva": 277036,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "polymorph_unit",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270349,
+        "encoding": "u8",
+        "expected": [
+         57
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273341,
+        "encoding": "u8",
+        "expected": [
+         57
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "polymorph_player",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 15
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270347,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273339,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "eye_of_kilrogg_unit",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270607,
+        "encoding": "u8",
+        "expected": [
+         45
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273599,
+        "encoding": "u8",
+        "expected": [
+         45
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "raise_dead_unit",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270956,
+        "encoding": "u8",
+        "expected": [
+         55
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273948,
+        "encoding": "u8",
+        "expected": [
+         55
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "raise_dead_corpse",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270876,
+        "encoding": "u8",
+        "expected": [
+         105
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273868,
+        "encoding": "u8",
+        "expected": [
+         105
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_up",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268620,
+        "encoding": "neg8",
+        "expected": [
+         248
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271612,
+        "encoding": "neg8",
+        "expected": [
+         248
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_down",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268631,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271623,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_side_y",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268642,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       },
+       {
+        "rva": 268656,
+        "encoding": "neg8",
+        "expected": [
+         252
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271634,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       },
+       {
+        "rva": 271648,
+        "encoding": "neg8",
+        "expected": [
+         252
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_side_x",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268645,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       },
+       {
+        "rva": 268660,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       },
+       {
+        "rva": 268673,
+        "encoding": "neg8",
+        "expected": [
+         250
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271637,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       },
+       {
+        "rva": 271652,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       },
+       {
+        "rva": 271665,
+        "encoding": "neg8",
+        "expected": [
+         250
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "exorcism_radius",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269418,
+        "encoding": {
+         "reflected": {
+          "width": 1,
+          "base": 1
+         }
+        },
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272410,
+        "encoding": {
+         "reflected": {
+          "width": 1,
+          "base": 1
+         }
+        },
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "blizzard_spread",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66547,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 66569,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67555,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 67577,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "raise_dead_range",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270942,
+        "encoding": "u8",
+        "expected": [
+         36
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273934,
+        "encoding": "u8",
+        "expected": [
+         36
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_coil_offset",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271202,
+        "encoding": "neg8",
+        "expected": [
+         254
+        ]
+       },
+       {
+        "rva": 271209,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 274194,
+        "encoding": "neg8",
+        "expected": [
+         254
+        ]
+       },
+       {
+        "rva": 274201,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_coil_size",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271234,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 271246,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 274226,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 274238,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_and_decay_spread",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66992,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 67015,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 68000,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       },
+       {
+        "rva": 68023,
+        "encoding": "u32",
+        "expected": [
+         5,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "spell_sound_base",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 143924,
+        "encoding": "u8",
+        "expected": [
+         69
+        ]
+       },
+       {
+        "rva": 143876,
+        "encoding": "u8",
+        "expected": [
+         69
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 145476,
+        "encoding": "u8",
+        "expected": [
+         69
+        ]
+       },
+       {
+        "rva": 145428,
+        "encoding": "u8",
+        "expected": [
+         69
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268838,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271830,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "holy_vision_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268847,
+        "encoding": "u8",
+        "expected": [
+         7
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271839,
+        "encoding": "u8",
+        "expected": [
+         7
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "heal_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268990,
+        "encoding": "u8",
+        "expected": [
+         9
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271982,
+        "encoding": "u8",
+        "expected": [
+         9
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "heal_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269017,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272009,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "exorcism_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269547,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272539,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "exorcism_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269555,
+        "encoding": "u8",
+        "expected": [
+         3
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272547,
+        "encoding": "u8",
+        "expected": [
+         3
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "flame_shield_cast_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67472,
+        "encoding": "u8",
+        "expected": [
+         3
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 68480,
+        "encoding": "u8",
+        "expected": [
+         3
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "flame_shield_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 269752,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272744,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "fireball_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67153,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 68161,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "slow_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270017,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273009,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "slow_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270025,
+        "encoding": "u8",
+        "expected": [
+         12
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273017,
+        "encoding": "u8",
+        "expected": [
+         12
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "invisibility_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270158,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273150,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "invisibility_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270178,
+        "encoding": "u8",
+        "expected": [
+         9
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273170,
+        "encoding": "u8",
+        "expected": [
+         9
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "polymorph_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270364,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273356,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "polymorph_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270303,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273295,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "blizzard_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66676,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67684,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "blizzard_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270447,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273439,
+        "encoding": "u8",
+        "expected": [
+         8
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "eye_of_kilrogg_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "eye_of_kilrogg_sound_number",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 350
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270635,
+        "encoding": "u32",
+        "expected": [
+         90,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273627,
+        "encoding": "u32",
+        "expected": [
+         90,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "bloodlust_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270766,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273758,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "bloodlust_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270786,
+        "encoding": "u8",
+        "expected": [
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273778,
+        "encoding": "u8",
+        "expected": [
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "raise_dead_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 270978,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273970,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "raise_dead_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "raise_dead_sound_number",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 350
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271005,
+        "encoding": "u32",
+        "expected": [
+         92,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273997,
+        "encoding": "u32",
+        "expected": [
+         92,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_coil_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272012,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275017,
+        "encoding": "u8",
+        "expected": [
+         2
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "whirlwind_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 69015,
+        "encoding": "u8",
+        "expected": [
+         12
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 70023,
+        "encoding": "u8",
+        "expected": [
+         12
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "whirlwind_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272216,
+        "encoding": "u8",
+        "expected": [
+         16
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275224,
+        "encoding": "u8",
+        "expected": [
+         16
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "haste_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272385,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275393,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "haste_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272393,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275401,
+        "encoding": "u8",
+        "expected": [
+         5
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "unholy_armor_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272552,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275560,
+        "encoding": "u8",
+        "expected": [
+         22
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "unholy_armor_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272560,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275568,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 272876,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 273079,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 273305,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 273455,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 273883,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 268360,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 275884,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 276087,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 276313,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 276463,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 276891,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       },
+       {
+        "rva": 271352,
+        "encoding": "u8",
+        "expected": [
+         11
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_explosion_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 268423,
+        "encoding": "u8",
+        "expected": [
+         23
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 271415,
+        "encoding": "u8",
+        "expected": [
+         23
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "rune_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "rune_sound_number",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 350
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273595,
+        "encoding": "u32",
+        "expected": [
+         93,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 276603,
+        "encoding": "u32",
+        "expected": [
+         93,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_and_decay_missile",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 29
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66947,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67955,
+        "encoding": "u8",
+        "expected": [
+         6
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "death_and_decay_sound",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 273983,
+        "encoding": "u8",
+        "expected": [
+         1
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 276991,
+        "encoding": "u8",
+        "expected": [
+         1
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "area_damage_reach",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66322,
+        "encoding": "u32",
+        "expected": [
+         255,
+         6,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67330,
+        "encoding": "u32",
+        "expected": [
+         255,
+         6,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "area_damage_full_reach",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 66331,
+        "encoding": "u32",
+        "expected": [
+         255,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 67339,
+        "encoding": "u32",
+        "expected": [
+         255,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "repair_hit_points",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 101464,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 102744,
+        "encoding": "u8",
+        "expected": [
+         4
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "repair_payment_steps",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 101508,
+        "encoding": "u16",
+        "expected": [
+         2,
+         0
+        ]
+       },
+       {
+        "rva": 101514,
+        "encoding": "neg8",
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 102788,
+        "encoding": "u16",
+        "expected": [
+         2,
+         0
+        ]
+       },
+       {
+        "rva": 102794,
+        "encoding": "neg8",
+        "expected": [
+         254
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "oil_per_trip_refinery",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "oil_bonus_per_trip_refinery",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 146761,
+        "encoding": "u8",
+        "expected": [
+         25
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148377,
+        "encoding": "u8",
+        "expected": [
+         25
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "oil_per_trip",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 146764,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148380,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "gold_per_trip_castle",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 146917,
+        "encoding": "u32",
+        "expected": [
+         120,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148533,
+        "encoding": "u32",
+        "expected": [
+         120,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "gold_per_trip_keep",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "gold_bonus_per_trip_keep",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 146938,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148554,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "gold_per_trip",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 146941,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148557,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "lumber_per_trip_mill",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": "not_applicable",
+    "2.02": "not_applicable"
+   }
+  },
+  {
+   "name": "lumber_bonus_per_trip_mill",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 147003,
+        "encoding": "u8",
+        "expected": [
+         25
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148619,
+        "encoding": "u8",
+        "expected": [
+         25
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "lumber_per_trip",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 147006,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 148622,
+        "encoding": "u8",
+        "expected": [
+         100
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "worker_inside_cycles",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 147535,
+        "encoding": "u8",
+        "expected": [
+         150
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 149151,
+        "encoding": "u8",
+        "expected": [
+         150
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "mana_cycles",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 335476,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 338916,
+        "encoding": "u8",
+        "expected": [
+         40
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "berserker_regeneration_cycles",
+   "kind": {
+    "number": {
+     "min": 1,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 335275,
+        "encoding": "u8",
+        "expected": [
+         240
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 338715,
+        "encoding": "u8",
+        "expected": [
+         240
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "decay_hit_points",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 127
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 335533,
+        "encoding": "u16",
+        "expected": [
+         5,
+         0
+        ]
+       },
+       {
+        "rva": 335570,
+        "encoding": "neg8",
+        "expected": [
+         251
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 338973,
+        "encoding": "u16",
+        "expected": [
+         5,
+         0
+        ]
+       },
+       {
+        "rva": 339010,
+        "encoding": "neg8",
+        "expected": [
+         251
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "demolition_unit_1",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 335325,
+        "encoding": "u8",
+        "expected": [
+         14
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 338765,
+        "encoding": "u8",
+        "expected": [
+         14
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "demolition_unit_2",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 109
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 335329,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 338769,
+        "encoding": "u8",
+        "expected": [
+         15
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "demolition_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 44426,
+        "encoding": "u32",
+        "expected": [
+         200,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 44906,
+        "encoding": "u32",
+        "expected": [
+         200,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "demolition_second_damage",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 2147483647
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 44467,
+        "encoding": "u32",
+        "expected": [
+         200,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 44947,
+        "encoding": "u32",
+        "expected": [
+         200,
+         0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "critter_explode_clicks",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 255
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 142782,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 144334,
+        "encoding": "u8",
+        "expected": [
+         10
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
    "name": "farm_food",
    "kind": {
     "options": {
@@ -685,6 +4578,45 @@
     }
    },
    "versions": {
+    "2.00": {
+     "options": {
+      "sites": [
+       {
+        "rva": 94352,
+        "expected": [
+         141
+        ]
+       }
+      ],
+      "options": {
+       "food_1": [
+        [
+         13
+        ]
+       ],
+       "food_2": [
+        [
+         77
+        ]
+       ],
+       "food_4": [
+        [
+         141
+        ]
+       ],
+       "food_8": [
+        [
+         205
+        ]
+       ],
+       "original": [
+        [
+         141
+        ]
+       ]
+      }
+     }
+    },
     "2.02": {
      "options": {
       "sites": [
@@ -737,6 +4669,30 @@
     }
    },
    "versions": {
+    "2.00": {
+     "options": {
+      "sites": [
+       {
+        "rva": 346783,
+        "expected": [
+         119
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         119
+        ]
+       ],
+       "off": [
+        [
+         235
+        ]
+       ]
+      }
+     }
+    },
     "2.02": {
      "options": {
       "sites": [
@@ -774,6 +4730,30 @@
     }
    },
    "versions": {
+    "2.00": {
+     "options": {
+      "sites": [
+       {
+        "rva": 55302,
+        "expected": [
+         116
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         116
+        ]
+       ],
+       "off": [
+        [
+         235
+        ]
+       ]
+      }
+     }
+    },
     "2.02": {
      "options": {
       "sites": [
@@ -811,6 +4791,42 @@
     }
    },
    "versions": {
+    "2.00": {
+     "options": {
+      "sites": [
+       {
+        "rva": 55409,
+        "expected": [
+         195
+        ]
+       },
+       {
+        "rva": 55457,
+        "expected": [
+         195
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         195
+        ],
+        [
+         195
+        ]
+       ],
+       "off": [
+        [
+         192
+        ],
+        [
+         192
+        ]
+       ]
+      }
+     }
+    },
     "2.02": {
      "options": {
       "sites": [
@@ -860,6 +4876,30 @@
     }
    },
    "versions": {
+    "2.00": {
+     "options": {
+      "sites": [
+       {
+        "rva": 55510,
+        "expected": [
+         61
+        ]
+       }
+      ],
+      "options": {
+       "original": [
+        [
+         61
+        ]
+       ],
+       "off": [
+        [
+         0
+        ]
+       ]
+      }
+     }
+    },
     "2.02": {
      "options": {
       "sites": [
@@ -882,6 +4922,252 @@
         ]
        ]
       }
+     }
+    }
+   }
+  },
+  {
+   "name": "check_interval",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 363593,
+        "encoding": "u16",
+        "expected": [
+         200,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 367049,
+        "encoding": "u16",
+        "expected": [
+         200,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "check_first_countdown",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 357403,
+        "encoding": "u16",
+        "expected": [
+         1,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 360859,
+        "encoding": "u16",
+        "expected": [
+         1,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "demo_check_countdown",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 357439,
+        "encoding": "u16",
+        "expected": [
+         120,
+         5
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 360895,
+        "encoding": "u16",
+        "expected": [
+         120,
+         5
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "food_usage_label",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 291187,
+        "encoding": "u32",
+        "expected": [
+         163,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 294339,
+        "encoding": "u32",
+        "expected": [
+         163,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "food_used_label",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 291245,
+        "encoding": "u32",
+        "expected": [
+         165,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 294397,
+        "encoding": "u32",
+        "expected": [
+         165,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "food_grown_label",
+   "kind": {
+    "number": {
+     "min": 0,
+     "max": 65535
+    }
+   },
+   "versions": {
+    "2.00": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 291379,
+        "encoding": "u32",
+        "expected": [
+         164,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    },
+    "2.02": {
+     "locations": {
+      "locations": [
+       {
+        "rva": 294534,
+        "encoding": "u32",
+        "expected": [
+         164,
+         1,
+         0,
+         0
+        ]
+       }
+      ]
      }
     }
    }

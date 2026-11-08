@@ -175,7 +175,7 @@ The first version ships complete structural data for StarCraft 1.16.1, StarCraft
 
 ## Risks / Trade-offs
 
-- **Reference data lists rows sharing an offset** → `starcraft.md` has rows that share a location on some versions, such as maximum and minimum supply. The "no shared locations" rule rejects these, so importing them needs a per-row choice: one combined constant, or leaving them out. The starter set avoids them, and the library check catches them.
+- **Reference data lists rows sharing an offset** → `starcraft.md` has rows that share a location on some versions, such as maximum and minimum supply. The full import keeps them as separate constants, as the knowledge base and AxeGraft Editor's catalog do, with a note that changing one changes the other. So constants may share a location when it's exactly the same bytes on that version. A mod that sets them to different values there is refused.
 - **Limits of the existing interface** → the user sees MPQDraft's generic error after AxeGraft Patcher's own, chooses the mod file again in each MPQDraft session, and can't use MPQDraft's CLI. These go away with the new-style interface, which the later version reading patch MPQs needs anyway. The `abi` module stays small, so moving to it stays contained.
 - **The game may overwrite an edit** → patching before game code runs means a table the game fills during startup would lose the edit. Task 10.4 reads values back in a running game.
 - **Rearranging may need more than data** → some game rules may have no data form. Named options in Constants cover code-site checks. Rules needing a plugin function are out of scope, and would be added as named, fixed features.

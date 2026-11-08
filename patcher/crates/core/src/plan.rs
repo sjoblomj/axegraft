@@ -529,13 +529,14 @@ impl Planner<'_> {
 
     fn check_expected(&mut self, mem: &dyn Memory) {
         let on = self.on();
-        let mut seen: BTreeMap<u32, &str> = BTreeMap::new();
+        let mut seen: BTreeMap<u32, (&str, &Write)> = BTreeMap::new();
         let mut problems = Vec::new();
         for c in &self.changes {
             for w in &c.writes {
                 for k in 0..w.expected.len() as u32 {
-                    if let Some(other) = seen.insert(w.rva + k, &c.what) {
-                        if other != c.what {
+                    if let Some((other, earlier)) = seen.insert(w.rva + k, (&c.what, w)) {
+                        // Constants sharing a location may both set it, to the same value.
+                        if other != c.what && earlier != w {
                             problems.push(format!("{} and {other} would both write {:#x}.", c.what, w.rva + k));
                         }
                         break;

@@ -32,6 +32,14 @@ mod tests {
     use axegraft_patcher_core::library_files::load_dir;
     use std::path::Path;
 
+    /// The plugin builds the library on the game's thread, whose stack is
+    /// small. This is an unoptimised build, whose frames are larger still.
+    #[test]
+    fn building_the_library_fits_a_small_stack() {
+        let built = std::thread::Builder::new().stack_size(256 * 1024).spawn(|| library().games.len()).unwrap().join().unwrap();
+        assert!(built > 0);
+    }
+
     /// What was compiled in is exactly the data it was built from, with
     /// unreliable entries left out.
     #[test]

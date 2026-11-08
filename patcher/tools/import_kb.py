@@ -1,28 +1,26 @@
 #!/usr/bin/env python3
 """Generates AxeGraft Patcher's library data from the knowledge base.
 
-    python3 tools/import_kb.py [--kb DIR] [--executables FILE] [--out DIR]
+    python3 tools/import_kb.py [--kb DIR] [--out DIR]
 
 The knowledge base (default ~/axegraft/knowledge_base) is the source of
 everything here, as it is for AxeGraft Editor's catalogs:
 
 - catalogs/<game>.js, which the knowledge base builds, gives each game's
   vocabulary: its limits, functions with their variables, opcodes and
-  constants with their ranges and options.
+  constants with their ranges, options and availability.
 - data/<game>/*.json gives the tables: button sets, table entries, units,
-  function addresses, constants' offsets and requirement opcodes.
-- starcraft.md and w2_exe.md give what's only in their tables: StarCraft's
-  identities, section mapping, table and stream locations and stream
-  references, and Warcraft II's table locations.
+  function addresses, the numbering of table entries across builds, constants'
+  offsets, how each is stored and the bytes of each code site.
+- starcraft.md and w2_exe.md give what's only in their tables: each version's
+  identity, and StarCraft's section mapping, table and stream locations and
+  stream references, and Warcraft II's table locations.
 
-w2_exe.md doesn't record a Warcraft II executable's PE timestamp or fixed
-product version, so those two are read from the executable listed for the
-version in the executables file (the same file `check` reads). Nothing else
-is read from an executable.
-
-Only the starter versions and a small set of constants are imported, as
-STARTER and CONSTANTS say. Run `cargo run -p axegraft-patcher-library --bin
-check` afterwards to compare the result with the real executables.
+Every version the patcher can run on is imported: all of StarCraft's, and
+Warcraft II's Battle.net Edition. Warcraft II's DOS versions aren't Windows
+programs, so the patcher can't run on them. Run `cargo run -p
+axegraft-patcher-library --bin check` afterwards to compare the result with
+the real executables.
 """
 
 import argparse
@@ -30,35 +28,10 @@ import datetime
 import json
 import os
 import re
-import struct
 import sys
 
-STARTER = {"starcraft": ["1.16.1", "1.17"], "warcraft2": ["2.02"]}
-
-# The constants imported, chosen so that the starter versions exercise the
-# encodings they actually use.
-CONSTANTS = {
-    "starcraft": [
-        "start_building_zerg",  # u8
-        "max_supply",  # u16
-        "energy_regen",  # i8
-        "recharge_shields_amount",  # i32. Not burn_damage: its width depends on the version, and per-version widths aren't imported yet.
-        "mineral_field_reduce",  # neg8
-        "permanent_cloak_energy",  # option
-    ],
-    "warcraft2": [
-        "flame_shield_damage",  # u8
-        "flame_shield_duration",  # u16
-        "haste_duration",  # u16 and u32
-        "slow_duration",  # neg16 and neg32
-        "rune_damage",  # u16 and neg8
-        "farm_food",  # option
-        "spell_caster_lists",  # option
-        "train_building_check",  # option
-        "research_building_check",  # option, two sites
-        "upgrade_building_check",  # option
-    ],
-}
+# Warcraft II's Windows versions. 1.3, 1.33 and 1.5 are DOS programs.
+WARCRAFT2_VERSIONS = ["2.00", "2.02"]
 
 BASE = 0x400000
 ALL_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"]
@@ -125,36 +98,6 @@ def hexint(s):
     return int(s, 16)
 
 
-# -- Executables, for Warcraft II's identities
-
-
-def read_executables(path):
-    out = {}
-    if not path or not os.path.exists(path):
-        return out
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            game, version, exe = line.split(None, 2)
-            out[(game, version)] = exe
-    return out
-
-
-def pe_identity(path):
-    """The PE timestamp and fixed product version of an executable."""
-    with open(path, "rb") as f:
-        b = f.read()
-    pe = struct.unpack_from("<I", b, 0x3C)[0]
-    ts = struct.unpack_from("<I", b, pe + 8)[0]
-    i = b.find(struct.pack("<I", 0xFEEF04BD))
-    if i < 0:
-        fail("%s has no fixed version information" % path)
-    ms, ls = struct.unpack_from("<II", b, i + 16)
-    return {"timestamp": ts, "product_version": [ms >> 16, ms & 0xFFFF, ls >> 16, ls & 0xFFFF]}
-
-
 # -- Shared
 
 
@@ -203,8 +146,7 @@ def resolve_shared_addresses(functions, used, where):
 
 
 def encode(value, width, signed):
-    fmt = {1: "b", 2: "h", 4: "i"}[width] if signed else {1: "B", 2: "H", 4: "I"}[width]
-    return list(struct.pack("<" + fmt, value))
+    return list(value.to_bytes(width, "little", signed=signed))
 
 
 def encoding_name(stored, value, width, signed):
@@ -214,8 +156,18 @@ def encoding_name(stored, value, width, signed):
     return ("i%d" % bits, True) if signed else ("u%d" % bits, False)
 
 
-def unused_names(functions, used):
-    return sorted(n for n, a in functions.items() if a is not None and n not in used)
+def stored_encoding(storage):
+    """(the library's encoding, the bytes of a value) for a storage.json entry."""
+    width, signed, kind = storage["width"], storage["signed"], storage["encoding"]
+    bits = 8 * width
+    if kind == "plain":
+        return ("i%d" % bits if signed else "u%d" % bits), lambda value: encode(value, width, signed)
+    if kind == "negated":
+        return "neg%d" % bits, lambda value: encode(-value, width, True)
+    if kind not in ("minus_one", "relative"):
+        fail("unknown storage encoding %r" % kind)
+    base = 1 if kind == "minus_one" else storage["base"]
+    return {"offset": {"width": width, "signed": signed, "base": base}}, lambda value: encode(value - base, width, signed)
 
 
 # -- StarCraft
@@ -228,6 +180,10 @@ class StarCraft:
         with open(os.path.join(kb, "starcraft.md"), encoding="utf-8") as f:
             self.md = f.read()
         self.cat = load_catalog(kb, "starcraft")
+        self.versions = [x["id"] for x in self.cat["versions"]]
+        self.entries = load_json(os.path.join(self.d, "entries.json"))
+        self.set_ids = load_json(os.path.join(self.d, "set_ids.json"))
+        self.entry_variables = {f["name"] for fs in self.cat["functions"].values() for f in fs if f["variable"] == "tableEntry"}
         self.builds = {r["Version"]: r for r in table_rows(md_tables(self.md, "### 1.1 Builds")[0])}
         self.sections = {}
         for row in md_tables(self.md, "### 1.2 Section mapping")[0][1:]:
@@ -251,6 +207,23 @@ class StarCraft:
                 return file_off + delta
         fail("starcraft %s: file offset %#x is in no section" % (v, file_off))
 
+    def span(self, text):
+        """The versions of "1.05–1.07" or "1.17"."""
+        if "–" not in text:
+            return [text]
+        a, b = text.split("–")
+        return self.versions[self.versions.index(a):self.versions.index(b) + 1]
+
+    def numbering(self, v):
+        """{table entry above the units, in the game's numbering: its number on v, or None}."""
+        out = {}
+        for s in self.set_ids:
+            out[s["id"]] = s["id"]
+            for group, number in s["ids"].items():
+                if v in self.span(group):
+                    out[s["id"]] = number
+        return out
+
     def game(self):
         limits, conditions, actions, status = vocabulary(self.cat)
         names = load_json(os.path.join(self.d, "catalog.json"))["opcodes"]
@@ -272,27 +245,48 @@ class StarCraft:
         identity = {"timestamp": int(when.timestamp()), "product_version": [int(x) for x in b["Fixed product version"].split(".")]}
         t = self.tables[v]
         entries_count = int(t["Entries"])
-        if entries_count != 250:
-            fail("starcraft %s: only versions with the 1.12 numbering are imported so far" % v)
-        entries = load_json(os.path.join(self.d, "entries.json"))
-        sets_data = load_json(os.path.join(self.d, "button_sets.json"))
+        entries = self.entries
+        numbers = self.numbering(v)
 
-        out_entries = {str(e["id"]): {"number": e["id"], "equivalent": e["secondary"]} for e in entries}
+        def number(entry):
+            return numbers.get(entry, entry)
+
+        def here(entry, what):
+            n = number(entry)
+            if n is None:
+                fail("starcraft %s: %s uses table entry %d, which this version lacks" % (v, what, entry))
+            return n
+
+        out_entries = {}
+        for e in entries:
+            n = number(e["id"])
+            out_entries[str(e["id"])] = None if n is None else {"number": n, "equivalent": None if e["secondary"] is None else here(e["secondary"], "entry %d" % e["id"])}
+        present = sum(1 for e in out_entries.values() if e)
+        if present != entries_count:
+            fail("starcraft %s: %d table entries are present, but its table has %d" % (v, present, entries_count))
+
         sets = {}
-        for s in sets_data:
+        for s in load_json(os.path.join(self.d, "button_sets.json")):
             sid = min(s["used_by"])
             off = s["offsets"].get(v)
             if off is None:
                 sets[str(sid)] = None
                 continue
+            used_by = sorted(e for e in s["used_by"] if number(e) is not None)
+            if sid not in used_by:
+                fail("starcraft %s: set %d is present without its lowest entry" % (v, sid))
+
+            def variable(x, field, function):
+                return here(x[field], "set %d" % sid) if x[function] in self.entry_variables else x[field]
+
             buttons = [{
-                "position": x["position"], "icon": x["icon"], "condition": x["condition"], "condition_variable": x["condition_variable"],
-                "action": x["action"], "action_variable": x["action_variable"], "enabled_string": x["string"], "disabled_string": x["disabled_string"],
+                "position": x["position"], "icon": x["icon"], "condition": x["condition"], "condition_variable": variable(x, "condition_variable", "condition"),
+                "action": x["action"], "action_variable": variable(x, "action_variable", "action"), "enabled_string": x["string"], "disabled_string": x["disabled_string"],
             } for x in s["buttons"]]
-            for e in s["used_by"]:
+            for e in used_by:
                 if entries[e]["buttons"] != len(buttons):
                     fail("starcraft %s: entry %d has %d buttons, but its set has %d" % (v, e, entries[e]["buttons"], len(buttons)))
-            sets[str(sid)] = {"array": self.rva(v, off), "entries": sorted(s["used_by"]), "buttons": buttons}
+            sets[str(sid)] = {"array": self.rva(v, off), "entries": used_by, "buttons": buttons}
         units = [{"status_changed": e["status_changed"], "status_update": e["status_update"], "status_unit_type": e["status_unit_type"]} for e in entries[:228]]
 
         functions = {}
@@ -326,52 +320,76 @@ class StarCraft:
         }
 
     VALUE_RE = re.compile(r"(-?\d+)( \(signed\))?(?: \((-?\d+) in (\S+)\))?(?: = `?(\w+)`?)?")
+    DAMAGE_RE = re.compile(r"damage table \+0x([0-9a-fA-F]+)")
+    COPIES = "5.2 Other copies of the lifetime constants"
 
-    def constants(self):
-        data = load_json(os.path.join(self.d, "constants.json"))
+    def rows(self, data):
+        """{row name: (the row, its offset in each version or None)}, as the catalog names them."""
         rows = {}
         for r in data["rows"]:
             key = "%s / %s › %s" % (r["section"], r["group"], r["label"])
             rows[key] = (r, data["offsets"].get(r["section"], {}).get("%s › %s" % (r["group"], r["label"])))
+        for c in data["copies"]:
+            name = "Lifetime › " + c["copy"]
+            rows["%s / %s" % (self.COPIES, name)] = (c, data["offsets"][self.COPIES][name])
+        return rows
+
+    def number_locations(self, name, v, value, row_names, rows, storage):
+        locations = []
+        for rn in row_names:
+            r, offs = rows[rn]
+            if offs is None:
+                m = self.DAMAGE_RE.fullmatch(r["instruction"].replace("`", ""))
+                if not m:
+                    fail("starcraft: %s: %s has no offset and isn't in the damage table" % (name, rn))
+                offset = hexint(self.tables[v]["Damage table"]) + hexint(m.group(1))
+            elif offs[v] == "N/A":
+                continue
+            else:
+                offset = offs[v]
+            encoding, encoded = stored_encoding(storage[rn][v])
+            location = {"rva": self.rva(v, offset), "encoding": encoding, "expected": encoded(value)}
+            # A row can be the same place as another of the constant's rows on some builds.
+            if location not in locations:
+                locations.append(location)
+        return locations
+
+    def option_sites(self, name, v, row_names, rows, replacements):
+        sites, changed = [], []
+        for rn in row_names:
+            r, offs = rows[rn]
+            if offs[v] == "N/A":
+                continue
+            pieces = [x for x in replacements.get("%s › %s" % (r["group"], r["label"]), []) if v in x["versions"]]
+            if not pieces:
+                fail("starcraft %s: %s: %s has no bytes for this build" % (v, name, rn))
+            for x in sorted(pieces, key=lambda x: x["at"]):
+                sites.append({"rva": self.rva(v, offs[v] + x["at"]), "expected": [hexint(b) for b in x["expect"].split()]})
+                changed.append([hexint(b) for b in x["write"].split()])
+        return sites, changed
+
+    def constants(self):
+        data = load_json(os.path.join(self.d, "constants.json"))
+        rows = self.rows(data)
+        storage = load_json(os.path.join(self.d, "storage.json"))
+        replacements = {}
+        for x in data["replacements"]:
+            replacements.setdefault(x["row"], []).append(x)
         overlay = {c["name"]: c for c in load_json(os.path.join(self.d, "catalog.json"))["constants"]}
         out = []
-        for name in CONSTANTS["starcraft"]:
-            cat = next(c for c in self.cat["constants"] if c["name"] == name)
-            kind, versions = self.kind(cat), {}
-            for v in STARTER["starcraft"]:
+        for cat in self.cat["constants"]:
+            name = cat["name"]
+            versions = {}
+            for v in self.versions:
                 avail = cat["availability"][v]
                 if avail in ("unknown", "not_applicable"):
                     versions[v] = avail
-                    continue
-                if cat["kind"] == "option":
-                    sites, changed = [], []
-                    for rn in overlay[name]["rows"]:
-                        r, offs = rows[rn]
-                        orig = [hexint(x) for x in r["bytes"].replace("`", "").split()]
-                        new = re.fullmatch(r"→ ((?:[0-9a-fA-F]{2} ?)+)(?: \(\w+\))?", r["value"].replace("`", ""))
-                        if not new:
-                            fail("starcraft: %s: can't read the change %r" % (name, r["value"]))
-                        patch = [hexint(x) for x in new.group(1).split()]
-                        sites.append({"rva": self.rva(v, offs[v]), "expected": orig})
-                        changed.append(patch + orig[len(patch):])
+                elif cat["kind"] == "option":
+                    sites, changed = self.option_sites(name, v, overlay[name]["rows"], rows, replacements)
                     versions[v] = {"options": {"sites": sites, "options": {"original": [s["expected"] for s in sites], "changed": changed}}}
-                    continue
-                locations = []
-                for rn in overlay[name]["rows"]:
-                    r, offs = rows[rn]
-                    m = self.VALUE_RE.fullmatch(r["value"])
-                    if not m:
-                        fail("starcraft: %s: can't read the value %r" % (name, r["value"]))
-                    stored, signed = int(m.group(1)), bool(m.group(2))
-                    if m.group(3) is not None:
-                        fail("starcraft: %s: values that differ between versions aren't imported yet" % name)
-                    width = int(r["len"])
-                    enc, signed = encoding_name(stored, avail, width, signed)
-                    if abs(stored) != avail:
-                        fail("starcraft %s: %s's row stores %d, not %d" % (v, name, stored, avail))
-                    locations.append({"rva": self.rva(v, offs[v]), "encoding": enc, "expected": encode(stored, width, signed)})
-                versions[v] = {"locations": {"locations": locations}}
-            out.append({"name": name, "kind": kind, "versions": versions})
+                else:
+                    versions[v] = {"locations": {"locations": self.number_locations(name, v, avail, overlay[name]["rows"], rows, storage)}}
+            out.append({"name": name, "kind": self.kind(cat), "versions": versions})
         return out
 
     @staticmethod
@@ -386,14 +404,15 @@ class StarCraft:
 
 
 class Warcraft2:
-    def __init__(self, kb, executables):
+    def __init__(self, kb):
         self.kb = kb
-        self.exes = executables
         self.d = os.path.join(kb, "data", "warcraft2")
         with open(os.path.join(kb, "w2_exe.md"), encoding="utf-8") as f:
             self.md = f.read()
         self.cat = load_catalog(kb, "warcraft2")
         self.columns = ["1.3", "1.33", "1.5", "2.00", "2.02"]
+        self.versions = WARCRAFT2_VERSIONS
+        self.identities = {r["Version"]: r for r in table_rows(md_tables(self.md, "### Version Info")[0])}
 
     def offset(self, heading, v):
         row = md_tables(self.md, heading)[0][1]
@@ -417,10 +436,8 @@ class Warcraft2:
         return buttons
 
     def version(self, v):
-        exe = self.exes.get(("warcraft2", v))
-        if not exe:
-            fail("warcraft2 %s: w2_exe.md has no PE timestamp or product version, so list its executable in the executables file" % v)
-        identity = pe_identity(exe)
+        row = self.identities["v" + v]
+        identity = {"timestamp": hexint(row["PE timestamp"].split()[0]), "product_version": [int(x) for x in row["Fixed product version"].split(".")]}
         sets = {}
         for cl in load_json(os.path.join(self.d, "command_lists.json")):
             sid = min(cl["used_by"])
@@ -452,39 +469,53 @@ class Warcraft2:
             "sets": sets, "units": units, "functions": functions,
         }
 
+    @staticmethod
+    def sites(rows, v):
+        """[(offset, stored value, width)] of a constant's rows on v."""
+        widths = {"Byte": 1, "Word": 2, "Dword": 4}
+        out = []
+        for r in rows:
+            if r["offsets"][v] in (None, "N/A"):
+                continue
+            offsets, values = r["offsets"][v], r["original"][v]
+            if len(values) == 1:
+                values = values * len(offsets)
+            if len(offsets) != len(values):
+                fail("warcraft2 %s: %s has %d offsets and %d values" % (v, r["name"], len(offsets), len(values)))
+            out += [(off, stored, widths[r["type"][v]]) for off, stored in zip(offsets, values)]
+        return out
+
     def constants(self):
         data = load_json(os.path.join(self.d, "constants.json"))
         rows = [r for table in data.values() for r in table]
         overlay = {c["name"]: c for c in load_json(os.path.join(self.d, "catalog.json"))["constants"]}
-        widths = {"Byte": 1, "Word": 2, "Dword": 4}
         out = []
-        for name in CONSTANTS["warcraft2"]:
-            cat = next(c for c in self.cat["constants"] if c["name"] == name)
+        for cat in self.cat["constants"]:
+            name = cat["name"]
             mine = [r for r in rows if r["name"] == name]
             versions = {}
-            for v in STARTER["warcraft2"]:
+            for v in self.versions:
                 avail = cat["availability"][v]
                 if avail in ("unknown", "not_applicable"):
                     versions[v] = avail
                     continue
+                sites = self.sites(mine, v)
                 if cat["kind"] == "option":
-                    if len(mine) != 1 or len(mine[0]["original"][v]) != 1 or widths[mine[0]["type"][v]] != 1:
-                        fail("warcraft2: %s: only one-byte option sites holding one value are imported" % name)
-                    r = mine[0]
-                    orig = r["original"][v][0]
-                    count = len(r["offsets"][v])
-                    opts = {o["name"]: [[o["stored"][v]]] * count for o in overlay[name]["options"]}
-                    opts.setdefault("original", [[orig]] * count)
-                    versions[v] = {"options": {"sites": [{"rva": off, "expected": [orig]} for off in r["offsets"][v]], "options": opts}}
+                    bytes_of = lambda value, width: encode(value, width, value < 0)
+                    opts = {o["name"]: [bytes_of(o["stored"][v], w) for _, _, w in sites] for o in overlay[name]["options"]}
+                    expected = [bytes_of(stored, w) for _, stored, w in sites]
+                    opts.setdefault("original", expected)
+                    versions[v] = {"options": {"sites": [{"rva": off, "expected": e} for (off, _, _), e in zip(sites, expected)], "options": opts}}
                     continue
                 locations = []
-                for r in mine:
-                    width = widths[r["type"][v]]
-                    for off, stored in zip(r["offsets"][v], r["original"][v]):
-                        if abs(stored) != avail:
-                            fail("warcraft2 %s: %s stores %d at %d, not %d" % (v, name, stored, off, avail))
-                        enc, signed = encoding_name(stored, avail, width, stored < 0)
-                        locations.append({"rva": off, "encoding": enc, "expected": encode(stored, width, signed)})
+                for off, stored, width in sites:
+                    if v in overlay[name].get("original", {}):
+                        locations.append({"rva": off, "encoding": {"reflected": {"width": width, "base": stored + avail}}, "expected": encode(stored, width, True)})
+                        continue
+                    if abs(stored) != avail:
+                        fail("warcraft2 %s: %s stores %d at %d, not %d" % (v, name, stored, off, avail))
+                    enc, signed = encoding_name(stored, avail, width, stored < 0)
+                    locations.append({"rva": off, "encoding": enc, "expected": encode(stored, width, signed)})
                 versions[v] = {"locations": {"locations": locations}}
             out.append({"name": name, "kind": StarCraft.kind(cat), "versions": versions})
         return out
@@ -504,14 +535,13 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--kb", default=os.path.expanduser("~/axegraft/knowledge_base"))
-    ap.add_argument("--executables", default=os.environ.get("AXEGRAFT_PATCHER_EXECUTABLES", os.path.join(here, "..", "executables.local.txt")))
     ap.add_argument("--out", default=os.path.join(here, "..", "crates", "library", "data"))
     a = ap.parse_args()
     try:
-        games = {"starcraft": StarCraft(a.kb), "warcraft2": Warcraft2(a.kb, read_executables(a.executables))}
+        games = {"starcraft": StarCraft(a.kb), "warcraft2": Warcraft2(a.kb)}
         for name, g in games.items():
             write(os.path.join(a.out, name, "game.json"), g.game())
-            for v in STARTER[name]:
+            for v in g.versions:
                 write(os.path.join(a.out, name, v + ".json"), g.version(v))
                 print("wrote %s %s" % (name, v))
     except ImportError_ as e:

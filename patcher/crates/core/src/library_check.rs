@@ -410,7 +410,18 @@ pub fn written_ranges(g: &GameLibrary, v: &Version) -> Vec<(u32, u32, String)> {
     r
 }
 
-/// No two properties may write the same bytes.
+/// The bytes a constant expects at a location on a version.
+fn constant_expected<'a>(g: &'a GameLibrary, v: &Version, property: &str, rva: u32) -> Option<&'a [u8]> {
+    let c = g.constants.iter().find(|c| property.strip_prefix("constant ") == Some(c.name.as_str()))?;
+    match c.versions.get(&v.id)? {
+        Availability::Locations { locations, .. } => locations.iter().find(|l| l.rva == rva).map(|l| l.expected.as_slice()),
+        Availability::Options { sites, .. } => sites.iter().find(|s| s.rva == rva).map(|s| s.expected.as_slice()),
+        _ => None,
+    }
+}
+
+/// No two properties may write the same bytes, except constants that are
+/// stored in exactly the same place on a version.
 fn check_shared_locations(g: &GameLibrary, v: &Version, out: &mut Vec<String>) {
     let mut r = written_ranges(g, v);
     r.sort();
@@ -421,6 +432,10 @@ fn check_shared_locations(g: &GameLibrary, v: &Version, out: &mut Vec<String>) {
                 break;
             }
             let (a, b) = (&r[i].2, &r[j].2);
+            let same_place = r[i].0 == r[j].0 && r[i].1 == r[j].1;
+            if a != b && same_place && constant_expected(g, v, a, r[i].0).is_some_and(|x| Some(x) == constant_expected(g, v, b, r[i].0)) {
+                continue;
+            }
             if a != b && reported.insert((a.clone(), b.clone())) {
                 out.push(format!("{} {}: {a} and {b} overlap at {:#x}. No two properties may write the same bytes.", g.game.id(), v.id, r[j].0));
             } else if a == b && reported.insert((a.clone(), a.clone())) {
