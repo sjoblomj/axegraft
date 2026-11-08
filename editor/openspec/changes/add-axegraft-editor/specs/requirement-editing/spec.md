@@ -7,7 +7,7 @@ Defines how AxeGraft Editor edits StarCraft's requirement records for units, upg
 ## ADDED Requirements
 
 ### Requirement: Record editor
-The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit. An opcode and its parameter SHALL share one row. The tab SHALL let the user add, remove and reorder rows. An added row SHALL be a completed-unit row holding the lowest unit ID, which the user can change. Rows SHALL be reorderable both with Up and Down buttons and by dragging a row by its grip, which marks it as draggable. A row's Up, Down and Remove buttons SHALL be at the right of the row, and Remove SHALL show a trash can.
+The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit. An opcode and its parameter SHALL share one row. The tab SHALL let the user add, remove and reorder rows. An added row SHALL be a completed-unit row holding the lowest unit ID, which the user can change. Rows SHALL be reorderable both with Up and Down buttons and by dragging a row by its grip, which marks it as draggable. A record with one row SHALL show no grip. A row's Up, Down and Remove buttons SHALL be at the right of the row, and Remove SHALL show a trash can.
 
 #### Scenario: Showing a record
 - **WHEN** a record's list is `["current_unit_is", 106, "not_lifted_off"]`

@@ -341,7 +341,8 @@
             return h("li", { role: "option", "aria-selected": String(i === sel), dataset: { index: i }, onclick: function () {
               selectButton(i);
             } }, [
-              drag.grip("Drag to move this button in the list"),
+              // Nothing to move a lone button past.
+              buttons.length > 1 ? drag.grip("Drag to move this button in the list") : null,
               h("span", { class: "pos", text: String(pos) }),
               util.isObject(b) ? iconEl(app, b[cat.buttonKind.icon.name]) : null,
               h("span", { text: buttonTitle(actionFn ? actionFn.label : util.isObject(b) ? String(b[cat.buttonKind.action.name]) : "?", text) }),

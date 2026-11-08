@@ -96,7 +96,9 @@
       U.change(idBox(app, "unit:0:equivalent_entry"), "5");
       T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", equivalent_entry: 5 }]);
       T.equal(app.errors(), []);
-      T.ok(field(app, "unit:0:equivalent_entry").querySelector('[data-action="go-to-entry"]'), "it offers to go to entry 5");
+      var goTo = field(app, "unit:0:equivalent_entry").querySelector('[data-action="go-to-entry"]');
+      T.ok(goTo, "it offers to go to entry 5");
+      T.equal(goTo.textContent, "Go to →", "labelled like the other go-to buttons");
       U.change(idBox(app, "unit:0:equivalent_entry"), "");
       T.equal(app.doc().units || [], [], "back to none, the original, leaves nothing to save");
       U.change(idBox(app, "unit:0:equivalent_entry"), "400");
@@ -320,6 +322,17 @@
       T.equal(app.errors(), []);
       U.q(app, '[data-action="remove-button"]').click();
       T.equal(app.doc().button_sets[0].buttons.length, 1);
+    });
+  }, { dom: true });
+
+  T.test("button list: a lone button has no grip, since there's nowhere to move it", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.edit(function (d) {
+        return D.setButtons(d, app.cat(), 0, D.effectiveButtons(d, app.cat(), 0).buttons.slice(0, 1));
+      });
+      app.select("button_sets", "set:0");
+      T.equal(app.root.querySelectorAll(".button-list li").length, 1);
+      T.equal(app.root.querySelectorAll(".button-list li .grip").length, 0);
     });
   }, { dom: true });
 

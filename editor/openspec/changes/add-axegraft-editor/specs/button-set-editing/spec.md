@@ -7,13 +7,17 @@ Defines how AxeGraft Editor edits the buttons of a button set, and previews them
 ## ADDED Requirements
 
 ### Requirement: Button list
-The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them. Add and Remove SHALL be above the list. Buttons SHALL be reorderable by dragging them in the list, and from the keyboard with Alt+Up and Alt+Down while the list has the focus, which drop the selected button one place on as if dragged there. Each button SHALL show a grip marking it as draggable.
+The Button Sets tab SHALL list the selected set's buttons, and SHALL let the user add, remove and reorder them. Add and Remove SHALL be above the list. Buttons SHALL be reorderable by dragging them in the list, and from the keyboard with Alt+Up and Alt+Down while the list has the focus, which drop the selected button one place on as if dragged there. When a set has more than one button, each button SHALL show a grip marking it as draggable; a lone button SHALL show none.
 
-A drop in the list SHALL keep the buttons in ascending position order, and SHALL do what the same drop does in the preview. A drop onto a button SHALL put the dragged button at that button's position, last of those there, and outline that button while dragging. A drop between buttons x and y SHALL put it at y's position and push as a drop between positions in the preview does, marking the space while dragging and outlining every button that would be pushed; after the last button, it SHALL take the position after x's. Where x and y share a position, or the dragged button already has x's or y's, it SHALL only move in the list, keeping or taking that position. A drop just above or below the button itself SHALL change nothing. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case.
+A drop in the list SHALL keep the buttons in ascending position order, and SHALL do what the same drop does in the preview. A drop onto a button SHALL put the dragged button at that button's position, last of those there, and outline that button while dragging. A drop between buttons x and y SHALL put it at y's position and push as a drop between positions in the preview does, marking the space while dragging and outlining every button that would be pushed; after the last button, it SHALL take the position after x's. Where x and y share a position, or the dragged button already has x's or y's, it SHALL only move in the list, keeping or taking that position. A drop just above or below the button itself SHALL change nothing. Each button SHALL be titled by its action and the clean name of its first string field, and the name SHALL be left out when it equals the action, ignoring case. A name longer than 40 characters SHALL be cut to its first 40, followed by `…`.
 
 #### Scenario: Button title
 - **WHEN** a button's action is Move, and its string's clean name is `Move`
 - **THEN** the list titles it `Move`, not `Move — Move`, and a button whose string is `Stim Packs` is titled `Move — Stim Packs`
+
+#### Scenario: Lone button
+- **WHEN** a set has one button
+- **THEN** the list shows it without a grip
 
 #### Scenario: Adding a button
 - **WHEN** a user adds a button

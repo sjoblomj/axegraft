@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Original buttons shown by version
-When a set's original buttons differ between versions, the tab SHALL show the original list of each group of versions that share one side by side, naming those versions, with the buttons lined up so the lists can be compared. A button missing from a group SHALL be marked red, a button that only some groups have green, and a button that differs between groups yellow. Where they don't differ, it SHALL show one list for all versions.
+When a set's original buttons differ between versions, the tab SHALL show the original list of each group of versions that share one side by side, naming those versions, with the buttons lined up so the lists can be compared. A button missing from a group SHALL be marked red, a button that only some groups have green, and a button that differs between groups yellow. Where they don't differ, it SHALL show one list for all versions. The original buttons SHALL be in a section that starts open when they differ between versions, and closed when there's one list.
 
 #### Scenario: Set that differs on the DOS versions
 - **WHEN** a user selects Warcraft II's Goblin Zeppelin set
@@ -18,11 +18,15 @@ When a set's original buttons differ between versions, the tab SHALL show the or
 - **THEN** the tab shows that list once, for all versions
 
 ### Requirement: Changes compared with every version's original
-A set SHALL count as changed when its buttons differ from the original of any version, and the tab SHALL say on which versions they differ.
+A set SHALL count as changed when its buttons differ from the original of any version. When they differ on some versions but not all, the tab SHALL name the versions where they differ and those where they match; when they differ on every version, it SHALL say neither.
 
 #### Scenario: Buttons that match only 2.02
 - **WHEN** a mod defines the Goblin Zeppelin set with 2.02's original buttons
 - **THEN** the set is shown as changed on 1.3, 1.33 and 1.5, and unchanged on 2.00 and 2.02
+
+#### Scenario: Buttons that match no version
+- **WHEN** a mod defines the Goblin Zeppelin set with buttons that match neither original
+- **THEN** the set is shown as changed, with no list of versions
 
 ### Requirement: Reverting a set that differs by version
 Reverting a set SHALL remove it from the mod, so each version keeps its own original.

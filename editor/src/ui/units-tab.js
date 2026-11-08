@@ -155,7 +155,7 @@
             F.withHelp(
               h("button", { type: "button", class: "small", dataset: { action: "go-to-entry" }, onclick: function () {
                 app.select("units", AG.core.tree.key.unit(e.value));
-              } }, "Go to entry " + e.value),
+              } }, "Go to →"),
               help.text("jump")
             )
           );

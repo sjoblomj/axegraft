@@ -75,11 +75,15 @@ Status functions SHALL be chosen from the catalog's list by name. `status_change
 - **THEN** the saved entry holds only `status_update`
 
 ### Requirement: Going to the assigned set
-The Units tab SHALL offer a "Go to →" button beside the unit's set, which opens the Button Sets tab on the set assigned to the unit.
+The Units tab SHALL offer a "Go to →" button beside the unit's set, which opens the Button Sets tab on the set assigned to the unit. Beside a StarCraft entry's equivalent entry, when it names another entry in the catalog, it SHALL offer a "Go to →" button that selects that entry.
 
 #### Scenario: Unit assigned another set
 - **WHEN** unit 0 is assigned set 5, and the user chooses to edit its set
 - **THEN** the Button Sets tab opens on set 5
+
+#### Scenario: Going to the equivalent entry
+- **WHEN** unit 16's equivalent entry is 1, and the user chooses "Go to →" beside it
+- **THEN** the Units tab selects entry 1
 
 #### Scenario: Assignments don't chain
 - **WHEN** a mod assigns set 5 to unit 0 and set 7 to unit 5, and the user chooses to edit unit 0's set

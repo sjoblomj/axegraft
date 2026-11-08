@@ -161,7 +161,7 @@
           }
         });
       }, { class: "ctl", "aria-label": "Row " + i + " kind" });
-      var parts = [drag.grip("Drag to move this row"), h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
+      var parts = [rows.length > 1 ? drag.grip("Drag to move this row") : null, h("span", { class: "idx", text: String(i) })].concat(F.withHelp(kindSel, kindHelp));
       if (r.kind === "unit") {
         parts.push(paramControl("unit", r.unit, function (v) {
           if (v === undefined || v === "") return app.render();

@@ -70,6 +70,17 @@
     });
   }, { dom: true });
 
+  T.test("record editor: a lone row has no grip, since there's nowhere to move it", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.edit(function (d) {
+        return D.setRequirement(d, app.cat(), "unit", 0, ["not_lifted_off"]);
+      });
+      app.select("requirements", "req:unit:0");
+      T.equal(app.root.querySelectorAll(".tabpanel .req-row").length >= 1, true);
+      T.equal(app.root.querySelectorAll(".tabpanel .req-row > .grip").length, 0);
+    });
+  }, { dom: true });
+
   T.test("record editor: dragging a row by its grip moves it, keeping its parameter", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("requirements", "req:unit:0");
