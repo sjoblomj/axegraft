@@ -35,7 +35,8 @@
   //   prefs:     { get(key), set(key, value) } for settings kept per browser,
   //              such as the theme (default: localStorage, where it works)
   //   page:      true to theme the whole page, not only `root`
-  //   logo:      the URL of the start screen's logo (default: images/axegraft.png)
+  //   logo:      the URL of the AxeGraft logo (default: images/axegraft.png)
+  //   jorsysLogo: the URL of the Jorsys logo (default: images/jorsys.png)
   //   locks:     a Web Locks manager, or null for none (default: navigator.locks)
   function createApp(root, options) {
     options = options || {};
@@ -71,6 +72,7 @@
       }
     };
     var S = app.state;
+    var logoURL = options.logo || "images/axegraft.png";
     var draftTimer = null;
     var draftKey = newDraftKey();
     var releaseOwn = null;
@@ -679,6 +681,38 @@
       return AG.ui.report ? AG.ui.report.show(app) : null;
     };
 
+    // ---- About
+
+    var JORSYS_URL = "https://jorsys.org";
+    var THANKS = [
+      "Mordraug (Peter Hatch) for WarCraft II offsets",
+      "Merlin (Cameron Burschardt) for WarHack",
+      "King Arthur (Andy Bond) for StarGraft",
+      "DarkWizzard for MemGraft",
+      "DiscipleOfAdun for FireGraft",
+      "Heinermann (Adam Heinermann) for StarSource",
+      "The community"
+    ];
+
+    app.showAbout = function () {
+      var body = [
+        h("img", { class: "logo", src: logoURL, alt: "AxeGraft" }),
+        h("p", { text: "Made by Ojan (Johan Sjöblom)" }),
+        h("div", { class: "thanks" }, [
+          h("p", { text: "Thanks to:" }),
+          h("ul", null, THANKS.map(function (t) {
+            return h("li", { text: t });
+          }))
+        ]),
+        // In a new tab, so following it can't lose unsaved work.
+        h("a", { class: "jorsys", href: JORSYS_URL, target: "_blank", rel: "noopener" }, [
+          h("img", { src: options.jorsysLogo || "images/jorsys.png", alt: "Jorvik Systems" }),
+          h("span", { text: "jorsys.org" })
+        ])
+      ];
+      return dialogs.show(root, "About AxeGraft", body, [{ label: "Close", value: "close" }], { name: "about", className: "about" });
+    };
+
     // ---- Menu
 
     function menuItem(label, command, shortcut, disabled) {
@@ -750,7 +784,8 @@
           item.setAttribute("role", "menuitemradio");
           item.setAttribute("aria-checked", String(S.theme === t));
           return item;
-        })))
+        }))),
+        menuDetails("about", "About", [menuItem("About AxeGraft...", "about")])
       ]);
     }
 
@@ -780,6 +815,8 @@
           return AG.ui.importDialog ? AG.ui.importDialog.show(app) : null;
         case "deleteAssets":
           return AG.ui.importDialog ? AG.ui.importDialog.deleteAssets(app) : null;
+        case "about":
+          return app.showAbout();
       }
       return null;
     };
@@ -846,13 +883,15 @@
     function welcome() {
       var games = app.games();
       return h("div", { class: "welcome" }, [
-        h("h1", null, [h("img", { class: "logo", src: options.logo || "images/axegraft.png", alt: "AxeGraft" }), h("span", { class: "subtitle", text: "Editor" })]),
+        h("h1", null, [h("img", { class: "logo", src: logoURL, alt: "AxeGraft" }), h("span", { class: "subtitle", text: "Editor" })]),
         games.length
           ? h("fieldset", { class: "new-mod" }, [h("legend", { text: "New mod" }), infoFields(S.newInfo), h("div", { class: "actions" }, games.map(newModButton))])
           : h("p", { text: "No game catalog could be loaded, so there's nothing to edit." }),
         h("div", { class: "actions" }, [h("button", { type: "button", dataset: { command: "open" }, onclick: function () {
           app.open();
-        } }, "Open a mod...")])
+        } }, "Open a mod..."), h("button", { type: "button", dataset: { command: "about" }, onclick: function () {
+          app.showAbout();
+        } }, "About")])
       ]);
     }
 

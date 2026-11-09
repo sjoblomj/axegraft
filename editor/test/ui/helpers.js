@@ -94,7 +94,8 @@
       assets: options.assets,
       prefs: options.prefs || memoryPrefs(),
       locks: options.locks || fakeLocks(),
-      logo: "../images/axegraft.png"
+      logo: "../images/axegraft.png",
+      jorsysLogo: "../images/jorsys.png"
     });
     app.testPlatform = app.platform;
     return app.ready.then(function () {

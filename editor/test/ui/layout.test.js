@@ -14,7 +14,7 @@
       return app.newMod("starcraft").then(function () {
         T.equal(tabs(app), ["Units", "Button Sets", "Requirements", "Constants"]);
         T.ok(app.root.querySelector(".menubar") && app.root.querySelector(".sidebar .tree") && app.root.querySelector(".statusbar"));
-        T.equal(U.texts(app, ".menubar summary"), ["File", "Edit", "View"]);
+        T.equal(U.texts(app, ".menubar summary"), ["File", "Edit", "View", "About"]);
       });
     });
   }, { dom: true });
@@ -145,6 +145,43 @@
       });
     });
   }, { dom: true });
+  function checkAbout(app) {
+    var dlg = U.q(app, 'dialog[data-dialog="about"]');
+    T.equal(dlg.querySelector("img.logo").getAttribute("src"), "../images/axegraft.png");
+    T.ok(/Made by Ojan \(Johan Sjöblom\)/.test(dlg.textContent), "names the author");
+    var thanks = U.texts(app, 'dialog[data-dialog="about"] .thanks li');
+    T.equal(thanks.length, 7);
+    T.equal(thanks[0], "Mordraug (Peter Hatch) for WarCraft II offsets");
+    T.equal(thanks[6], "The community");
+    var body = dlg.querySelector(".body");
+    var link = body.lastElementChild;
+    T.equal(link.getAttribute("href"), "https://jorsys.org");
+    T.equal(link.target, "_blank");
+    T.equal(link.querySelector("img").getAttribute("src"), "../images/jorsys.png");
+    return U.answer(app, "about", "close").then(function () {
+      T.ok(!app.root.querySelector('dialog[data-dialog="about"]'), "closes");
+    });
+  }
+
+  T.test("about: the start screen's button shows the About dialog", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      U.q(app, '.welcome [data-command="about"]').click();
+      return checkAbout(app);
+    });
+  }, { dom: true });
+
+  T.test("about: the About menu shows the About dialog while a mod is open", function (ctx) {
+    return U.start(ctx).then(function (app) {
+      return app.newMod("starcraft").then(function () {
+        var menu = U.q(app, '.menubar details[data-menu="about"]');
+        menu.open = true;
+        U.q(app, '.menubar [data-command="about"]').click();
+        T.ok(!U.q(app, '.menubar details[data-menu="about"]').open, "the menu closes");
+        return checkAbout(app);
+      });
+    });
+  }, { dom: true });
+
   T.test("theme: dark is the default, and choosing Classic from the View menu switches and is remembered", function (ctx) {
     var prefs = U.memoryPrefs();
     return U.start(ctx, { prefs: prefs }).then(function (app) {

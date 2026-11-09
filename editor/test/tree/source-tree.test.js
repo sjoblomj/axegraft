@@ -34,6 +34,8 @@
     "rollup.config.js"
   ];
   var VENDOR_DIRS = ["node_modules", "bower_components", "vendor", "jspm_packages"];
+  // Links the user can choose to follow. They load nothing by themselves.
+  var ALLOWED_LINKS = ["https://jorsys.org"];
 
   function base(p) {
     return p.split("/").pop();
@@ -113,7 +115,9 @@
           return tree.read(p).then(function (text) {
             var re = /\b(?:https?|ftp|wss?):\/\/[^\s"'`)]+/gi;
             var m;
-            while ((m = re.exec(text))) problems.push("remote URL in " + p + ": " + m[0]);
+            while ((m = re.exec(text))) {
+              if (ALLOWED_LINKS.indexOf(m[0]) < 0) problems.push("remote URL in " + p + ": " + m[0]);
+            }
             if (/(?:src|href)\s*=\s*["']\/\//i.test(text) || /url\(\s*["']?\/\//i.test(text)) {
               problems.push("protocol-relative URL in " + p);
             }
@@ -207,6 +211,16 @@
     files["styles.css"] = "@import url(" + "//fonts.example.org/x.css);";
     return checkTree(memoryTree(files)).then(function (problems) {
       T.equal(problems.sort(), ["protocol-relative URL in styles.css", "remote URL in src/core/a.js: " + remote]);
+    });
+  });
+
+  T.test("source tree checks: an allowed link passes, but only that exact URL", function () {
+    var files = goodFiles();
+    var other = ALLOWED_LINKS[0] + "/lib.js";
+    files["src/core/a.js"] = "var a = '" + ALLOWED_LINKS[0] + "';";
+    files["styles.css"] = "/* " + other + " */";
+    return checkTree(memoryTree(files)).then(function (problems) {
+      T.equal(problems, ["remote URL in styles.css: " + other]);
     });
   });
 

@@ -331,6 +331,15 @@ button, input, select, textarea { font: inherit; }
 .welcome .mod-info { text-align: left; justify-self: center; }
 .welcome .new-mod legend { text-align: left; }
 
+/* About dialog */
+dialog.about .body { display: grid; justify-items: center; gap: 10px; text-align: center; }
+dialog.about p { margin: 0; }
+dialog.about .logo { width: min(320px, 70vw); height: auto; }
+dialog.about .thanks { text-align: left; }
+dialog.about .thanks ul { margin: 4px 0 0; padding-left: 20px; }
+dialog.about .jorsys { display: grid; justify-items: center; gap: 2px; color: var(--link); }
+dialog.about .jorsys img { display: block; width: 200px; height: auto; }
+
 .sidebar {
   display: flex;
   flex-direction: column;
