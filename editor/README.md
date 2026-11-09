@@ -12,6 +12,25 @@ The same files can also be served by any static web server, for example `python3
 
 The editor makes no network requests. Mods you open and game files you import stay on your machine.
 
+## Hosting on Fly.io
+
+The editor still needs no server. `hosting/server.js` only serves the same files publicly and counts visitors, using nothing but Node's standard library. The first deployment, from this folder:
+
+```sh
+fly auth login
+fly apps create axegraft-editor                                # the name must be free on Fly; match it in fly.toml
+fly volumes create visitor_data --region arn --size 1 --yes
+fly deploy --ha=false
+```
+
+Later deployments need only `fly deploy`. Keep it to one Machine, because the counts live on that Machine's volume.
+
+**Visitor numbers.** `fly ssh console -C "cat /data/visitors.json"` prints unique visitors per day and per month, by UTC date. The Machine stops when idle, so open the site first if that command can't connect. `fly logs` shows the running totals as visits happen.
+
+The server marks each browser's copy of `index.html` with an ETag holding the date it was sent, the same value for everyone that day. A page load with no tag or an older date counts as a new visitor for that day. The server never reads IP addresses, sets no cookies, keeps no per-visitor ID and logs no requests, and the page itself is unchanged. The numbers count browsers, so a private window, a cleared cache or a hard reload counts again.
+
+The server's tests run with `node --test hosting/server.test.js`.
+
 ## Running the tests
 
 **In a browser.** Open `test/index.html`. Every test runs, and the page lists passes, failures and tests that weren't checked.
@@ -43,6 +62,7 @@ assets/           Optional shipped icons and strings, one folder per game
 images/           The editor's own images, such as the logo
 test/             Test page, Node runner, tests and fixtures
 docs/             Catalog format and architecture notes
+hosting/          Server for public hosting, which counts visitors. Not part of the editor
 ```
 
 Scripts are classic `<script>` tags that each add to one global, `AxeGraft`, because browsers load neither ES modules nor local data with `fetch` from `file://`. When you add a script, list it in `index.html` and in the same place in `test/index.html`. A test checks this.
