@@ -5,7 +5,7 @@
    "min": 0,
    "max": 3
   },
-  "table_entries": 6,
+  "button_cards": 6,
   "max_set_id": 999,
   "tech": {
    "min": 0,
@@ -61,7 +61,7 @@
   },
   {
    "name": "statcmd_set_ctrl",
-   "variable": "table_entry"
+   "variable": "button_card"
   },
   {
    "name": "order_replay",
@@ -79,11 +79,11 @@
   },
   {
    "name": "statdraw_draw_unit",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_none",
-   "kind": "status_update"
+   "kind": "display_function"
   }
  ],
  "opcodes": [
@@ -136,7 +136,7 @@
    ]
   },
   {
-   "name": "not_lifted_off",
+   "name": "is_not_lifted_off",
    "code": 65285,
    "parameter": null,
    "role": "condition",

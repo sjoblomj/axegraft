@@ -57,7 +57,7 @@ pub enum VarKind {
     Upgrade,
     Order,
     Number,
-    TableEntry,
+    ButtonCard,
 }
 
 impl VarKind {
@@ -68,7 +68,7 @@ impl VarKind {
             VarKind::Upgrade => "upgrade",
             VarKind::Order => "order",
             VarKind::Number => "number",
-            VarKind::TableEntry => "table entry",
+            VarKind::ButtonCard => "button card",
         }
     }
 }

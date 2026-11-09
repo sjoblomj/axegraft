@@ -11,7 +11,7 @@ AxeGraft.registerModFixture({
       },
       {
         "id": 5,
-        "status_update": "statdraw_draw_none"
+        "display_function": "draw_none"
       }
     ]
   },

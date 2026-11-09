@@ -37,7 +37,7 @@ pub struct Limits {
     /// Unit IDs.
     pub unit: Range,
     /// The number of entries in the button table, which is also the first new set ID.
-    pub table_entries: u16,
+    pub button_cards: u16,
     /// The highest set ID a mod may use.
     pub max_set_id: u16,
     pub tech: Option<Range>,
@@ -54,12 +54,12 @@ pub struct Limits {
 }
 
 impl Limits {
-    pub fn table_entry(&self) -> Range {
-        Range::new(0, self.table_entries as i64 - 1)
+    pub fn button_card(&self) -> Range {
+        Range::new(0, self.button_cards as i64 - 1)
     }
 
     pub fn new_set(&self) -> Range {
-        Range::new(self.table_entries as i64, self.max_set_id as i64)
+        Range::new(self.button_cards as i64, self.max_set_id as i64)
     }
 
     pub fn set_id(&self) -> Range {
@@ -74,7 +74,7 @@ impl Limits {
             VarKind::Tech => self.tech,
             VarKind::Upgrade => self.upgrade,
             VarKind::Order => self.order,
-            VarKind::TableEntry => Some(self.table_entry()),
+            VarKind::ButtonCard => Some(self.button_card()),
             VarKind::Number => None,
         }
     }
@@ -94,21 +94,21 @@ pub enum StatusKind {
     /// Decides whether the status panel needs redrawing.
     StatusChanged,
     /// Draws the status panel.
-    StatusUpdate,
+    DisplayFunction,
 }
 
 impl StatusKind {
     pub fn field(self) -> &'static str {
         match self {
             StatusKind::StatusChanged => "status_changed",
-            StatusKind::StatusUpdate => "status_update",
+            StatusKind::DisplayFunction => "display_function",
         }
     }
 
     pub fn title(self) -> &'static str {
         match self {
             StatusKind::StatusChanged => "status changed",
-            StatusKind::StatusUpdate => "status update",
+            StatusKind::DisplayFunction => "display function",
         }
     }
 }
@@ -142,7 +142,7 @@ pub struct OpcodeInfo {
     pub allowed_in: Vec<ReqType>,
 }
 
-/// An original button set, and the table entries that point at its array.
+/// An original button set, and the button cards that point at its array.
 /// The set's ID is the lowest of them.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SetInfo {
@@ -185,7 +185,7 @@ pub(crate) struct Index<'v> {
     pub opcodes: BTreeMap<&'v str, &'v OpcodeInfo>,
     pub levels: Vec<&'v str>,
     pub sets: BTreeSet<u16>,
-    /// For each table entry that points at a set's array, that set.
+    /// For each button card that points at a set's array, that set.
     pub entry_set: BTreeMap<u16, u16>,
     pub constants: BTreeMap<&'v str, &'v ConstantInfo>,
 }

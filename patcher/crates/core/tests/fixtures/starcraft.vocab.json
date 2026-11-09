@@ -2,7 +2,7 @@
   "game": "starcraft",
   "limits": {
     "unit": {"min": 0, "max": 227},
-    "table_entries": 250,
+    "button_cards": 250,
     "max_set_id": 999,
     "tech": {"min": 0, "max": 43},
     "upgrade": {"min": 0, "max": 60},
@@ -26,22 +26,22 @@
     {"name": "order_upgrade", "variable": "upgrade"},
     {"name": "order_build", "variable": "unit"},
     {"name": "order_stop_build", "variable": "number"},
-    {"name": "statcmd_set_ctrl", "variable": "table_entry"},
+    {"name": "statcmd_set_ctrl", "variable": "button_card"},
     {"name": "order_replay_play", "variable": null}
   ],
   "status_functions": [
     {"name": "statdraw_query_unit", "kind": "status_changed"},
     {"name": "statdraw_query_never", "kind": "status_changed"},
-    {"name": "statdraw_draw_unit", "kind": "status_update"},
-    {"name": "statdraw_draw_none", "kind": "status_update"}
+    {"name": "statdraw_draw_unit", "kind": "display_function"},
+    {"name": "statdraw_draw_none", "kind": "display_function"}
   ],
   "opcodes": [
     {"name": "or", "parameter": null, "role": "or", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
     {"name": "current_unit_is", "parameter": "unit", "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
     {"name": "must_have", "parameter": "unit", "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
-    {"name": "not_lifted_off", "parameter": null, "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
+    {"name": "is_not_lifted_off", "parameter": null, "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
     {"name": "must_have_addon", "parameter": "unit", "role": "condition", "allowed_in": ["unit"]},
-    {"name": "not_training_or_morphing", "parameter": null, "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
+    {"name": "is_not_training_or_morphing", "parameter": null, "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
     {"name": "is_researched", "parameter": "tech", "role": "condition", "allowed_in": ["unit", "upgrade", "tech_research", "tech_use", "order"]},
     {"name": "upgrade_level_1", "parameter": null, "role": "level", "allowed_in": ["upgrade"]},
     {"name": "upgrade_level_2", "parameter": null, "role": "level", "allowed_in": ["upgrade"]},

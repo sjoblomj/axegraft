@@ -22,19 +22,19 @@
  "entries": {
   "0": {
    "number": 0,
-   "equivalent": null
+   "connected_unit": null
   },
   "1": {
    "number": 1,
-   "equivalent": null
+   "connected_unit": null
   },
   "2": {
    "number": 2,
-   "equivalent": null
+   "connected_unit": null
   },
   "3": {
    "number": 3,
-   "equivalent": null
+   "connected_unit": null
   }
  },
  "sets": {
@@ -117,21 +117,21 @@
  "units": [
   {
    "status_changed": "statdraw_query_unit",
-   "status_update": "statdraw_draw_unit",
+   "display_function": "statdraw_draw_unit",
    "icon": 2,
    "stats_frame": 1,
    "name_string": 2
   },
   {
    "status_changed": "statdraw_query_unit",
-   "status_update": "statdraw_draw_unit",
+   "display_function": "statdraw_draw_unit",
    "icon": 3,
    "stats_frame": 1,
    "name_string": 3
   },
   {
    "status_changed": "statdraw_query_none",
-   "status_update": "statdraw_draw_none",
+   "display_function": "statdraw_draw_none",
    "icon": 0,
    "stats_frame": 1,
    "name_string": 4

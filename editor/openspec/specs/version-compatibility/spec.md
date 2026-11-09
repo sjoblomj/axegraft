@@ -13,7 +13,7 @@ The editor SHALL report, for each version in the catalog, whether the current mo
 - **THEN** every version is reported as applying fully
 
 ### Requirement: Rejection on a version
-A mod SHALL be reported as rejected on a version when it uses a button set, table entry or function that version lacks, including a set named by a unit's `button_set` and a table entry named by an `action_variable`. The report SHALL name each cause.
+A mod SHALL be reported as rejected on a version when it uses a button set, button card or function that version lacks, including a set named by a unit's `button_set` and a button card named by an `action_variable`. The report SHALL name each cause.
 
 #### Scenario: Set absent on older versions
 - **WHEN** a mod defines a button set that's absent before 1.12

@@ -59,7 +59,7 @@
     raw.sample = false;
     raw.units = [];
     raw.buttonSets = [];
-    for (var i = 0; i <= 119; i++) raw.units.push({ id: i, name: "Entry " + i, tree: ["All"], original: i < 110 ? { button_set: null, icon: 0, stats_frame: 1, name_string: 0, status_changed: "w2_stats_changed_unit", status_update: "w2_stats_update_unit" } : { button_set: null } });
+    for (var i = 0; i <= 119; i++) raw.units.push({ id: i, name: "Entry " + i, tree: ["All"], original: i < 110 ? { button_set: null, icon: 0, stats_frame: 1, name_string: 0, status_changed: "w2_stats_changed_unit", display_function: "w2_stats_update_unit" } : { button_set: null } });
     var cats = AG.core.catalog.load([{ raw: raw, source: "full.js" }]);
     T.equal(cats.errors, []);
     return U.start(ctx, { catalogs: cats }).then(function (app) {

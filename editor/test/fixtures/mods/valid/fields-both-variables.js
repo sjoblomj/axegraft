@@ -11,8 +11,8 @@ AxeGraft.registerModFixture({
           {
             "position": 1,
             "icon": 228,
-            "condition": "bf_research",
-            "action": "order_upgrade",
+            "condition": "can_research_tech",
+            "action": "upgrade",
             "enabled_string": 664,
             "disabled_string": 0,
             "condition_variable": 5,

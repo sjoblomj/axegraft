@@ -93,34 +93,34 @@ A mod SHALL refer to game content, meaning units, upgrades, techs, orders, butto
 - **THEN** the mod is rejected
 
 ### Requirement: Unit entries
-A `units` entry SHALL have an `id`, which is an entry of the game's button table, and at least one of `button_set`, `status_changed`, `status_update`, in StarCraft only `equivalent_entry` and `status_unit_type`, and in Warcraft II only `icon`, `stats_frame` and `name_string`. A table entry beyond the game's unit range SHALL have only `button_set`.
+A `units` entry SHALL have an `id`, which is an entry of the game's button table, and at least one of `button_set`, `status_changed`, `display_function`, in StarCraft only `connected_unit` and `debug_id`, and in Warcraft II only `icon`, `stats_frame` and `name_string`. A button card beyond the game's unit range SHALL have only `button_set`.
 
 #### Scenario: Change only the button set
 - **WHEN** a unit entry has an `id` and a `button_set`
 - **THEN** the entry is accepted, and the unit's status functions are left unchanged
 
 #### Scenario: Change only one status function
-- **WHEN** a unit entry has an `id` and a `status_update`
+- **WHEN** a unit entry has an `id` and a `display_function`
 - **THEN** the entry is accepted, and the unit's `status_changed` function is left unchanged
 
 #### Scenario: Entry with nothing to change
 - **WHEN** a unit entry has only an `id`
 - **THEN** the mod is rejected
 
-#### Scenario: Table entry that isn't a unit
+#### Scenario: Button card that isn't a unit
 - **WHEN** a StarCraft unit entry has `id` 238, a worker build menu, and a `button_set`
 - **THEN** the entry is accepted
 
 #### Scenario: Status function on an entry that isn't a unit
-- **WHEN** a StarCraft unit entry has `id` 238 and a `status_update`
+- **WHEN** a StarCraft unit entry has `id` 238 and a `display_function`
 - **THEN** the mod is rejected
 
 #### Scenario: Unit ID out of range
 - **WHEN** a unit entry has an `id` outside the game's button table
 - **THEN** the mod is rejected
 
-#### Scenario: Status unit type in a Warcraft II mod
-- **WHEN** a `warcraft2` mod has a unit entry with a `status_unit_type`
+#### Scenario: Debug ID in a Warcraft II mod
+- **WHEN** a `warcraft2` mod has a unit entry with a `debug_id`
 - **THEN** the mod is rejected, because that game's unit data has no such field
 
 #### Scenario: Unit icon in a StarCraft mod
@@ -135,24 +135,24 @@ A `units` entry SHALL have an `id`, which is an entry of the game's button table
 - **WHEN** a `starcraft` mod has a unit entry with a `stats_frame` or a `name_string`
 - **THEN** the mod is rejected
 
-#### Scenario: Equivalent entry in a Warcraft II mod
-- **WHEN** a `warcraft2` mod has a unit entry with an `equivalent_entry`
+#### Scenario: Connected unit in a Warcraft II mod
+- **WHEN** a `warcraft2` mod has a unit entry with a `connected_unit`
 - **THEN** the mod is rejected, because that game's command list entries have no such field
 
 ### Requirement: Unit entry fields
 Each field of a unit entry SHALL hold this value:
 
-- `status_changed`: the function that decides whether the status panel needs redrawing, which SHALL be one the library lists as a status changed function. `status_update`: the function that draws it, which SHALL be one the library lists as a status update function.
-- `equivalent_entry`: the table entry treated as the same in a mixed group (`wSecondaryCard`), or `null` for none.
-- `status_unit_type`: the unit ID in the unit's status entry.
+- `status_changed`: the function that decides whether the status panel needs redrawing, which SHALL be one the library lists as a status changed function. `display_function`: the function that draws it, which SHALL be one the library lists as a display function.
+- `connected_unit`: the button card treated as the same in a mixed group (`wSecondaryCard`), or `null` for none.
+- `debug_id`: the unit ID in the unit's status entry.
 - `icon`, `stats_frame`, `name_string`: the unit's Unit Data icon, stats panel frame (0 to 3) and name string. `icon` and `name_string` are 16-bit fields, 0 to 65535.
 
 #### Scenario: Status function of the wrong kind
-- **WHEN** a unit entry's `status_changed` names a status update function, or its `status_update` names a status changed function
+- **WHEN** a unit entry's `status_changed` names a display function, or its `display_function` names a status changed function
 - **THEN** the mod is rejected, with an error naming the field
 
-#### Scenario: Status unit type out of range
-- **WHEN** a unit entry has a `status_unit_type` outside the game's unit range
+#### Scenario: Debug ID out of range
+- **WHEN** a unit entry has a `debug_id` outside the game's unit range
 - **THEN** the mod is rejected
 
 #### Scenario: Unit icon ID
@@ -167,12 +167,12 @@ Each field of a unit entry SHALL hold this value:
 - **WHEN** a `warcraft2` unit entry has a `stats_frame` of 4
 - **THEN** the mod is rejected, because the stats panel graphic has frames 0 to 3
 
-#### Scenario: No equivalent entry
-- **WHEN** a `starcraft` unit entry has an `equivalent_entry` of `null`
+#### Scenario: No connected unit
+- **WHEN** a `starcraft` unit entry has a `connected_unit` of `null`
 - **THEN** it is accepted, and means none
 
-#### Scenario: Equivalent entry out of range
-- **WHEN** a `starcraft` unit entry has an `equivalent_entry` outside the game's button table
+#### Scenario: Connected unit out of range
+- **WHEN** a `starcraft` unit entry has a `connected_unit` outside the game's button table
 - **THEN** the mod is rejected
 
 ### Requirement: Button set entries
@@ -187,14 +187,14 @@ A `button_sets` entry SHALL have an `id` and a `buttons` array, which replaces t
 - **THEN** the mod is accepted, and that set has no buttons
 
 ### Requirement: Button set numbering
-A button set SHALL be one array of buttons in the game, which any number of table entries can share. Set IDs SHALL use one numbering for each game, independent of version. An original set's ID is the lowest table entry pointing at its array, with StarCraft's table numbered as it is from 1.12 onwards. A mod's new sets SHALL use IDs from the table's size, which is 250 in StarCraft and 120 in Warcraft II, up to 999.
+A button set SHALL be one array of buttons in the game, which any number of button cards can share. Set IDs SHALL use one numbering for each game, independent of version. An original set's ID is the lowest button card pointing at its array, with StarCraft's table numbered as it is from 1.12 onwards. A mod's new sets SHALL use IDs from the table's size, which is 250 in StarCraft and 120 in Warcraft II, up to 999.
 
 #### Scenario: Set shared by several entries
-- **WHEN** table entries 0 and 32 point at one array
+- **WHEN** button cards 0 and 32 point at one array
 - **THEN** that array is set 0, and there is no set 32
 
-#### Scenario: Table entry used as a set ID
-- **WHEN** a mod defines button set 32, and table entry 32 points at set 0's array
+#### Scenario: Button card used as a set ID
+- **WHEN** a mod defines button set 32, and button card 32 points at set 0's array
 - **THEN** the mod is rejected, with an error saying entry 32 uses set 0
 
 #### Scenario: New set
@@ -212,23 +212,23 @@ A `button_set` SHALL name an original set or a set the mod defines, or be `null`
 - **WHEN** a unit's `button_set` is 250, and the mod doesn't define set 250
 - **THEN** the mod is rejected
 
-#### Scenario: Table entry named as a set
-- **WHEN** a unit's `button_set` is 32, and table entry 32 points at set 0's array
+#### Scenario: Button card named as a set
+- **WHEN** a unit's `button_set` is 32, and button card 32 points at set 0's array
 - **THEN** the mod is rejected, with an error saying entry 32 uses set 0
 
 #### Scenario: No buttons
 - **WHEN** a unit's `button_set` is `null`
 - **THEN** the mod is accepted, and that unit has no buttons
 
-### Requirement: Opening a table entry
-A variable of type table entry SHALL be an entry of the game's button table. The game shows the buttons of whichever set that entry has once the mod is applied, so a button reaches a new set through an entry the mod assigns it to.
+### Requirement: Opening a button card
+A variable of type button card SHALL be an entry of the game's button table. The game shows the buttons of whichever set that entry has once the mod is applied, so a button reaches a new set through an entry the mod assigns it to.
 
 #### Scenario: Submenu with a new set
-- **WHEN** a button's action opens table entry 228, and the mod assigns new set 250 to entry 228
+- **WHEN** a button's action opens button card 228, and the mod assigns new set 250 to entry 228
 - **THEN** the mod is accepted, and the button opens set 250's buttons
 
 #### Scenario: Entry beyond the table
-- **WHEN** a button's action opens table entry 250 in StarCraft
+- **WHEN** a button's action opens button card 250 in StarCraft
 - **THEN** the mod is rejected
 
 ### Requirement: Button fields
@@ -278,7 +278,7 @@ In both games, the buttons of a set SHALL be in ascending position order, becaus
 - **THEN** the mod is rejected, with an error naming the set and the button
 
 ### Requirement: Typed function variables
-A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, order, number or table entry. In Warcraft II, a tech is a spell bit, 0 to 20, and an order is an action, 0 to 60. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
+A function the library says reads a variable SHALL be given one, of the type the library states: unit, tech, upgrade, order, number or button card. In Warcraft II, a tech is a spell bit, 0 to 20, and an order is an action, 0 to 60. A function that doesn't read a variable MAY be given one, which only has to fit the game's field. When left out, it SHALL be 0.
 
 #### Scenario: Variable of the wrong kind
 - **WHEN** an action that takes a tech is given an `action_variable` outside the game's tech range
@@ -323,7 +323,7 @@ A `requirements` entry SHALL have a `type`, which is `unit`, `upgrade`, `tech_re
 A `list` SHALL be a flat array in which a string is an opcode name and a number is a parameter or a bare unit ID. An upgrade's list SHALL either have no level opcodes, or have its other conditions first, followed by `upgrade_level_1`, `upgrade_level_2` and `upgrade_level_3`, each once and in that order, with each level but the last ended by `end_sublist`. The end of the record ends the last level. `or` SHALL NOT start or end a level. The game's checker relies on exactly this shape: it scans for a level's block from `upgrade_level_1`, and any other shape makes it read past the record or past its own data. Each opcode SHALL be one the library allows in the entry's `type`, because the game checks unit records with one checker and the other four types with another, and each handles only some opcodes.
 
 #### Scenario: Valid list
-- **WHEN** a list is `["current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]`
+- **WHEN** a list is `["current_unit_is", 139, "is_not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]`
 - **THEN** the list is accepted for an upgrade
 
 #### Scenario: Opcode the record's type doesn't handle
@@ -400,7 +400,7 @@ A constant's `value` SHALL use the scale the game stores it in, not a scale conv
 A single mod SHALL NOT define the same field of the same item twice.
 
 #### Scenario: Same unit twice with different fields
-- **WHEN** a mod has two entries for unit 5, one with `button_set` and one with `status_update`
+- **WHEN** a mod has two entries for unit 5, one with `button_set` and one with `display_function`
 - **THEN** the mod is accepted
 
 #### Scenario: Same button set twice

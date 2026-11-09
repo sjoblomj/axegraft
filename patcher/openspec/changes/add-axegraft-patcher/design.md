@@ -78,10 +78,10 @@ Expected pointers are stored as RVAs and rebased before comparing, which covers 
 | Version identity              | PE timestamp plus fixed product version. The same parser reads a file during setup and the loaded image in the game. |
 | Table locations and layouts | Per-version table RVA, with a layout chosen from a fixed set for each game |
 | Function addresses          | Per-version RVA for each uniquely named function, or absent |
-| Variable types               | Per-function variable type: none, unit, tech, upgrade, order, number or table entry |
-| Status function kinds        | Per status function: status changed or status update |
+| Variable types               | Per-function variable type: none, unit, tech, upgrade, order, number or button card |
+| Status function kinds        | Per status function: status changed or display function |
 | Requirement opcodes          | Per opcode: its parameter, and the record types whose checker handles it |
-| Set numbering               | Per-version map from each game's own numbering of sets and table entries to the version's numbers, plus the table entries that point at each set's array |
+| Set numbering               | Per-version map from each game's own numbering of sets and button cards to the version's numbers, plus the button cards that point at each set's array |
 | Stream references           | Per-version lists of references to the stream base and to base + 2 |
 | Constants                   | Per-version: locations, `not_applicable` or `unknown` |
 
@@ -89,7 +89,7 @@ Encodings are a closed enum: `u8`, `u16`, `u32`, `i8`, `i16`, `i32`, `neg8`, `ne
 
 The data is JSON, because it's easy to generate, and whatever eventually converts the documents can target it. `build.rs` validates it and generates static Rust, so bad data fails the version and nothing is parsed at game startup. *Alternative considered:* parsing embedded JSON at startup, which is simpler but delays data errors to run time.
 
-**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which the Warcraft II data file also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, a name that version's original buttons don't use is absent there; a name they use is kept, so two names may share an address.
+**Function names.** StarCraft's functions use PyGRAFT's names (`always`, `move`, `changed_unit`), so mods and `.graft` source share a vocabulary. The Rootstock keeps StarSource's symbols (`bf_*`, `order_*`, `statdraw_*`) as its data and maps them in `functionNames`. Warcraft II's are named as in the PlayStation source's `statbtn.c`, which the Warcraft II data file also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, a name that version's original buttons don't use is absent there; a name they use is kept, so two names may share an address.
 
 **Constants follow the game's freedom.** A value the game lets differ is its own constant, copies it needs to agree are one constant, and code sites that only work together are one option constant whose options write several locations. This gives a modder every independent choice and none that the game can't handle.
 
@@ -107,11 +107,11 @@ Upgrades need special decoding, because their sublists end with the same word as
 
 ### 7. Button sets are resolved before they're assigned
 
-The game has two kinds of number here: table entries, which units and a few other entries such as the worker build menus use, and the arrays they point at. A set is an array. In StarCraft, the 250 entries point at 98 arrays from 1.12 on, and 89 entries have no buttons. An original set's ID is the lowest entry pointing at it, which leaves 63 entries as other references to the same arrays. One of those isn't a unit: entry 247 points at set 37's array. Warcraft II BNE works the same way, with 58 arrays in its 120 entries.
+The game has two kinds of number here: button cards, which units and a few other entries such as the worker build menus use, and the arrays they point at. A set is an array. In StarCraft, the 250 entries point at 98 arrays from 1.12 on, and 89 entries have no buttons. An original set's ID is the lowest entry pointing at it, which leaves 63 entries as other references to the same arrays. One of those isn't a unit: entry 247 points at set 37's array. Warcraft II BNE works the same way, with 58 arrays in its 120 entries.
 
-New sets get IDs from the table's size up, so a set's ID never looks like the entry of a unit using it. A button that opens a submenu names a table entry, because that's what the game reads, and reaches a new set through an entry the mod assigns it to. This keeps the format close to the game, with no rule tying a set's ID to a unit.
+New sets get IDs from the table's size up, so a set's ID never looks like the entry of a unit using it. A button that opens a submenu names a button card, because that's what the game reads, and reaches a new set through an entry the mod assigns it to. This keeps the format close to the game, with no rule tying a set's ID to a unit.
 
-The planner first takes a snapshot of each set, meaning its count and pointer, from the unmodified table. It then applies the mod's `button_sets` over that snapshot as new blobs, and writes every table entry the library lists for a replaced set. Finally, each unit entry's `button_set` copies a resolved set's count and pointer into that table entry, or writes an empty entry for `null`, so an assignment overrides a replacement.
+The planner first takes a snapshot of each set, meaning its count and pointer, from the unmodified table. It then applies the mod's `button_sets` over that snapshot as new blobs, and writes every button card the library lists for a replaced set. Finally, each unit entry's `button_set` copies a resolved set's count and pointer into that button card, or writes an empty entry for `null`, so an assignment overrides a replacement.
 
 FireGraft uses the same two kinds of number. Its patch files number arrays by address, which depends on the version, and an entry it has no record for keeps its original pointer, so a replaced set reaches only the entries its editor also lists. The library's per-set entry lists and version-independent IDs avoid both.
 

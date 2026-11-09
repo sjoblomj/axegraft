@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Opening a table entry: Entry beyond the table",
+  "scenario": "Opening a button card: Entry beyond the table",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -11,8 +11,8 @@ AxeGraft.registerModFixture({
           {
             "position": 1,
             "icon": 228,
-            "condition": "bf_always",
-            "action": "statcmd_set_ctrl",
+            "condition": "always",
+            "action": "show_button_card",
             "enabled_string": 664,
             "disabled_string": 0,
             "action_variable": 250

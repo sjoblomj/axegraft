@@ -5,7 +5,7 @@
    "min": 0,
    "max": 227
   },
-  "table_entries": 250,
+  "button_cards": 250,
   "max_set_id": 999,
   "tech": {
    "min": 0,
@@ -42,588 +42,588 @@
  },
  "conditions": [
   {
-   "name": "bf_always",
+   "name": "always",
    "variable": null
   },
   {
-   "name": "bf_stop_build",
+   "name": "is_constructing",
    "variable": null
   },
   {
-   "name": "bf_no_exit",
+   "name": "does_not_have_exit",
    "variable": null
   },
   {
-   "name": "bf_can_move_stop_unburrowed",
+   "name": "has_same_burrow_state",
    "variable": null
   },
   {
-   "name": "bf_can_move_patrol_unburrowed",
+   "name": "is_not_burrowed",
    "variable": null
   },
   {
-   "name": "bf_lifted",
+   "name": "can_land",
    "variable": null
   },
   {
-   "name": "bf_is_ship",
+   "name": "is_lifted_off",
    "variable": null
   },
   {
-   "name": "bf_battery",
+   "name": "is_not_disabled",
    "variable": null
   },
   {
-   "name": "bf_load",
+   "name": "is_carrying_harvest",
    "variable": null
   },
   {
-   "name": "bf_no_load",
+   "name": "is_not_carrying_harvest",
    "variable": null
   },
   {
-   "name": "bf_not_comp",
+   "name": "is_constructing_or_mutating",
    "variable": null
   },
   {
-   "name": "bf_larva_sel",
+   "name": "is_zerg_town_hall",
    "variable": null
   },
   {
-   "name": "bf_stop_unit",
+   "name": "is_training",
    "variable": null
   },
   {
-   "name": "bf_load_scv",
+   "name": "is_carrying_harvest_and_not_constructing",
    "variable": null
   },
   {
-   "name": "bf_no_load_scv",
+   "name": "is_not_carrying_harvest_and_not_constructing",
    "variable": null
   },
   {
-   "name": "bf_scv_can_repair",
+   "name": "is_not_constructing_repair",
    "variable": null
   },
   {
-   "name": "bf_scv_can_attack",
+   "name": "is_not_constructing_attack",
    "variable": null
   },
   {
-   "name": "bf_scv_can_move_stop",
+   "name": "is_not_constructing_stop",
    "variable": null
   },
   {
-   "name": "bf_scv_can_move",
+   "name": "is_not_constructing_move",
    "variable": null
   },
   {
-   "name": "bf_has_scarab",
+   "name": "has_scarabs",
    "variable": null
   },
   {
-   "name": "bf_has_interceptor",
+   "name": "has_interceptors",
    "variable": null
   },
   {
-   "name": "bf_load_drone",
+   "name": "is_carrying_harvest_and_not_burrowed",
    "variable": null
   },
   {
-   "name": "bf_no_load_drone",
+   "name": "is_not_carrying_harvest_and_not_burrowed",
    "variable": null
   },
   {
-   "name": "bf_liftoff_ok",
+   "name": "can_lift_off",
    "variable": null
   },
   {
-   "name": "bf_has_nuke",
+   "name": "is_player_nuke_ready",
    "variable": null
   },
   {
-   "name": "bf_can_tank_move",
+   "name": "is_not_sieged",
    "variable": null
   },
   {
-   "name": "bf_stop_research",
+   "name": "is_researching_tech",
    "variable": null
   },
   {
-   "name": "bf_stop_upgrade",
+   "name": "is_researching_upgrade",
    "variable": null
   },
   {
-   "name": "bf_stop_addon",
+   "name": "is_constructing_addon",
    "variable": null
   },
   {
-   "name": "bf_empty_silo",
+   "name": "can_create_single",
    "variable": "unit"
   },
   {
-   "name": "bf_terran_build_advanced",
+   "name": "can_build_terran_advanced",
    "variable": null
   },
   {
-   "name": "bf_terran_build_basic",
+   "name": "can_build_terran_basic",
    "variable": null
   },
   {
-   "name": "bf_protoss_build_advanced",
+   "name": "can_build_protoss_advanced",
    "variable": null
   },
   {
-   "name": "bf_protoss_build_basic",
+   "name": "can_build_protoss_basic",
    "variable": null
   },
   {
-   "name": "bf_zerg_build_advanced",
+   "name": "can_build_zerg_advanced",
    "variable": null
   },
   {
-   "name": "bf_zerg_build_basic",
+   "name": "can_build_zerg_basic",
    "variable": null
   },
   {
-   "name": "bf_can_move_stop",
+   "name": "can_stop",
    "variable": null
   },
   {
-   "name": "bf_can_move_patrol",
+   "name": "can_move",
    "variable": null
   },
   {
-   "name": "bf_build_fighter_ok",
+   "name": "can_build_subunit",
    "variable": "unit"
   },
   {
-   "name": "bf_building_ok",
+   "name": "can_create_or_morph",
    "variable": "unit"
   },
   {
-   "name": "bf_trans_has_passenger",
+   "name": "can_unload",
    "variable": null
   },
   {
-   "name": "bf_tower",
+   "name": "can_attack_in_place",
    "variable": null
   },
   {
-   "name": "bf_can_attack",
+   "name": "can_attack",
    "variable": null
   },
   {
-   "name": "bf_can_attack_unburrowed",
+   "name": "can_attack_and_not_burrowed",
    "variable": null
   },
   {
-   "name": "bf_trans",
+   "name": "can_load",
    "variable": null
   },
   {
-   "name": "bf_burrowed",
+   "name": "can_unburrow",
    "variable": "tech"
   },
   {
-   "name": "bf_can_burrow",
+   "name": "can_burrow",
    "variable": "tech"
   },
   {
-   "name": "bf_is_sieged",
+   "name": "can_unsiege",
    "variable": "tech"
   },
   {
-   "name": "bf_can_siege",
+   "name": "can_siege",
    "variable": "tech"
   },
   {
-   "name": "bf_is_hero_cloaked",
+   "name": "can_decloak_mixed",
    "variable": null
   },
   {
-   "name": "bf_can_cloak_hero",
+   "name": "can_cloak_mixed",
    "variable": null
   },
   {
-   "name": "bf_is_cloaked",
+   "name": "can_decloak",
    "variable": "tech"
   },
   {
-   "name": "bf_can_cloak",
+   "name": "can_cloak",
    "variable": "tech"
   },
   {
-   "name": "bf_upgrade",
+   "name": "can_upgrade",
    "variable": "upgrade"
   },
   {
-   "name": "bf_has_mines",
+   "name": "can_units_use_tech",
    "variable": "tech"
   },
   {
-   "name": "bf_has_spell",
+   "name": "can_player_use_tech",
    "variable": "tech"
   },
   {
-   "name": "bf_research",
+   "name": "can_research_tech",
    "variable": "tech"
   },
   {
-   "name": "bf_rally",
+   "name": "can_set_rally_point",
    "variable": null
   },
   {
-   "name": "bf_can_make_darchon",
+   "name": "can_dark_archon_meld",
    "variable": null
   },
   {
-   "name": "bf_can_make_darchon_need2",
+   "name": "is_tech_unusable_b",
    "variable": "tech"
   },
   {
-   "name": "bf_can_make_archon",
+   "name": "can_archon_warp",
    "variable": null
   },
   {
-   "name": "bf_can_make_archon_need2",
+   "name": "is_tech_unusable",
    "variable": "tech"
   },
   {
-   "name": "bf_make_lurker",
+   "name": "can_morph_lurker",
    "variable": null
   },
   {
-   "name": "bf_hatch_rally",
+   "name": "can_zerg_town_hall_set_rally_point",
    "variable": null
   },
   {
-   "name": "bf_replay_play",
+   "name": "is_watching_replay",
    "variable": null
   },
   {
-   "name": "bf_replay_speedup",
+   "name": "can_speed_up_replay",
    "variable": null
   },
   {
-   "name": "bf_replay_slowdown",
+   "name": "can_slow_down_replay",
    "variable": null
   }
  ],
  "actions": [
   {
-   "name": "order_none",
+   "name": "cancel_infestation",
    "variable": null
   },
   {
-   "name": "order_cancel_nuke",
+   "name": "cancel_nuke",
    "variable": null
   },
   {
-   "name": "order_summon_darchon",
+   "name": "dark_archon_meld",
    "variable": null
   },
   {
-   "name": "order_summon_archon",
+   "name": "archon_warp",
    "variable": null
   },
   {
-   "name": "order_bldg_liftoff",
+   "name": "lift_off",
    "variable": null
   },
   {
-   "name": "order_decloak",
+   "name": "decloak",
    "variable": null
   },
   {
-   "name": "order_deburrow",
+   "name": "unburrow",
    "variable": null
   },
   {
-   "name": "order_burrow",
+   "name": "burrow",
    "variable": null
   },
   {
-   "name": "order_cancel_addon",
+   "name": "cancel_addon",
    "variable": null
   },
   {
-   "name": "order_cancel_upgrade",
+   "name": "cancel_upgrade",
    "variable": null
   },
   {
-   "name": "order_upgrade",
+   "name": "upgrade",
    "variable": "upgrade"
   },
   {
-   "name": "order_cancel_research",
+   "name": "cancel_research_tech",
    "variable": null
   },
   {
-   "name": "order_research",
+   "name": "research_tech",
    "variable": "tech"
   },
   {
-   "name": "order_hold_pos",
+   "name": "hold_position",
    "variable": null
   },
   {
-   "name": "order_build_fighter",
+   "name": "build_subunit",
    "variable": null
   },
   {
-   "name": "order_trilobyte_stop",
+   "name": "stop_reaver",
    "variable": null
   },
   {
-   "name": "order_carrier_stop",
+   "name": "stop_carrier",
    "variable": null
   },
   {
-   "name": "order_stop",
+   "name": "stop",
    "variable": null
   },
   {
-   "name": "order_kill_egg",
+   "name": "cancel_morph",
    "variable": null
   },
   {
-   "name": "order_kill",
+   "name": "cancel_construction",
    "variable": null
   },
   {
-   "name": "order_siege",
+   "name": "siege",
    "variable": null
   },
   {
-   "name": "order_tank_mode",
+   "name": "unsiege",
    "variable": null
   },
   {
-   "name": "order_stop_build",
+   "name": "cancel_train",
    "variable": "number"
   },
   {
-   "name": "order_build",
+   "name": "train",
    "variable": "unit"
   },
   {
-   "name": "order_stim",
+   "name": "stim",
    "variable": null
   },
   {
-   "name": "order_cloak",
+   "name": "cloak",
    "variable": null
   },
   {
-   "name": "order_return",
+   "name": "return_harvest",
    "variable": null
   },
   {
-   "name": "order_morph",
+   "name": "morph_unit",
    "variable": "unit"
   },
   {
-   "name": "order_upgrade_bldg",
+   "name": "morph_building",
    "variable": "unit"
   },
   {
-   "name": "order_select_larva",
+   "name": "select_larva",
    "variable": null
   },
   {
-   "name": "order_heal",
+   "name": "heal",
    "variable": null
   },
   {
-   "name": "order_nuke_paint",
+   "name": "nuke",
    "variable": null
   },
   {
-   "name": "order_recharge",
+   "name": "recharge_shields",
    "variable": null
   },
   {
-   "name": "order_unload",
+   "name": "unload",
    "variable": null
   },
   {
-   "name": "order_pickup",
+   "name": "load",
    "variable": null
   },
   {
-   "name": "order_harvest",
+   "name": "harvest",
    "variable": null
   },
   {
-   "name": "order_repair",
+   "name": "repair",
    "variable": null
   },
   {
-   "name": "order_land",
+   "name": "land",
    "variable": "unit"
   },
   {
-   "name": "order_nydus_exit",
+   "name": "place_nydus_exit",
    "variable": "unit"
   },
   {
-   "name": "order_zerg_place",
+   "name": "build_zerg",
    "variable": "unit"
   },
   {
-   "name": "order_place_addon",
+   "name": "build_addon",
    "variable": "unit"
   },
   {
-   "name": "order_place_protoss",
+   "name": "build_protoss",
    "variable": "unit"
   },
   {
-   "name": "order_place_cop",
+   "name": "place_cop",
    "variable": null
   },
   {
-   "name": "order_place",
+   "name": "build_terran",
    "variable": "unit"
   },
   {
-   "name": "order_tech",
+   "name": "use_tech",
    "variable": "tech"
   },
   {
-   "name": "order_patrol",
+   "name": "patrol",
    "variable": null
   },
   {
-   "name": "order_reaver_attack",
+   "name": "attack_reaver",
    "variable": null
   },
   {
-   "name": "order_carrier_attack",
+   "name": "attack_carrier",
    "variable": null
   },
   {
-   "name": "order_carrier_move",
+   "name": "move_carrier_reaver",
    "variable": null
   },
   {
-   "name": "order_tower_attack",
+   "name": "attack_tower",
    "variable": null
   },
   {
-   "name": "order_attack_unit",
+   "name": "attack_direct",
    "variable": null
   },
   {
-   "name": "order_attack",
+   "name": "attack",
    "variable": null
   },
   {
-   "name": "order_move",
+   "name": "move",
    "variable": null
   },
   {
-   "name": "order_rally",
+   "name": "rally",
    "variable": null
   },
   {
-   "name": "order_target_off",
+   "name": "cancel_targeting",
    "variable": null
   },
   {
-   "name": "order_cancel_land",
+   "name": "cancel_placement",
    "variable": null
   },
   {
-   "name": "statcmd_set_ctrl",
-   "variable": "table_entry"
+   "name": "show_button_card",
+   "variable": "button_card"
   },
   {
-   "name": "order_replay_speedup",
+   "name": "speed_up_replay",
    "variable": null
   },
   {
-   "name": "order_replay_play",
+   "name": "play_pause_replay",
    "variable": null
   },
   {
-   "name": "order_replay_slowdown",
+   "name": "slow_down_replay",
    "variable": null
   }
  ],
  "status_functions": [
   {
-   "name": "statdraw_query_never",
+   "name": "changed_never",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_unit",
+   "name": "changed_unit",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_bldg",
+   "name": "changed_building",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_transport",
+   "name": "changed_transport",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_carrier",
+   "name": "changed_hangar",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_archon",
+   "name": "changed_summon",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_egg",
+   "name": "changed_morph",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_overlord",
+   "name": "changed_supply_transport",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_query_powerup",
+   "name": "changed_powerup",
    "kind": "status_changed"
   },
   {
-   "name": "statdraw_draw_unit",
-   "kind": "status_update"
+   "name": "draw_unit",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_bldg",
-   "kind": "status_update"
+   "name": "draw_building",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_transport",
-   "kind": "status_update"
+   "name": "draw_transport",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_carrier",
-   "kind": "status_update"
+   "name": "draw_hangar",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_archon",
-   "kind": "status_update"
+   "name": "draw_summon",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_egg",
-   "kind": "status_update"
+   "name": "draw_morph",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_overlord",
-   "kind": "status_update"
+   "name": "draw_supply_transport",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_powerup",
-   "kind": "status_update"
+   "name": "draw_powerup",
+   "kind": "display_function"
   },
   {
-   "name": "statdraw_draw_none",
-   "kind": "status_update"
+   "name": "draw_none",
+   "kind": "display_function"
   }
  ],
  "opcodes": [
@@ -676,7 +676,7 @@
    ]
   },
   {
-   "name": "not_lifted_off",
+   "name": "is_not_lifted_off",
    "code": 65285,
    "parameter": null,
    "role": "condition",
@@ -701,7 +701,7 @@
    ]
   },
   {
-   "name": "not_training_or_morphing",
+   "name": "is_not_training_or_morphing",
    "code": 65287,
    "parameter": null,
    "role": "condition",
@@ -714,7 +714,7 @@
    ]
   },
   {
-   "name": "not_constructing_addon",
+   "name": "is_not_constructing_addon",
    "code": 65288,
    "parameter": null,
    "role": "condition",
@@ -727,7 +727,7 @@
    ]
   },
   {
-   "name": "not_researching",
+   "name": "is_not_researching",
    "code": 65289,
    "parameter": null,
    "role": "condition",
@@ -740,7 +740,7 @@
    ]
   },
   {
-   "name": "not_upgrading",
+   "name": "is_not_upgrading",
    "code": 65290,
    "parameter": null,
    "role": "condition",
@@ -753,7 +753,7 @@
    ]
   },
   {
-   "name": "not_constructing",
+   "name": "is_not_constructing",
    "code": 65291,
    "parameter": null,
    "role": "condition",
@@ -811,7 +811,7 @@
    ]
   },
   {
-   "name": "not_burrowed",
+   "name": "is_not_burrowed",
    "code": 65297,
    "parameter": null,
    "role": "condition",

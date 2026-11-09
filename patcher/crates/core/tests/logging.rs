@@ -75,7 +75,7 @@ Plan: 3 changes, 6 locations, 0 constants skipped
   constant max_supply = 600
     0x12346000 (RVA 0x6000): 90 01 -> 58 02
     0x12346010 (RVA 0x6010): 90 01 -> 58 02
-  table entry 1: set 1 replaced
+  button card 1: set 1 replaced
     0x1234100c (RVA 0x100c): 01 00 -> 01 00
     0x12341010 (RVA 0x1010): 28 20 34 12 -> 00 00 00 56
   tech use requirements: 0 removed

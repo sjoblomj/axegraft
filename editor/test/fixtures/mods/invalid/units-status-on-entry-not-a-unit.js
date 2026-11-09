@@ -7,14 +7,14 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 238,
-        "status_update": "statdraw_draw_unit"
+        "display_function": "draw_unit"
       }
     ]
   },
   "expect": {
     "refused": false,
     "errors": [
-      "units[0].status_update"
+      "units[0].display_function"
     ],
     "warnings": [],
     "messages": [

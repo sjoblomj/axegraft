@@ -7,16 +7,16 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "status_changed": "statdraw_draw_unit",
-        "status_update": "statdraw_query_unit"
+        "status_changed": "draw_unit",
+        "display_function": "changed_unit"
       }
     ]
   },
   "expect": {
     "refused": false,
     "errors": [
-      "units[0].status_changed",
-      "units[0].status_update"
+      "units[0].display_function",
+      "units[0].status_changed"
     ],
     "warnings": []
   }

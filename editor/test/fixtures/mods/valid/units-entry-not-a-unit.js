@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entries: Table entry that isn't a unit",
+  "scenario": "Unit entries: Button card that isn't a unit",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,

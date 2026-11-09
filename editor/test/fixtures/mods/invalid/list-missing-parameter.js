@@ -10,7 +10,7 @@ AxeGraft.registerModFixture({
         "id": 0,
         "list": [
           "current_unit_is",
-          "not_lifted_off"
+          "is_not_lifted_off"
         ]
       },
       {

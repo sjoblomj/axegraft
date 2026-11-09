@@ -22,27 +22,27 @@
  "entries": {
   "0": {
    "number": 0,
-   "equivalent": null
+   "connected_unit": null
   },
   "1": {
    "number": 1,
-   "equivalent": null
+   "connected_unit": null
   },
   "2": {
    "number": 2,
-   "equivalent": null
+   "connected_unit": null
   },
   "3": {
    "number": 3,
-   "equivalent": 1
+   "connected_unit": 1
   },
   "4": {
    "number": 4,
-   "equivalent": null
+   "connected_unit": null
   },
   "5": {
    "number": 5,
-   "equivalent": null
+   "connected_unit": null
   }
  },
  "sets": {
@@ -143,23 +143,23 @@
  "units": [
   {
    "status_changed": "statdraw_query_unit",
-   "status_update": "statdraw_draw_unit",
-   "status_unit_type": 0
+   "display_function": "statdraw_draw_unit",
+   "debug_id": 0
   },
   {
    "status_changed": "statdraw_query_unit",
-   "status_update": "statdraw_draw_unit",
-   "status_unit_type": 1
+   "display_function": "statdraw_draw_unit",
+   "debug_id": 1
   },
   {
    "status_changed": "statdraw_query_unit",
-   "status_update": "statdraw_draw_unit",
-   "status_unit_type": 2
+   "display_function": "statdraw_draw_unit",
+   "debug_id": 2
   },
   {
    "status_changed": "statdraw_query_never",
-   "status_update": "statdraw_draw_none",
-   "status_unit_type": 0
+   "display_function": "statdraw_draw_none",
+   "debug_id": 0
   }
  ],
  "functions": {

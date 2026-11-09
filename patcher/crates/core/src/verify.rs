@@ -1,6 +1,6 @@
 //! Checking the library against real executables, and listing its gaps.
 //!
-//! Every byte the library expects (table entries, original buttons, status
+//! Every byte the library expects (button cards, original buttons, status
 //! entries, requirement stream references, constants) is compared with the
 //! executable file, which is read as it is stored, at its preferred base.
 //! Streams are decoded and encoded again, which must give back their bytes.
@@ -40,11 +40,11 @@ pub fn expected(g: &GameLibrary, v: &Version, base: u32) -> Vec<Expected> {
         };
         let (co, cw) = card.count();
         let count = if cw == 2 { (count as u16).to_le_bytes().to_vec() } else { count.to_le_bytes().to_vec() };
-        push(format!("table entry {e}: button count ({set_text})"), at + co, count);
-        push(format!("table entry {e}: button pointer ({set_text})"), at + card.pointer(), ptr.to_le_bytes().to_vec());
-        if let Some(q) = card.equivalent() {
-            let n = on.equivalent.and_then(|q| v.entries.get(&q).copied().flatten()).map_or(0xFFFF, |x| x.number);
-            push(format!("table entry {e}: equivalent entry"), at + q, n.to_le_bytes().to_vec());
+        push(format!("button card {e}: button count ({set_text})"), at + co, count);
+        push(format!("button card {e}: button pointer ({set_text})"), at + card.pointer(), ptr.to_le_bytes().to_vec());
+        if let Some(q) = card.connected_unit() {
+            let n = on.connected_unit.and_then(|q| v.entries.get(&q).copied().flatten()).map_or(0xFFFF, |x| x.number);
+            push(format!("button card {e}: connected unit"), at + q, n.to_le_bytes().to_vec());
         }
     }
     for (id, s) in &v.sets {
@@ -64,9 +64,9 @@ pub fn expected(g: &GameLibrary, v: &Version, base: u32) -> Vec<Expected> {
         for field in layout.fields() {
             let (o, w) = layout.field(*field).unwrap();
             let (name, value) = match field {
-                StatusField::UnitType => ("status unit type", u.status_unit_type.unwrap_or(0)),
+                StatusField::DebugId => ("debug ID", u.debug_id.unwrap_or(0)),
                 StatusField::Changed => ("status changed function", f(&u.status_changed)),
-                StatusField::Update => ("status update function", f(&u.status_update)),
+                StatusField::Display => ("display function", f(&u.display_function)),
                 StatusField::Icon => ("icon", u.icon.unwrap_or(0) as u32),
                 StatusField::StatsFrame => ("stats frame", u.stats_frame.unwrap_or(0) as u32),
                 StatusField::NameString => ("name string", u.name_string.unwrap_or(0) as u32),
@@ -74,7 +74,7 @@ pub fn expected(g: &GameLibrary, v: &Version, base: u32) -> Vec<Expected> {
             let bytes = value.to_le_bytes()[..w].to_vec();
             let shown = match field {
                 StatusField::Changed => format!("{name} {}", u.status_changed),
-                StatusField::Update => format!("{name} {}", u.status_update),
+                StatusField::Display => format!("{name} {}", u.display_function),
                 _ => name.to_string(),
             };
             push(format!("unit {i}: {shown}"), at + o, bytes);

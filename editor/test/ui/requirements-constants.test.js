@@ -54,13 +54,13 @@
     return start(ctx).then(function (app) {
       var cat = app.cat();
       app.edit(function (d) {
-        return D.setRequirement(d, cat, "unit", 0, ["must_have_addon", 107, "not_lifted_off"]);
+        return D.setRequirement(d, cat, "unit", 0, ["must_have_addon", 107, "is_not_lifted_off"]);
       });
       app.select("requirements", "req:unit:0");
       U.q(app, '[data-action="req-copy"]').click();
       app.select("requirements", "req:tech_use:0");
       U.q(app, '[data-action="req-paste"]').click();
-      T.equal(D.effectiveRequirement(app.doc(), cat, "tech_use", 0).list, ["must_have_addon", 107, "not_lifted_off"], "pasted whole");
+      T.equal(D.effectiveRequirement(app.doc(), cat, "tech_use", 0).list, ["must_have_addon", 107, "is_not_lifted_off"], "pasted whole");
       T.ok(app.errors().some(function (p) {
         return /must_have_addon can't be used in a tech use record/.test(p.message);
       }), JSON.stringify(app.errors()));
@@ -84,16 +84,16 @@
       U.q(app, '[data-action="add-row"]').click();
       U.change(row(app, 2).querySelector('input[data-role="id"]'), "5");
       row(app, 2).querySelector('[data-action="row-up"]').click();
-      T.equal(app.doc().requirements, [{ type: "unit", id: 0, label: "Terran Marine", list: ["current_unit_is", 112, 5, "not_lifted_off"] }]);
+      T.equal(app.doc().requirements, [{ type: "unit", id: 0, label: "Terran Marine", list: ["current_unit_is", 112, 5, "is_not_lifted_off"] }]);
       row(app, 0).querySelector('[data-action="row-remove"]').click();
-      T.equal(list(app, "unit", 0), [5, "not_lifted_off"]);
+      T.equal(list(app, "unit", 0), [5, "is_not_lifted_off"]);
     });
   }, { dom: true });
 
   T.test("record editor: a lone row has no grip, since there's nowhere to move it", function (ctx) {
     return start(ctx).then(function (app) {
       app.edit(function (d) {
-        return D.setRequirement(d, app.cat(), "unit", 0, ["not_lifted_off"]);
+        return D.setRequirement(d, app.cat(), "unit", 0, ["is_not_lifted_off"]);
       });
       app.select("requirements", "req:unit:0");
       T.equal(app.root.querySelectorAll(".tabpanel .req-row").length >= 1, true);
@@ -106,9 +106,9 @@
       app.select("requirements", "req:unit:0");
       T.equal(app.root.querySelectorAll(".tabpanel .req-row > .grip").length, 2, "each row has a grip");
       U.drag(row(app, 1).querySelector(".grip"), row(app, 0));
-      T.equal(list(app, "unit", 0), ["not_lifted_off", "current_unit_is", 111]);
+      T.equal(list(app, "unit", 0), ["is_not_lifted_off", "current_unit_is", 111]);
       U.drag(row(app, 0).querySelector(".grip"), row(app, 1), true);
-      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "not_lifted_off"]);
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "is_not_lifted_off"]);
       T.equal(app.doc().requirements, undefined, "dragging it back matches the original");
     });
   }, { dom: true });
@@ -167,7 +167,7 @@
       app.select("requirements", "req:unit:0");
       U.q(app, '[data-action="add-row"]').click();
       U.change(row(app, 2).querySelector('input[data-role="id"]'), "112");
-      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "not_lifted_off", 112]);
+      T.equal(list(app, "unit", 0), ["current_unit_is", 111, "is_not_lifted_off", 112]);
     });
   }, { dom: true });
 
@@ -424,7 +424,7 @@
   T.test("warnings at the point of use: choosing a condition some versions lack lists them beside the field", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
-      U.change(U.q(app, '[data-field="set:0:0:condition"] select'), "Replay playing (bf_replay_play)");
+      U.change(U.q(app, '[data-field="set:0:0:condition"] select'), "Replay playing (is_watching_replay)");
       var f = U.q(app, '[data-field="set:0:0:condition"]');
       T.ok(/Not in 1\.07/.test(f.querySelector(".note").textContent));
       T.ok(/isn't in 1\.07/.test(f.querySelector(".problem.warning").textContent));

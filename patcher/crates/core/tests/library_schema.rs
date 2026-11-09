@@ -19,11 +19,11 @@ fn fixture_deserializes() {
     assert_eq!(v.status_table.layout, StatusLayout::StarCraft);
     assert_eq!(v.functions["statcmd_set_ctrl"], Some(0x3040));
     assert_eq!(sc.version("1.07").unwrap().functions["order_replay"], None);
-    assert_eq!(sc.actions.iter().find(|f| f.name == "statcmd_set_ctrl").unwrap().variable, Some(VarKind::TableEntry));
+    assert_eq!(sc.actions.iter().find(|f| f.name == "statcmd_set_ctrl").unwrap().variable, Some(VarKind::ButtonCard));
     assert_eq!(v.sets[&0].as_ref().unwrap().entries, vec![0, 2]);
     assert_eq!(sc.version("1.07").unwrap().sets[&4], None);
-    assert_eq!(sc.version("1.07").unwrap().entries[&5], Some(EntryOnVersion { number: 4, equivalent: None }));
-    assert_eq!(v.entries[&3].unwrap().equivalent, Some(1));
+    assert_eq!(sc.version("1.07").unwrap().entries[&5], Some(EntryOnVersion { number: 4, connected_unit: None }));
+    assert_eq!(v.entries[&3].unwrap().connected_unit, Some(1));
     assert_eq!(v.streams[&ReqType::Order].base_refs, vec![0x5050, 0x5058]);
     assert_eq!(sc.opcode("end_sublist").unwrap().code, 0xFFFF);
 

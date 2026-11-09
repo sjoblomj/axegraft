@@ -7,7 +7,7 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "status_update": "statdraw_draw_none"
+        "display_function": "draw_none"
       }
     ]
   },

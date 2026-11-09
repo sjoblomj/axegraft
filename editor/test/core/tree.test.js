@@ -6,7 +6,7 @@
   var Tr = AG.core.tree;
   var D = AG.core.doc;
 
-  // The StarCraft fixture with extra table entries, listed out of order.
+  // The StarCraft fixture with extra button cards, listed out of order.
   function catalogWithUnits() {
     var raw = T.rawCatalog("starcraft");
     [
@@ -17,7 +17,7 @@
       [2, "Terran Vulture"]
     ].forEach(function (u) {
       if (u[1] === null) return;
-      raw.units.push({ id: u[0], name: u[1], tree: u[0] === 2 ? ["Terran", "Ground Units"] : ["Heroes"], original: { button_set: null, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_unit", status_unit_type: u[0] } });
+      raw.units.push({ id: u[0], name: u[1], tree: u[0] === 2 ? ["Terran", "Ground Units"] : ["Heroes"], original: { button_set: null, status_changed: "changed_unit", display_function: "draw_unit", debug_id: u[0] } });
     });
     return AG.core.catalog.index(raw);
   }
@@ -90,7 +90,7 @@
       ["Units", "Upgrades", "Tech research", "Tech use", "Orders"]
     );
     T.ok(labels([nodes[4]]).indexOf("73 Drone lift off") >= 0);
-    T.ok(labels([nodes[0]]).indexOf("228 No unit") < 0, "table entries that aren't units have no requirement record");
+    T.ok(labels([nodes[0]]).indexOf("228 No unit") < 0, "button cards that aren't units have no requirement record");
   });
 
   T.test("item list: new sets and unnamed IDs the mod uses are listed", function () {
@@ -123,7 +123,7 @@
     var cat = T.catalog("starcraft");
     var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 232);
     doc = D.setUnitField(doc, cat, 5, "button_set", 999);
-    doc = D.setUnitField(doc, cat, 7, "status_update", "statdraw_draw_none");
+    doc = D.setUnitField(doc, cat, 7, "display_function", "draw_none");
     var m = Tr.marks(doc, cat, AG.core.problems(doc, cat));
     var nodes = Tr.mark(Tr.build("units", doc, cat), m.items.units);
     T.equal(labels(Tr.filter(nodes, "", "changed")), ["0 Terran Marine", "5 Terran Siege Tank", "7 Terran SCV"]);
@@ -136,7 +136,7 @@
     var cat = T.catalog("starcraft");
     var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 232);
     doc = D.setUnitField(doc, cat, 5, "button_set", 999);
-    doc = D.setUnitField(doc, cat, 7, "status_update", "statdraw_draw_none");
+    doc = D.setUnitField(doc, cat, 7, "display_function", "draw_none");
     var m = Tr.marks(doc, cat, AG.core.problems(doc, cat));
     var nodes = Tr.mark(Tr.build("units", doc, cat), m.items.units);
     T.equal(labels(Tr.filter(nodes, "", ["changed", "errors"])), ["5 Terran Siege Tank"]);

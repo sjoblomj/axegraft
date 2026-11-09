@@ -75,7 +75,7 @@
       });
   }
 
-  // Table entries, each with the set it has in the mod.
+  // Button cards, each with the set it has in the mod.
   function entryItems(app) {
     var cat = app.cat();
     var bs = cat.unitKind.buttonSet.name;
@@ -95,7 +95,7 @@
     if (type === "tech") return namedItems(cat.raw.techs, cat, "tech", app.doc());
     if (type === "upgrade") return namedItems(cat.raw.upgrades, cat, "upgrade", app.doc());
     if (type === "order") return namedItems(cat.raw.orders, cat, "order", app.doc());
-    if (type === "tableEntry") return entryItems(app);
+    if (type === "buttonCard") return entryItems(app);
     return null;
   }
 
@@ -112,7 +112,7 @@
       if (type === "order") return { tab: "requirements", key: tree.key.req("order", v), label: "Requirements of order " + v };
     }
     if (hasUnits && type === "unit" && util.inRange(v, cat.limits.unit)) return { tab: "units", key: tree.key.unit(v), label: "Unit " + v };
-    if (hasUnits && type === "tableEntry") return { tab: "units", key: tree.key.unit(v), label: "Table entry " + v };
+    if (hasUnits && type === "buttonCard") return { tab: "units", key: tree.key.unit(v), label: "Button card " + v };
     return null;
   }
 
@@ -137,7 +137,7 @@
 
   // ---- Who uses a set
 
-  // Table entries showing this set, counting what the mod assigns. Includes
+  // Button cards showing this set, counting what the mod assigns. Includes
   // entries the catalog doesn't name but the mod assigns.
   function usedBy(app, setId) {
     var cat = app.cat();
@@ -147,7 +147,7 @@
       ids[u.id] = true;
     });
     D.entries(app.doc(), "units").forEach(function (e) {
-      if (util.isObject(e) && util.isInt(e.id) && util.inRange(e.id, cat.limits.tableEntry)) ids[e.id] = true;
+      if (util.isObject(e) && util.isInt(e.id) && util.inRange(e.id, cat.limits.buttonCard)) ids[e.id] = true;
     });
     return Object.keys(ids)
       .map(Number)
@@ -295,7 +295,7 @@
     var users = usedBy(app, id);
     var usedEl = h("div", { class: "used-by", dataset: { field: "set:" + id + ":used" } }, [
       h("div", null, [
-        h("strong", { text: users.length ? "Used by " + users.length + (users.length === 1 ? " table entry" : " table entries") : "No table entry uses this set." }),
+        h("strong", { text: users.length ? "Used by " + users.length + (users.length === 1 ? " button card" : " button cards") : "No button card uses this set." }),
         users.length > 1 ? h("span", { text: " Editing this set changes all of them." }) : users.length === 1 ? h("span", { text: " Editing this set changes it." }) : null,
         " ",
         help.button(help.text("usedBy"))

@@ -16,7 +16,7 @@
   var PARTS = ["units", "button_sets", "requirements", "constants"];
   var LIMITS_REQUIRED = [
     "unit",
-    "tableEntry",
+    "buttonCard",
     "buttonSet",
     "newButtonSet",
     "icon",
@@ -28,13 +28,13 @@
   var LIMITS_OPTIONAL = ["tech", "upgrade", "order", "missile", "spellSound", "sound"];
   var BUTTON_KINDS = ["position", "icon", "string", "condition", "conditionVariable", "action", "actionVariable", "choice"];
   var BUTTON_KINDS_ONCE = ["position", "icon", "condition", "conditionVariable", "action", "actionVariable"];
-  var UNIT_KINDS = ["buttonSet", "statusChanged", "statusUpdate", "unit", "icon", "string", "choice", "tableEntry"];
-  var FUNCTION_LISTS = ["conditions", "actions", "statusChanged", "statusUpdate"];
-  var VARIABLE_TYPES = ["unit", "tech", "upgrade", "order", "number", "tableEntry"];
+  var UNIT_KINDS = ["buttonSet", "statusChanged", "displayFunction", "unit", "icon", "string", "choice", "buttonCard"];
+  var FUNCTION_LISTS = ["conditions", "actions", "statusChanged", "displayFunction"];
+  var VARIABLE_TYPES = ["unit", "tech", "upgrade", "order", "number", "buttonCard"];
   var PARAMETER_TYPES = ["unit", "tech", "upgrade", "order"];
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var OPCODE_ROLES = ["or", "level", "endSublist"];
-  var REFERS = ["unit", "tech", "upgrade", "order", "missile", "spellSound", "sound", "tableEntry"];
+  var REFERS = ["unit", "tech", "upgrade", "order", "missile", "spellSound", "sound", "buttonCard"];
   var STATES = ["unknown", "not_applicable"];
 
   var TOP_KEYS = [
@@ -160,14 +160,14 @@
     function needLimit(k, why) {
       if (!range(k)) problem(why + " needs limits." + k);
     }
-    if (range("tableEntry") && range("newButtonSet") && range("newButtonSet").min !== range("tableEntry").max + 1) {
-      problem("limits.newButtonSet must start at the table's size, " + (range("tableEntry").max + 1));
+    if (range("buttonCard") && range("newButtonSet") && range("newButtonSet").min !== range("buttonCard").max + 1) {
+      problem("limits.newButtonSet must start at the table's size, " + (range("buttonCard").max + 1));
     }
     if (range("buttonSet") && range("newButtonSet") && range("newButtonSet").max > range("buttonSet").max) {
       problem("limits.newButtonSet must end within limits.buttonSet");
     }
-    if (range("unit") && range("tableEntry") && range("unit").max > range("tableEntry").max) {
-      problem("limits.unit must lie within limits.tableEntry");
+    if (range("unit") && range("buttonCard") && range("unit").max > range("buttonCard").max) {
+      problem("limits.unit must lie within limits.buttonCard");
     }
 
     if (!isObject(raw.panel) || !isInt(raw.panel.columns) || raw.panel.columns < 1) {
@@ -257,7 +257,7 @@
         if (fn.variable !== null && VARIABLE_TYPES.indexOf(fn.variable) < 0) {
           problem(where + " has an unknown variable type " + util.show(fn.variable) + "; use null for none");
         }
-        if ((list === "statusChanged" || list === "statusUpdate") && fn.variable !== null) {
+        if ((list === "statusChanged" || list === "displayFunction") && fn.variable !== null) {
           problem(where + " can't read a variable");
         }
         if (fn.variable === "tech" || fn.variable === "upgrade" || fn.variable === "order") needLimit(fn.variable, where);
@@ -354,12 +354,12 @@
       setById[set.id] = set;
       if (!isText(set.name)) problem(where + " needs a name");
       if (!Array.isArray(set.tree)) problem(where + " needs a tree");
-      if (range("tableEntry") && !util.inRange(set.id, range("tableEntry"))) problem(where + " isn't a table entry, so it can't be an original set");
+      if (range("buttonCard") && !util.inRange(set.id, range("buttonCard"))) problem(where + " isn't a button card, so it can't be an original set");
       if (!Array.isArray(set.entries) || !set.entries.length) {
-        problem(where + " must list the table entries that point at it");
+        problem(where + " must list the button cards that point at it");
       } else {
         var lowest = Math.min.apply(null, set.entries);
-        if (lowest !== set.id) problem(where + " must take the ID of the lowest table entry pointing at it, " + lowest);
+        if (lowest !== set.id) problem(where + " must take the ID of the lowest button card pointing at it, " + lowest);
       }
       checkVersions(set.absentOn, where + " absentOn");
       // One list for every version, or { default, perVersion } like a requirement record.
@@ -451,12 +451,12 @@
         problem("units[" + i + "] needs an id");
         return;
       }
-      var where = "table entry " + u.id;
+      var where = "button card " + u.id;
       if (unitById[u.id]) problem(where + " is listed twice");
       unitById[u.id] = u;
       if (!isText(u.name)) problem(where + " needs a name");
       if (!Array.isArray(u.tree)) problem(where + " needs a tree");
-      if (range("tableEntry") && !util.inRange(u.id, range("tableEntry"))) problem(where + " is outside limits.tableEntry");
+      if (range("buttonCard") && !util.inRange(u.id, range("buttonCard"))) problem(where + " is outside limits.buttonCard");
       if (u.icon !== undefined && (!isInt(u.icon) || (range("icon") && !util.inRange(u.icon, range("icon"))))) problem(where + " has an icon that isn't an icon ID within limits.icon");
       checkVersions(u.absentOn, where + " absentOn");
       if (!isObject(u.original)) {
@@ -485,7 +485,7 @@
           else if (!Array.isArray(setById[v].entries) || setById[v].entries.indexOf(u.id) < 0) {
             problem(where + " has an original " + f.name + " " + v + ", but set " + v + " doesn't list entry " + u.id);
           }
-        } else if (f.kind === "statusChanged" || f.kind === "statusUpdate") {
+        } else if (f.kind === "statusChanged" || f.kind === "displayFunction") {
           if (!fnByList[f.kind] || !fnByList[f.kind][v]) problem(where + " has an original " + f.name + " " + util.show(v) + ", which the catalog doesn't list");
         } else if (f.kind === "unit") {
           if (range("unit") && !util.inRange(v, range("unit"))) problem(where + " has an original " + f.name + " outside limits.unit");
@@ -496,28 +496,28 @@
             return isObject(o) && o.value === v;
           });
           if (!known) problem(where + " has an original " + f.name + " " + util.show(v) + ", which isn't one of its options");
-        } else if (f.kind === "tableEntry") {
-          if (v !== null && (!isInt(v) || (range("tableEntry") && !util.inRange(v, range("tableEntry"))))) problem(where + " has an original " + f.name + " that is neither null nor within limits.tableEntry");
+        } else if (f.kind === "buttonCard") {
+          if (v !== null && (!isInt(v) || (range("buttonCard") && !util.inRange(v, range("buttonCard"))))) problem(where + " has an original " + f.name + " that is neither null nor within limits.buttonCard");
         }
       });
     });
-    // Each set's list of table entries must agree with those entries' original sets.
+    // Each set's list of button cards must agree with those entries' original sets.
     sets.forEach(function (set) {
       if (!isObject(set) || !Array.isArray(set.entries)) return;
       set.entries.forEach(function (e) {
         var u = unitById[e];
         var bsField = unitFieldKinds.buttonSet;
-        if (!u) problem("button set " + set.id + " lists table entry " + util.show(e) + ", which isn't in units");
+        if (!u) problem("button set " + set.id + " lists button card " + util.show(e) + ", which isn't in units");
         else if (bsField && isObject(u.original) && u.original[bsField.name] !== set.id) {
-          problem("button set " + set.id + " lists table entry " + e + ", but that entry's original " + bsField.name + " is " + util.show(u.original[bsField.name]));
+          problem("button set " + set.id + " lists button card " + e + ", but that entry's original " + bsField.name + " is " + util.show(u.original[bsField.name]));
         }
       });
     });
     // A complete catalog lists every entry of the table. A sample may list a few.
-    if (raw.sample !== true && range("tableEntry")) {
+    if (raw.sample !== true && range("buttonCard")) {
       var missing = [];
-      for (var id = range("tableEntry").min; id <= range("tableEntry").max; id++) if (!unitById[id]) missing.push(id);
-      if (missing.length) problem("units must list every table entry, but " + missing.length + " are missing, starting with " + missing[0]);
+      for (var id = range("buttonCard").min; id <= range("buttonCard").max; id++) if (!unitById[id]) missing.push(id);
+      if (missing.length) problem("units must list every button card, but " + missing.length + " are missing, starting with " + missing[0]);
     }
 
     // Requirements
@@ -727,7 +727,7 @@
       icons: raw.icons || {},
       strings: raw.strings || {},
       assets: raw.assets || null,
-      // The set each table entry points at originally (null for none).
+      // The set each button card points at originally (null for none).
       entrySet: new Map(),
       // Each set's original buttons as { default, perVersion }, whichever form the catalog uses.
       setOriginals: new Map()

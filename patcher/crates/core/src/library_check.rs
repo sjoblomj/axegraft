@@ -106,35 +106,35 @@ fn check_version(g: &GameLibrary, v: &Version, err: &mut dyn FnMut(String)) {
         err(format!("button table and status table: the layouts aren't {}'s.", g.game.title()));
     }
 
-    // Table entries.
-    for id in 0..limits.table_entries {
+    // Button cards.
+    for id in 0..limits.button_cards {
         if !v.entries.contains_key(&id) {
-            err(format!("table entry {id}: missing. Every entry must be listed, with its number or as absent."));
+            err(format!("button card {id}: missing. Every entry must be listed, with its number or as absent."));
         }
     }
     let mut numbers = BTreeMap::new();
     for (id, e) in &v.entries {
-        if *id >= limits.table_entries {
-            err(format!("table entry {id}: is beyond the game's {} entries.", limits.table_entries));
+        if *id >= limits.button_cards {
+            err(format!("button card {id}: is beyond the game's {} entries.", limits.button_cards));
         }
         let Some(e) = e else {
             if limits.unit.contains(*id as i128) {
-                err(format!("table entry {id}: is a unit, and units are never absent."));
+                err(format!("button card {id}: is a unit, and units are never absent."));
             }
             continue;
         };
         if limits.unit.contains(*id as i128) && e.number != *id {
-            err(format!("table entry {id}: is a unit, so its number must be {id}, not {}.", e.number));
+            err(format!("button card {id}: is a unit, so its number must be {id}, not {}.", e.number));
         }
         if e.number >= v.button_table.entries {
-            err(format!("table entry {id}: number {} is beyond this version's {} entries.", e.number, v.button_table.entries));
+            err(format!("button card {id}: number {} is beyond this version's {} entries.", e.number, v.button_table.entries));
         }
         if let Some(other) = numbers.insert(e.number, *id) {
-            err(format!("table entries {other} and {id}: both have number {} on this version.", e.number));
+            err(format!("button cards {other} and {id}: both have number {} on this version.", e.number));
         }
-        match (sc, e.equivalent) {
-            (false, Some(_)) => err(format!("table entry {id}: Warcraft II entries have no equivalent entry.")),
-            (true, Some(q)) if !matches!(v.entries.get(&q), Some(Some(_))) => err(format!("table entry {id}: its equivalent entry {q} doesn't exist on this version.")),
+        match (sc, e.connected_unit) {
+            (false, Some(_)) => err(format!("button card {id}: Warcraft II entries have no connected unit.")),
+            (true, Some(q)) if !matches!(v.entries.get(&q), Some(Some(_))) => err(format!("button card {id}: its connected unit {q} doesn't exist on this version.")),
             _ => {}
         }
     }
@@ -164,20 +164,20 @@ fn check_version(g: &GameLibrary, v: &Version, err: &mut dyn FnMut(String)) {
     let mut used: BTreeSet<&str> = BTreeSet::new();
     for (id, s) in &v.sets {
         let Some(s) = s else { continue };
-        if *id >= limits.table_entries {
-            err(format!("set {id}: an original set's ID is a table entry, below {}.", limits.table_entries));
+        if *id >= limits.button_cards {
+            err(format!("set {id}: an original set's ID is a button card, below {}.", limits.button_cards));
         }
         match s.entries.iter().min() {
-            None => err(format!("set {id}: no table entry points at it.")),
+            None => err(format!("set {id}: no button card points at it.")),
             Some(lowest) if lowest != id => err(format!("set {id}: its ID must be the lowest entry pointing at it, which is {lowest}.")),
             _ => {}
         }
         for e in &s.entries {
             if !matches!(v.entries.get(e), Some(Some(_))) {
-                err(format!("set {id}: table entry {e} points at it but doesn't exist on this version."));
+                err(format!("set {id}: button card {e} points at it but doesn't exist on this version."));
             }
             if let Some(other) = owner.insert(*e, *id) {
-                err(format!("set {id}: table entry {e} also points at set {other}."));
+                err(format!("set {id}: button card {e} also points at set {other}."));
             }
         }
         if s.buttons.len() > u16::MAX as usize {
@@ -214,7 +214,7 @@ fn check_version(g: &GameLibrary, v: &Version, err: &mut dyn FnMut(String)) {
         err(format!("units: {} are listed, but the game has {unit_count}.", v.units.len()));
     }
     for (i, u) in v.units.iter().enumerate() {
-        for (name, kind) in [(&u.status_changed, StatusKind::StatusChanged), (&u.status_update, StatusKind::StatusUpdate)] {
+        for (name, kind) in [(&u.status_changed, StatusKind::StatusChanged), (&u.display_function, StatusKind::DisplayFunction)] {
             match status.get(name.as_str()) {
                 None => err(format!("unit {i}: {name} isn't a status function.")),
                 Some(k) if *k != kind => err(format!("unit {i}: {name} isn't a {} function.", kind.title())),
@@ -224,9 +224,9 @@ fn check_version(g: &GameLibrary, v: &Version, err: &mut dyn FnMut(String)) {
             used.insert(name.as_str());
         }
         let fields_ok = if sc {
-            u.status_unit_type.is_some() && u.icon.is_none() && u.stats_frame.is_none() && u.name_string.is_none()
+            u.debug_id.is_some() && u.icon.is_none() && u.stats_frame.is_none() && u.name_string.is_none()
         } else {
-            u.status_unit_type.is_none() && u.icon.is_some() && u.stats_frame.is_some() && u.name_string.is_some()
+            u.debug_id.is_none() && u.icon.is_some() && u.stats_frame.is_some() && u.name_string.is_some()
         };
         if !fields_ok {
             err(format!("unit {i}: doesn't have {}'s status entry fields.", g.game.title()));
@@ -388,10 +388,10 @@ pub fn written_ranges(g: &GameLibrary, v: &Version) -> Vec<(u32, u32, String)> {
         let Some(e) = e else { continue };
         let at = v.button_table.rva + e.number as u32 * card.size();
         let (co, cw) = card.count();
-        r.push((at + co, at + co + cw as u32, format!("button table entry {id}")));
-        r.push((at + card.pointer(), at + card.pointer() + 4, format!("button table entry {id}")));
-        if let Some(q) = card.equivalent() {
-            r.push((at + q, at + q + 2, format!("button table entry {id}")));
+        r.push((at + co, at + co + cw as u32, format!("button button card {id}")));
+        r.push((at + card.pointer(), at + card.pointer() + 4, format!("button button card {id}")));
+        if let Some(q) = card.connected_unit() {
+            r.push((at + q, at + q + 2, format!("button button card {id}")));
         }
     }
     let layout = v.status_table.layout;

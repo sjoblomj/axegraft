@@ -1,5 +1,5 @@
-// The Units tab: a table entry's button set and, for units, its status
-// functions and status unit type.
+// The Units tab: a button card's button set and, for units, its status
+// functions and debug ID.
 "use strict";
 
 (function (AG) {
@@ -107,7 +107,7 @@
             } }, "Go to →")
           );
         }
-      } else if (f.kind === "statusChanged" || f.kind === "statusUpdate") {
+      } else if (f.kind === "statusChanged" || f.kind === "displayFunction") {
         controls = [F.select(functionOptions(cat, f.kind), e.value, set, { class: "ctl wide", "aria-label": f.label })];
         var fnOrig = e.hasOriginal ? cat.functions[f.kind].get(e.original) : null;
         original = e.hasOriginal ? (fnOrig ? fnOrig.label + " (" + fnOrig.name + ")" : e.original) : null;
@@ -137,7 +137,7 @@
           return o.value === e.original;
         })[0] : null;
         original = e.hasOriginal ? (origChoice ? origChoice.label : String(e.original)) : null;
-      } else if (f.kind === "tableEntry") {
+      } else if (f.kind === "buttonCard") {
         controls = F.idPicker(AG.ui.buttonSets.entryItems(app), e.value, set, { allowNone: true, noneLabel: "None", label: f.label });
         helpText += " " + help.text("idPicker");
         var origEntry = e.hasOriginal && util.isInt(e.original) ? cat.units.get(e.original) : null;
@@ -166,12 +166,12 @@
       });
     });
 
-    // The button set and the equivalent entry are in the button table's
+    // The button set and the connected unit are in the button table's
     // entry; the other fields are in the status panel's.
     var entryFields = [];
     var statusFields = [];
     D.unitFieldsFor(cat, id).forEach(function (f, i) {
-      (f.kind === "buttonSet" || f.kind === "tableEntry" ? entryFields : statusFields).push(fields[i]);
+      (f.kind === "buttonSet" || f.kind === "buttonCard" ? entryFields : statusFields).push(fields[i]);
     });
 
     // Problems of the entry as a whole, such as one with nothing to change.
@@ -187,8 +187,8 @@
     return h("div", { class: "units-panel", dataset: { unit: id } }, [
       h("h2", { class: "panel-title" }, [
         iconUrl ? h("img", { class: "unit-icon", src: iconUrl, alt: "", dataset: { unitIcon: unit.icon } }) : null,
-        F.nameTitle(app, { kind: "unit", id: id, prefix: id, fallback: "Table entry " + id }),
-        h("span", { class: "sub", text: isUnit ? "Unit" : "Table entry that isn't a unit, so it has only a button set" }),
+        F.nameTitle(app, { kind: "unit", id: id, prefix: id, fallback: "Button card " + id }),
+        h("span", { class: "sub", text: isUnit ? "Unit" : "Button card that isn't a unit, so it has only a button set" }),
         changed
           ? F.withHelp(
               h("button", { type: "button", class: "small", dataset: { action: "revert-unit" }, onclick: function () {
@@ -209,12 +209,12 @@
             })
           )
         : null,
-      h("fieldset", null, [h("legend", { text: "Button table entry" })].concat(entryFields)),
+      h("fieldset", null, [h("legend", { text: "Button card" })].concat(entryFields)),
       statusFields.length ? h("fieldset", null, [h("legend", { text: "Status panel" })].concat(statusFields)) : null
     ]);
   }
 
-  // A table entry's fields, copied over another entry's. Only the fields
+  // A button card's fields, copied over another entry's. Only the fields
   // both have are pasted: a unit pasted onto an entry that isn't a unit
   // gives it only its button set. Names given in AxeGraft aren't copied.
   var unitCopy = AG.ui.copyPaste.make({
@@ -228,7 +228,7 @@
     },
     label: function (app, u) {
       var name = D.itemName(app.cat(), "unit", u.id, app.doc());
-      return name ? u.id + " " + name : "table entry " + u.id;
+      return name ? u.id + " " + name : "button card " + u.id;
     },
     take: function (app, u) {
       var eff = D.effectiveUnit(app.doc(), app.cat(), u.id);

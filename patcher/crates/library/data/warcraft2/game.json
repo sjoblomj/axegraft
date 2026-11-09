@@ -5,7 +5,7 @@
    "min": 0,
    "max": 109
   },
-  "table_entries": 120,
+  "button_cards": 120,
   "max_set_id": 999,
   "tech": {
    "min": 0,
@@ -381,7 +381,7 @@
   },
   {
    "name": "status_set_card",
-   "variable": "table_entry"
+   "variable": "button_card"
   },
   {
    "name": "target_off",
@@ -431,91 +431,91 @@
   },
   {
    "name": "statdraw_draw_none",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_unit",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_grunt",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_catapult",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_archer",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_bldg",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_peon",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_transport",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_destroyer",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_farm",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_mine",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_barracks",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_town_hall",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_shipyard",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_mill",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_smith",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_church",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_mage_tower",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_scout_tower",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_attack_tower",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_refinery",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_oilrig",
-   "kind": "status_update"
+   "kind": "display_function"
   }
  ],
  "opcodes": [],

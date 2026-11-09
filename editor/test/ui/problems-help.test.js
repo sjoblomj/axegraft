@@ -19,9 +19,9 @@
   T.test("problem while editing: a button left without a required variable shows an error beside the field and in the list, which leads back to it", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
-      U.change(U.q(app, '[data-field="set:0:0:action"] select'), "Upgrade (order_upgrade)");
+      U.change(U.q(app, '[data-field="set:0:0:action"] select'), "Upgrade (upgrade)");
       var f = U.q(app, '[data-field="set:0:0:action_variable"]');
-      T.ok(/order_upgrade reads a upgrade, but action_variable is missing/.test(f.querySelector(".problem.error").textContent), f.textContent);
+      T.ok(/upgrade reads a upgrade, but action_variable is missing/.test(f.querySelector(".problem.error").textContent), f.textContent);
       T.equal(U.q(app, '[data-status="problems"]').textContent, "1 error, 0 warnings");
       app.select("units", "unit:5");
       U.q(app, '[data-status="problems"]').click();
@@ -72,7 +72,7 @@
   T.test("reading help: a ? button shows its control's text on focus and on hover", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:0");
-      var f = U.q(app, '[data-field="unit:0:status_update"]');
+      var f = U.q(app, '[data-field="unit:0:display_function"]');
       var btn = f.querySelector(".help");
       var tip = btn.querySelector(".tip");
       T.equal(getComputedStyle(tip).display, "none");

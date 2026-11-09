@@ -5,7 +5,7 @@
    "min": 0,
    "max": 2
   },
-  "table_entries": 4,
+  "button_cards": 4,
   "max_set_id": 999,
   "tech": {
    "min": 0,
@@ -61,7 +61,7 @@
   },
   {
    "name": "statcmd_set_ctrl",
-   "variable": "table_entry"
+   "variable": "button_card"
   },
   {
    "name": "order_spell",
@@ -79,11 +79,11 @@
   },
   {
    "name": "statdraw_draw_unit",
-   "kind": "status_update"
+   "kind": "display_function"
   },
   {
    "name": "statdraw_draw_none",
-   "kind": "status_update"
+   "kind": "display_function"
   }
  ],
  "constants": [

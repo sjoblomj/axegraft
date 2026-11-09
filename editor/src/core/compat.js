@@ -5,7 +5,7 @@
 //   applies:  every change would be made
 //   skipped:  every change but some constants, which are unknown or don't
 //             apply there, and which the patcher skips
-//   rejected: the mod uses a button set, table entry or function the version
+//   rejected: the mod uses a button set, button card or function the version
 //             lacks, so the patcher would refuse it there
 // These never make a mod invalid. Entries that lead to a rejection get a
 // warning, at the field that causes it.
@@ -71,14 +71,14 @@
     AG.core.doc.entries(doc, "units").forEach(function (e, i) {
       if (!isObject(e) || !isInt(e.id)) return;
       var p = "units[" + i + "]";
-      add(p + ".id", absentOn(cat.units.get(e.id)), "table entry " + e.id);
+      add(p + ".id", absentOn(cat.units.get(e.id)), "button card " + e.id);
       if (util.has(e, bsField) && isInt(e[bsField])) add(p + "." + bsField, absentOn(cat.sets.get(e[bsField])), "set " + e[bsField]);
-      ["statusChanged", "statusUpdate"].forEach(function (kind) {
+      ["statusChanged", "displayFunction"].forEach(function (kind) {
         var f = cat.unitKind[kind];
         if (f && typeof e[f.name] === "string") add(p + "." + f.name, absentOn(cat.functions[kind].get(e[f.name])), e[f.name]);
       });
-      var te = cat.unitKind.tableEntry;
-      if (te && isInt(e[te.name])) add(p + "." + te.name, absentOn(cat.units.get(e[te.name])), "table entry " + e[te.name]);
+      var te = cat.unitKind.buttonCard;
+      if (te && isInt(e[te.name])) add(p + "." + te.name, absentOn(cat.units.get(e[te.name])), "button card " + e[te.name]);
     });
     AG.core.doc.entries(doc, "button_sets").forEach(function (e, i) {
       if (!isObject(e) || !isInt(e.id)) return;
@@ -95,8 +95,8 @@
           if (!fn) return;
           add(bp + "." + f.name, absentOn(fn), k[0] + " " + fn.name + who);
           var vf = cat.buttonKind[k[2]];
-          if (fn.variable === "tableEntry" && isInt(b[vf.name])) {
-            add(bp + "." + vf.name, absentOn(cat.units.get(b[vf.name])), "table entry " + b[vf.name] + who);
+          if (fn.variable === "buttonCard" && isInt(b[vf.name])) {
+            add(bp + "." + vf.name, absentOn(cat.units.get(b[vf.name])), "button card " + b[vf.name] + who);
           }
         });
       });

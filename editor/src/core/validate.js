@@ -23,7 +23,7 @@
   var REQUIREMENT_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"];
   var TYPE_LIMIT = { unit: "unit", upgrade: "upgrade", tech_research: "tech", tech_use: "tech", order: "order" };
   var TYPE_NAME = { unit: "unit", upgrade: "upgrade", tech_research: "tech research", tech_use: "tech use", order: "order" };
-  var VARIABLE_NAME = { unit: "unit", tech: "tech", upgrade: "upgrade", order: "order", number: "number", tableEntry: "table entry" };
+  var VARIABLE_NAME = { unit: "unit", tech: "tech", upgrade: "upgrade", order: "order", number: "number", buttonCard: "button card" };
 
   function Problems() {
     this.list = [];
@@ -50,7 +50,7 @@
     return r.min + "-" + r.max;
   }
 
-  // The set a table entry points at in the original game, or undefined if
+  // The set a button card points at in the original game, or undefined if
   // the catalog doesn't say.
   function entrySetText(cat, id) {
     if (!cat.entrySet.has(id)) return null;
@@ -211,9 +211,9 @@
   // ignores them, so nothing here is more than a warning.
   var LABEL_CHECKS = {
     units: { what: "unit", by: "unit ID", known: function (cat, k, id) {
-      return id !== null && util.inRange(id, cat.limits.tableEntry);
+      return id !== null && util.inRange(id, cat.limits.buttonCard);
     }, expected: function (cat) {
-      return "an entry of the game's button table, " + rangeText(cat.limits.tableEntry);
+      return "an entry of the game's button table, " + rangeText(cat.limits.buttonCard);
     } },
     button_sets: { what: "set", by: "set ID", known: function (cat, k, id) {
       return id !== null && (cat.sets.has(id) || util.inRange(id, cat.limits.newButtonSet));
@@ -302,8 +302,8 @@
     var who = isInt(id) ? "Unit entry " + id : "A unit entry";
     if (!util.has(e, "id")) problems.error(path, "A unit entry has no id.");
     else if (!isInt(id)) problems.error(path + ".id", "A unit entry's id must be a whole number, but it's " + util.show(id) + ".");
-    else if (!util.inRange(id, cat.limits.tableEntry)) {
-      problems.error(path + ".id", "Unit ID " + id + " is outside the game's button table, " + rangeText(cat.limits.tableEntry) + ".", { orphan: true });
+    else if (!util.inRange(id, cat.limits.buttonCard)) {
+      problems.error(path + ".id", "Unit ID " + id + " is outside the game's button table, " + rangeText(cat.limits.buttonCard) + ".", { orphan: true });
     }
     var present = fields.filter(function (f) {
       return util.has(e, f);
@@ -313,18 +313,18 @@
     });
     if (!others.length) problems.error(path, who + " has nothing to change. Give it at least one of " + fields.join(", ") + ".");
     var isUnit = isInt(id) && util.inRange(id, cat.limits.unit);
-    var isEntry = isInt(id) && util.inRange(id, cat.limits.tableEntry);
+    var isEntry = isInt(id) && util.inRange(id, cat.limits.buttonCard);
 
     present.forEach(function (name) {
       var f = cat.unitField.get(name);
       var v = e[name];
       var fp = path + "." + name;
       if (isEntry && !isUnit && f.kind !== "buttonSet") {
-        problems.error(fp, "Table entry " + id + " isn't a unit, so only " + cat.unitKind.buttonSet.name + " can be set.");
+        problems.error(fp, "Button card " + id + " isn't a unit, so only " + cat.unitKind.buttonSet.name + " can be set.");
         return;
       }
       if (f.kind === "buttonSet") checkSetReference(ctx, v, fp);
-      else if (f.kind === "statusChanged" || f.kind === "statusUpdate") checkFunction(ctx, f.kind, v, fp, f.name);
+      else if (f.kind === "statusChanged" || f.kind === "displayFunction") checkFunction(ctx, f.kind, v, fp, f.name);
       else if (f.kind === "unit") {
         if (!isInt(v)) problems.error(fp, f.name + " must be a unit ID, but it's " + util.show(v) + ".");
         else if (!util.inRange(v, cat.limits.unit)) problems.error(fp, f.name + " " + v + " is outside the unit range, " + rangeText(cat.limits.unit) + ".");
@@ -340,10 +340,10 @@
         if (!ok) problems.error(fp, f.name + " " + util.show(v) + " isn't one of " + f.options.map(function (o) {
           return o.value;
         }).join(", ") + ".");
-      } else if (f.kind === "tableEntry") {
+      } else if (f.kind === "buttonCard") {
         if (v === null) return;
-        if (!isInt(v)) problems.error(fp, f.name + " must be a table entry ID or null for none, but it's " + util.show(v) + ".");
-        else if (!util.inRange(v, cat.limits.tableEntry)) problems.error(fp, f.name + " " + v + " is outside the game's button table, " + rangeText(cat.limits.tableEntry) + ".");
+        if (!isInt(v)) problems.error(fp, f.name + " must be a button card ID or null for none, but it's " + util.show(v) + ".");
+        else if (!util.inRange(v, cat.limits.buttonCard)) problems.error(fp, f.name + " " + v + " is outside the game's button table, " + rangeText(cat.limits.buttonCard) + ".");
       }
     });
   }
@@ -374,14 +374,14 @@
       if (!ctx.definedSets[v]) ctx.problems.error(path, "Set " + v + " is a new set, but this mod doesn't define it.");
       return;
     }
-    var used = util.inRange(v, cat.limits.tableEntry) ? entrySetText(cat, v) : null;
+    var used = util.inRange(v, cat.limits.buttonCard) ? entrySetText(cat, v) : null;
     if (used) ctx.problems.error(path, "There's no set " + v + ": " + used + ".");
     else if (util.inRange(v, cat.limits.buttonSet)) ctx.problems.error(path, "There's no set " + v + " in the catalog.");
     else ctx.problems.error(path, "Set " + v + " is outside the set range, " + rangeText(cat.limits.buttonSet) + ".");
   }
 
   function checkFunction(ctx, list, v, path, field) {
-    var listName = { statusChanged: "status function", statusUpdate: "status function", conditions: "condition", actions: "action" }[list];
+    var listName = { statusChanged: "status function", displayFunction: "status function", conditions: "condition", actions: "action" }[list];
     if (typeof v !== "string") {
       ctx.problems.error(path, field + " must name a " + listName + ", but it's " + util.show(v) + ".");
       return null;

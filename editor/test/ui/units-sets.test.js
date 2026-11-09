@@ -39,13 +39,13 @@
   T.test("unit fields: a StarCraft unit shows all four fields", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:0");
-      T.equal(labels(app), ["Button set", "Equivalent entry", "Status changed", "Status update", "Status unit type"]);
+      T.equal(labels(app), ["Button set", "Connected unit", "Status changed", "Display function", "Debug ID"]);
       T.ok(!/Original/.test(field(app, "unit:0:button_set").textContent), "an unchanged field shows no original value");
       T.ok(!field(app, "unit:0:button_set").querySelector(".changed-mark"));
     });
   }, { dom: true });
 
-  T.test("unit fields: a Warcraft II unit has no status unit type", function (ctx) {
+  T.test("unit fields: a Warcraft II unit has no debug ID", function (ctx) {
     return start(ctx, "warcraft2").then(function (app) {
       app.select("units", "unit:2");
       T.equal(labels(app), ["Button set", "Icon", "Name", "Stats panel frame", "Stats changed", "Stats update"]);
@@ -59,7 +59,7 @@
       T.ok(field(app, "unit:0:icon").querySelector(".icon-preview [data-icon='2']"), "the icon is shown");
       T.ok(!app.root.querySelector(".panel-title .unit-icon"), "not beside the name");
       var boxes = U.texts(app, ".units-panel fieldset > legend");
-      T.equal(boxes, ["Button table entry", "Status panel"]);
+      T.equal(boxes, ["Button card", "Status panel"]);
       T.ok(field(app, "unit:0:icon").closest("fieldset").querySelector("legend").textContent === "Status panel", "with the stats functions, in the Unit Data entry");
       U.change(idBox(app, "unit:0:icon"), "5");
       T.equal(app.doc().units, [{ id: 0, label: "Footman", icon: 5 }]);
@@ -88,28 +88,28 @@
     });
   }, { dom: true });
 
-  T.test("unit fields: a StarCraft unit's equivalent entry is in the button table entry, and can be set and cleared", function (ctx) {
+  T.test("unit fields: a StarCraft unit's connected unit is in the button button card, and can be set and cleared", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:0");
-      T.equal(boxOf(app, "unit:0:equivalent_entry"), "Button table entry");
-      T.equal(idBox(app, "unit:0:equivalent_entry").value, "");
-      U.change(idBox(app, "unit:0:equivalent_entry"), "5");
-      T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", equivalent_entry: 5 }]);
-      var chosen = nameList(app, "unit:0:equivalent_entry");
+      T.equal(boxOf(app, "unit:0:connected_unit"), "Button card");
+      T.equal(idBox(app, "unit:0:connected_unit").value, "");
+      U.change(idBox(app, "unit:0:connected_unit"), "5");
+      T.equal(app.doc().units, [{ id: 0, label: "Terran Marine", connected_unit: 5 }]);
+      var chosen = nameList(app, "unit:0:connected_unit");
       T.ok(/^5 .* — set 5$/.test(chosen.options[chosen.selectedIndex].textContent), "the list shows entry 5 and its set: " + chosen.options[chosen.selectedIndex].textContent);
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 5, "button_set", 7);
       });
-      chosen = nameList(app, "unit:0:equivalent_entry");
+      chosen = nameList(app, "unit:0:connected_unit");
       T.ok(/^5 .* — set 7$/.test(chosen.options[chosen.selectedIndex].textContent), "the set it has now: " + chosen.options[chosen.selectedIndex].textContent);
       app.undo();
       T.equal(app.errors(), []);
-      var goTo = field(app, "unit:0:equivalent_entry").querySelector('[data-action="go-to-entry"]');
+      var goTo = field(app, "unit:0:connected_unit").querySelector('[data-action="go-to-entry"]');
       T.ok(goTo, "it offers to go to entry 5");
       T.equal(goTo.textContent, "Go to →", "labelled like the other go-to buttons");
-      U.change(idBox(app, "unit:0:equivalent_entry"), "");
+      U.change(idBox(app, "unit:0:connected_unit"), "");
       T.equal(app.doc().units || [], [], "back to none, the original, leaves nothing to save");
-      U.change(idBox(app, "unit:0:equivalent_entry"), "400");
+      U.change(idBox(app, "unit:0:connected_unit"), "400");
       T.ok(app.errors().length > 0, "an entry beyond the button table is an error");
     });
   }, { dom: true });
@@ -212,7 +212,7 @@
     });
   }, { dom: true });
 
-  T.test("unit fields: a table entry that isn't a unit, such as 238, shows only its button set", function (ctx) {
+  T.test("unit fields: a button card that isn't a unit, such as 238, shows only its button set", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:238");
       T.equal(labels(app), ["Button set"]);
@@ -230,7 +230,7 @@
     });
   }, { dom: true });
 
-  T.test("choosing by name or ID: typing a table entry as a set ID shows that entry 32 uses set 0", function (ctx) {
+  T.test("choosing by name or ID: typing a button card as a set ID shows that entry 32 uses set 0", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:5");
       U.change(idBox(app, "unit:5:button_set"), "32");
@@ -253,12 +253,12 @@
   T.test("status functions by name: each field offers only its own functions, and changing one saves only it", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("units", "unit:7");
-      T.equal(U.texts(app, '[data-field="unit:7:status_changed"] select option'), ["Unit (statdraw_query_unit)", "Never (statdraw_query_never)"]);
-      T.equal(U.texts(app, '[data-field="unit:7:status_update"] select option'), ["Unit (statdraw_draw_unit)", "None (statdraw_draw_none)"]);
-      U.change(field(app, "unit:7:status_update").querySelector("select"), "None (statdraw_draw_none)");
-      T.equal(app.doc().units, [{ id: 7, label: "Terran SCV", status_update: "statdraw_draw_none" }]);
-      T.ok(field(app, "unit:7:status_update").classList.contains("changed"), "the changed field is marked");
-      var mark = field(app, "unit:7:status_update").querySelector(".changed-mark");
+      T.equal(U.texts(app, '[data-field="unit:7:status_changed"] select option'), ["Unit (changed_unit)", "Never (changed_never)"]);
+      T.equal(U.texts(app, '[data-field="unit:7:display_function"] select option'), ["Unit (draw_unit)", "None (draw_none)"]);
+      U.change(field(app, "unit:7:display_function").querySelector("select"), "None (draw_none)");
+      T.equal(app.doc().units, [{ id: 7, label: "Terran SCV", display_function: "draw_none" }]);
+      T.ok(field(app, "unit:7:display_function").classList.contains("changed"), "the changed field is marked");
+      var mark = field(app, "unit:7:display_function").querySelector(".changed-mark");
       T.ok(mark && mark.tabIndex === 0, "with a mark that takes focus");
       var tip = mark.querySelector(".tip");
       T.ok(/^Value changed\. Original: /.test(tip.textContent), tip.textContent);
@@ -307,7 +307,7 @@
       app.select("button_sets", "set:7");
       U.q(app, '[data-action="add-button"]').click();
       var b = app.doc().button_sets[0].buttons[0];
-      T.equal(b, { position: 1, icon: 0, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 }, "at position 1, it goes before the button at 7");
+      T.equal(b, { position: 1, icon: 0, condition: "always", action: "move", enabled_string: 0, disabled_string: 0 }, "at position 1, it goes before the button at 7");
       T.equal(app.errors(), []);
       T.equal(U.q(app, ".button-form legend").textContent, "Button 1", "the new button is selected, counting from 1");
     });
@@ -620,7 +620,7 @@
   T.test("variables follow their function: an action reading a tech lists techs", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
-      U.change(field(app, "set:0:0:action").querySelector("select"), "Research (order_research)");
+      U.change(field(app, "set:0:0:action").querySelector("select"), "Research (research_tech)");
       T.equal(U.texts(app, '[data-field="set:0:0:action_variable"] select option').slice(0, 3), ["(choose)", "0 Stim Packs", "5 Siege Mode"]);
       T.ok(field(app, "set:0:0:action_variable").classList.contains("has-error"), "a problem until a tech is given");
       U.change(nameList(app, "set:0:0:action_variable"), "5 Siege Mode");
@@ -629,7 +629,7 @@
     });
   }, { dom: true });
 
-  T.test("variables follow their function: an action opening a table entry lists entries with the set each has in the mod", function (ctx) {
+  T.test("variables follow their function: an action opening a button card lists entries with the set each has in the mod", function (ctx) {
     return start(ctx).then(function (app) {
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 238, "button_set", 0);
@@ -658,9 +658,9 @@
   T.test("variables follow their function: changing to a function of another type shows a problem until a valid value is chosen", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:0");
-      U.change(field(app, "set:0:0:action").querySelector("select"), "Build (order_build)");
+      U.change(field(app, "set:0:0:action").querySelector("select"), "Build (train)");
       U.change(idBox(app, "set:0:0:action_variable"), "100");
-      U.change(field(app, "set:0:0:action").querySelector("select"), "Research (order_research)");
+      U.change(field(app, "set:0:0:action").querySelector("select"), "Research (research_tech)");
       T.equal(app.doc().button_sets[0].buttons[0].action_variable, 100, "the value is kept");
       T.ok(/outside that range/.test(field(app, "set:0:0:action_variable").querySelector(".problem.error").textContent));
       U.change(nameList(app, "set:0:0:action_variable"), "0 Stim Packs");
@@ -671,7 +671,7 @@
   T.test("variable omitted when unset: a 0 on an action that reads none isn't saved", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:7");
-      U.change(field(app, "set:7:0:action").querySelector("select"), "Move (order_move)");
+      U.change(field(app, "set:7:0:action").querySelector("select"), "Move (move)");
       U.change(field(app, "set:7:0:action_variable").querySelector("input"), "0");
       var saved = JSON.parse(AG.core.serialize(app.doc(), app.cat())).button_sets[0].buttons[0];
       T.ok(!("action_variable" in saved), JSON.stringify(saved));
@@ -809,7 +809,7 @@
 
   T.test("copying buttons: paste is disabled until a set is copied, then overwrites the chosen set, leaving the source unchanged", function (ctx) {
     return start(ctx).then(function (app) {
-      var changed = [{ position: 2, icon: 2, condition: "bf_always", action: "order_move", enabled_string: 2, disabled_string: 0 }];
+      var changed = [{ position: 2, icon: 2, condition: "always", action: "move", enabled_string: 2, disabled_string: 0 }];
       app.edit(function (d) {
         return D.setButtons(d, app.cat(), 5, changed);
       });
@@ -1134,7 +1134,7 @@
     });
   }, { dom: true });
 
-  T.test("jump from a variable: a table entry leads to that entry in the Units tab", function (ctx) {
+  T.test("jump from a variable: a button card leads to that entry in the Units tab", function (ctx) {
     return start(ctx).then(function (app) {
       app.select("button_sets", "set:7");
       U.q(app, '[data-field="set:7:0:action_variable"] [data-action="jump"]').click();

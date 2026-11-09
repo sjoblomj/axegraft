@@ -168,7 +168,7 @@ fn unknown_behaviour_names() {
     mentions(&ps, &["bf_sometimes"]);
     let ps = rejected_at(&sc_mod(json!({"button_sets": [{"id": 0, "buttons": [sc_button(json!({"action": "order_dance"}))]}]})), &["button_sets[0].buttons[0].action"]);
     mentions(&ps, &["order_dance"]);
-    let ps = rejected_at(&sc_mod(json!({"units": [{"id": 0, "status_update": "statdraw_draw_mystery"}]})), &["units[0].status_update"]);
+    let ps = rejected_at(&sc_mod(json!({"units": [{"id": 0, "display_function": "statdraw_draw_mystery"}]})), &["units[0].display_function"]);
     mentions(&ps, &["statdraw_draw_mystery"]);
     let ps = rejected_at(&sc_mod(json!({"requirements": [{"type": "unit", "id": 0, "list": ["can_fly"]}]})), &["requirements[0].list[0]"]);
     mentions(&ps, &["can_fly"]);
@@ -197,8 +197,8 @@ fn change_only_the_button_set() {
 
 #[test]
 fn change_only_one_status_function() {
-    let m = accepted(&sc_mod(json!({"units": [{"id": 0, "status_update": "statdraw_draw_none"}]})));
-    assert_eq!(m.units, vec![UnitChange { id: 0, field: UnitField::StatusUpdate("statdraw_draw_none".into()) }]);
+    let m = accepted(&sc_mod(json!({"units": [{"id": 0, "display_function": "statdraw_draw_none"}]})));
+    assert_eq!(m.units, vec![UnitChange { id: 0, field: UnitField::DisplayFunction("statdraw_draw_none".into()) }]);
 }
 
 #[test]
@@ -208,13 +208,13 @@ fn entry_with_nothing_to_change() {
 }
 
 #[test]
-fn table_entry_that_isnt_a_unit() {
+fn button_card_that_isnt_a_unit() {
     accepted(&sc_mod(json!({"units": [{"id": 238, "button_set": 0}]})));
 }
 
 #[test]
 fn status_function_on_entry_that_isnt_a_unit() {
-    let ps = rejected_at(&sc_mod(json!({"units": [{"id": 238, "status_update": "statdraw_draw_unit"}]})), &["units[0].status_update"]);
+    let ps = rejected_at(&sc_mod(json!({"units": [{"id": 238, "display_function": "statdraw_draw_unit"}]})), &["units[0].display_function"]);
     mentions(&ps, &["isn't a unit"]);
 }
 
@@ -226,8 +226,8 @@ fn unit_id_out_of_range() {
 }
 
 #[test]
-fn status_unit_type_in_warcraft2_mod() {
-    rejected_at(&w2_mod(json!({"units": [{"id": 0, "status_unit_type": 0}]})), &["units[0].status_unit_type"]);
+fn debug_id_in_warcraft2_mod() {
+    rejected_at(&w2_mod(json!({"units": [{"id": 0, "debug_id": 0}]})), &["units[0].debug_id"]);
 }
 
 #[test]
@@ -247,13 +247,13 @@ fn unit_data_fields_in_starcraft_mod() {
 }
 
 #[test]
-fn equivalent_entry_in_warcraft2_mod() {
-    rejected_at(&w2_mod(json!({"units": [{"id": 0, "equivalent_entry": 1}]})), &["units[0].equivalent_entry"]);
+fn connected_unit_in_warcraft2_mod() {
+    rejected_at(&w2_mod(json!({"units": [{"id": 0, "connected_unit": 1}]})), &["units[0].connected_unit"]);
 }
 
 #[test]
 fn warcraft2_unit_fields() {
-    let m = accepted(&w2_mod(json!({"units": [{"id": 0, "button_set": 2, "icon": 7, "stats_frame": 2, "name_string": 9, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit"}]})));
+    let m = accepted(&w2_mod(json!({"units": [{"id": 0, "button_set": 2, "icon": 7, "stats_frame": 2, "name_string": 9, "status_changed": "statdraw_query_unit", "display_function": "statdraw_draw_unit"}]})));
     assert_eq!(m.units.len(), 6);
     assert!(m.units.contains(&UnitChange { id: 0, field: UnitField::StatsFrame(2) }));
 }
@@ -263,16 +263,16 @@ fn warcraft2_unit_fields() {
 #[test]
 fn status_function_of_the_wrong_kind() {
     let ps = rejected_at(
-        &sc_mod(json!({"units": [{"id": 0, "status_changed": "statdraw_draw_unit", "status_update": "statdraw_query_unit"}]})),
-        &["units[0].status_changed", "units[0].status_update"],
+        &sc_mod(json!({"units": [{"id": 0, "status_changed": "statdraw_draw_unit", "display_function": "statdraw_query_unit"}]})),
+        &["units[0].status_changed", "units[0].display_function"],
     );
-    mentions(&ps, &["status_changed", "status_update"]);
+    mentions(&ps, &["status_changed", "display_function"]);
 }
 
 #[test]
-fn status_unit_type_out_of_range() {
-    rejected_at(&sc_mod(json!({"units": [{"id": 0, "status_unit_type": 228}]})), &["units[0].status_unit_type"]);
-    accepted(&sc_mod(json!({"units": [{"id": 0, "status_unit_type": 227}]})));
+fn debug_id_out_of_range() {
+    rejected_at(&sc_mod(json!({"units": [{"id": 0, "debug_id": 228}]})), &["units[0].debug_id"]);
+    accepted(&sc_mod(json!({"units": [{"id": 0, "debug_id": 227}]})));
 }
 
 #[test]
@@ -295,15 +295,15 @@ fn stats_panel_frame_out_of_range() {
 }
 
 #[test]
-fn no_equivalent_entry() {
-    let m = accepted(&sc_mod(json!({"units": [{"id": 16, "equivalent_entry": null}]})));
-    assert_eq!(m.units[0].field, UnitField::EquivalentEntry(None));
+fn no_connected_unit() {
+    let m = accepted(&sc_mod(json!({"units": [{"id": 16, "connected_unit": null}]})));
+    assert_eq!(m.units[0].field, UnitField::ConnectedUnit(None));
 }
 
 #[test]
-fn equivalent_entry_out_of_range() {
-    rejected_at(&sc_mod(json!({"units": [{"id": 16, "equivalent_entry": 250}]})), &["units[0].equivalent_entry"]);
-    accepted(&sc_mod(json!({"units": [{"id": 16, "equivalent_entry": 249}]})));
+fn connected_unit_out_of_range() {
+    rejected_at(&sc_mod(json!({"units": [{"id": 16, "connected_unit": 250}]})), &["units[0].connected_unit"]);
+    accepted(&sc_mod(json!({"units": [{"id": 16, "connected_unit": 249}]})));
 }
 
 // ---- Button set entries
@@ -337,7 +337,7 @@ fn set_shared_by_several_entries() {
 }
 
 #[test]
-fn table_entry_used_as_a_set_id() {
+fn button_card_used_as_a_set_id() {
     let ps = rejected_at(&sc_mod(json!({"button_sets": [{"id": 32, "buttons": []}]})), &["button_sets[0].id"]);
     mentions(&ps, &["entry 32 uses set 0"]);
 }
@@ -368,7 +368,7 @@ fn new_set_the_mod_defines() {
 }
 
 #[test]
-fn table_entry_named_as_a_set() {
+fn button_card_named_as_a_set() {
     let ps = rejected_at(&sc_mod(json!({"units": [{"id": 0, "button_set": 32}]})), &["units[0].button_set"]);
     mentions(&ps, &["entry 32 uses set 0"]);
 }
@@ -379,7 +379,7 @@ fn no_buttons() {
     assert_eq!(m.units[0].field, UnitField::ButtonSet(None));
 }
 
-// ---- Opening a table entry
+// ---- Opening a button card
 
 #[test]
 fn submenu_with_a_new_set() {
@@ -579,7 +579,7 @@ fn list_problem_paths(kind: &str, id: u16, list: serde_json::Value) -> Vec<Strin
 
 #[test]
 fn valid_list() {
-    accepted(&sc_mod(json!({"requirements": [{"type": "upgrade", "id": 3, "list": ["current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]}]})));
+    accepted(&sc_mod(json!({"requirements": [{"type": "upgrade", "id": 3, "list": ["current_unit_is", 139, "is_not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133]}]})));
 }
 
 #[test]
@@ -596,7 +596,7 @@ fn opcode_the_type_doesnt_handle() {
 #[test]
 fn missing_parameter() {
     rejected_at(
-        &sc_mod(json!({"requirements": [{"type": "unit", "id": 0, "list": ["current_unit_is", "not_lifted_off"]}, {"type": "unit", "id": 32, "list": ["must_have"]}]})),
+        &sc_mod(json!({"requirements": [{"type": "unit", "id": 0, "list": ["current_unit_is", "is_not_lifted_off"]}, {"type": "unit", "id": 32, "list": ["must_have"]}]})),
         &["requirements[0].list[0]", "requirements[1].list[0]"],
     );
 }
@@ -701,7 +701,7 @@ fn exactly_one_of_value_and_option() {
 
 #[test]
 fn same_unit_twice_with_different_fields() {
-    let m = accepted(&sc_mod(json!({"units": [{"id": 5, "button_set": 0}, {"id": 5, "status_update": "statdraw_draw_none"}]})));
+    let m = accepted(&sc_mod(json!({"units": [{"id": 5, "button_set": 0}, {"id": 5, "display_function": "statdraw_draw_none"}]})));
     assert_eq!(m.units.len(), 2);
 }
 

@@ -9,7 +9,7 @@ Defines how AxeGraft Editor edits StarCraft's requirement records for units, upg
 The Requirements tab SHALL show the selected item's record as a list of rows, one for each opcode or bare unit. An opcode and its parameter SHALL share one row. The tab SHALL let the user add, remove and reorder rows. An added row SHALL be a completed-unit row holding the lowest unit ID, which the user can change. Rows SHALL be reorderable both with Up and Down buttons and by dragging a row by its grip, which marks it as draggable. A record with one row SHALL show no grip. A row's Up, Down and Remove buttons SHALL be at the right of the row, and Remove SHALL show a trash can.
 
 #### Scenario: Showing a record
-- **WHEN** a record's list is `["current_unit_is", 111, "not_lifted_off"]`
+- **WHEN** a record's list is `["current_unit_is", 111, "is_not_lifted_off"]`
 - **THEN** there are two rows: one holding the first opcode and its unit, and one holding the other opcode
 
 #### Scenario: Saving rows
@@ -17,8 +17,8 @@ The Requirements tab SHALL show the selected item's record as a list of rows, on
 - **THEN** the saved `list` is the flat array that the mod format defines
 
 #### Scenario: Dragging a row
-- **WHEN** a record's list is `["current_unit_is", 111, "not_lifted_off"]` and a user drags the second row above the first
-- **THEN** the saved `list` is `["not_lifted_off", "current_unit_is", 111]`
+- **WHEN** a record's list is `["current_unit_is", 111, "is_not_lifted_off"]` and a user drags the second row above the first
+- **THEN** the saved `list` is `["is_not_lifted_off", "current_unit_is", 111]`
 
 ### Requirement: Parameters follow their opcode
 A row's parameter SHALL be offered by the kind the catalog gives for its opcode, and a row with no parameter SHALL show none. An opcode that takes a parameter SHALL always have one, as the game stores it: changing a row to such an opcode SHALL keep the row's value when it's of the same kind, and otherwise use the lowest ID of that kind, and clearing the parameter SHALL keep its value.
@@ -28,7 +28,7 @@ A row's parameter SHALL be offered by the kind the catalog gives for its opcode,
 - **THEN** the row shows a unit field holding the lowest unit ID, and has no problem
 
 #### Scenario: Completed unit after a changed opcode
-- **WHEN** a record's rows are `current_unit_is` 111, `not_lifted_off` and completed unit 112, and a user changes the second row to `must_have`
+- **WHEN** a record's rows are `current_unit_is` 111, `is_not_lifted_off` and completed unit 112, and a user changes the second row to `must_have`
 - **THEN** the record still has three rows, and the saved list is `["current_unit_is", 111, "must_have", 0, 112]`
 
 ### Requirement: Bare units

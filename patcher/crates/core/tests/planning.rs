@@ -76,7 +76,7 @@ fn unmodified(version: &str) -> FakeMemory {
     memory(g, v, BASE)
 }
 
-/// The count and pointer of a StarCraft table entry, by its number on the version.
+/// The count and pointer of a StarCraft button card, by its number on the version.
 fn card(mem: &FakeMemory, number: u32) -> (u16, u32) {
     (mem.u16_at(SC + number * 12), mem.u32_at(SC + number * 12 + 4))
 }
@@ -237,7 +237,7 @@ fn set_shared_by_several_units() {
 }
 
 #[test]
-fn table_entry_that_isnt_a_unit() {
+fn button_card_that_isnt_a_unit() {
     let (_, mem) = applied("1.16.1", json!({"button_sets": [{"id": 4, "buttons": [sc_button(json!({}))]}]}));
     assert_eq!(card(&mem, 4), (1, mem.allocations[0].0));
 }
@@ -325,7 +325,7 @@ fn set_numbered_differently_on_this_version() {
 }
 
 #[test]
-fn action_that_opens_a_table_entry() {
+fn action_that_opens_a_button_card() {
     let opens5 = json!({"button_sets": [{"id": 1, "buttons": [sc_button(json!({"action": "statcmd_set_ctrl", "action_variable": 5}))]}]});
     let (_, mem) = applied("1.07", opens5.clone());
     assert_eq!(u16::from_le_bytes([mem.allocations[0].1[14], mem.allocations[0].1[15]]), 4);
@@ -334,8 +334,8 @@ fn action_that_opens_a_table_entry() {
 }
 
 #[test]
-fn equivalent_entry_numbered_differently() {
-    let (_, mem) = applied("1.07", json!({"units": [{"id": 3, "equivalent_entry": 5}]}));
+fn connected_unit_numbered_differently() {
+    let (_, mem) = applied("1.07", json!({"units": [{"id": 3, "connected_unit": 5}]}));
     assert_eq!(mem.u16_at(SC + 3 * 12 + 8), 4);
 }
 
@@ -365,11 +365,11 @@ fn removing_a_units_buttons() {
     assert_eq!(card(&mem, 0), card(&orig, 0));
 }
 
-// ---- Status functions, status unit types, equivalent entries, Unit Data
+// ---- Status functions, debug IDs, connected units, Unit Data
 
 #[test]
 fn only_one_status_function_set() {
-    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 1, "status_update": "statdraw_draw_none"}]}));
+    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 1, "display_function": "statdraw_draw_none"}]}));
     let lib = lib();
     let (_, v) = gv(&lib, "1.16.1");
     assert_eq!(mem.u32_at(0x1100 + 12 + 8), BASE + v.functions["statdraw_draw_none"].unwrap());
@@ -378,7 +378,7 @@ fn only_one_status_function_set() {
 
 #[test]
 fn functions_of_different_units() {
-    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 0, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_unit"}, {"id": 3, "status_update": "statdraw_draw_unit"}]}));
+    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 0, "status_changed": "statdraw_query_never", "display_function": "statdraw_draw_unit"}, {"id": 3, "display_function": "statdraw_draw_unit"}]}));
     let lib = lib();
     let (_, v) = gv(&lib, "1.16.1");
     assert_eq!(mem.u32_at(0x1100 + 4), BASE + v.functions["statdraw_query_never"].unwrap());
@@ -386,23 +386,23 @@ fn functions_of_different_units() {
 }
 
 #[test]
-fn only_the_status_unit_type_set() {
-    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 2, "status_unit_type": 3}]}));
+fn only_the_debug_id_set() {
+    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 2, "debug_id": 3}]}));
     assert_eq!(mem.u32_at(0x1100 + 2 * 12), 3);
     assert_eq!(changed_rvas("1.16.1", &mem), vec![0x1100 + 24]);
 }
 
 #[test]
-fn equivalent_entry_cleared() {
-    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 3, "equivalent_entry": null}]}));
+fn connected_unit_cleared() {
+    let (_, mem) = applied("1.16.1", json!({"units": [{"id": 3, "connected_unit": null}]}));
     assert_eq!(mem.u16_at(SC + 3 * 12 + 8), 0xFFFF);
     assert_eq!(card(&mem, 3), card(&unmodified("1.16.1"), 3), "its buttons are unchanged");
 }
 
 #[test]
-fn button_set_changed_without_the_equivalent_entry() {
+fn button_set_changed_without_the_connected_unit() {
     let (_, mem) = applied("1.16.1", json!({"units": [{"id": 3, "button_set": 0}]}));
-    assert_eq!(mem.u16_at(SC + 3 * 12 + 8), 1, "it keeps its original equivalent entry");
+    assert_eq!(mem.u16_at(SC + 3 * 12 + 8), 1, "it keeps its original connected unit");
 }
 
 #[test]
@@ -500,7 +500,7 @@ fn status_function_absent_on_this_version() {
     let v = g.versions.iter_mut().find(|v| v.id == "1.07").unwrap();
     v.functions.insert("statdraw_draw_none".into(), None);
     let (g, v) = gv(&lib, "1.07");
-    let m = parse_mod("m", with_header("starcraft", json!({"units": [{"id": 0, "status_update": "statdraw_draw_none"}]})).to_string().as_bytes(), &g.vocabulary()).unwrap();
+    let m = parse_mod("m", with_header("starcraft", json!({"units": [{"id": 0, "display_function": "statdraw_draw_none"}]})).to_string().as_bytes(), &g.vocabulary()).unwrap();
     let e = plan("m", &m, g, v, &mem).unwrap_err();
     assert!(e.iter().any(|p| p.message.contains("statdraw_draw_none") && p.message.contains("1.07")), "{e:#?}");
 }
@@ -511,10 +511,10 @@ fn unit_given_a_set_absent_on_this_version() {
 }
 
 #[test]
-fn table_entry_absent_on_this_version() {
-    rejected("1.07", json!({"button_sets": [{"id": 1, "buttons": [sc_button(json!({"action": "statcmd_set_ctrl", "action_variable": 4}))]}]}), &["Table entry 4", "StarCraft 1.07"]);
-    rejected("1.07", json!({"units": [{"id": 4, "button_set": 0}]}), &["Table entry 4", "StarCraft 1.07"]);
-    rejected("1.07", json!({"units": [{"id": 3, "equivalent_entry": 4}]}), &["Table entry 4", "StarCraft 1.07"]);
+fn button_card_absent_on_this_version() {
+    rejected("1.07", json!({"button_sets": [{"id": 1, "buttons": [sc_button(json!({"action": "statcmd_set_ctrl", "action_variable": 4}))]}]}), &["Button card 4", "StarCraft 1.07"]);
+    rejected("1.07", json!({"units": [{"id": 4, "button_set": 0}]}), &["Button card 4", "StarCraft 1.07"]);
+    rejected("1.07", json!({"units": [{"id": 3, "connected_unit": 4}]}), &["Button card 4", "StarCraft 1.07"]);
 }
 
 // ---- Checking expected bytes
@@ -534,11 +534,11 @@ fn modified_executable() {
 }
 
 #[test]
-fn modified_table_entry_or_stream_reference() {
+fn modified_button_card_or_stream_reference() {
     let (p, _) = plan_on("1.16.1", json!({"units": [{"id": 2, "button_set": null}]}), BASE, |m| {
         m.image[(SC + 24 + 4) as usize] ^= 1;
     });
-    assert!(p.unwrap_err()[0].message.contains("table entry 2"));
+    assert!(p.unwrap_err()[0].message.contains("button card 2"));
     let (p, _) = plan_on("1.16.1", json!({"requirements": [{"type": "unit", "id": 1, "list": []}]}), BASE, |m| {
         m.image[0x5010] ^= 1;
     });
@@ -573,7 +573,7 @@ fn no_writes_when_planning_fails() {
 fn executable_not_at_its_preferred_base() {
     let m = json!({
         "button_sets": [{"id": 0, "buttons": [sc_button(json!({}))]}],
-        "units": [{"id": 1, "status_update": "statdraw_draw_none"}, {"id": 2, "button_set": 1}],
+        "units": [{"id": 1, "display_function": "statdraw_draw_none"}, {"id": 2, "button_set": 1}],
         "requirements": [{"type": "unit", "id": 1, "list": []}]
     });
     let lib = lib();

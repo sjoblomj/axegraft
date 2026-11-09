@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entry fields: No equivalent entry",
+  "scenario": "Unit entry fields: No connected unit",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -7,7 +7,7 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "equivalent_entry": null
+        "connected_unit": null
       }
     ]
   },

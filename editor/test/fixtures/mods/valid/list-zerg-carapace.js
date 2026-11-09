@@ -11,7 +11,7 @@ AxeGraft.registerModFixture({
         "list": [
           "current_unit_is",
           139,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",

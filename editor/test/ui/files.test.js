@@ -209,7 +209,7 @@
 
   T.test("opening a file with errors: a button position out of range loads, and the field shows that value with an error", function (ctx) {
     return U.start(ctx).then(function (app) {
-      var mod = JSON.stringify({ patcher: "AxeGraft", format: 1, game: "starcraft", button_sets: [{ id: 7, buttons: [{ position: 12, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 }] }] });
+      var mod = JSON.stringify({ patcher: "AxeGraft", format: 1, game: "starcraft", button_sets: [{ id: 7, buttons: [{ position: 12, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 }] }] });
       return app.openFile(U.file("position.json", mod), null, true).then(function (opened) {
         T.equal(opened, true);
         app.goTo("button_sets[0].buttons[0].position");

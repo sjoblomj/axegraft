@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entries: Equivalent entry in a Warcraft II mod",
+  "scenario": "Unit entries: Connected unit in a Warcraft II mod",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -7,14 +7,14 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "equivalent_entry": null
+        "connected_unit": null
       }
     ]
   },
   "expect": {
     "refused": true,
     "errors": [
-      "units[0].equivalent_entry"
+      "units[0].connected_unit"
     ],
     "warnings": []
   }

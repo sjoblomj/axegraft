@@ -10,7 +10,7 @@
     return T.catalog("starcraft");
   }
 
-  var MOVE = { position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 };
+  var MOVE = { position: 1, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 };
 
   T.test("document: a new mod changes nothing", function () {
     var doc = D.create("starcraft");
@@ -21,9 +21,9 @@
   T.test("document: edits never change the document they're given", function () {
     var cat = sc();
     var doc = AG.util.freeze(D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 5));
-    var next = D.setUnitField(doc, cat, 0, "status_update", "statdraw_draw_none");
+    var next = D.setUnitField(doc, cat, 0, "display_function", "draw_none");
     T.equal(doc.units, [{ id: 0, label: "Terran Marine", button_set: 5 }]);
-    T.equal(next.units, [{ id: 0, label: "Terran Marine", button_set: 5, status_update: "statdraw_draw_none" }]);
+    T.equal(next.units, [{ id: 0, label: "Terran Marine", button_set: 5, display_function: "draw_none" }]);
   });
 
   T.test("only differences are saved: changing one button defines that whole set and no other", function () {
@@ -41,10 +41,10 @@
 
   T.test("only differences are saved: changing one unit field saves only that field", function () {
     var cat = sc();
-    var doc = D.setUnitField(D.create("starcraft"), cat, 0, "status_update", "statdraw_draw_none");
-    T.equal(doc.units, [{ id: 0, label: "Terran Marine", status_update: "statdraw_draw_none" }]);
+    var doc = D.setUnitField(D.create("starcraft"), cat, 0, "display_function", "draw_none");
+    T.equal(doc.units, [{ id: 0, label: "Terran Marine", display_function: "draw_none" }]);
     var eff = D.effectiveUnit(doc, cat, 0);
-    T.equal(eff.status_update, { value: "statdraw_draw_none", original: "statdraw_draw_unit", hasOriginal: true, changed: true, path: "units[0].status_update" });
+    T.equal(eff.display_function, { value: "draw_none", original: "draw_unit", hasOriginal: true, changed: true, path: "units[0].display_function" });
     T.equal(eff.button_set.value, 0);
     T.equal(eff.button_set.changed, false);
   });
@@ -61,7 +61,7 @@
     T.equal(D.setButtons(edited, cat, 7, buttons), D.create("starcraft"));
 
     var req = D.setRequirement(D.create("starcraft"), cat, "unit", 0, ["current_unit_is", 111]);
-    T.equal(D.setRequirement(req, cat, "unit", 0, ["current_unit_is", 111, "not_lifted_off"]), D.create("starcraft"));
+    T.equal(D.setRequirement(req, cat, "unit", 0, ["current_unit_is", 111, "is_not_lifted_off"]), D.create("starcraft"));
 
     var c = D.setConstant(D.create("starcraft"), cat, "max_supply", 600);
     T.equal(D.setConstant(c, cat, "max_supply", 400), D.create("starcraft"));
@@ -235,7 +235,7 @@
   T.test("moving buttons: StarCraft keeps ascending positions too", function () {
     var cat = T.catalog("starcraft");
     var b = function (p) {
-      return { position: p, icon: p, condition: "bf_always", action: "order_move", enabled_string: 0, disabled_string: 0 };
+      return { position: p, icon: p, condition: "always", action: "move", enabled_string: 0, disabled_string: 0 };
     };
     var r = D.moveButtonTo(cat, [b(1), b(3), b(5)], 2, 2);
     T.equal(r.buttons.map(function (x) {
@@ -319,13 +319,13 @@
       patcher: "AxeGraft",
       format: 1,
       game: "starcraft",
-      units: [{ id: 0, label: "Mine", button_set: 0, status_update: "statdraw_draw_none" }, { id: 32, button_set: 0 }],
+      units: [{ id: 0, label: "Mine", button_set: 0, display_function: "draw_none" }, { id: 32, button_set: 0 }],
       button_sets: [{ id: 5, buttons: cat.sets.get(5).original }, { id: 7, buttons: [Object.assign({ condition_variable: 0 }, MOVE)] }],
-      requirements: [{ type: "unit", id: 0, list: ["current_unit_is", 111, "not_lifted_off"] }, { type: "unit", id: 4, list: [] }],
+      requirements: [{ type: "unit", id: 0, list: ["current_unit_is", 111, "is_not_lifted_off"] }, { type: "unit", id: 4, list: [] }],
       constants: [{ name: "max_supply", value: 400 }, { name: "web_duration", value: 360 }, { name: "team_multiplier", value: 400 }]
     };
     var doc = D.normalize(opened, cat);
-    T.equal(doc.units, [{ id: 0, label: "Mine", status_update: "statdraw_draw_none" }]);
+    T.equal(doc.units, [{ id: 0, label: "Mine", display_function: "draw_none" }]);
     T.equal(doc.button_sets, [{ id: 7, buttons: [MOVE] }], "set 5 matched; the unread variable of 0 is dropped");
     T.equal(doc.requirements, undefined);
     // team_multiplier is 400 on the only version where it's known.
@@ -366,7 +366,7 @@
   T.test("reverting: a whole unit, a record and a constant", function () {
     var cat = sc();
     var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 5);
-    doc = D.setUnitField(doc, cat, 0, "status_update", "statdraw_draw_none");
+    doc = D.setUnitField(doc, cat, 0, "display_function", "draw_none");
     T.equal(D.revertUnit(doc, cat, 0).units, undefined);
     var r = D.setRequirement(doc, cat, "upgrade", 3, []);
     T.equal(D.revertRequirement(r, cat, "upgrade", 3), doc);
@@ -374,7 +374,7 @@
     T.equal(D.revertConstant(c, cat, "max_supply"), doc);
   });
 
-  T.test("document: effective values for a table entry that isn't a unit", function () {
+  T.test("document: effective values for a button card that isn't a unit", function () {
     var cat = sc();
     T.equal(Object.keys(D.effectiveUnit(D.create("starcraft"), cat, 238)), ["button_set"]);
     T.equal(D.effectiveUnit(D.create("starcraft"), cat, 238).button_set.value, 238);

@@ -32,9 +32,9 @@
 
   T.test("requirement rows: an opcode and its parameter share a row; a bare unit is its own row", function () {
     var cat = T.catalog("starcraft");
-    T.equal(R.toRows(cat, ["current_unit_is", 106, "not_lifted_off"]), [
+    T.equal(R.toRows(cat, ["current_unit_is", 106, "is_not_lifted_off"]), [
       { kind: "op", op: "current_unit_is", param: 106, at: 0 },
-      { kind: "op", op: "not_lifted_off", at: 2 }
+      { kind: "op", op: "is_not_lifted_off", at: 2 }
     ]);
     T.equal(R.toRows(cat, [132, "or", "must_have", 133]), [
       { kind: "unit", unit: 132, at: 0 },
@@ -55,7 +55,7 @@
       }),
       [
         "current_unit_is:-",
-        "not_training_or_morphing:-",
+        "is_not_training_or_morphing:-",
         "upgrade_level_1:upgrade_level_1",
         "end_sublist:upgrade_level_1",
         "upgrade_level_2:upgrade_level_2",
@@ -86,7 +86,7 @@
     var cat = T.catalog("starcraft");
     var rows = R.toRows(cat, ["current_unit_is", 111, "or"]);
     T.equal(R.rowProblems(cat, "unit", rows), [[], ["or can't end a list or level."]]);
-    var missing = R.toRows(cat, ["current_unit_is", "not_lifted_off"]);
+    var missing = R.toRows(cat, ["current_unit_is", "is_not_lifted_off"]);
     T.equal(R.rowProblems(cat, "unit", missing)[0], ["current_unit_is needs a unit after it."]);
   });
 })(AxeGraft);

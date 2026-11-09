@@ -68,7 +68,7 @@
     var rest = m[3];
     var field = /^\.([a-z_]+)/.exec(rest);
     if (m[1] === "units") {
-      if (!isInt(e.id) || !util.inRange(e.id, cat.limits.tableEntry)) return null;
+      if (!isInt(e.id) || !util.inRange(e.id, cat.limits.buttonCard)) return null;
       return { tab: "units", key: key.unit(e.id), field: field ? field[1] : null };
     }
     if (m[1] === "button_sets") {
@@ -194,7 +194,7 @@
         place(u.tree, item(key.unit(u.id), u.id, idLabel(u.id, AG.core.doc.itemName(cat, "unit", u.id, doc))));
       });
       AG.core.doc.entries(doc, "units").forEach(function (e) {
-        if (isObject(e) && isInt(e.id) && util.inRange(e.id, cat.limits.tableEntry) && !seen[e.id]) {
+        if (isObject(e) && isInt(e.id) && util.inRange(e.id, cat.limits.buttonCard) && !seen[e.id]) {
           seen[e.id] = true;
           place(["Not in the catalog"], item(key.unit(e.id), e.id, idLabel(e.id, AG.core.doc.customUnitName(doc, e.id))));
         }

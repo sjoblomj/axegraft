@@ -12,7 +12,7 @@ AxeGraft.registerExampleCatalog({
   ],
   "limits": {
     "unit": { "min": 0, "max": 227 },
-    "tableEntry": { "min": 0, "max": 249 },
+    "buttonCard": { "min": 0, "max": 249 },
     "tech": { "min": 0, "max": 43 },
     "upgrade": { "min": 0, "max": 60 },
     "order": { "min": 0, "max": 188 },
@@ -38,21 +38,21 @@ AxeGraft.registerExampleCatalog({
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The buttons this entry shows." },
     { "name": "status_changed", "label": "Status changed", "kind": "statusChanged", "help": "Decides whether to redraw the status panel." },
-    { "name": "status_update", "label": "Status update", "kind": "statusUpdate", "help": "Draws the status panel." },
-    { "name": "status_unit_type", "label": "Status unit type", "kind": "unit", "help": "Unit ID in the status entry." }
+    { "name": "display_function", "label": "Display function", "kind": "displayFunction", "help": "Draws the status panel." },
+    { "name": "debug_id", "label": "Debug ID", "kind": "unit", "help": "Unit ID in the status entry." }
   ],
   "functions": {
     "conditions": [
-      { "name": "bf_always", "label": "Always", "variable": null },
-      { "name": "bf_has_spell", "label": "Has tech", "variable": "tech", "help": "Shows the button once the tech is researched." }
+      { "name": "always", "label": "Always", "variable": null },
+      { "name": "can_player_use_tech", "label": "Has tech", "variable": "tech", "help": "Shows the button once the tech is researched." }
     ],
     "actions": [
-      { "name": "order_move", "label": "Move", "variable": null },
-      { "name": "order_stim", "label": "Stim", "variable": null },
-      { "name": "statcmd_set_ctrl", "label": "Show table entry", "variable": "tableEntry" }
+      { "name": "move", "label": "Move", "variable": null },
+      { "name": "stim", "label": "Stim", "variable": null },
+      { "name": "show_button_card", "label": "Show button card", "variable": "buttonCard" }
     ],
-    "statusChanged": [{ "name": "statdraw_query_unit", "label": "Unit", "variable": null }],
-    "statusUpdate": [{ "name": "statdraw_draw_unit", "label": "Unit", "variable": null }]
+    "statusChanged": [{ "name": "changed_unit", "label": "Unit", "variable": null }],
+    "displayFunction": [{ "name": "draw_unit", "label": "Unit", "variable": null }]
   },
   "opcodes": [
     { "name": "or", "label": "Or", "parameter": null, "role": "or", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
@@ -65,11 +65,11 @@ AxeGraft.registerExampleCatalog({
   "units": [
     {
       "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"],
-      "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 }
+      "original": { "button_set": 0, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 0 }
     },
     {
       "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"],
-      "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32 }
+      "original": { "button_set": 0, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 32 }
     },
     { "id": 228, "name": "No buttons", "tree": ["Other"], "original": { "button_set": null } }
   ],
@@ -78,12 +78,12 @@ AxeGraft.registerExampleCatalog({
       "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 32],
       "original": {
         "default": [
-          { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
-          { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
+          { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 },
+          { "position": 7, "icon": 237, "condition": "can_player_use_tech", "condition_variable": 0, "action": "stim", "enabled_string": 334, "disabled_string": 346 }
         ],
         "perVersion": {
           "1.07": [
-            { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 }
+            { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 }
           ]
         }
       }

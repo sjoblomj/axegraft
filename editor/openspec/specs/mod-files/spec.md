@@ -124,7 +124,7 @@ A saved mod SHALL contain only what the user changed: individual unit fields, wh
 - **THEN** the file defines that whole set, and no other set
 
 #### Scenario: Changed one unit field
-- **WHEN** a user changes a unit's `status_update`
+- **WHEN** a user changes a unit's `display_function`
 - **THEN** the file's entry for that unit holds that field and not the others
 
 #### Scenario: Edited back to the original
@@ -146,7 +146,7 @@ A saved mod SHALL contain only what the user changed: individual unit fields, wh
 ### Requirement: Reverting
 The editor SHALL let the user revert a whole item to its original.
 
-A changed item SHALL have a Revert button beside its title: "Revert entry" for a table entry, "Revert set" for a button set, "Revert record" for a requirement record and "Revert" for a constant.
+A changed item SHALL have a Revert button beside its title: "Revert entry" for a button card, "Revert set" for a button set, "Revert record" for a requirement record and "Revert" for a constant.
 
 #### Scenario: Revert a button set
 - **WHEN** a user reverts a button set

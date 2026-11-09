@@ -103,7 +103,7 @@
   T.test("marking changes: showing only changed items", function (ctx) {
     return sc(ctx).then(function (app) {
       app.edit(function (d) {
-        return D.setUnitField(D.setUnitField(d, app.cat(), 238, "button_set", 0), app.cat(), 5, "status_update", "statdraw_draw_none");
+        return D.setUnitField(D.setUnitField(d, app.cat(), 238, "button_set", 0), app.cat(), 5, "display_function", "draw_none");
       });
       U.q(app, '.sidebar [data-focus="only-changes"]').click();
       T.equal(rows(app), ["Terran", "Ground Units", "5 Terran Siege Tank", "Other", "238 Zerg basic buildings"]);
@@ -141,7 +141,7 @@
       app.edit(function (d) {
         d = D.setUnitField(d, app.cat(), 0, "button_set", 232);
         d = D.setUnitField(d, app.cat(), 32, "button_set", 232);
-        return D.setUnitField(d, app.cat(), 7, "status_update", "statdraw_draw_none");
+        return D.setUnitField(d, app.cat(), 7, "display_function", "draw_none");
       });
       T.equal(toolTitles(app), ["Tree view", "List view", "Show the open item in the list", "Expand all", "Collapse all", "Show only changes", "Show only warnings", "Search"]);
       U.q(app, '.sidebar [data-focus="only-warnings"]').click();

@@ -28,7 +28,7 @@ A catalog SHALL state its catalog format version, the mod format version and `ga
 - **THEN** the editor uses the catalog as normal
 
 ### Requirement: Game content in the catalog
-A catalog SHALL list every entry of the game's button table, units and others, and the button sets, upgrades, techs, orders, missiles, spell sounds and sounds, by ID, with display names and tree positions. Each button set SHALL be one array of buttons in the game, with the mod format's ID and a list of the table entries that point at it. It SHALL list icon names and string names where they are known.
+A catalog SHALL list every entry of the game's button table, units and others, and the button sets, upgrades, techs, orders, missiles, spell sounds and sounds, by ID, with display names and tree positions. Each button set SHALL be one array of buttons in the game, with the mod format's ID and a list of the button cards that point at it. It SHALL list icon names and string names where they are known.
 
 #### Scenario: ID with no known name
 - **WHEN** a valid ID has no entry in the catalog, such as an icon added by an MPQ
@@ -38,12 +38,12 @@ A catalog SHALL list every entry of the game's button table, units and others, a
 - **WHEN** the Marine and the Firebat use one array of buttons in the game
 - **THEN** the catalog lists one set, with both units' original `button_set` naming it
 
-#### Scenario: Table entry that isn't a unit
-- **WHEN** StarCraft's catalog lists table entry 238, a worker build menu
+#### Scenario: Button card that isn't a unit
+- **WHEN** StarCraft's catalog lists button card 238, a worker build menu
 - **THEN** it has only an original `button_set`
 
 #### Scenario: Set and units that disagree
-- **WHEN** a unit's original `button_set` names a set whose list of table entries doesn't include that unit
+- **WHEN** a unit's original `button_set` names a set whose list of button cards doesn't include that unit
 - **THEN** the catalog is treated as malformed
 
 ### Requirement: Engine behaviour in the catalog
@@ -65,7 +65,7 @@ A catalog SHALL hold the original value of every editable property: each unit's 
 - **THEN** the catalog records each version's value, and the editor shows them. A unit's fields have one original for every version.
 
 ### Requirement: Per-version availability in the catalog
-A catalog SHALL record which versions lack each button set, table entry and function, and for each constant whether each version has it, doesn't apply, or is unknown.
+A catalog SHALL record which versions lack each button set, button card and function, and for each constant whether each version has it, doesn't apply, or is unknown.
 
 #### Scenario: Forgotten version
 - **WHEN** a constant's entry doesn't cover one of the catalog's versions
@@ -97,14 +97,14 @@ The editor SHALL check a catalog before offering its game. A catalog that is mal
 - **THEN** the catalog is treated as malformed
 
 ### Requirement: Sample catalogs are marked
-A catalog MAY declare itself a sample. While a sample catalog is in use, the editor SHALL show clearly that its data is incomplete, and mods made with it may not match the patcher. A sample MAY list only some of the table's entries: the check that a catalog lists every entry from the lowest to the highest table entry ID SHALL NOT apply to it.
+A catalog MAY declare itself a sample. While a sample catalog is in use, the editor SHALL show clearly that its data is incomplete, and mods made with it may not match the patcher. A sample MAY list only some of the table's entries: the check that a catalog lists every entry from the lowest to the highest button card ID SHALL NOT apply to it.
 
 #### Scenario: Editing with a sample
 - **WHEN** a user edits a mod using a sample catalog
 - **THEN** a persistent notice says the catalog is a sample
 
 #### Scenario: Sample with a few entries
-- **WHEN** a sample catalog lists only some table entries
+- **WHEN** a sample catalog lists only some button cards
 - **THEN** it loads without a problem about missing entries, while a complete catalog missing them is malformed
 
 ### Requirement: Catalog documentation

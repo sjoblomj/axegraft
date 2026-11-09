@@ -33,7 +33,7 @@ AxeGraft Patcher SHALL identify a version from properties of the running executa
 - **THEN** they're identified as different versions
 
 ### Requirement: Complete structural data per version
-A supported version SHALL have complete data for its button sets, status functions, unit entries and, in StarCraft, requirement streams. Unit entries means the location and layout of the button table's entries and of each unit's status entry: in StarCraft `gCards`, with its equivalent entry, and the status table; in Warcraft II the command lists and the Unit Data, with its icon, stats panel frame and name string. If any of this is unknown, that version SHALL NOT be supported.
+A supported version SHALL have complete data for its button sets, status functions, unit entries and, in StarCraft, requirement streams. Unit entries means the location and layout of the button table's entries and of each unit's status entry: in StarCraft `gCards`, with its connected unit, and the status table; in Warcraft II the command lists and the Unit Data, with its icon, stats panel frame and name string. If any of this is unknown, that version SHALL NOT be supported.
 
 #### Scenario: Missing structural table
 - **WHEN** the data for a version lacks the location of a structural table
@@ -140,7 +140,7 @@ A code-site constant SHALL list, for each version where it's available, the byte
 - **THEN** the constant is `unknown` on that version
 
 ### Requirement: Function tables per version
-The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads: none, unit, tech, upgrade, order, number or table entry. It SHALL record whether each status function is a status changed or a status update function, and, for each requirement opcode, the parameter it takes and the record types whose checker handles it. A function that doesn't exist on a version SHALL be recorded as absent there.
+The library SHALL give each condition, action and status function a unique name, and SHALL record its address per version and the type of variable it reads: none, unit, tech, upgrade, order, number or button card. It SHALL record whether each status function is a status changed or a display function, and, for each requirement opcode, the parameter it takes and the record types whose checker handles it. A function that doesn't exist on a version SHALL be recorded as absent there.
 
 #### Scenario: Function shared under one source symbol
 - **WHEN** several distinct game functions share a single symbol in a reference source
@@ -159,7 +159,7 @@ The library SHALL give each condition, action and status function a unique name,
 - **THEN** the library keeps both names on that version, at the same address
 
 ### Requirement: Button set numbering per version
-The library SHALL map each game's numbering of button sets and table entries to each version's own numbers, and SHALL record which sets and entries are absent on a version and which table entries point at each set's array.
+The library SHALL map each game's numbering of button sets and button cards to each version's own numbers, and SHALL record which sets and entries are absent on a version and which button cards point at each set's array.
 
 #### Scenario: Set numbered differently on a version
 - **WHEN** a set has a different ID on a version than in the game's own numbering
@@ -169,11 +169,11 @@ The library SHALL map each game's numbering of button sets and table entries to 
 - **WHEN** a set in the game's numbering doesn't exist on a version
 - **THEN** the library records it as absent on that version
 
-#### Scenario: Table entry numbered differently on a version
-- **WHEN** a table entry beyond the unit range has a different number on a version
+#### Scenario: Button card numbered differently on a version
+- **WHEN** a button card beyond the unit range has a different number on a version
 - **THEN** the library maps the game's numbering to that version's number
 
-#### Scenario: Table entries that don't match
+#### Scenario: Button cards that don't match
 - **WHEN** the library's list of entries for a set differs from the pointers in a version's table
 - **THEN** the check against that version's executable fails, naming the set
 

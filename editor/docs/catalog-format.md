@@ -63,10 +63,10 @@ Each limit is `{ "min", "max" }`, inclusive, with whole numbers.
 
 | Limit               | Required                         | Meaning                                                                          |
 | ------------------- | -------------------------------- | -------------------------------------------------------------------------------- |
-| `unit`              | Yes                              | Unit IDs. Table entries in this range are units and have status fields.          |
-| `tableEntry`        | Yes                              | Entries of the button table. `unit` must lie within it.                          |
+| `unit`              | Yes                              | Unit IDs. Button cards in this range are units and have status fields.          |
+| `buttonCard`        | Yes                              | Entries of the button table. `unit` must lie within it.                          |
 | `buttonSet`         | Yes                              | Every button set ID a mod may use.                                               |
-| `newButtonSet`      | Yes                              | IDs for sets a mod adds. It starts at the table's size, `tableEntry.max + 1`, and ends within `buttonSet`. |
+| `newButtonSet`      | Yes                              | IDs for sets a mod adds. It starts at the table's size, `buttonCard.max + 1`, and ends within `buttonSet`. |
 | `icon`, `string`    | Yes                              | The field sizes of icon and string IDs. Any ID within them is valid, named or not. |
 | `position`          | Yes                              | Button positions.                                                                |
 | `conditionVariable`, `actionVariable` | Yes            | The field sizes of the two variables.                                            |
@@ -100,25 +100,25 @@ There must be exactly one field of each kind except `string` and `choice`. Every
 `unitFields` lists the fields of a unit entry, each `{ "name", "label", "kind", "help" }`. `kind` is one of these, each at most once, and `buttonSet` is required:
 
 - `buttonSet`: the set of buttons the entry shows, or `null` for none.
-- `tableEntry`: another table entry, or `null` for none, such as the entry StarCraft treats as equivalent in a mixed group.
-- `statusChanged`, `statusUpdate`: a status function, by name.
+- `buttonCard`: another button card, or `null` for none, such as the entry StarCraft treats as equivalent in a mixed group.
+- `statusChanged`, `displayFunction`: a status function, by name.
 - `unit`: a unit ID.
 - `icon`: an icon ID, within `limits.icon`.
 - `string`: a string ID, within `limits.string`.
 - `choice`: one of the field's `options`, each `{ "value", "label" }` with a whole number value.
 
-A table entry outside `limits.unit` has only the `buttonSet` field. The editor shows `buttonSet` and `tableEntry` fields as the button table entry, and the others as the status panel.
+A button card outside `limits.unit` has only the `buttonSet` field. The editor shows `buttonSet` and `buttonCard` fields as the button button card, and the others as the status panel.
 
 ### Functions
 
-`functions` has four lists, `conditions`, `actions`, `statusChanged` and `statusUpdate`. Each function is:
+`functions` has four lists, `conditions`, `actions`, `statusChanged` and `displayFunction`. Each function is:
 
 ```json
-{ "name": "order_research", "label": "Research", "variable": "tech", "absentOn": ["1.05"], "help": "..." }
+{ "name": "research_tech", "label": "Research", "variable": "tech", "absentOn": ["1.05"], "help": "..." }
 ```
 
 - `name` is the name mods use. Names must be unique within a list, and should be unique across all four, as the patcher's library requires.
-- `variable` is the type the function reads: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"number"`, `"tableEntry"`, or `null` for none. Status functions read none. A function that reads a variable must be given one in a mod, within the range of its type. For `number` that's the variable field's own limit.
+- `variable` is the type the function reads: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"number"`, `"buttonCard"`, or `null` for none. Status functions read none. A function that reads a variable must be given one in a mod, within the range of its type. For `number` that's the variable field's own limit.
 - `absentOn`, optional, lists the versions that lack the function.
 - `help`, optional, explains the function when it's chosen.
 
@@ -128,25 +128,25 @@ A table entry outside `limits.unit` has only the `buttonSet` field. The editor s
 
 ```json
 { "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "icon": 0, "absentOn": [],
-  "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } }
+  "original": { "button_set": 0, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 0 } }
 ```
 
 `icon`, optional, is the icon that shows the unit, such as on the button that trains it. The editor shows it beside the unit's name when icons are available. In StarCraft it's the unit's ID. A game whose unit entries hold the icon, as Warcraft II's do, has a unit field of kind `icon` instead, and its icon is that field's original value; the editor then shows it with the field rather than beside the name.
 
 `original` holds the original value of each unit field, by the field's name. An entry outside `limits.unit` has only the button set field. A `button_set` of `null` means no buttons. `absentOn`, optional, lists the versions that lack the entry.
 
-A catalog that isn't a sample must list every entry from `limits.tableEntry.min` to `max`.
+A catalog that isn't a sample must list every entry from `limits.buttonCard.min` to `max`.
 
 ### Button sets
 
-A button set is one array of buttons in the game. Any number of table entries can point at it.
+A button set is one array of buttons in the game. Any number of button cards can point at it.
 
 ```json
 { "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 10, 20, 32], "absentOn": [],
-  "original": [ { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 } ] }
+  "original": [ { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 } ] }
 ```
 
-- `id` is the lowest entry in `entries`, which lists every table entry that points at this array.
+- `id` is the lowest entry in `entries`, which lists every button card that points at this array.
 - Each entry in `entries` must be in `units`, with this set as its original button set, and every unit's original set must list it back.
 - `original` holds the buttons in the same shape as a mod's buttons, so comparing and copying are plain JSON comparisons. A variable of 0 on a function that reads none is left out.
 - `absentOn`, optional, lists the versions that lack the set.
@@ -198,7 +198,7 @@ Each constant is:
 
 - `name` is the name mods use, and `label` the name the editor shows, under the groups in `group`.
 - `kind` is `"number"`, with a `range`, or `"option"`, with at least two `options`, each `{ "name", "label", "help" }`. `help` is optional for an option.
-- `refers`, optional for a number, says the value is an ID: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"missile"`, `"spellSound"`, `"sound"` or `"tableEntry"`. The editor then offers those items by name. A spell sound is Warcraft II's number from 0 to 16 that the game adds a base to; a sound is an entry of the game's sound list.
+- `refers`, optional for a number, says the value is an ID: `"unit"`, `"tech"`, `"upgrade"`, `"order"`, `"missile"`, `"spellSound"`, `"sound"` or `"buttonCard"`. The editor then offers those items by name. A spell sound is Warcraft II's number from 0 to 16 that the game adds a base to; a sound is an entry of the game's sound list.
 - `note`, optional, explains the stored scale, such as half supply units, or how the game stores the value where some places hold it negated or offset. Values are always edited and saved in the stored scale; converting them for those places is the patcher's business.
 - `availability` must name every version. Its value is the original value there, the original option's name for an option, `"unknown"` when the constant hasn't been found on that version, or `"not_applicable"` when the code doesn't exist there. The patcher skips the constant on those last two.
 
@@ -253,7 +253,7 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
   ],
   "limits": {
     "unit": { "min": 0, "max": 227 },
-    "tableEntry": { "min": 0, "max": 249 },
+    "buttonCard": { "min": 0, "max": 249 },
     "tech": { "min": 0, "max": 43 },
     "upgrade": { "min": 0, "max": 60 },
     "order": { "min": 0, "max": 188 },
@@ -279,21 +279,21 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The buttons this entry shows." },
     { "name": "status_changed", "label": "Status changed", "kind": "statusChanged", "help": "Decides whether to redraw the status panel." },
-    { "name": "status_update", "label": "Status update", "kind": "statusUpdate", "help": "Draws the status panel." },
-    { "name": "status_unit_type", "label": "Status unit type", "kind": "unit", "help": "Unit ID in the status entry." }
+    { "name": "display_function", "label": "Display function", "kind": "displayFunction", "help": "Draws the status panel." },
+    { "name": "debug_id", "label": "Debug ID", "kind": "unit", "help": "Unit ID in the status entry." }
   ],
   "functions": {
     "conditions": [
-      { "name": "bf_always", "label": "Always", "variable": null },
-      { "name": "bf_has_spell", "label": "Has tech", "variable": "tech", "help": "Shows the button once the tech is researched." }
+      { "name": "always", "label": "Always", "variable": null },
+      { "name": "can_player_use_tech", "label": "Has tech", "variable": "tech", "help": "Shows the button once the tech is researched." }
     ],
     "actions": [
-      { "name": "order_move", "label": "Move", "variable": null },
-      { "name": "order_stim", "label": "Stim", "variable": null },
-      { "name": "statcmd_set_ctrl", "label": "Show table entry", "variable": "tableEntry" }
+      { "name": "move", "label": "Move", "variable": null },
+      { "name": "stim", "label": "Stim", "variable": null },
+      { "name": "show_button_card", "label": "Show button card", "variable": "buttonCard" }
     ],
-    "statusChanged": [{ "name": "statdraw_query_unit", "label": "Unit", "variable": null }],
-    "statusUpdate": [{ "name": "statdraw_draw_unit", "label": "Unit", "variable": null }]
+    "statusChanged": [{ "name": "changed_unit", "label": "Unit", "variable": null }],
+    "displayFunction": [{ "name": "draw_unit", "label": "Unit", "variable": null }]
   },
   "opcodes": [
     { "name": "or", "label": "Or", "parameter": null, "role": "or", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
@@ -306,11 +306,11 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
   "units": [
     {
       "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"],
-      "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 }
+      "original": { "button_set": 0, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 0 }
     },
     {
       "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"],
-      "original": { "button_set": 0, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32 }
+      "original": { "button_set": 0, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 32 }
     },
     { "id": 228, "name": "No buttons", "tree": ["Other"], "original": { "button_set": null } }
   ],
@@ -319,12 +319,12 @@ This small catalog passes the check. The same JSON is in `test/fixtures/catalog-
       "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 32],
       "original": {
         "default": [
-          { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
-          { "position": 7, "icon": 237, "condition": "bf_has_spell", "condition_variable": 0, "action": "order_stim", "enabled_string": 334, "disabled_string": 346 }
+          { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 },
+          { "position": 7, "icon": 237, "condition": "can_player_use_tech", "condition_variable": 0, "action": "stim", "enabled_string": 334, "disabled_string": 346 }
         ],
         "perVersion": {
           "1.07": [
-            { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 }
+            { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 }
           ]
         }
       }

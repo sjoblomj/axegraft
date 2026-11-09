@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entry fields: Status unit type out of range",
+  "scenario": "Unit entry fields: Debug ID out of range",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -7,14 +7,14 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "status_unit_type": 228
+        "debug_id": 228
       }
     ]
   },
   "expect": {
     "refused": false,
     "errors": [
-      "units[0].status_unit_type"
+      "units[0].debug_id"
     ],
     "warnings": []
   }

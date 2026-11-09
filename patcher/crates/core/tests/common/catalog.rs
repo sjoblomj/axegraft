@@ -35,7 +35,7 @@ fn var_kind(v: &Value) -> Option<VarKind> {
         "upgrade" => VarKind::Upgrade,
         "order" => VarKind::Order,
         "number" => VarKind::Number,
-        "tableEntry" => VarKind::TableEntry,
+        "buttonCard" => VarKind::ButtonCard,
         other => panic!("unknown variable kind {other}"),
     })
 }
@@ -48,7 +48,7 @@ pub fn vocabulary(cat: &Value) -> Vocabulary {
         cat["functions"][k].as_array().unwrap().iter().map(|f| FunctionInfo { name: f["name"].as_str().unwrap().into(), variable: var_kind(&f["variable"]) }).collect()
     };
     let mut status_functions = Vec::new();
-    for (k, kind) in [("statusChanged", StatusKind::StatusChanged), ("statusUpdate", StatusKind::StatusUpdate)] {
+    for (k, kind) in [("statusChanged", StatusKind::StatusChanged), ("displayFunction", StatusKind::DisplayFunction)] {
         for f in cat["functions"][k].as_array().unwrap() {
             status_functions.push(StatusFunctionInfo { name: f["name"].as_str().unwrap().into(), kind });
         }
@@ -92,7 +92,7 @@ pub fn vocabulary(cat: &Value) -> Vocabulary {
         game: Game::from_id(cat["game"].as_str().unwrap()).unwrap(),
         limits: Limits {
             unit: range(&l["unit"]),
-            table_entries: (l["tableEntry"]["max"].as_i64().unwrap() + 1) as u16,
+            button_cards: (l["buttonCard"]["max"].as_i64().unwrap() + 1) as u16,
             max_set_id: l["buttonSet"]["max"].as_i64().unwrap() as u16,
             tech: opt("tech"),
             upgrade: opt("upgrade"),

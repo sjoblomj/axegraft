@@ -77,7 +77,7 @@ pub fn image(g: &GameLibrary, v: &Version, base: u32) -> Vec<u8> {
             CardLayout::StarCraft => {
                 put(&mut img, at, &(count as u16).to_le_bytes());
                 put(&mut img, at + 4, &ptr.to_le_bytes());
-                let q = on.equivalent.map_or(0xFFFF, |q| v.entries[&q].unwrap().number);
+                let q = on.connected_unit.map_or(0xFFFF, |q| v.entries[&q].unwrap().number);
                 put(&mut img, at + 8, &q.to_le_bytes());
             }
             CardLayout::Warcraft2Bne => {
@@ -96,16 +96,16 @@ pub fn image(g: &GameLibrary, v: &Version, base: u32) -> Vec<u8> {
         let at = v.status_table.rva + i as u32 * layout.size();
         match layout {
             StatusLayout::StarCraft => {
-                put(&mut img, at, &u.status_unit_type.unwrap().to_le_bytes());
+                put(&mut img, at, &u.debug_id.unwrap().to_le_bytes());
                 put(&mut img, at + 4, &fns(&u.status_changed).to_le_bytes());
-                put(&mut img, at + 8, &fns(&u.status_update).to_le_bytes());
+                put(&mut img, at + 8, &fns(&u.display_function).to_le_bytes());
             }
             StatusLayout::Warcraft2Bne => {
                 put(&mut img, at, &u.icon.unwrap().to_le_bytes());
                 put(&mut img, at + 2, &u.stats_frame.unwrap().to_le_bytes());
                 put(&mut img, at + 4, &u.name_string.unwrap().to_le_bytes());
                 put(&mut img, at + 8, &fns(&u.status_changed).to_le_bytes());
-                put(&mut img, at + 12, &fns(&u.status_update).to_le_bytes());
+                put(&mut img, at + 12, &fns(&u.display_function).to_le_bytes());
             }
         }
     }

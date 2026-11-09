@@ -12,7 +12,7 @@ AxeGraft.registerFixtureCatalog({
   ],
   "limits": {
     "unit": { "min": 0, "max": 109 },
-    "tableEntry": { "min": 0, "max": 119 },
+    "buttonCard": { "min": 0, "max": 119 },
     "upgrade": { "min": 0, "max": 51 },
     "buttonSet": { "min": 0, "max": 999 },
     "newButtonSet": { "min": 120, "max": 999 },
@@ -48,7 +48,7 @@ AxeGraft.registerFixtureCatalog({
     { "name": "name_string", "label": "Name", "kind": "string", "help": "The unit's name." },
     { "name": "stats_frame", "label": "Stats panel frame", "kind": "choice", "options": [{ "value": 0, "label": "Frame 0" }, { "value": 1, "label": "Frame 1" }, { "value": 2, "label": "Frame 2" }, { "value": 3, "label": "Frame 3" }], "help": "The frame behind the stats." },
     { "name": "status_changed", "label": "Stats changed", "kind": "statusChanged", "help": "Decides whether to redraw the stats." },
-    { "name": "status_update", "label": "Stats update", "kind": "statusUpdate", "help": "Draws the stats." }
+    { "name": "display_function", "label": "Stats update", "kind": "displayFunction", "help": "Draws the stats." }
   ],
   "functions": {
     "conditions": [
@@ -58,15 +58,15 @@ AxeGraft.registerFixtureCatalog({
     "actions": [
       { "name": "w2_move", "label": "Move", "variable": null },
       { "name": "w2_train", "label": "Train", "variable": "unit" },
-      { "name": "w2_show_entry", "label": "Show table entry", "variable": "tableEntry" },
+      { "name": "w2_show_entry", "label": "Show button card", "variable": "buttonCard" },
       { "name": "order_spell", "label": "Cast spell", "variable": "order" }
     ],
     "statusChanged": [{ "name": "w2_stats_changed_unit", "label": "Unit", "variable": null }],
-    "statusUpdate": [{ "name": "w2_stats_update_unit", "label": "Unit", "variable": null }]
+    "displayFunction": [{ "name": "w2_stats_update_unit", "label": "Unit", "variable": null }]
   },
   "units": [
-    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "icon": 2, "stats_frame": 1, "name_string": 2, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
-    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "icon": 0, "stats_frame": 1, "name_string": 4, "status_changed": "w2_stats_changed_unit", "status_update": "w2_stats_update_unit" } },
+    { "id": 0, "name": "Footman", "tree": ["Human", "Land Units"], "original": { "button_set": 0, "icon": 2, "stats_frame": 1, "name_string": 2, "status_changed": "w2_stats_changed_unit", "display_function": "w2_stats_update_unit" } },
+    { "id": 2, "name": "Peasant", "tree": ["Human", "Land Units"], "original": { "button_set": 2, "icon": 0, "stats_frame": 1, "name_string": 4, "status_changed": "w2_stats_changed_unit", "display_function": "w2_stats_update_unit" } },
     { "id": 110, "name": "Blank", "tree": ["Other"], "original": { "button_set": null } },
     { "id": 111, "name": "Human Basic Build", "tree": ["Other"], "original": { "button_set": 111 } }
   ],

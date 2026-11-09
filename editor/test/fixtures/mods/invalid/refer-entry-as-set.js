@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Referring to button sets: Table entry named as a set",
+  "scenario": "Referring to button sets: Button card named as a set",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,

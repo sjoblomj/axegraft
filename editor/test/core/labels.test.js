@@ -5,7 +5,7 @@
   var T = AG.testing;
   var D = AG.core.doc;
 
-  var MOVE = { position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 };
+  var MOVE = { position: 1, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 };
 
   T.test("labels: an existing custom label is kept when its entry is edited", function () {
     var cat = T.catalog("starcraft");
@@ -18,11 +18,11 @@
       requirements: [{ type: "unit", id: 0, label: "Marine needs", list: [] }],
       constants: [{ name: "max_supply", label: "Supply cap", value: 600 }]
     };
-    var doc = D.setUnitField(opened, cat, 0, "status_update", "statdraw_draw_none");
+    var doc = D.setUnitField(opened, cat, 0, "display_function", "draw_none");
     doc = D.setButtons(doc, cat, 7, [MOVE]);
     doc = D.setRequirement(doc, cat, "unit", 0, [111]);
     doc = D.setConstant(doc, cat, "max_supply", 800);
-    T.equal(doc.units[0], { id: 0, label: "The Marine I changed", button_set: 5, status_update: "statdraw_draw_none" });
+    T.equal(doc.units[0], { id: 0, label: "The Marine I changed", button_set: 5, display_function: "draw_none" });
     T.equal(doc.button_sets[0].label, "Workers");
     T.equal(doc.requirements[0].label, "Marine needs");
     T.equal(doc.constants[0], { name: "max_supply", label: "Supply cap", value: 800 });

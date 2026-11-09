@@ -314,8 +314,8 @@ fn other_game_field(game: Game, what: &str, name: &str) -> Option<String> {
     let reason = match (game, unit, name) {
         (Game::StarCraft, true, "icon") => "StarCraft's status entry has no icon; it's a Warcraft II field.",
         (Game::StarCraft, true, "stats_frame" | "name_string") => "It's a field of Warcraft II's Unit Data, which StarCraft doesn't have.",
-        (Game::Warcraft2, true, "status_unit_type") => "Warcraft II's unit data has no such field; it's a StarCraft field.",
-        (Game::Warcraft2, true, "equivalent_entry") => "Warcraft II's command list entries have no such field; it's a StarCraft field.",
+        (Game::Warcraft2, true, "debug_id") => "Warcraft II's unit data has no such field; it's a StarCraft field.",
+        (Game::Warcraft2, true, "connected_unit") => "Warcraft II's command list entries have no such field; it's a StarCraft field.",
         (Game::StarCraft, false, "string" | "highlighted") => "It's a field of Warcraft II buttons. StarCraft buttons have enabled_string and disabled_string.",
         (Game::Warcraft2, false, "enabled_string" | "disabled_string") => "It's a field of StarCraft buttons. Warcraft II buttons have string and highlighted.",
         _ => return None,
@@ -394,8 +394,8 @@ fn status_function(ctx: &mut Ctx, v: &Value, path: &str, kind: StatusKind) -> Op
 
 // ---- Units
 
-const SC_UNIT_FIELDS: [&str; 5] = ["button_set", "equivalent_entry", "status_changed", "status_update", "status_unit_type"];
-const W2_UNIT_FIELDS: [&str; 6] = ["button_set", "icon", "name_string", "stats_frame", "status_changed", "status_update"];
+const SC_UNIT_FIELDS: [&str; 5] = ["button_set", "connected_unit", "status_changed", "display_function", "debug_id"];
+const W2_UNIT_FIELDS: [&str; 6] = ["button_set", "icon", "name_string", "stats_frame", "status_changed", "display_function"];
 
 fn unit_fields(game: Game) -> &'static [&'static str] {
     match game {
@@ -422,8 +422,8 @@ fn check_unit(ctx: &mut Ctx, e: &Map<String, Value>, path: &str) -> Option<Vec<U
                 ctx.p.add(field(path, "id"), format!("A unit entry's id must be a whole number, but it's {}.", show(v)));
                 None
             }
-            Some(n) if !limits.table_entry().contains(n) => {
-                ctx.p.add(field(path, "id"), format!("Unit ID {n} is outside the game's button table, {}.", limits.table_entry()));
+            Some(n) if !limits.button_card().contains(n) => {
+                ctx.p.add(field(path, "id"), format!("Unit ID {n} is outside the game's button table, {}.", limits.button_card()));
                 None
             }
             Some(n) => Some(n),
@@ -444,32 +444,32 @@ fn check_unit(ctx: &mut Ctx, e: &Map<String, Value>, path: &str) -> Option<Vec<U
         let fp = field(path, name);
         if let Some(n) = id {
             if !is_unit && name != "button_set" {
-                ctx.p.add(&fp, format!("Table entry {n} isn't a unit, so only button_set can be set."));
+                ctx.p.add(&fp, format!("Button card {n} isn't a unit, so only button_set can be set."));
                 continue;
             }
         }
         let f = match name {
             "button_set" => set_reference(ctx, v, &fp).map(UnitField::ButtonSet),
             "status_changed" => status_function(ctx, v, &fp, StatusKind::StatusChanged).map(UnitField::StatusChanged),
-            "status_update" => status_function(ctx, v, &fp, StatusKind::StatusUpdate).map(UnitField::StatusUpdate),
-            "equivalent_entry" => {
+            "display_function" => status_function(ctx, v, &fp, StatusKind::DisplayFunction).map(UnitField::DisplayFunction),
+            "connected_unit" => {
                 if v.is_null() {
-                    Some(UnitField::EquivalentEntry(None))
+                    Some(UnitField::ConnectedUnit(None))
                 } else {
                     match int(v) {
                         None => {
-                            ctx.p.add(&fp, format!("equivalent_entry must be a table entry ID, or null for none, but it's {}.", show(v)));
+                            ctx.p.add(&fp, format!("connected_unit must be a button card ID, or null for none, but it's {}.", show(v)));
                             None
                         }
-                        Some(n) if !limits.table_entry().contains(n) => {
-                            ctx.p.add(&fp, format!("equivalent_entry {n} is outside the game's button table, {}.", limits.table_entry()));
+                        Some(n) if !limits.button_card().contains(n) => {
+                            ctx.p.add(&fp, format!("connected_unit {n} is outside the game's button table, {}.", limits.button_card()));
                             None
                         }
-                        Some(n) => Some(UnitField::EquivalentEntry(Some(n as u16))),
+                        Some(n) => Some(UnitField::ConnectedUnit(Some(n as u16))),
                     }
                 }
             }
-            "status_unit_type" => ranged(ctx, v, &fp, name, limits.unit, "the unit range").map(|n| UnitField::StatusUnitType(n as u16)),
+            "debug_id" => ranged(ctx, v, &fp, name, limits.unit, "the unit range").map(|n| UnitField::DebugId(n as u16)),
             "icon" => ranged(ctx, v, &fp, name, limits.icon, "its range").map(|n| UnitField::Icon(n as u16)),
             "name_string" => ranged(ctx, v, &fp, name, limits.string, "its range").map(|n| UnitField::NameString(n as u16)),
             "stats_frame" => match int(v) {
@@ -521,7 +521,7 @@ fn set_reference(ctx: &mut Ctx, v: &Value, path: &str) -> Option<Option<u16>> {
         ctx.p.add(path, format!("Set {n} is a new set, but this mod doesn't define it."));
         return None;
     }
-    if limits.table_entry().contains(n) {
+    if limits.button_card().contains(n) {
         let text = ctx.ix.entry_text(n as u16);
         ctx.p.add(path, format!("There's no set {n}: {text}."));
     } else {
@@ -552,7 +552,7 @@ fn check_button_set(ctx: &mut Ctx, e: &Map<String, Value>, path: &str) -> Option
             }
             Some(n) if !ctx.ix.sets.contains(&(n as u16)) && !limits.new_set().contains(n) => {
                 let text = ctx.ix.entry_text(n as u16);
-                ctx.p.add(field(path, "id"), format!("There's no original set {n}: {text}. New sets start at {}.", limits.table_entries));
+                ctx.p.add(field(path, "id"), format!("There's no original set {n}: {text}. New sets start at {}.", limits.button_cards));
                 None
             }
             Some(n) => Some(n as u16),

@@ -53,8 +53,8 @@ Skipping SHALL apply only to constants. A unit, button set or requirement change
 - **WHEN** a unit entry's `button_set` is a set that doesn't exist on the running version
 - **THEN** the mod is rejected, with an error naming the set and the version
 
-#### Scenario: Table entry absent on this version
-- **WHEN** a button's `condition_variable` or `action_variable`, a unit entry's `id`, or a unit entry's `equivalent_entry`, is a table entry that doesn't exist on the running version
+#### Scenario: Button card absent on this version
+- **WHEN** a button's `condition_variable` or `action_variable`, a unit entry's `id`, or a unit entry's `connected_unit`, is a button card that doesn't exist on the running version
 - **THEN** the mod is rejected, with an error naming the entry and the version
 
 ### Requirement: Checking expected bytes
@@ -65,25 +65,25 @@ Before changing anything, AxeGraft Patcher SHALL compare the current bytes at ev
 - **THEN** no memory is changed, and the error names the property, the location, and the expected and actual bytes
 
 ### Requirement: Translating IDs to the running version
-AxeGraft Patcher SHALL translate button set IDs and table entries to the running version's own numbering, including table entries in `action_variable` and `equivalent_entry`.
+AxeGraft Patcher SHALL translate button set IDs and button cards to the running version's own numbering, including button cards in `action_variable` and `connected_unit`.
 
 #### Scenario: Set numbered differently on this version
 - **WHEN** a mod defines a set that the running version numbers differently
 - **THEN** the change is applied to the running version's ID for that set
 
-#### Scenario: Action that opens a table entry
-- **WHEN** a button's action opens a table entry that the running version numbers differently
+#### Scenario: Action that opens a button card
+- **WHEN** a button's action opens a button card that the running version numbers differently
 - **THEN** the written button uses the running version's number for that entry
 
 ### Requirement: Button set changes
-Replacing an original set SHALL change every table entry that originally pointed at its array, except entries the mod assigns another set. A new set SHALL reach only the entries assigned to it. Buttons SHALL be built in the running version's layout, using that version's function addresses and the plugin's own memory, and every entry holding a set SHALL point at the same memory.
+Replacing an original set SHALL change every button card that originally pointed at its array, except entries the mod assigns another set. A new set SHALL reach only the entries assigned to it. Buttons SHALL be built in the running version's layout, using that version's function addresses and the plugin's own memory, and every entry holding a set SHALL point at the same memory.
 
 #### Scenario: Set shared by several units
 - **WHEN** a mod replaces set 0, whose array units 0, 10, 20 and 32 point at
 - **THEN** all four units have the new buttons
 
-#### Scenario: Table entry that isn't a unit
-- **WHEN** a mod replaces a set whose array is also pointed at by a table entry with no unit
+#### Scenario: Button card that isn't a unit
+- **WHEN** a mod replaces a set whose array is also pointed at by a button card with no unit
 - **THEN** that entry holds the new buttons too
 
 #### Scenario: Unit assigned away from a replaced set
@@ -111,7 +111,7 @@ Replacing an original set SHALL change every table entry that originally pointed
 - **THEN** the write succeeds
 
 ### Requirement: Assigning button sets to units
-Setting a unit entry's `button_set` SHALL give that table entry the buttons of the named set, including any replacement the mod defines, or no buttons for `null`. A set's contents SHALL NOT depend on `button_set` assignments in the same mod.
+Setting a unit entry's `button_set` SHALL give that button card the buttons of the named set, including any replacement the mod defines, or no buttons for `null`. A set's contents SHALL NOT depend on `button_set` assignments in the same mod.
 
 #### Scenario: Unit uses a set the mod replaced
 - **WHEN** a mod replaces set 7 and also assigns set 7 to unit 0
@@ -126,21 +126,21 @@ Setting a unit entry's `button_set` SHALL give that table entry the buttons of t
 - **THEN** unit 32 has no buttons, and units 0, 10 and 20 are unchanged
 
 ### Requirement: Status function changes
-Setting a unit's `status_changed` or `status_update` SHALL change only that function of that unit, to the named function's address on the running version.
+Setting a unit's `status_changed` or `display_function` SHALL change only that function of that unit, to the named function's address on the running version.
 
 #### Scenario: Only one function set
-- **WHEN** a mod sets a unit's `status_update` and not its `status_changed`
+- **WHEN** a mod sets a unit's `display_function` and not its `status_changed`
 - **THEN** only the unit's update function changes
 
 #### Scenario: Functions of different units
-- **WHEN** a mod sets a unit's `status_changed` and `status_update` to functions the game uses for different kinds of unit, such as a building's update function on a unit
+- **WHEN** a mod sets a unit's `status_changed` and `display_function` to functions the game uses for different kinds of unit, such as a building's update function on a unit
 - **THEN** each is applied as given
 
-### Requirement: Status unit type changes
-Setting a unit's `status_unit_type` SHALL change only that value in that unit's status entry, on StarCraft versions.
+### Requirement: Debug ID changes
+Setting a unit's `debug_id` SHALL change only that value in that unit's status entry, on StarCraft versions.
 
 #### Scenario: Only the unit type set
-- **WHEN** a mod sets a unit's `status_unit_type` and neither of its status functions
+- **WHEN** a mod sets a unit's `debug_id` and neither of its status functions
 - **THEN** only the stored unit type changes
 
 ### Requirement: Unit Data changes
@@ -154,16 +154,16 @@ Setting a unit's `icon`, `stats_frame` or `name_string` SHALL change only that v
 - **WHEN** a mod sets a Warcraft II unit's `name_string`
 - **THEN** the unit's name shown in the stats panel changes, and its icon, frame and status functions are unchanged
 
-### Requirement: Equivalent entry changes
-Setting a unit's `equivalent_entry` SHALL change only that value in the unit's button table entry, on StarCraft versions, writing `0xFFFF` for `null`. The entry's button count and button pointer SHALL be set only by `button_set` and button set changes.
+### Requirement: Connected unit changes
+Setting a unit's `connected_unit` SHALL change only that value in the unit's button button card, on StarCraft versions, writing `0xFFFF` for `null`. The entry's button count and button pointer SHALL be set only by `button_set` and button set changes.
 
-#### Scenario: Equivalent entry cleared
-- **WHEN** a mod sets unit 16's `equivalent_entry` to `null`
+#### Scenario: Connected unit cleared
+- **WHEN** a mod sets unit 16's `connected_unit` to `null`
 - **THEN** unit 16's entry stores `0xFFFF`, and its buttons are unchanged
 
-#### Scenario: Button set changed without the equivalent entry
-- **WHEN** a mod sets unit 16's `button_set` and not its `equivalent_entry`
-- **THEN** the entry keeps its original equivalent entry, 1
+#### Scenario: Button set changed without the connected unit
+- **WHEN** a mod sets unit 16's `button_set` and not its `connected_unit`
+- **THEN** the entry keeps its original connected unit, 1
 
 ### Requirement: Requirement record changes
 A requirement entry SHALL replace only that item's record in the running version's own stream. Records the mod doesn't define SHALL stay as they are on that version, and the game SHALL use the new stream in all places that refer to it.

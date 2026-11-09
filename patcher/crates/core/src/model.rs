@@ -15,7 +15,7 @@ pub struct Mod {
     pub constants: Vec<ConstantSetting>,
 }
 
-/// One field of one table entry. A mod's unit entry with several fields
+/// One field of one button card. A mod's unit entry with several fields
 /// becomes one change for each.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct UnitChange {
@@ -29,11 +29,11 @@ pub enum UnitField {
     /// The set to show, or `None` for no buttons.
     ButtonSet(Option<u16>),
     StatusChanged(String),
-    StatusUpdate(String),
+    DisplayFunction(String),
     /// StarCraft only: the entry treated as the same in a mixed group, or `None` for none.
-    EquivalentEntry(Option<u16>),
+    ConnectedUnit(Option<u16>),
     /// StarCraft only: the unit ID in the unit's status entry.
-    StatusUnitType(u16),
+    DebugId(u16),
     /// Warcraft II only: the Unit Data icon.
     Icon(u16),
     /// Warcraft II only: the stats panel frame, 0-3.
@@ -48,9 +48,9 @@ impl UnitField {
         match self {
             UnitField::ButtonSet(_) => "button_set",
             UnitField::StatusChanged(_) => "status_changed",
-            UnitField::StatusUpdate(_) => "status_update",
-            UnitField::EquivalentEntry(_) => "equivalent_entry",
-            UnitField::StatusUnitType(_) => "status_unit_type",
+            UnitField::DisplayFunction(_) => "display_function",
+            UnitField::ConnectedUnit(_) => "connected_unit",
+            UnitField::DebugId(_) => "debug_id",
             UnitField::Icon(_) => "icon",
             UnitField::StatsFrame(_) => "stats_frame",
             UnitField::NameString(_) => "name_string",

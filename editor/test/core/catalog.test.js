@@ -35,15 +35,15 @@
 
   expectProblem("a unit's original icon outside limits.icon", function (raw) {
     raw.units[0].original.icon = 70000;
-  }, /table entry 0 has an original icon that isn.t an ID within limits.icon/, "warcraft2");
+  }, /button card 0 has an original icon that isn.t an ID within limits.icon/, "warcraft2");
 
   expectProblem("a unit's original name string outside limits.string", function (raw) {
     raw.units[0].original.name_string = 70000;
-  }, /table entry 0 has an original name_string that isn.t an ID within limits.string/, "warcraft2");
+  }, /button card 0 has an original name_string that isn.t an ID within limits.string/, "warcraft2");
 
   expectProblem("a unit's original choice that isn't an option", function (raw) {
     raw.units[0].original.stats_frame = 7;
-  }, /table entry 0 has an original stats_frame 7, which isn.t one of its options/, "warcraft2");
+  }, /button card 0 has an original stats_frame 7, which isn.t one of its options/, "warcraft2");
 
   expectProblem("a unit choice field without options", function (raw) {
     raw.unitFields.forEach(function (f) {
@@ -51,9 +51,9 @@
     });
   }, /unit field stats_frame needs options/, "warcraft2");
 
-  expectProblem("a unit's original equivalent entry outside the button table", function (raw) {
-    raw.units[0].original.equivalent_entry = 400;
-  }, /table entry 0 has an original equivalent_entry that is neither null nor within limits.tableEntry/);
+  expectProblem("a unit's original connected unit outside the button table", function (raw) {
+    raw.units[0].original.connected_unit = 400;
+  }, /button card 0 has an original connected_unit that is neither null nor within limits.buttonCard/);
 
   T.test("catalog check: the documented example passes", function () {
     T.equal(C.check(T.exampleCatalog(), "catalog-example.js"), []);
@@ -77,7 +77,7 @@
 
   expectProblem("a unit icon that isn't an icon ID", function (raw) {
     raw.units[0].icon = -1;
-  }, /table entry \d+ has an icon that isn't an icon ID/);
+  }, /button card \d+ has an icon that isn't an icon ID/);
   expectProblem("a unit icon that isn't a number", function (raw) {
     raw.units[0].icon = "Marine";
   }, /has an icon that isn't an icon ID/);
@@ -106,8 +106,8 @@
     raw.versions = [];
   }, /versions must list at least one version/);
   expectProblem("a missing limit", function (raw) {
-    delete raw.limits.tableEntry;
-  }, /limits.tableEntry is missing/);
+    delete raw.limits.buttonCard;
+  }, /limits.buttonCard is missing/);
   expectProblem("new sets not starting at the table's size", function (raw) {
     raw.limits.newButtonSet.min = 300;
   }, /newButtonSet must start at the table's size, 250/);
@@ -119,7 +119,7 @@
   }, /exactly one field of kind condition/);
   expectProblem("an unknown variable type", function (raw) {
     raw.functions.actions[0].variable = "spell";
-  }, /function order_move in functions.actions has an unknown variable type "spell"/);
+  }, /function move in functions.actions has an unknown variable type "spell"/);
   expectProblem("requirements without opcodes", function (raw) {
     delete raw.opcodes;
   }, /opcodes are missing, but parts includes requirements/);
@@ -128,13 +128,13 @@
   }, /requirements are given, but parts doesn't include requirements/);
   expectProblem("a duplicate unit", function (raw) {
     raw.units.push(JSON.parse(JSON.stringify(raw.units[0])));
-  }, /table entry 0 is listed twice/);
-  expectProblem("a complete catalog missing table entries", function (raw) {
+  }, /button card 0 is listed twice/);
+  expectProblem("a complete catalog missing button cards", function (raw) {
     raw.sample = false;
-  }, /units must list every table entry, but 240 are missing, starting with 1/);
+  }, /units must list every button card, but 240 are missing, starting with 1/);
   expectProblem("an entry that isn't a unit with status functions", function (raw) {
-    raw.units[7].original.status_update = "statdraw_draw_unit";
-  }, /table entry 228 isn't a unit, so it has only an original button_set/);
+    raw.units[7].original.display_function = "draw_unit";
+  }, /button card 228 isn't a unit, so it has only an original button_set/);
   expectProblem("an option constant with a range", function (raw) {
     raw.constants[4].range = { min: 0, max: 1 };
   }, /constant cloak_energy is an option, so it has no range/);
@@ -148,25 +148,25 @@
   }, /button set 0 button 0 names condition "bf_sometimes", which the catalog doesn't list/);
   expectProblem("an original button without a variable its function reads", function (raw) {
     delete raw.buttonSets[1].original[0].action_variable;
-  }, /button set 5 button 0 has no action_variable, which order_research reads/);
+  }, /button set 5 button 0 has no action_variable, which research_tech reads/);
   expectProblem("an original button with another game's field", function (raw) {
     raw.buttonSets[0].original[0].highlighted = 2;
   }, /has a field the catalog doesn't define: highlighted/);
   expectProblem("a unit whose set doesn't list it", function (raw) {
     raw.buttonSets[0].entries = [0, 10, 20];
-  }, /table entry 32 has an original button_set 0, but set 0 doesn't list entry 32/);
+  }, /button card 32 has an original button_set 0, but set 0 doesn't list entry 32/);
   expectProblem("a set listing an entry pointing elsewhere", function (raw) {
     raw.buttonSets[1].entries = [5, 7];
-  }, /button set 5 lists table entry 7, but that entry's original button_set is 7/);
+  }, /button set 5 lists button card 7, but that entry's original button_set is 7/);
   expectProblem("a set not named after its lowest entry", function (raw) {
     raw.buttonSets[0].id = 10;
     raw.units.forEach(function (u) {
       if (u.original.button_set === 0) u.original.button_set = 10;
     });
-  }, /button set 10 must take the ID of the lowest table entry pointing at it, 0/);
+  }, /button set 10 must take the ID of the lowest button card pointing at it, 0/);
   expectProblem("a unit's original status function that isn't listed", function (raw) {
     raw.units[0].original.status_changed = "statdraw_query_mystery";
-  }, /table entry 0 has an original status_changed "statdraw_query_mystery"/);
+  }, /button card 0 has an original status_changed "statdraw_query_mystery"/);
   expectProblem("a requirement record using an unknown opcode", function (raw) {
     raw.requirements[0].original["default"].push("can_fly");
   }, /unit 0 requirement record uses opcode "can_fly"/);
@@ -192,14 +192,14 @@
   }, /button set 232 absentOn names an unknown version "1.0"/);
   expectProblem("a function absent on an unknown version", function (raw) {
     raw.functions.conditions[4].absentOn = ["0.9"];
-  }, /bf_replay_play in functions.conditions absentOn names an unknown version "0.9"/);
+  }, /is_watching_replay in functions.conditions absentOn names an unknown version "0.9"/);
   expectProblem("a requirement record per version naming an unknown version", function (raw) {
     raw.requirements[3].original.perVersion = { "1.17": null };
   }, /perVersion names an unknown version "1.17"/);
 
   // Original buttons by version
   function sixButtons() {
-    return [{ position: 3, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 1, disabled_string: 0 }];
+    return [{ position: 3, icon: 1, condition: "always", action: "move", enabled_string: 1, disabled_string: 0 }];
   }
 
   T.test("catalog check: a set's original as one plain list is the same on every version", function () {

@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entries: Status unit type in a Warcraft II mod",
+  "scenario": "Unit entries: Debug ID in a Warcraft II mod",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -7,14 +7,14 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "status_unit_type": 0
+        "debug_id": 0
       }
     ]
   },
   "expect": {
     "refused": true,
     "errors": [
-      "units[0].status_unit_type"
+      "units[0].debug_id"
     ],
     "warnings": []
   }

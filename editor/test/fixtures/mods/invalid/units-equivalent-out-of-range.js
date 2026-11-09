@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Unit entry fields: Equivalent entry out of range",
+  "scenario": "Unit entry fields: Connected unit out of range",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,
@@ -7,14 +7,14 @@ AxeGraft.registerModFixture({
     "units": [
       {
         "id": 0,
-        "equivalent_entry": 1000
+        "connected_unit": 1000
       }
     ]
   },
   "expect": {
     "refused": false,
     "errors": [
-      "units[0].equivalent_entry"
+      "units[0].connected_unit"
     ],
     "warnings": []
   }

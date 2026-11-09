@@ -64,12 +64,12 @@ pub struct Identity {
     pub product_version: [u16; 4],
 }
 
-/// The layout of a button table entry.
+/// The layout of a button button card.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all(deserialize = "snake_case"))]
 pub enum CardLayout {
     #[serde(rename(deserialize = "starcraft"))]
-    /// StarCraft's `TCard`, 12 bytes: `u16` count, padding, `u32` pointer, `u16` equivalent entry, padding.
+    /// StarCraft's `TCard`, 12 bytes: `u16` count, padding, `u32` pointer, `u16` connected unit, padding.
     StarCraft,
     /// Warcraft II BNE's command list entry, 8 bytes: `u32` count, `u32` pointer.
     Warcraft2Bne,
@@ -92,8 +92,8 @@ impl CardLayout {
     pub fn pointer(self) -> u32 {
         4
     }
-    /// The equivalent entry, StarCraft only.
-    pub fn equivalent(self) -> Option<u32> {
+    /// The connected unit, StarCraft only.
+    pub fn connected_unit(self) -> Option<u32> {
         match self {
             CardLayout::StarCraft => Some(8),
             CardLayout::Warcraft2Bne => None,
@@ -133,9 +133,9 @@ pub enum StatusLayout {
 /// A field of a status entry, with its offset and width.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum StatusField {
-    UnitType,
+    DebugId,
     Changed,
-    Update,
+    Display,
     Icon,
     StatsFrame,
     NameString,
@@ -152,14 +152,14 @@ impl StatusLayout {
     pub fn field(self, f: StatusField) -> Option<(u32, usize)> {
         use StatusField::*;
         match (self, f) {
-            (StatusLayout::StarCraft, UnitType) => Some((0, 4)),
+            (StatusLayout::StarCraft, DebugId) => Some((0, 4)),
             (StatusLayout::StarCraft, Changed) => Some((4, 4)),
-            (StatusLayout::StarCraft, Update) => Some((8, 4)),
+            (StatusLayout::StarCraft, Display) => Some((8, 4)),
             (StatusLayout::Warcraft2Bne, Icon) => Some((0, 2)),
             (StatusLayout::Warcraft2Bne, StatsFrame) => Some((2, 2)),
             (StatusLayout::Warcraft2Bne, NameString) => Some((4, 2)),
             (StatusLayout::Warcraft2Bne, Changed) => Some((8, 4)),
-            (StatusLayout::Warcraft2Bne, Update) => Some((12, 4)),
+            (StatusLayout::Warcraft2Bne, Display) => Some((12, 4)),
             _ => None,
         }
     }
@@ -167,8 +167,8 @@ impl StatusLayout {
     pub fn fields(self) -> &'static [StatusField] {
         use StatusField::*;
         match self {
-            StatusLayout::StarCraft => &[UnitType, Changed, Update],
-            StatusLayout::Warcraft2Bne => &[Icon, StatsFrame, NameString, Changed, Update],
+            StatusLayout::StarCraft => &[DebugId, Changed, Display],
+            StatusLayout::Warcraft2Bne => &[Icon, StatsFrame, NameString, Changed, Display],
         }
     }
 }
@@ -188,14 +188,14 @@ pub struct StatusTable {
     pub layout: StatusLayout,
 }
 
-/// A table entry of the game's numbering, as it is on one version.
+/// A button card of the game's numbering, as it is on one version.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub struct EntryOnVersion {
     /// The entry's number on this version.
     pub number: u16,
-    /// StarCraft: the original equivalent entry, in the game's numbering, or `None` for `0xFFFF`.
+    /// StarCraft: the original connected unit, in the game's numbering, or `None` for `0xFFFF`.
     #[serde(default)]
-    pub equivalent: Option<u16>,
+    pub connected_unit: Option<u16>,
 }
 
 /// An original button as stored on a version. StarCraft buttons have
@@ -224,19 +224,19 @@ pub struct OriginalButton {
 pub struct SetOnVersion {
     /// The RVA of the set's array.
     pub array: u32,
-    /// The table entries that point at the array, in the game's numbering.
+    /// The button cards that point at the array, in the game's numbering.
     pub entries: Vec<u16>,
     pub buttons: Vec<OriginalButton>,
 }
 
-/// A unit's original status entry. StarCraft units have `status_unit_type`;
+/// A unit's original status entry. StarCraft units have `debug_id`;
 /// Warcraft II units have `icon`, `stats_frame` and `name_string`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct UnitOriginal {
     pub status_changed: String,
-    pub status_update: String,
+    pub display_function: String,
     #[serde(default)]
-    pub status_unit_type: Option<u32>,
+    pub debug_id: Option<u32>,
     #[serde(default)]
     pub icon: Option<u16>,
     #[serde(default)]
@@ -263,7 +263,7 @@ pub struct Version {
     pub identity: Identity,
     pub button_table: ButtonTable,
     pub status_table: StatusTable,
-    /// Every table entry of the game's numbering: its number here, or `None`
+    /// Every button card of the game's numbering: its number here, or `None`
     /// if this version lacks it.
     pub entries: BTreeMap<u16, Option<EntryOnVersion>>,
     /// Every set of the game's numbering, or `None` if this version lacks it.

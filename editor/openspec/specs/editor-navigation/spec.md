@@ -66,7 +66,7 @@ Under the item list, a tab MAY have a row of buttons acting on its items. The Bu
 
 ### Requirement: What the panel shows
 Under each panel's title, the editor SHALL say what the item is and what the mod does to it:
-- a table entry: "Unit", or that it's a table entry that isn't a unit, so it has only a button set;
+- a button card: "Unit", or that it's a button card that isn't a unit, so it has only a button set;
 - a button set: "Original set", "Original set, replaced by this mod" or "New set, added by this mod";
 - a requirement record: "Original record", "No original record" or "This mod replaces the whole record";
 - a constant: the name it's saved under in the mod file, as "Saved as" and that name.

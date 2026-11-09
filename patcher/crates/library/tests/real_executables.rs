@@ -91,11 +91,11 @@ fn sc_mod() -> serde_json::Value {
         "patcher": "AxeGraft", "format": 1, "game": "starcraft",
         "constants": [{"name": "max_supply", "value": 600}, {"name": "permanent_cloak_energy", "option": "changed"}],
         "button_sets": [{"id": 0, "buttons": [
-            {"position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0},
-            {"position": 2, "icon": 229, "condition": "bf_always", "action": "order_stop", "enabled_string": 665, "disabled_string": 0}
+            {"position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0},
+            {"position": 2, "icon": 229, "condition": "always", "action": "stop", "enabled_string": 665, "disabled_string": 0}
         ]}],
-        "units": [{"id": 7, "status_update": "statdraw_draw_none"}, {"id": 16, "equivalent_entry": null}],
-        "requirements": [{"type": "upgrade", "id": 3, "list": ["current_unit_is", 131, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "end_sublist", "upgrade_level_3", 133]}]
+        "units": [{"id": 7, "display_function": "draw_none"}, {"id": 16, "connected_unit": null}],
+        "requirements": [{"type": "upgrade", "id": 3, "list": ["current_unit_is", 131, "is_not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "end_sublist", "upgrade_level_3", 133]}]
     })
 }
 
@@ -126,10 +126,10 @@ fn plan_example_mods_on_starcraft() {
             assert!(matches!(c.writes[1].new, New::Pointer { .. }));
         }
 
-        // The SCV's status update function, and Kerrigan's equivalent entry, 1.
+        // The SCV's display function, and Kerrigan's connected unit, 1.
         let scv = p.changes.iter().find(|c| c.what.starts_with("unit 7:")).unwrap();
-        assert_eq!(scv.writes[0].expected, (base + ver.functions["statdraw_draw_unit"].unwrap()).to_le_bytes());
-        let kerrigan = p.changes.iter().find(|c| c.what.starts_with("table entry 16:")).unwrap();
+        assert_eq!(scv.writes[0].expected, (base + ver.functions["draw_unit"].unwrap()).to_le_bytes());
+        let kerrigan = p.changes.iter().find(|c| c.what.starts_with("button card 16:")).unwrap();
         assert_eq!((kerrigan.writes[0].expected.as_slice(), kerrigan.writes[0].new.clone()), (&1u16.to_le_bytes()[..], New::Bytes(0xFFFFu16.to_le_bytes().to_vec())));
 
         // The upgrade stream's references.
@@ -157,7 +157,7 @@ fn plan_example_mod_on_warcraft2() {
         "patcher": "AxeGraft", "format": 1, "game": "warcraft2",
         "constants": [{"name": "slow_duration", "value": 500}, {"name": "farm_food", "option": "food_8"}],
         "button_sets": [{"id": 2, "buttons": [{"position": 0, "icon": 83, "condition": "bf_always", "action": "order_move", "string": 392, "highlighted": 2}]}],
-        "units": [{"id": 0, "icon": 3, "status_update": "statdraw_draw_unit"}]
+        "units": [{"id": 0, "icon": 3, "display_function": "statdraw_draw_unit"}]
     });
     let m = parse_mod("example.json", m.to_string().as_bytes(), &g.vocabulary()).unwrap();
     let p = plan("example.json", &m, g, ver, &mem).unwrap_or_else(|e| panic!("{e:#?}"));
@@ -194,13 +194,13 @@ fn ensure(ok: bool, what: &str) -> Result<(), String> {
 
 fn facts() -> Vec<Fact> {
     vec![
-        ("StarCraft has units 0-227 and 250 table entries", |l| {
+        ("StarCraft has units 0-227 and 250 button cards", |l| {
             let g = l.game(Game::StarCraft).unwrap();
-            ensure(g.limits.unit.min == 0 && g.limits.unit.max == 227 && g.limits.table_entries == 250, "StarCraft's ranges")
+            ensure(g.limits.unit.min == 0 && g.limits.unit.max == 227 && g.limits.button_cards == 250, "StarCraft's ranges")
         }),
-        ("Warcraft II has units 0-109 and 120 table entries", |l| {
+        ("Warcraft II has units 0-109 and 120 button cards", |l| {
             let g = l.game(Game::Warcraft2).unwrap();
-            ensure(g.limits.unit.max == 109 && g.limits.table_entries == 120, "Warcraft II's ranges")
+            ensure(g.limits.unit.max == 109 && g.limits.button_cards == 120, "Warcraft II's ranges")
         }),
         ("Button positions are 1-9 in StarCraft and 0-8 in Warcraft II", |l| {
             let (s, w) = (&l.game(Game::StarCraft).unwrap().limits.position, &l.game(Game::Warcraft2).unwrap().limits.position);
@@ -218,9 +218,9 @@ fn facts() -> Vec<Fact> {
             let g = l.game(Game::StarCraft).unwrap();
             ensure(g.versions.iter().all(|v| v.sets[&37].as_ref().is_some_and(|s| s.entries.contains(&247))), "entry 247's set")
         }),
-        ("Sarah Kerrigan's equivalent entry is the Ghost", |l| {
+        ("Sarah Kerrigan's connected unit is the Ghost", |l| {
             let g = l.game(Game::StarCraft).unwrap();
-            ensure(g.versions.iter().all(|v| v.entries[&16].unwrap().equivalent == Some(1)), "unit 16's equivalent entry")
+            ensure(g.versions.iter().all(|v| v.entries[&16].unwrap().connected_unit == Some(1)), "unit 16's connected unit")
         }),
         ("StarCraft has 94 sets and 544 buttons up to 1.07, 96 and 550 up to 1.11b, and 98 and 554 from 1.12 on", |l| {
             let g = l.game(Game::StarCraft).unwrap();
@@ -264,12 +264,12 @@ fn version_mut<'a>(l: &'a mut Library, game: usize, id: &str) -> &'a mut axegraf
 fn facts_fail_on_altered_data() {
     let alterations: Vec<fn(&mut Library)> = vec![
         |l| l.games[0].limits.unit.max = 228,
-        |l| l.games[1].limits.table_entries = 119,
+        |l| l.games[1].limits.button_cards = 119,
         |l| l.games[1].limits.position.min = 1,
         |l| l.games[0].limits.condition_variable.max = 65535,
         |l| l.games[0].versions[0].sets.get_mut(&0).unwrap().as_mut().unwrap().entries.pop().map(|_| ()).unwrap(),
         |l| l.games[0].versions[1].sets.get_mut(&37).unwrap().as_mut().unwrap().entries.retain(|e| *e != 247),
-        |l| l.games[0].versions[0].entries.get_mut(&16).unwrap().as_mut().unwrap().equivalent = None,
+        |l| l.games[0].versions[0].entries.get_mut(&16).unwrap().as_mut().unwrap().connected_unit = None,
         |l| l.games[0].versions[1].sets.get_mut(&0).unwrap().as_mut().unwrap().buttons.pop().map(|_| ()).unwrap(),
         |l| *version_mut(l, 1, "2.02").sets.get_mut(&2).unwrap() = None,
         |l| *version_mut(l, 1, "2.02").functions.get_mut("bf_can_attack").unwrap() = Some(0x1000),

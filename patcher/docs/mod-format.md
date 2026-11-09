@@ -55,7 +55,7 @@ Every entry of the four parts, and every button, may have a string `label` that 
 
 `labels` holds the names an editor shows for items in place of their usual ones, such as `"labels": {"units": {"0": "Rifleman"}}`. AxeGraft Patcher doesn't look inside it, so its contents may be anything.
 
-## Table entries and button sets
+## Button cards and button sets
 
 Each game has a button table: StarCraft has 250 entries, `gCards`, and Warcraft II has 120 command lists. Entries 0 to 227 in StarCraft, and 0 to 109 in Warcraft II, are units. The others are menus and special cases, such as StarCraft's worker build menus (entries 238 to 243) and Warcraft II's build menus (111 to 114).
 
@@ -65,16 +65,16 @@ A mod's new sets take IDs from the table's size up to 999: 250 to 999 in StarCra
 
 ## `units`
 
-Each entry changes some fields of one table entry.
+Each entry changes some fields of one button card.
 
 | Field | Games | What it holds |
 | --- | --- | --- |
-| `id` | both | The table entry. Required. |
+| `id` | both | The button card. Required. |
 | `button_set` | both | The set whose buttons this entry shows: an original set, a set this mod defines, or `null` for no buttons. |
 | `status_changed` | both | The function that decides whether the status panel needs redrawing. It must be a status changed function. |
-| `status_update` | both | The function that draws the status panel. It must be a status update function. |
-| `equivalent_entry` | StarCraft | The entry treated as the same in a mixed group, or `null` for none. |
-| `status_unit_type` | StarCraft | The unit ID in the unit's status entry. |
+| `display_function` | both | The function that draws the status panel. It must be a display function. |
+| `connected_unit` | StarCraft | The entry treated as the same in a mixed group, or `null` for none. |
+| `debug_id` | StarCraft | The unit ID in the unit's status entry. |
 | `icon` | Warcraft II | The unit's icon, 0 to 65535. |
 | `stats_frame` | Warcraft II | The frame shown behind the stats, 0 to 3. |
 | `name_string` | Warcraft II | The string shown as the unit's name, 0 to 65535. |
@@ -113,9 +113,9 @@ Replacing an original set changes every entry that uses it, unless the mod gives
 
 All are required except the two variables.
 
-**Variables.** Some functions read their variable as a unit, tech, upgrade, order, number or table entry. Such a function must be given a variable of that kind: `order_research` needs a tech, and StarCraft's `statcmd_set_ctrl`, which opens another menu, needs a table entry. A function that doesn't read its variable may be given any value that fits the field, which is written as given, and a variable left out is 0. StarCraft reads the condition variable as a byte, so it can't be above 255. In Warcraft II, a tech is a spell bit, 0 to 20, and an order is an action, 0 to 60.
+**Variables.** Some functions read their variable as a unit, tech, upgrade, order, number or button card. Such a function must be given a variable of that kind: `research_tech` needs a tech, and StarCraft's `show_button_card`, which opens another menu, needs a button card. A function that doesn't read its variable may be given any value that fits the field, which is written as given, and a variable left out is 0. StarCraft reads the condition variable as a byte, so it can't be above 255. In Warcraft II, a tech is a spell bit, 0 to 20, and an order is an action, 0 to 60.
 
-**Opening a menu.** A button that opens another set of buttons names a table entry, because that's what the game reads. To open a new set, assign it to an entry and open that entry.
+**Opening a menu.** A button that opens another set of buttons names a button card, because that's what the game reads. To open a new set, assign it to an entry and open that entry.
 
 **Order.** The game fills its command panel by walking the set's buttons and the panel's slots together, so the buttons must be in ascending order of position. Several buttons may share a position, such as Warcraft II's shield icons, of which the one for the current upgrade level shows.
 
@@ -140,7 +140,7 @@ The game checks unit records with one checker and the other four types with anot
 **Upgrade levels.** An upgrade's list either has no level opcodes, or has its other conditions first, followed by `upgrade_level_1`, `upgrade_level_2` and `upgrade_level_3`, each once and in that order. Each level but the last ends with `end_sublist`, and the end of the record ends the last one. The game finds each level by scanning on from `upgrade_level_1`, so any other shape makes it read past the record:
 
 ```json list:upgrade
-["current_unit_is", 139, "not_training_or_morphing",
+["current_unit_is", 139, "is_not_training_or_morphing",
  "upgrade_level_1", "end_sublist",
  "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist",
  "upgrade_level_3", 133]
@@ -179,21 +179,21 @@ A StarCraft mod that gives the Marine and its heroes a smaller set, and the Fire
       "id": 0,
       "label": "Marine, Firebat and heroes",
       "buttons": [
-        {"position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0},
-        {"position": 2, "icon": 229, "condition": "bf_always", "action": "order_stop", "enabled_string": 665, "disabled_string": 0}
+        {"position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0},
+        {"position": 2, "icon": 229, "condition": "always", "action": "stop", "enabled_string": 665, "disabled_string": 0}
       ]
     },
     {
       "id": 250,
       "label": "Firebat",
       "buttons": [
-        {"position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0}
+        {"position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0}
       ]
     }
   ],
   "units": [
     {"id": 32, "label": "Firebat", "button_set": 250},
-    {"id": 16, "equivalent_entry": null}
+    {"id": 16, "connected_unit": null}
   ]
 }
 ```
@@ -209,14 +209,14 @@ A StarCraft mod that lets Zerg Carapace start at the Hatchery and changes a stat
     {
       "type": "upgrade",
       "id": 3,
-      "list": ["current_unit_is", 131, "not_training_or_morphing",
+      "list": ["current_unit_is", 131, "is_not_training_or_morphing",
                "upgrade_level_1", "end_sublist",
                "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist",
                "upgrade_level_3", 133]
     }
   ],
   "units": [
-    {"id": 7, "status_update": "statdraw_draw_none"}
+    {"id": 7, "display_function": "draw_none"}
   ]
 }
 ```

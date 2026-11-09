@@ -137,7 +137,7 @@ struct Planner<'a> {
     skips: Vec<Skip>,
 }
 
-/// A set as a table entry holds it: its button count, and where its buttons are.
+/// A set as a button card holds it: its button count, and where its buttons are.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Target {
     /// An address in the executable, as stored.
@@ -208,13 +208,13 @@ impl Planner<'_> {
         }
     }
 
-    /// A table entry's number on this version.
+    /// A button card's number on this version.
     fn entry(&mut self, entry: u16, what: &str) -> Option<u16> {
         match self.v.entries.get(&entry) {
             Some(Some(e)) => Some(e.number),
             _ => {
                 let on = self.on();
-                self.problem(format!("Table entry {entry}, {what}, doesn't exist on {on}."));
+                self.problem(format!("Button card {entry}, {what}, doesn't exist on {on}."));
                 None
             }
         }
@@ -263,7 +263,7 @@ impl Planner<'_> {
         }
     }
 
-    // ---- Button sets and table entries
+    // ---- Button sets and button cards
 
     /// The original set an entry points at on this version.
     fn original_set_of(&self, entry: u16) -> Option<(u16, &SetOnVersion)> {
@@ -277,7 +277,7 @@ impl Planner<'_> {
         }
     }
 
-    /// The writes that make a table entry hold a set.
+    /// The writes that make a button card hold a set.
     fn entry_writes(&self, number: u16, held: Held, expected: Held) -> Vec<Write> {
         let card = self.v.button_table.card;
         let at = self.v.button_table.rva + number as u32 * card.size();
@@ -315,11 +315,11 @@ impl Planner<'_> {
         Some(encode_button(self.v.button_table.button, b.position, b.icon, cond, act, cv, av, text))
     }
 
-    /// A function's variable, with a table entry in this version's numbering.
+    /// A function's variable, with a button card in this version's numbering.
     fn variable(&mut self, function: &str, value: u16, condition: bool) -> Option<u16> {
         let list = if condition { &self.g.conditions } else { &self.g.actions };
         let kind = list.iter().find(|f| f.name == function).and_then(|f| f.variable);
-        if kind == Some(VarKind::TableEntry) {
+        if kind == Some(VarKind::ButtonCard) {
             self.entry(value, &format!("opened by a button's {function}"))
         } else {
             Some(value)
@@ -331,7 +331,7 @@ impl Planner<'_> {
         // new memory, and the rest stay as they are.
         let mut resolved: BTreeMap<u16, Held> = BTreeMap::new();
         for s in &m.button_sets {
-            let original = s.id < self.g.limits.table_entries;
+            let original = s.id < self.g.limits.button_cards;
             if original && !matches!(self.v.sets.get(&s.id), Some(Some(_))) {
                 let on = self.on();
                 self.problem(format!("Button set {} doesn't exist on {on}.", s.id));
@@ -365,23 +365,23 @@ impl Planner<'_> {
                 }
                 let Some(n) = self.entry(e, "of a replaced set") else { continue };
                 let w = self.entry_writes(n, held, self.held_original(e));
-                self.change(format!("table entry {e}: set {} replaced", s.id), w);
+                self.change(format!("button card {e}: set {} replaced", s.id), w);
             }
         }
 
         for u in &m.units {
             match &u.field {
                 UnitField::ButtonSet(set) => self.assign(u.id, *set, &resolved),
-                UnitField::StatusChanged(f) | UnitField::StatusUpdate(f) => {
-                    let field = if matches!(u.field, UnitField::StatusChanged(_)) { StatusField::Changed } else { StatusField::Update };
+                UnitField::StatusChanged(f) | UnitField::DisplayFunction(f) => {
+                    let field = if matches!(u.field, UnitField::StatusChanged(_)) { StatusField::Changed } else { StatusField::Display };
                     let Some(orig) = self.v.units.get(u.id as usize) else { continue };
-                    let orig_name = if field == StatusField::Changed { orig.status_changed.clone() } else { orig.status_update.clone() };
+                    let orig_name = if field == StatusField::Changed { orig.status_changed.clone() } else { orig.display_function.clone() };
                     let (Some(new), Some(old)) = (self.function(f), self.function(&orig_name)) else { continue };
                     self.status_write(u.id, field, le32(old), le32(new), format!("unit {}: {} = {f}", u.id, u.field.name()));
                 }
-                UnitField::StatusUnitType(t) => {
-                    let old = self.v.units.get(u.id as usize).and_then(|o| o.status_unit_type).unwrap_or(0);
-                    self.status_write(u.id, StatusField::UnitType, le32(old), le32(*t as u32), format!("unit {}: status_unit_type = {t}", u.id));
+                UnitField::DebugId(t) => {
+                    let old = self.v.units.get(u.id as usize).and_then(|o| o.debug_id).unwrap_or(0);
+                    self.status_write(u.id, StatusField::DebugId, le32(old), le32(*t as u32), format!("unit {}: debug_id = {t}", u.id));
                 }
                 UnitField::Icon(x) | UnitField::StatsFrame(x) | UnitField::NameString(x) => {
                     let orig = self.v.units.get(u.id as usize);
@@ -392,7 +392,7 @@ impl Planner<'_> {
                     };
                     self.status_write(u.id, field, le16(old.unwrap_or(0)), le16(*x), format!("unit {}: {} = {x}", u.id, u.field.name()));
                 }
-                UnitField::EquivalentEntry(q) => self.equivalent(u.id, *q),
+                UnitField::ConnectedUnit(q) => self.connected_unit(u.id, *q),
             }
         }
     }
@@ -407,7 +407,7 @@ impl Planner<'_> {
                     Some(Some(orig)) => Held { count: orig.buttons.len() as u32, target: Target::Address(self.address(orig.array)) },
                     _ => {
                         let on = self.on();
-                        self.problem(format!("Button set {s}, given to table entry {entry}, doesn't exist on {on}."));
+                        self.problem(format!("Button set {s}, given to button card {entry}, doesn't exist on {on}."));
                         return;
                     }
                 },
@@ -415,8 +415,8 @@ impl Planner<'_> {
         };
         let w = self.entry_writes(n, held, self.held_original(entry));
         let what = match set {
-            Some(s) => format!("table entry {entry}: button_set = {s}"),
-            None => format!("table entry {entry}: button_set = none"),
+            Some(s) => format!("button card {entry}: button_set = {s}"),
+            None => format!("button card {entry}: button_set = none"),
         };
         self.change(what, w);
     }
@@ -431,18 +431,18 @@ impl Planner<'_> {
         self.change(what, vec![Write { rva, expected, new: New::Bytes(new) }]);
     }
 
-    fn equivalent(&mut self, unit: u16, q: Option<u16>) {
+    fn connected_unit(&mut self, unit: u16, q: Option<u16>) {
         let card = self.v.button_table.card;
-        let Some(off) = card.equivalent() else {
-            self.problem(format!("{}'s table entries have no equivalent entry.", self.g.game.title()));
+        let Some(off) = card.connected_unit() else {
+            self.problem(format!("{}'s button cards have no connected unit.", self.g.game.title()));
             return;
         };
-        let Some(n) = self.entry(unit, "given an equivalent entry") else { return };
+        let Some(n) = self.entry(unit, "given a connected unit") else { return };
         let new = match q {
             None => Some(0xFFFF),
-            Some(e) => self.entry(e, &format!("the equivalent entry of {unit}")),
+            Some(e) => self.entry(e, &format!("the connected unit of {unit}")),
         };
-        let orig = self.v.entries.get(&unit).copied().flatten().and_then(|e| e.equivalent);
+        let orig = self.v.entries.get(&unit).copied().flatten().and_then(|e| e.connected_unit);
         let old = match orig {
             None => 0xFFFF,
             Some(e) => self.v.entries.get(&e).copied().flatten().map_or(0xFFFF, |x| x.number),
@@ -450,7 +450,7 @@ impl Planner<'_> {
         let Some(new) = new else { return };
         let rva = self.v.button_table.rva + n as u32 * card.size() + off;
         let shown = q.map_or("none".to_string(), |e| e.to_string());
-        self.change(format!("table entry {unit}: equivalent_entry = {shown}"), vec![Write { rva, expected: le16(old), new: New::Bytes(le16(new)) }]);
+        self.change(format!("button card {unit}: connected_unit = {shown}"), vec![Write { rva, expected: le16(old), new: New::Bytes(le16(new)) }]);
     }
 
     // ---- Requirements

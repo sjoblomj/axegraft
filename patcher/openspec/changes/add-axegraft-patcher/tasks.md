@@ -12,8 +12,8 @@ Work test-first: for each task, write the failing tests, then the code. Every gr
 
 - [x] 2.1 Define the typed mod model and a `Problem` type carrying input name, path and message, and verify with unit tests that problems format with all three
 - [x] 2.2 Parse the header, the mod information and the parts with strict fields, ignored labels on entries and an ignored `labels` object, and verify the "Mod header", "Mod information", "Mod parts", "Strict fields" and "Editor labels" scenarios pass as tests
-- [x] 2.3 Validate unit entries, including table entries that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" and "Unit entry fields" scenarios pass, including status functions of the wrong kind
-- [x] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a table entry", "Button fields" and "Button order" scenarios pass for both games
+- [x] 2.3 Validate unit entries, including button cards that aren't units, and ID ranges against a game vocabulary, and verify the "Unit entries" and "Unit entry fields" scenarios pass, including status functions of the wrong kind
+- [x] 2.4 Validate button set entries, references to sets, button fields and positions, and verify the "Button set entries", "Button set numbering", "Referring to button sets", "Opening a button card", "Button fields" and "Button order" scenarios pass for both games
 - [x] 2.5 Validate typed function variables, and verify the "Typed function variables" scenarios pass, including the byte limit on StarCraft conditions
 - [x] 2.6 Validate requirement entries and lists, and verify the "Requirement entries" and "Requirement lists" scenarios pass, including the Zerg Carapace example
 - [x] 2.7 Validate constant entries, ranges and options, and verify the "Constant entries" scenarios pass
@@ -40,8 +40,8 @@ Work test-first: for each task, write the failing tests, then the code. Every gr
 
 - [x] 5.1 Define the `Memory` trait and a fake implementation with a non-standard default base, and verify its reads, writes, allocation and write tracking with unit tests
 - [x] 5.2 Plan constants, including all locations, expected bytes, skips and options, and verify the "Constant changes", "Skipping constants unavailable on a version", "Same validation on every version", "Option writing several locations", "Original option" and "Value stored in two forms" scenarios pass
-- [x] 5.3 Plan button sets, including layouts, function addresses, typed variables, set and table entry translation, shared arrays and new sets, and verify the "Button set changes" and "Translating IDs to the running version" scenarios pass
-- [x] 5.4 Plan unit assignments, status functions, status unit types, equivalent entries and Warcraft II's Unit Data values, and verify the "Assigning button sets to units", "Status function changes", "Status unit type changes", "Equivalent entry changes" and "Unit Data changes" scenarios pass, including chained assignments
+- [x] 5.3 Plan button sets, including layouts, function addresses, typed variables, set and button card translation, shared arrays and new sets, and verify the "Button set changes" and "Translating IDs to the running version" scenarios pass
+- [x] 5.4 Plan unit assignments, status functions, debug IDs, connected units and Warcraft II's Unit Data values, and verify the "Assigning button sets to units", "Status function changes", "Debug ID changes", "Connected unit changes" and "Unit Data changes" scenarios pass, including chained assignments
 - [x] 5.5 Decode and re-encode requirement streams, and verify a synthetic stream with upgrade sublists round-trips byte for byte, and that property tests round-trip generated records
 - [x] 5.6 Plan requirement changes, including replacing, removing and appending records and repointing references, and verify the "Requirement record changes" scenarios pass
 - [x] 5.7 Reject what can't be applied on the version and compare expected bytes, and verify the "Skipping is limited to constants" and "Checking expected bytes" scenarios pass

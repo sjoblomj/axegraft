@@ -154,7 +154,7 @@
     return u ? u.original : null;
   }
 
-  // The fields a table entry may have: all unit fields for a unit, only the
+  // The fields a button card may have: all unit fields for a unit, only the
   // button set for other entries.
   function unitFieldsFor(cat, id) {
     var isUnit = util.inRange(id, cat.limits.unit);

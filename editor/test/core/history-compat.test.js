@@ -7,7 +7,7 @@
   var H = AG.core.history;
   var C = AG.core.compat;
 
-  var MOVE = { position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 };
+  var MOVE = { position: 1, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 };
 
   T.test("undo across tabs: undoing a unit change and a constant change restores the earlier mod", function () {
     var cat = T.catalog("starcraft");
@@ -77,30 +77,30 @@
     T.equal(C.summary(r), "2 apply, 1 reject");
   });
 
-  T.test("version compatibility: a set named by a unit's button_set, and the table entry itself", function () {
+  T.test("version compatibility: a set named by a unit's button_set, and the button card itself", function () {
     var cat = T.catalog("starcraft");
     var doc = D.setUnitField(D.create("starcraft"), cat, 0, "button_set", 232);
     T.equal(C.report(doc, cat)[0].causes, [{ path: "units[0].button_set", message: "1.07 has no set 232." }]);
     var entry = D.setUnitField(D.create("starcraft"), cat, 232, "button_set", 0);
-    T.equal(C.report(entry, cat)[0].causes, [{ path: "units[0].id", message: "1.07 has no table entry 232." }]);
+    T.equal(C.report(entry, cat)[0].causes, [{ path: "units[0].id", message: "1.07 has no button card 232." }]);
   });
 
   T.test("version compatibility: a function a version lacks rejects it, naming the function and button", function () {
     var cat = T.catalog("starcraft");
-    var doc = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { condition: "bf_replay_play" })]);
+    var doc = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { condition: "is_watching_replay" })]);
     var r = C.report(doc, cat);
     T.equal(results(r), ["1.07:rejected", "1.12:applies", "1.16.1:applies"]);
-    T.equal(r[0].causes[0].message, "1.07 has no condition bf_replay_play in button 0 of set 0.");
+    T.equal(r[0].causes[0].message, "1.07 has no condition is_watching_replay in button 0 of set 0.");
     T.equal(C.warnings(doc, cat)[0].path, "button_sets[0].buttons[0].condition");
   });
 
-  T.test("version compatibility: a table entry named by an action variable", function () {
+  T.test("version compatibility: a button card named by an action variable", function () {
     var cat = T.catalog("starcraft");
-    var doc = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { action: "statcmd_set_ctrl", action_variable: 232 })]);
+    var doc = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { action: "show_button_card", action_variable: 232 })]);
     var r = C.report(doc, cat);
-    T.equal(r[0].causes, [{ path: "button_sets[0].buttons[0].action_variable", message: "1.07 has no table entry 232 in button 0 of set 0." }]);
-    // A variable that isn't a table entry doesn't count.
-    var other = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { action: "order_stop_build", action_variable: 232 })]);
+    T.equal(r[0].causes, [{ path: "button_sets[0].buttons[0].action_variable", message: "1.07 has no button card 232 in button 0 of set 0." }]);
+    // A variable that isn't a button card doesn't count.
+    var other = D.setButtons(D.create("starcraft"), cat, 0, [Object.assign({}, MOVE, { action: "cancel_train", action_variable: 232 })]);
     T.equal(results(C.report(other, cat)), ["1.07:applies", "1.12:applies", "1.16.1:applies"]);
   });
 
@@ -116,7 +116,7 @@
 
   T.test("version compatibility: results don't make a mod invalid", function () {
     var cat = T.catalog("starcraft");
-    var doc = D.setButtons(D.create("starcraft"), cat, 232, [Object.assign({}, MOVE, { condition: "bf_replay_play" })]);
+    var doc = D.setButtons(D.create("starcraft"), cat, 232, [Object.assign({}, MOVE, { condition: "is_watching_replay" })]);
     var problems = AG.core.problems(doc, cat);
     T.ok(problems.length === 2 && problems.every(function (p) {
       return p.severity === "warning";

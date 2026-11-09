@@ -11,8 +11,8 @@ AxeGraft.registerModFixture({
           {
             "position": 1,
             "icon": 60000,
-            "condition": "bf_always",
-            "action": "order_move",
+            "condition": "always",
+            "action": "move",
             "enabled_string": 65535,
             "disabled_string": 2000
           }

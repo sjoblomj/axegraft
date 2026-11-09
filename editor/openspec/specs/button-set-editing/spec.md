@@ -76,15 +76,15 @@ Icon and string fields SHALL accept a typed ID or a selection by name, and SHALL
 - **THEN** the ID is accepted, with a warning that says how many strings the table holds
 
 ### Requirement: Variables follow their function
-Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, order, number, table entry or none.
+Choosing a condition or action SHALL change its variable field to suit that function's type: unit, tech, upgrade, order, number, button card or none.
 
 #### Scenario: Action reading a tech
 - **WHEN** a user chooses an action that reads a tech
 - **THEN** the variable field lists techs
 
-#### Scenario: Action opening a table entry
-- **WHEN** a user chooses an action that opens a table entry, such as a worker build menu
-- **THEN** the variable field lists table entries, each with the set it has in the mod
+#### Scenario: Action opening a button card
+- **WHEN** a user chooses an action that opens a button card, such as a worker build menu
+- **THEN** the variable field lists button cards, each with the set it has in the mod
 
 #### Scenario: Function that reads no variable
 - **WHEN** a user chooses a function that reads no variable
@@ -161,7 +161,7 @@ Lists, such as a string field's choices and the button list, SHALL instead show 
 - **THEN** the field shows the ID, and all editing works
 
 ### Requirement: Showing who uses a set
-The tab SHALL list the table entries that use this set, counting what the mod assigns, and SHALL say that editing the set changes all of them.
+The tab SHALL list the button cards that use this set, counting what the mod assigns, and SHALL say that editing the set changes all of them.
 
 #### Scenario: Set shared by several units
 - **WHEN** set 0 is selected, and units 0, 10, 20 and 32 use it
@@ -183,7 +183,7 @@ The tab SHALL let the user add a set, and remove one the mod added, with buttons
 - **THEN** it's set 250, with no buttons, shown as `Set 250`
 
 #### Scenario: Removing a set still in use
-- **WHEN** a user removes a new set that a table entry is assigned to
+- **WHEN** a user removes a new set that a button card is assigned to
 - **THEN** that entry shows an error until it's given another set
 
 ### Requirement: Copying a button

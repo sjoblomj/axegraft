@@ -2,7 +2,7 @@
   "game": "warcraft2",
   "limits": {
     "unit": {"min": 0, "max": 109},
-    "table_entries": 120,
+    "button_cards": 120,
     "max_set_id": 999,
     "tech": {"min": 0, "max": 20},
     "upgrade": {"min": 0, "max": 51},
@@ -21,13 +21,13 @@
   "actions": [
     {"name": "order_move", "variable": null},
     {"name": "order_train", "variable": "unit"},
-    {"name": "statcmd_set_ctrl", "variable": "table_entry"},
+    {"name": "statcmd_set_ctrl", "variable": "button_card"},
     {"name": "order_spell", "variable": "order"},
     {"name": "order_research_spell", "variable": "tech"}
   ],
   "status_functions": [
     {"name": "statdraw_query_unit", "kind": "status_changed"},
-    {"name": "statdraw_draw_unit", "kind": "status_update"}
+    {"name": "statdraw_draw_unit", "kind": "display_function"}
   ],
   "opcodes": [],
   "sets": [

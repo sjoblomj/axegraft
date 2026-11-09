@@ -13,7 +13,7 @@ AxeGraft.registerFixtureCatalog({
   ],
   "limits": {
     "unit": { "min": 0, "max": 227 },
-    "tableEntry": { "min": 0, "max": 249 },
+    "buttonCard": { "min": 0, "max": 249 },
     "tech": { "min": 0, "max": 43 },
     "upgrade": { "min": 0, "max": 60 },
     "order": { "min": 0, "max": 188 },
@@ -38,44 +38,44 @@ AxeGraft.registerFixtureCatalog({
   ],
   "unitFields": [
     { "name": "button_set", "label": "Button set", "kind": "buttonSet", "help": "The set of buttons the entry shows." },
-    { "name": "equivalent_entry", "label": "Equivalent entry", "kind": "tableEntry", "help": "The entry treated as the same in a mixed group." },
+    { "name": "connected_unit", "label": "Connected unit", "kind": "buttonCard", "help": "The entry treated as the same in a mixed group." },
     { "name": "status_changed", "label": "Status changed", "kind": "statusChanged", "help": "Decides whether to redraw the status panel." },
-    { "name": "status_update", "label": "Status update", "kind": "statusUpdate", "help": "Draws the status panel." },
-    { "name": "status_unit_type", "label": "Status unit type", "kind": "unit", "help": "Unit ID in the status entry." }
+    { "name": "display_function", "label": "Display function", "kind": "displayFunction", "help": "Draws the status panel." },
+    { "name": "debug_id", "label": "Debug ID", "kind": "unit", "help": "Unit ID in the status entry." }
   ],
   "functions": {
     "conditions": [
-      { "name": "bf_always", "label": "Always", "variable": null },
-      { "name": "bf_research", "label": "Can research", "variable": "tech" },
-      { "name": "bf_upgrade", "label": "Can upgrade", "variable": "upgrade" },
-      { "name": "bf_building_ok", "label": "Can build", "variable": "unit" },
-      { "name": "bf_replay_play", "label": "Replay playing", "variable": null, "absentOn": ["1.07"] }
+      { "name": "always", "label": "Always", "variable": null },
+      { "name": "can_research_tech", "label": "Can research", "variable": "tech" },
+      { "name": "can_upgrade", "label": "Can upgrade", "variable": "upgrade" },
+      { "name": "can_create_or_morph", "label": "Can build", "variable": "unit" },
+      { "name": "is_watching_replay", "label": "Replay playing", "variable": null, "absentOn": ["1.07"] }
     ],
     "actions": [
-      { "name": "order_move", "label": "Move", "variable": null },
-      { "name": "order_research", "label": "Research", "variable": "tech" },
-      { "name": "order_upgrade", "label": "Upgrade", "variable": "upgrade" },
-      { "name": "order_build", "label": "Build", "variable": "unit" },
-      { "name": "order_stop_build", "label": "Stop building", "variable": "number" },
-      { "name": "statcmd_set_ctrl", "label": "Open table entry", "variable": "tableEntry" },
-      { "name": "order_replay_play", "label": "Replay play", "variable": null, "absentOn": ["1.07"] }
+      { "name": "move", "label": "Move", "variable": null },
+      { "name": "research_tech", "label": "Research", "variable": "tech" },
+      { "name": "upgrade", "label": "Upgrade", "variable": "upgrade" },
+      { "name": "train", "label": "Build", "variable": "unit" },
+      { "name": "cancel_train", "label": "Stop building", "variable": "number" },
+      { "name": "show_button_card", "label": "Open button card", "variable": "buttonCard" },
+      { "name": "play_pause_replay", "label": "Replay play", "variable": null, "absentOn": ["1.07"] }
     ],
     "statusChanged": [
-      { "name": "statdraw_query_unit", "label": "Unit", "variable": null },
-      { "name": "statdraw_query_never", "label": "Never", "variable": null }
+      { "name": "changed_unit", "label": "Unit", "variable": null },
+      { "name": "changed_never", "label": "Never", "variable": null }
     ],
-    "statusUpdate": [
-      { "name": "statdraw_draw_unit", "label": "Unit", "variable": null },
-      { "name": "statdraw_draw_none", "label": "None", "variable": null }
+    "displayFunction": [
+      { "name": "draw_unit", "label": "Unit", "variable": null },
+      { "name": "draw_none", "label": "None", "variable": null }
     ]
   },
   "opcodes": [
     { "name": "or", "label": "Or", "parameter": null, "role": "or", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "current_unit_is", "label": "Current unit is", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "must_have", "label": "Must have", "parameter": "unit", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
-    { "name": "not_lifted_off", "label": "Not lifted off", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
+    { "name": "is_not_lifted_off", "label": "Not lifted off", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "must_have_addon", "label": "Must have addon", "parameter": "unit", "allowedIn": ["unit"] },
-    { "name": "not_training_or_morphing", "label": "Not training or morphing", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
+    { "name": "is_not_training_or_morphing", "label": "Not training or morphing", "parameter": null, "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "is_researched", "label": "Is researched", "parameter": "tech", "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"] },
     { "name": "upgrade_level_1", "label": "Level 1 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
     { "name": "upgrade_level_2", "label": "Level 2 requires", "parameter": null, "role": "level", "allowedIn": ["upgrade"] },
@@ -84,13 +84,13 @@ AxeGraft.registerFixtureCatalog({
   ],
   "bareUnit": { "label": "Completed unit", "help": "A unit of this type must exist and be complete." },
   "units": [
-    { "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 0 } },
-    { "id": 4, "name": "Goliath Turret", "tree": ["Terran", "Special"], "original": { "button_set": null, "equivalent_entry": null, "status_changed": "statdraw_query_never", "status_update": "statdraw_draw_none", "status_unit_type": 4 } },
-    { "id": 5, "name": "Terran Siege Tank", "tree": ["Terran", "Ground Units"], "original": { "button_set": 5, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 5 } },
-    { "id": 7, "name": "Terran SCV", "tree": ["Terran", "Ground Units"], "original": { "button_set": 7, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 7 } },
-    { "id": 10, "name": "Gui Montag", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 10 } },
-    { "id": 20, "name": "Jim Raynor", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 20 } },
-    { "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "equivalent_entry": null, "status_changed": "statdraw_query_unit", "status_update": "statdraw_draw_unit", "status_unit_type": 32 } },
+    { "id": 0, "name": "Terran Marine", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 0 } },
+    { "id": 4, "name": "Goliath Turret", "tree": ["Terran", "Special"], "original": { "button_set": null, "connected_unit": null, "status_changed": "changed_never", "display_function": "draw_none", "debug_id": 4 } },
+    { "id": 5, "name": "Terran Siege Tank", "tree": ["Terran", "Ground Units"], "original": { "button_set": 5, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 5 } },
+    { "id": 7, "name": "Terran SCV", "tree": ["Terran", "Ground Units"], "original": { "button_set": 7, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 7 } },
+    { "id": 10, "name": "Gui Montag", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 10 } },
+    { "id": 20, "name": "Jim Raynor", "tree": ["Terran", "Heroes"], "original": { "button_set": 0, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 20 } },
+    { "id": 32, "name": "Terran Firebat", "tree": ["Terran", "Ground Units"], "original": { "button_set": 0, "connected_unit": null, "status_changed": "changed_unit", "display_function": "draw_unit", "debug_id": 32 } },
     { "id": 228, "name": "No unit", "tree": ["Other"], "original": { "button_set": null } },
     { "id": 232, "name": "Cancel building with rally", "tree": ["Other"], "absentOn": ["1.07"], "original": { "button_set": 232 } },
     { "id": 238, "name": "Zerg basic buildings", "tree": ["Other"], "original": { "button_set": 238 } }
@@ -99,34 +99,34 @@ AxeGraft.registerFixtureCatalog({
     {
       "id": 0, "name": "Marine", "tree": ["Terran"], "entries": [0, 10, 20, 32],
       "original": [
-        { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 },
-        { "position": 7, "icon": 237, "condition": "bf_research", "condition_variable": 0, "action": "order_move", "enabled_string": 334, "disabled_string": 346 }
+        { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 },
+        { "position": 7, "icon": 237, "condition": "can_research_tech", "condition_variable": 0, "action": "move", "enabled_string": 334, "disabled_string": 346 }
       ]
     },
     {
       "id": 5, "name": "Siege Tank", "tree": ["Terran"], "entries": [5],
       "original": [
-        { "position": 7, "icon": 245, "condition": "bf_research", "condition_variable": 5, "action": "order_research", "action_variable": 5, "enabled_string": 338, "disabled_string": 349 },
-        { "position": 7, "icon": 246, "condition": "bf_research", "condition_variable": 5, "action": "order_move", "enabled_string": 339, "disabled_string": 0 }
+        { "position": 7, "icon": 245, "condition": "can_research_tech", "condition_variable": 5, "action": "research_tech", "action_variable": 5, "enabled_string": 338, "disabled_string": 349 },
+        { "position": 7, "icon": 246, "condition": "can_research_tech", "condition_variable": 5, "action": "move", "enabled_string": 339, "disabled_string": 0 }
       ]
     },
     {
       "id": 7, "name": "SCV", "tree": ["Terran"], "entries": [7],
       "original": [
-        { "position": 7, "icon": 234, "condition": "bf_always", "action": "statcmd_set_ctrl", "action_variable": 238, "enabled_string": 678, "disabled_string": 0 }
+        { "position": 7, "icon": 234, "condition": "always", "action": "show_button_card", "action_variable": 238, "enabled_string": 678, "disabled_string": 0 }
       ]
     },
     {
       "id": 232, "name": "Cancel building with rally", "tree": ["Other"], "entries": [232], "absentOn": ["1.07"],
       "original": [
-        { "position": 9, "icon": 236, "condition": "bf_always", "action": "order_move", "enabled_string": 689, "disabled_string": 0 }
+        { "position": 9, "icon": 236, "condition": "always", "action": "move", "enabled_string": 689, "disabled_string": 0 }
       ]
     },
     {
       "id": 238, "name": "Zerg basic buildings", "tree": ["Other"], "entries": [238],
       "original": [
-        { "position": 1, "icon": 131, "condition": "bf_building_ok", "condition_variable": 131, "action": "order_build", "action_variable": 131, "enabled_string": 613, "disabled_string": 0 },
-        { "position": 9, "icon": 236, "condition": "bf_always", "action": "statcmd_set_ctrl", "action_variable": 228, "enabled_string": 688, "disabled_string": 0 }
+        { "position": 1, "icon": 131, "condition": "can_create_or_morph", "condition_variable": 131, "action": "train", "action_variable": 131, "enabled_string": 613, "disabled_string": 0 },
+        { "position": 9, "icon": 236, "condition": "always", "action": "show_button_card", "action_variable": 228, "enabled_string": 688, "disabled_string": 0 }
       ]
     }
   ],
@@ -140,10 +140,10 @@ AxeGraft.registerFixtureCatalog({
     { "id": 73, "name": "Drone lift off", "tree": ["Orders"] }
   ],
   "requirements": [
-    { "type": "unit", "id": 0, "original": { "default": ["current_unit_is", 111, "not_lifted_off"] } },
+    { "type": "unit", "id": 0, "original": { "default": ["current_unit_is", 111, "is_not_lifted_off"] } },
     {
       "type": "upgrade", "id": 3,
-      "original": { "default": ["current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133] }
+      "original": { "default": ["current_unit_is", 139, "is_not_training_or_morphing", "upgrade_level_1", "end_sublist", "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133] }
     },
     { "type": "tech_use", "id": 0, "original": { "default": ["current_unit_is", 0, "or", "current_unit_is", 32] } },
     { "type": "order", "id": 73, "original": { "default": ["current_unit_is", 41], "perVersion": { "1.16.1": null } } }

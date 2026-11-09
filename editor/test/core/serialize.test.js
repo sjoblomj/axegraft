@@ -6,7 +6,7 @@
   var D = AG.core.doc;
   var ser = AG.core.serialize;
 
-  var MOVE = { position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 };
+  var MOVE = { position: 1, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 };
 
   T.test("stable file output: a new mod holds only its header", function () {
     T.equal(ser(D.create("starcraft"), T.catalog("starcraft")), '{\n  "patcher": "AxeGraft",\n  "format": 1,\n  "game": "starcraft",\n  "mod": {\n    "name": "",\n    "version": "",\n    "authors": []\n  }\n}\n');
@@ -39,7 +39,7 @@
         '      "id": 7,',
         '      "label": "SCV",',
         '      "buttons": [',
-        '        { "position": 1, "icon": 228, "condition": "bf_always", "action": "order_move", "enabled_string": 664, "disabled_string": 0 }',
+        '        { "position": 1, "icon": 228, "condition": "always", "action": "move", "enabled_string": 664, "disabled_string": 0 }',
         "      ]",
         "    }",
         "  ],",
@@ -74,7 +74,7 @@
         return D.setUnitField(d, cat, 32, "button_set", 5);
       },
       function (d) {
-        return D.setUnitField(d, cat, 0, "status_update", "statdraw_draw_none");
+        return D.setUnitField(d, cat, 0, "display_function", "draw_none");
       },
       function (d) {
         return D.setUnitField(d, cat, 0, "button_set", 7);
@@ -121,8 +121,8 @@
 
   T.test("stable file output: an opened file's entries are sorted the same way, whatever their order", function () {
     var cat = T.catalog("starcraft");
-    var a = { patcher: "AxeGraft", game: "starcraft", format: 1, units: [{ status_update: "statdraw_draw_none", id: 5 }, { id: 5, button_set: 0 }, { button_set: 7, id: 0 }] };
-    var b = { format: 1, patcher: "AxeGraft", game: "starcraft", units: [{ button_set: 7, id: 0 }, { button_set: 0, id: 5 }, { id: 5, status_update: "statdraw_draw_none" }] };
+    var a = { patcher: "AxeGraft", game: "starcraft", format: 1, units: [{ display_function: "draw_none", id: 5 }, { id: 5, button_set: 0 }, { button_set: 7, id: 0 }] };
+    var b = { format: 1, patcher: "AxeGraft", game: "starcraft", units: [{ button_set: 7, id: 0 }, { button_set: 0, id: 5 }, { id: 5, display_function: "draw_none" }] };
     T.equal(ser(a, cat), ser(b, cat));
   });
 

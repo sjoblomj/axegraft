@@ -15,7 +15,7 @@
   function referItems(app, kind) {
     var cat = app.cat();
     if (kind === "unit") return AG.ui.unitsTab.unitItems(app);
-    if (kind === "tableEntry") return AG.ui.buttonSets.entryItems(app);
+    if (kind === "buttonCard") return AG.ui.buttonSets.entryItems(app);
     var list = { tech: cat.raw.techs, upgrade: cat.raw.upgrades, order: cat.raw.orders, missile: cat.raw.missiles, spellSound: cat.raw.spellSounds, sound: cat.raw.sounds }[kind] || [];
     var doc = app.doc();
     return list
@@ -35,7 +35,7 @@
       return o ? o.label + " (" + o.name + ")" : String(v);
     }
     if (c.refers) {
-      var name = D.itemName(cat, c.refers === "tableEntry" ? "unit" : c.refers, v, doc);
+      var name = D.itemName(cat, c.refers === "buttonCard" ? "unit" : c.refers, v, doc);
       return v + (name ? " " + name : "");
     }
     return String(v);

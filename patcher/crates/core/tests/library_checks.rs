@@ -103,13 +103,13 @@ fn incomplete_entry_is_left_out_as_unknown() {
 #[test]
 fn missing_structural_data() {
     fails_with(&problems_after(|v| { version(v, "1.16.1")["functions"].as_object_mut().unwrap().remove("bf_research"); }), &["starcraft 1.16.1", "function bf_research", "missing"]);
-    fails_with(&problems_after(|v| { version(v, "1.16.1")["entries"].as_object_mut().unwrap().remove("4"); }), &["starcraft 1.16.1", "table entry 4", "missing"]);
+    fails_with(&problems_after(|v| { version(v, "1.16.1")["entries"].as_object_mut().unwrap().remove("4"); }), &["starcraft 1.16.1", "button card 4", "missing"]);
     fails_with(&problems_after(|v| { version(v, "1.07")["streams"].as_object_mut().unwrap().remove("tech_use"); }), &["starcraft 1.07", "requirement stream tech_use", "missing"]);
     fails_with(&problems_after(|v| { version(v, "1.16.1")["units"].as_array_mut().unwrap().pop(); }), &["starcraft 1.16.1", "units", "3 are listed", "has 4"]);
     fails_with(&problems_after(|v| { version(v, "1.16.1")["sets"]["0"]["entries"] = json!([2]); }), &["starcraft 1.16.1", "set 0", "lowest entry"]);
-    fails_with(&problems_after(|v| { version(v, "1.16.1")["entries"]["2"] = Value::Null; }), &["starcraft 1.16.1", "table entry 2", "is a unit"]);
+    fails_with(&problems_after(|v| { version(v, "1.16.1")["entries"]["2"] = Value::Null; }), &["starcraft 1.16.1", "button card 2", "is a unit"]);
     fails_with(&problems_after(|v| { version(v, "1.16.1")["button_table"]["entries"] = json!(7); }), &["starcraft 1.16.1", "button table", "7 entries"]);
-    fails_with(&problems_after(|v| { version(v, "1.16.1")["units"][1]["status_unit_type"] = Value::Null; }), &["starcraft 1.16.1", "unit 1", "status entry fields"]);
+    fails_with(&problems_after(|v| { version(v, "1.16.1")["units"][1]["debug_id"] = Value::Null; }), &["starcraft 1.16.1", "unit 1", "status entry fields"]);
     fails_with(&problems_after(|v| { version(v, "1.16.1")["status_table"]["layout"] = json!("warcraft2_bne"); }), &["starcraft 1.16.1", "layouts"]);
 }
 
@@ -184,7 +184,7 @@ fn constant_overlapping_a_table() {
     let p = problems_after(|v| {
         constant(v, "team_multiplier")["versions"]["1.16.1"]["locations"]["locations"][0]["rva"] = json!(0x1000 + 12 * 2 + 4);
     });
-    fails_with(&p, &["starcraft 1.16.1", "button table entry 2", "constant team_multiplier", "overlap"]);
+    fails_with(&p, &["starcraft 1.16.1", "button button card 2", "constant team_multiplier", "overlap"]);
 }
 
 #[test]

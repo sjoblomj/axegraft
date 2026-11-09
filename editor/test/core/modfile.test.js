@@ -140,7 +140,7 @@
   });
 
   T.test("opening a file with errors: a value out of bounds is kept as written, with an error", function () {
-    var mod = { patcher: "AxeGraft", format: 1, game: "starcraft", button_sets: [{ id: 0, buttons: [{ position: 12, icon: 228, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 }] }] };
+    var mod = { patcher: "AxeGraft", format: 1, game: "starcraft", button_sets: [{ id: 0, buttons: [{ position: 12, icon: 228, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 }] }] };
     var r = M.read(JSON.stringify(mod), catalogs());
     T.equal(r.refused, false);
     T.equal(r.mod.button_sets[0].buttons[0].position, 12);
@@ -236,7 +236,7 @@
       patcher: "AxeGraft",
       format: 1,
       game: "starcraft",
-      button_sets: [{ id: 0, buttons: [{ position: 1, icon: 228, condition: "bf_always", action: "order_move", enabled_string: id, disabled_string: 0 }] }]
+      button_sets: [{ id: 0, buttons: [{ position: 1, icon: 228, condition: "always", action: "move", enabled_string: id, disabled_string: 0 }] }]
     };
   }
 

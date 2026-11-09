@@ -29,7 +29,7 @@
         tabEl(app, "button_sets").click();
         U.q(app, '[data-action="set-add"]').click();
         U.q(app, '.slot[data-position="7"]').dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
-        U.change(U.q(app, '[data-field="set:250:0:action"] select'), "Research (order_research)");
+        U.change(U.q(app, '[data-field="set:250:0:action"] select'), "Research (research_tech)");
         U.change(U.q(app, '[data-field="set:250:0:action_variable"] select[data-role="name"]'), "5 Siege Mode");
         U.q(app, '.slot[data-position="9"]').dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
         U.change(U.q(app, '[data-field="set:250:1:enabled_string"] input[data-role="id"]'), "689");
@@ -38,7 +38,7 @@
         treeItem(app, "unit:32");
         U.change(U.q(app, '[data-field="unit:32:button_set"] input[data-role="id"]'), "250");
         treeItem(app, "unit:0");
-        U.change(U.q(app, '[data-field="unit:0:status_update"] select'), "None (statdraw_draw_none)");
+        U.change(U.q(app, '[data-field="unit:0:display_function"] select'), "None (draw_none)");
         tabEl(app, "button_sets").click();
         treeItem(app, "set:7");
         U.key(U.q(app, ".button-list"), "ArrowDown", { altKey: true });

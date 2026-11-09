@@ -35,7 +35,7 @@ AxeGraft.registerCatalog({
   ],
   "limits": {
     "unit": {"min": 0, "max": 227},
-    "tableEntry": {"min": 0, "max": 249},
+    "buttonCard": {"min": 0, "max": 249},
     "upgrade": {"min": 0, "max": 60},
     "tech": {"min": 0, "max": 43},
     "order": {"min": 0, "max": 188},
@@ -89,7 +89,7 @@ AxeGraft.registerCatalog({
       "label": "Action variable",
       "kind": "actionVariable",
       "required": false,
-      "help": "The value passed to the action, such as the unit to build or the table entry whose buttons to show."
+      "help": "The value passed to the action, such as the unit to build or the button card whose buttons to show."
     },
     {
       "name": "enabled_string",
@@ -111,13 +111,13 @@ AxeGraft.registerCatalog({
       "name": "button_set",
       "label": "Button set",
       "kind": "buttonSet",
-      "help": "The set of buttons this table entry shows. Several entries can share a set, so editing a set changes all of them. Choose no buttons to show none."
+      "help": "The set of buttons this button card shows. Several entries can share a set, so editing a set changes all of them. Choose no buttons to show none."
     },
     {
-      "name": "equivalent_entry",
-      "label": "Equivalent entry",
-      "kind": "tableEntry",
-      "help": "Used when a group of units with different button sets is selected (wSecondaryCard). A group holding this entry and the entry named here shows that entry's buttons instead of the set for mixed groups. Sarah Kerrigan's is 1, the Ghost, and Jim Raynor's (Vulture) is 2, the Vulture. Choose none for no equivalent."
+      "name": "connected_unit",
+      "label": "Connected unit",
+      "kind": "buttonCard",
+      "help": "Used when a group of units with different button sets is selected (wSecondaryCard). A group holding this unit and the unit named here shows that unit's buttons instead of the set for mixed groups. Sarah Kerrigan's is 1, the Ghost, and Jim Raynor's (Vulture) is 2, the Vulture. Choose none for no connected unit."
     },
     {
       "name": "status_changed",
@@ -126,282 +126,298 @@ AxeGraft.registerCatalog({
       "help": "The function that decides whether the status panel needs redrawing when this unit is selected."
     },
     {
-      "name": "status_update",
-      "label": "Status update",
-      "kind": "statusUpdate",
+      "name": "display_function",
+      "label": "Display function",
+      "kind": "displayFunction",
       "help": "The function that draws the status panel for this unit, such as hit points, cargo or the progress of training."
     },
     {
-      "name": "status_unit_type",
-      "label": "Status unit type",
+      "name": "debug_id",
+      "label": "Debug ID",
       "kind": "unit",
       "help": "The unit ID stored in the unit's status entry. It equals the unit's own ID except in eight entries, where it is 0. No code was found that reads it."
     }
   ],
   "functions": {
     "conditions": [
-      {"name": "bf_always", "label": "Always", "variable": null},
+      {"name": "always", "label": "Always", "variable": null},
       {
-        "name": "bf_stop_build",
+        "name": "is_constructing",
         "label": "All selected are constructing",
         "variable": null,
         "help": "Shows the button only when every selected unit is constructing a building, such as for Halt Construction."
       },
-      {"name": "bf_no_exit", "label": "Nydus Canal has no exit", "variable": null},
+      {"name": "does_not_have_exit", "label": "Nydus Canal has no exit", "variable": null},
+      {"name": "has_same_burrow_state", "label": "Burrow state matches the active unit", "variable": null},
+      {"name": "is_not_burrowed", "label": "No selected unit burrowed", "variable": null},
+      {"name": "can_land", "label": "Lifted off, one selected", "variable": null},
+      {"name": "is_lifted_off", "label": "Is lifted off", "variable": null},
       {
-        "name": "bf_can_move_stop_unburrowed",
-        "label": "Burrow state matches the active unit",
-        "variable": null
-      },
-      {"name": "bf_can_move_patrol_unburrowed", "label": "No selected unit burrowed", "variable": null},
-      {"name": "bf_lifted", "label": "Lifted off, one selected", "variable": null},
-      {"name": "bf_is_ship", "label": "Is lifted off", "variable": null},
-      {
-        "name": "bf_battery",
+        "name": "is_not_disabled",
         "label": "Is not disabled",
         "variable": null,
         "help": "Shows the button unless the unit is disabled, locked down, in stasis or in a Maelstrom."
       },
       {
-        "name": "bf_load",
+        "name": "is_carrying_harvest",
         "label": "Some selected carry cargo",
         "variable": null,
         "help": "Shows the button when some selected unit carries minerals or gas, such as for Return Cargo."
       },
       {
-        "name": "bf_no_load",
+        "name": "is_not_carrying_harvest",
         "label": "Some selected carry nothing",
         "variable": null,
         "help": "Shows the button when some selected unit carries nothing, such as for Gather."
       },
-      {"name": "bf_not_comp", "label": "Is not complete", "variable": null},
-      {"name": "bf_larva_sel", "label": "Is Hatchery, Lair or Hive", "variable": null},
-      {"name": "bf_stop_unit", "label": "Has a unit in the queue", "variable": null},
-      {"name": "bf_load_scv", "label": "Carrying cargo, not all constructing", "variable": null},
-      {"name": "bf_no_load_scv", "label": "Empty-handed, not all constructing", "variable": null},
+      {"name": "is_constructing_or_mutating", "label": "Is not complete", "variable": null},
+      {"name": "is_zerg_town_hall", "label": "Is Hatchery, Lair or Hive", "variable": null},
+      {"name": "is_training", "label": "Has a unit in the queue", "variable": null},
       {
-        "name": "bf_scv_can_repair",
+        "name": "is_carrying_harvest_and_not_constructing",
+        "label": "Carrying cargo, not all constructing",
+        "variable": null
+      },
+      {
+        "name": "is_not_carrying_harvest_and_not_constructing",
+        "label": "Empty-handed, not all constructing",
+        "variable": null
+      },
+      {
+        "name": "is_not_constructing_repair",
         "label": "Not all selected constructing",
         "variable": null,
         "help": "Shows the button when some selected unit isn't constructing a building. The four SCV conditions have the same code."
       },
       {
-        "name": "bf_scv_can_attack",
+        "name": "is_not_constructing_attack",
         "label": "Not all selected constructing",
         "variable": null,
         "help": "Shows the button when some selected unit isn't constructing a building. The four SCV conditions have the same code."
       },
       {
-        "name": "bf_scv_can_move_stop",
+        "name": "is_not_constructing_stop",
         "label": "Not all selected constructing",
         "variable": null,
         "help": "Shows the button when some selected unit isn't constructing a building. The four SCV conditions have the same code."
       },
       {
-        "name": "bf_scv_can_move",
+        "name": "is_not_constructing_move",
         "label": "Not all selected constructing",
         "variable": null,
         "help": "Shows the button when some selected unit isn't constructing a building. The four SCV conditions have the same code."
       },
-      {"name": "bf_has_scarab", "label": "Has Scarabs", "variable": null},
-      {"name": "bf_has_interceptor", "label": "Has Interceptors", "variable": null},
-      {"name": "bf_load_drone", "label": "None burrowed, some carry cargo", "variable": null},
-      {"name": "bf_no_load_drone", "label": "None burrowed, some empty-handed", "variable": null},
-      {"name": "bf_liftoff_ok", "label": "Can lift off", "variable": null},
-      {"name": "bf_has_nuke", "label": "Has a nuke", "variable": null},
-      {"name": "bf_can_tank_move", "label": "No sieged tank selected", "variable": null},
-      {"name": "bf_stop_research", "label": "Is researching", "variable": null},
-      {"name": "bf_stop_upgrade", "label": "Is upgrading", "variable": null},
-      {"name": "bf_stop_addon", "label": "Is building an addon", "variable": null},
+      {"name": "has_scarabs", "label": "Has Scarabs", "variable": null},
+      {"name": "has_interceptors", "label": "Has Interceptors", "variable": null},
       {
-        "name": "bf_empty_silo",
+        "name": "is_carrying_harvest_and_not_burrowed",
+        "label": "None burrowed, some carry cargo",
+        "variable": null
+      },
+      {
+        "name": "is_not_carrying_harvest_and_not_burrowed",
+        "label": "None burrowed, some empty-handed",
+        "variable": null
+      },
+      {"name": "can_lift_off", "label": "Can lift off", "variable": null},
+      {"name": "is_player_nuke_ready", "label": "Has a nuke", "variable": null},
+      {"name": "is_not_sieged", "label": "No sieged tank selected", "variable": null},
+      {"name": "is_researching_tech", "label": "Is researching", "variable": null},
+      {"name": "is_researching_upgrade", "label": "Is upgrading", "variable": null},
+      {"name": "is_constructing_addon", "label": "Is building an add-on", "variable": null},
+      {
+        "name": "can_create_single",
         "label": "One selected, unit's requirements met",
         "variable": "unit",
         "help": "Shows the button when exactly one unit is selected and the unit type in the variable passes its requirements in sgTree. The Arm Nuclear Silo button passes the Nuclear Missile, whose requirements include Does not have nuke, so the empty-silo test is in that requirement record, not in this function."
       },
-      {"name": "bf_terran_build_advanced", "label": "Terran advanced buildings", "variable": null},
-      {"name": "bf_terran_build_basic", "label": "Terran basic buildings", "variable": null},
-      {"name": "bf_protoss_build_advanced", "label": "Protoss advanced buildings", "variable": null},
-      {"name": "bf_protoss_build_basic", "label": "Protoss basic buildings", "variable": null},
-      {"name": "bf_zerg_build_advanced", "label": "Zerg advanced mutations", "variable": null},
-      {"name": "bf_zerg_build_basic", "label": "Zerg basic mutations", "variable": null},
-      {"name": "bf_can_move_stop", "label": "Can stop", "variable": null},
-      {"name": "bf_can_move_patrol", "label": "Can patrol", "variable": null},
-      {"name": "bf_build_fighter_ok", "label": "Can build Interceptor or Scarab", "variable": "unit"},
-      {"name": "bf_building_ok", "label": "Can make unit", "variable": "unit"},
-      {"name": "bf_trans_has_passenger", "label": "Transport has passengers", "variable": null},
-      {"name": "bf_tower", "label": "Tower can attack", "variable": null},
-      {"name": "bf_can_attack", "label": "Can attack", "variable": null},
-      {"name": "bf_can_attack_unburrowed", "label": "Can attack, unburrowed", "variable": null},
+      {"name": "can_build_terran_advanced", "label": "Terran advanced buildings", "variable": null},
+      {"name": "can_build_terran_basic", "label": "Terran basic buildings", "variable": null},
+      {"name": "can_build_protoss_advanced", "label": "Protoss advanced buildings", "variable": null},
+      {"name": "can_build_protoss_basic", "label": "Protoss basic buildings", "variable": null},
+      {"name": "can_build_zerg_advanced", "label": "Zerg advanced mutations", "variable": null},
+      {"name": "can_build_zerg_basic", "label": "Zerg basic mutations", "variable": null},
+      {"name": "can_stop", "label": "Can stop", "variable": null},
+      {"name": "can_move", "label": "Can patrol", "variable": null},
+      {"name": "can_build_subunit", "label": "Can build Interceptor or Scarab", "variable": "unit"},
+      {"name": "can_create_or_morph", "label": "Can make unit", "variable": "unit"},
+      {"name": "can_unload", "label": "Transport has passengers", "variable": null},
+      {"name": "can_attack_in_place", "label": "Tower can attack", "variable": null},
+      {"name": "can_attack", "label": "Can attack", "variable": null},
+      {"name": "can_attack_and_not_burrowed", "label": "Can attack, unburrowed", "variable": null},
       {
-        "name": "bf_trans",
+        "name": "can_load",
         "label": "Transport has free space",
         "variable": null,
         "help": "Shows the button when the transport has room left. Hallucinations, and Overlords without their transport upgrade, never show it."
       },
-      {"name": "bf_burrowed", "label": "Is burrowed", "variable": "tech"},
-      {"name": "bf_can_burrow", "label": "Can burrow", "variable": "tech"},
-      {"name": "bf_is_sieged", "label": "Is sieged", "variable": "tech"},
-      {"name": "bf_can_siege", "label": "Can siege", "variable": "tech"},
-      {"name": "bf_is_hero_cloaked", "label": "Hero is cloaked", "variable": null},
-      {"name": "bf_can_cloak_hero", "label": "Hero can cloak", "variable": null},
-      {"name": "bf_is_cloaked", "label": "Is cloaked", "variable": "tech"},
-      {"name": "bf_can_cloak", "label": "Can cloak", "variable": "tech"},
-      {"name": "bf_upgrade", "label": "Can upgrade", "variable": "upgrade"},
+      {"name": "can_unburrow", "label": "Is burrowed", "variable": "tech"},
+      {"name": "can_burrow", "label": "Can burrow", "variable": "tech"},
+      {"name": "can_unsiege", "label": "Is sieged", "variable": "tech"},
+      {"name": "can_siege", "label": "Can siege", "variable": "tech"},
+      {"name": "can_decloak_mixed", "label": "Hero is cloaked", "variable": null},
+      {"name": "can_cloak_mixed", "label": "Hero can cloak", "variable": null},
+      {"name": "can_decloak", "label": "Is cloaked", "variable": "tech"},
+      {"name": "can_cloak", "label": "Can cloak", "variable": "tech"},
+      {"name": "can_upgrade", "label": "Can upgrade", "variable": "upgrade"},
       {
-        "name": "bf_has_mines",
+        "name": "can_units_use_tech",
         "label": "Any selected may use the tech",
         "variable": "tech",
         "help": "Shows the button when any selected unit may use the tech in the variable, by its tech use requirements; otherwise greys or hides it. The Use Spider Mines button passes Spider Mines, whose requirements include Has spider mines, so the mine count is tested by that requirement record, not by this function."
       },
-      {"name": "bf_has_spell", "label": "Has spell", "variable": "tech"},
-      {"name": "bf_research", "label": "Can research", "variable": "tech"},
-      {"name": "bf_rally", "label": "Can set rally point", "variable": null},
-      {"name": "bf_can_make_darchon", "label": "Can merge Dark Archon", "variable": null},
+      {"name": "can_player_use_tech", "label": "Has spell", "variable": "tech"},
+      {"name": "can_research_tech", "label": "Can research", "variable": "tech"},
+      {"name": "can_set_rally_point", "label": "Can set rally point", "variable": null},
+      {"name": "can_dark_archon_meld", "label": "Can use Dark Archon Meld", "variable": null},
       {
-        "name": "bf_can_make_darchon_need2",
+        "name": "is_tech_unusable_b",
         "label": "Dark Archon tech: grey or hidden",
         "variable": "tech",
         "help": "Greys the button when the tech can't be used, and hides it otherwise, so it never shows it. No original button uses it."
       },
-      {"name": "bf_can_make_archon", "label": "Can merge Archon", "variable": null},
+      {"name": "can_archon_warp", "label": "Can use Archon Warp", "variable": null},
       {
-        "name": "bf_can_make_archon_need2",
+        "name": "is_tech_unusable",
         "label": "Archon tech: grey or hidden",
         "variable": "tech",
         "help": "Greys the button when the tech can't be used, and hides it otherwise, so it never shows it. No original button uses it."
       },
-      {"name": "bf_make_lurker", "label": "Can morph Lurker", "variable": null},
-      {"name": "bf_hatch_rally", "label": "Hatchery, Lair or Hive rally point", "variable": null},
+      {"name": "can_morph_lurker", "label": "Can morph Lurker", "variable": null},
       {
-        "name": "bf_replay_play",
+        "name": "can_zerg_town_hall_set_rally_point",
+        "label": "Hatchery, Lair or Hive rally point",
+        "variable": null
+      },
+      {
+        "name": "is_watching_replay",
         "label": "Replay: play or pause",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"],
         "help": "Shows the button only while a replay is being watched. Versions before 1.08 lack this function."
       },
       {
-        "name": "bf_replay_speedup",
+        "name": "can_speed_up_replay",
         "label": "Replay: speed up",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"]
       },
       {
-        "name": "bf_replay_slowdown",
+        "name": "can_slow_down_replay",
         "label": "Replay: slow down",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"]
       }
     ],
     "actions": [
-      {"name": "order_none", "label": "Nothing", "variable": null},
-      {"name": "order_cancel_nuke", "label": "Cancel nuke", "variable": null},
-      {"name": "order_summon_darchon", "label": "Merge Dark Archon", "variable": null},
-      {"name": "order_summon_archon", "label": "Merge Archon", "variable": null},
-      {"name": "order_bldg_liftoff", "label": "Lift off", "variable": null},
-      {"name": "order_decloak", "label": "Decloak", "variable": null},
-      {"name": "order_deburrow", "label": "Unburrow", "variable": null},
-      {"name": "order_burrow", "label": "Burrow", "variable": null},
-      {"name": "order_cancel_addon", "label": "Cancel addon", "variable": null},
-      {"name": "order_cancel_upgrade", "label": "Cancel upgrade", "variable": null},
-      {"name": "order_upgrade", "label": "Upgrade", "variable": "upgrade"},
-      {"name": "order_cancel_research", "label": "Cancel research", "variable": null},
-      {"name": "order_research", "label": "Research", "variable": "tech"},
-      {"name": "order_hold_pos", "label": "Hold position", "variable": null},
-      {"name": "order_build_fighter", "label": "Build Interceptor or Scarab", "variable": null},
-      {"name": "order_trilobyte_stop", "label": "Reaver stop", "variable": null},
-      {"name": "order_carrier_stop", "label": "Carrier stop", "variable": null},
-      {"name": "order_stop", "label": "Stop", "variable": null},
-      {"name": "order_kill_egg", "label": "Cancel morph (egg)", "variable": null},
-      {"name": "order_kill", "label": "Cancel construction or mutation", "variable": null},
-      {"name": "order_siege", "label": "Siege mode", "variable": null},
-      {"name": "order_tank_mode", "label": "Tank mode", "variable": null},
-      {"name": "order_stop_build", "label": "Cancel training", "variable": "number"},
-      {"name": "order_build", "label": "Train", "variable": "unit"},
-      {"name": "order_stim", "label": "Stim Packs", "variable": null},
-      {"name": "order_cloak", "label": "Cloak", "variable": null},
-      {"name": "order_return", "label": "Return cargo", "variable": null},
-      {"name": "order_morph", "label": "Morph unit", "variable": "unit"},
-      {"name": "order_upgrade_bldg", "label": "Morph building", "variable": "unit"},
-      {"name": "order_select_larva", "label": "Select Larva", "variable": null},
-      {"name": "order_heal", "label": "Heal", "variable": null},
-      {"name": "order_nuke_paint", "label": "Nuclear strike", "variable": null},
-      {"name": "order_recharge", "label": "Recharge shields", "variable": null},
+      {"name": "cancel_infestation", "label": "Nothing", "variable": null},
+      {"name": "cancel_nuke", "label": "Cancel nuke", "variable": null},
+      {"name": "dark_archon_meld", "label": "Dark Archon Meld", "variable": null},
+      {"name": "archon_warp", "label": "Archon Warp", "variable": null},
+      {"name": "lift_off", "label": "Lift off", "variable": null},
+      {"name": "decloak", "label": "Decloak", "variable": null},
+      {"name": "unburrow", "label": "Unburrow", "variable": null},
+      {"name": "burrow", "label": "Burrow", "variable": null},
+      {"name": "cancel_addon", "label": "Cancel add-on", "variable": null},
+      {"name": "cancel_upgrade", "label": "Cancel upgrade", "variable": null},
+      {"name": "upgrade", "label": "Upgrade", "variable": "upgrade"},
+      {"name": "cancel_research_tech", "label": "Cancel research", "variable": null},
+      {"name": "research_tech", "label": "Research", "variable": "tech"},
+      {"name": "hold_position", "label": "Hold position", "variable": null},
+      {"name": "build_subunit", "label": "Build Interceptor or Scarab", "variable": null},
+      {"name": "stop_reaver", "label": "Reaver stop", "variable": null},
+      {"name": "stop_carrier", "label": "Carrier stop", "variable": null},
+      {"name": "stop", "label": "Stop", "variable": null},
+      {"name": "cancel_morph", "label": "Cancel morph (egg)", "variable": null},
+      {"name": "cancel_construction", "label": "Cancel construction or mutation", "variable": null},
+      {"name": "siege", "label": "Siege mode", "variable": null},
+      {"name": "unsiege", "label": "Tank mode", "variable": null},
+      {"name": "cancel_train", "label": "Cancel training", "variable": "number"},
+      {"name": "train", "label": "Train", "variable": "unit"},
+      {"name": "stim", "label": "Stim Packs", "variable": null},
+      {"name": "cloak", "label": "Cloak", "variable": null},
+      {"name": "return_harvest", "label": "Return cargo", "variable": null},
+      {"name": "morph_unit", "label": "Morph unit", "variable": "unit"},
+      {"name": "morph_building", "label": "Morph building", "variable": "unit"},
+      {"name": "select_larva", "label": "Select Larva", "variable": null},
+      {"name": "heal", "label": "Heal", "variable": null},
+      {"name": "nuke", "label": "Nuclear strike", "variable": null},
+      {"name": "recharge_shields", "label": "Recharge shields", "variable": null},
       {
-        "name": "order_unload",
+        "name": "unload",
         "label": "Unload all, here or at a target",
         "variable": null,
         "help": "A landed unit, such as a Bunker, unloads at once; any other starts targeting where to unload."
       },
-      {"name": "order_pickup", "label": "Load", "variable": null},
-      {"name": "order_harvest", "label": "Gather", "variable": null},
-      {"name": "order_repair", "label": "Repair", "variable": null},
-      {"name": "order_land", "label": "Land", "variable": "unit"},
-      {"name": "order_nydus_exit", "label": "Place Nydus Canal exit", "variable": "unit"},
-      {"name": "order_zerg_place", "label": "Place Zerg building", "variable": "unit"},
-      {"name": "order_place_addon", "label": "Place addon", "variable": "unit"},
-      {"name": "order_place_protoss", "label": "Place Protoss building", "variable": "unit"},
-      {"name": "order_place_cop", "label": "Place beacon", "variable": null},
-      {"name": "order_place", "label": "Place Terran building", "variable": "unit"},
-      {"name": "order_tech", "label": "Use tech", "variable": "tech"},
-      {"name": "order_patrol", "label": "Patrol", "variable": null},
-      {"name": "order_reaver_attack", "label": "Reaver attack", "variable": null},
-      {"name": "order_carrier_attack", "label": "Carrier attack", "variable": null},
-      {"name": "order_carrier_move", "label": "Carrier move", "variable": null},
-      {"name": "order_tower_attack", "label": "Tower attack", "variable": null},
-      {"name": "order_attack_unit", "label": "Attack (no move)", "variable": null},
-      {"name": "order_attack", "label": "Attack", "variable": null},
-      {"name": "order_move", "label": "Move", "variable": null},
-      {"name": "order_rally", "label": "Set rally point", "variable": null},
-      {"name": "order_target_off", "label": "Cancel targeting", "variable": null},
-      {"name": "order_cancel_land", "label": "Cancel building placement", "variable": null},
+      {"name": "load", "label": "Load", "variable": null},
+      {"name": "harvest", "label": "Gather", "variable": null},
+      {"name": "repair", "label": "Repair", "variable": null},
+      {"name": "land", "label": "Land", "variable": "unit"},
+      {"name": "place_nydus_exit", "label": "Place Nydus Canal exit", "variable": "unit"},
+      {"name": "build_zerg", "label": "Place Zerg building", "variable": "unit"},
+      {"name": "build_addon", "label": "Place add-on", "variable": "unit"},
+      {"name": "build_protoss", "label": "Place Protoss building", "variable": "unit"},
+      {"name": "place_cop", "label": "Place beacon", "variable": null},
+      {"name": "build_terran", "label": "Place Terran building", "variable": "unit"},
+      {"name": "use_tech", "label": "Use tech", "variable": "tech"},
+      {"name": "patrol", "label": "Patrol", "variable": null},
+      {"name": "attack_reaver", "label": "Reaver attack", "variable": null},
+      {"name": "attack_carrier", "label": "Carrier attack", "variable": null},
+      {"name": "move_carrier_reaver", "label": "Carrier move", "variable": null},
+      {"name": "attack_tower", "label": "Tower attack", "variable": null},
+      {"name": "attack_direct", "label": "Attack (no move)", "variable": null},
+      {"name": "attack", "label": "Attack", "variable": null},
+      {"name": "move", "label": "Move", "variable": null},
+      {"name": "rally", "label": "Set rally point", "variable": null},
+      {"name": "cancel_targeting", "label": "Cancel targeting", "variable": null},
+      {"name": "cancel_placement", "label": "Cancel building placement", "variable": null},
       {
-        "name": "statcmd_set_ctrl",
-        "label": "Show table entry's buttons",
-        "variable": "tableEntry",
-        "help": "Shows the buttons of the table entry given as the variable, such as a worker build menu. Entry 228 has no buttons: it stands for the set the selection would show anyway, so a menu's cancel button returns to the unit's own buttons."
+        "name": "show_button_card",
+        "label": "Show button card's buttons",
+        "variable": "buttonCard",
+        "help": "Shows the buttons of the button card given as the variable, such as a worker build menu. Entry 228 has no buttons: it stands for the set the selection would show anyway, so a menu's cancel button returns to the unit's own buttons."
       },
       {
-        "name": "order_replay_speedup",
+        "name": "speed_up_replay",
         "label": "Replay: speed up",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"]
       },
       {
-        "name": "order_replay_play",
+        "name": "play_pause_replay",
         "label": "Replay: play or pause",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"],
         "help": "Pauses a replay, or resumes it if it is paused. Versions before 1.08 lack this function."
       },
       {
-        "name": "order_replay_slowdown",
+        "name": "slow_down_replay",
         "label": "Replay: slow down",
         "variable": null,
         "absentOn": ["1.05", "1.06", "1.07"]
       }
     ],
     "statusChanged": [
-      {"name": "statdraw_query_never", "label": "Never", "variable": null},
-      {"name": "statdraw_query_unit", "label": "Unit", "variable": null},
-      {"name": "statdraw_query_bldg", "label": "Building", "variable": null},
-      {"name": "statdraw_query_transport", "label": "Transport", "variable": null},
-      {"name": "statdraw_query_carrier", "label": "Carrier or Reaver", "variable": null},
-      {"name": "statdraw_query_archon", "label": "Archon", "variable": null},
-      {"name": "statdraw_query_egg", "label": "Egg", "variable": null},
-      {"name": "statdraw_query_overlord", "label": "Overlord", "variable": null},
-      {"name": "statdraw_query_powerup", "label": "Powerup", "variable": null}
+      {"name": "changed_never", "label": "Never", "variable": null},
+      {"name": "changed_unit", "label": "Unit", "variable": null},
+      {"name": "changed_building", "label": "Building", "variable": null},
+      {"name": "changed_transport", "label": "Transport", "variable": null},
+      {"name": "changed_hangar", "label": "Carrier or Reaver", "variable": null},
+      {"name": "changed_summon", "label": "Archon", "variable": null},
+      {"name": "changed_morph", "label": "Egg", "variable": null},
+      {"name": "changed_supply_transport", "label": "Overlord", "variable": null},
+      {"name": "changed_powerup", "label": "Powerup", "variable": null}
     ],
-    "statusUpdate": [
-      {"name": "statdraw_draw_unit", "label": "Unit", "variable": null},
-      {"name": "statdraw_draw_bldg", "label": "Building", "variable": null},
-      {"name": "statdraw_draw_transport", "label": "Transport", "variable": null},
-      {"name": "statdraw_draw_carrier", "label": "Carrier or Reaver", "variable": null},
-      {"name": "statdraw_draw_archon", "label": "Archon", "variable": null},
-      {"name": "statdraw_draw_egg", "label": "Egg", "variable": null},
-      {"name": "statdraw_draw_overlord", "label": "Overlord", "variable": null},
-      {"name": "statdraw_draw_powerup", "label": "Powerup", "variable": null},
-      {"name": "statdraw_draw_none", "label": "None", "variable": null}
+    "displayFunction": [
+      {"name": "draw_unit", "label": "Unit", "variable": null},
+      {"name": "draw_building", "label": "Building", "variable": null},
+      {"name": "draw_transport", "label": "Transport", "variable": null},
+      {"name": "draw_hangar", "label": "Carrier or Reaver", "variable": null},
+      {"name": "draw_summon", "label": "Archon", "variable": null},
+      {"name": "draw_morph", "label": "Egg", "variable": null},
+      {"name": "draw_supply_transport", "label": "Overlord", "variable": null},
+      {"name": "draw_powerup", "label": "Powerup", "variable": null},
+      {"name": "draw_none", "label": "None", "variable": null}
     ]
   },
   "opcodes": [
@@ -427,9 +443,9 @@ AxeGraft.registerCatalog({
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"],
       "help": "A unit of this type must exist, finished or not."
     },
-    {"name": "must_have_addon", "label": "Must have addon", "parameter": "unit", "allowedIn": ["unit"]},
+    {"name": "must_have_addon", "label": "Must have add-on", "parameter": "unit", "allowedIn": ["unit"]},
     {
-      "name": "not_lifted_off",
+      "name": "is_not_lifted_off",
       "label": "Not lifted off",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
@@ -441,31 +457,31 @@ AxeGraft.registerCatalog({
       "allowedIn": ["upgrade", "tech_research", "tech_use", "order"]
     },
     {
-      "name": "not_training_or_morphing",
+      "name": "is_not_training_or_morphing",
       "label": "Not training or morphing",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
     },
     {
-      "name": "not_constructing_addon",
-      "label": "Not constructing addon",
+      "name": "is_not_constructing_addon",
+      "label": "Not constructing add-on",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
     },
     {
-      "name": "not_researching",
+      "name": "is_not_researching",
       "label": "Not researching",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
     },
     {
-      "name": "not_upgrading",
+      "name": "is_not_upgrading",
       "label": "Not upgrading",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
     },
-    {"name": "not_constructing", "label": "Not constructing", "parameter": null, "allowedIn": ["unit"]},
-    {"name": "does_not_have_addon", "label": "Does not have addon", "parameter": null, "allowedIn": ["unit"]},
+    {"name": "is_not_constructing", "label": "Not constructing", "parameter": null, "allowedIn": ["unit"]},
+    {"name": "does_not_have_addon", "label": "Does not have add-on", "parameter": null, "allowedIn": ["unit"]},
     {
       "name": "does_not_have_exit",
       "label": "Does not have exit",
@@ -482,7 +498,7 @@ AxeGraft.registerCatalog({
     },
     {"name": "does_not_have_nuke", "label": "Does not have nuke", "parameter": null, "allowedIn": ["unit"]},
     {
-      "name": "not_burrowed",
+      "name": "is_not_burrowed",
       "label": "Not burrowed",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
@@ -603,7 +619,7 @@ AxeGraft.registerCatalog({
     },
     {
       "name": "must_be_brood_war",
-      "label": "Must be brood war",
+      "label": "Must be Brood War",
       "parameter": null,
       "allowedIn": ["unit", "upgrade", "tech_research", "tech_use", "order"]
     },
@@ -641,10 +657,10 @@ AxeGraft.registerCatalog({
       "icon": 0,
       "original": {
         "button_set": 0,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 0
       }
     },
     {
@@ -654,10 +670,10 @@ AxeGraft.registerCatalog({
       "icon": 1,
       "original": {
         "button_set": 1,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 1
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 1
       }
     },
     {
@@ -667,10 +683,10 @@ AxeGraft.registerCatalog({
       "icon": 2,
       "original": {
         "button_set": 2,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 2
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 2
       }
     },
     {
@@ -680,10 +696,10 @@ AxeGraft.registerCatalog({
       "icon": 3,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 3
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 3
       }
     },
     {
@@ -693,10 +709,10 @@ AxeGraft.registerCatalog({
       "icon": 4,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 4
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 4
       }
     },
     {
@@ -706,10 +722,10 @@ AxeGraft.registerCatalog({
       "icon": 5,
       "original": {
         "button_set": 5,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 5
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 5
       }
     },
     {
@@ -719,10 +735,10 @@ AxeGraft.registerCatalog({
       "icon": 6,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 6
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 6
       }
     },
     {
@@ -732,10 +748,10 @@ AxeGraft.registerCatalog({
       "icon": 7,
       "original": {
         "button_set": 7,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 7
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 7
       }
     },
     {
@@ -745,10 +761,10 @@ AxeGraft.registerCatalog({
       "icon": 8,
       "original": {
         "button_set": 8,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 8
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 8
       }
     },
     {
@@ -758,10 +774,10 @@ AxeGraft.registerCatalog({
       "icon": 9,
       "original": {
         "button_set": 9,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 9
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 9
       }
     },
     {
@@ -771,10 +787,10 @@ AxeGraft.registerCatalog({
       "icon": 10,
       "original": {
         "button_set": 0,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 10
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 10
       }
     },
     {
@@ -784,10 +800,10 @@ AxeGraft.registerCatalog({
       "icon": 11,
       "original": {
         "button_set": 11,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_transport",
-        "status_update": "statdraw_draw_transport",
-        "status_unit_type": 11
+        "connected_unit": null,
+        "status_changed": "changed_transport",
+        "display_function": "draw_transport",
+        "debug_id": 11
       }
     },
     {
@@ -797,10 +813,10 @@ AxeGraft.registerCatalog({
       "icon": 12,
       "original": {
         "button_set": 12,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 12
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 12
       }
     },
     {
@@ -810,10 +826,10 @@ AxeGraft.registerCatalog({
       "icon": 13,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 13
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 13
       }
     },
     {
@@ -823,10 +839,10 @@ AxeGraft.registerCatalog({
       "icon": 14,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 14
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 14
       }
     },
     {
@@ -836,10 +852,10 @@ AxeGraft.registerCatalog({
       "icon": 15,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 15
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 15
       }
     },
     {
@@ -849,10 +865,10 @@ AxeGraft.registerCatalog({
       "icon": 16,
       "original": {
         "button_set": 16,
-        "equivalent_entry": 1,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 16
+        "connected_unit": 1,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 16
       }
     },
     {
@@ -862,10 +878,10 @@ AxeGraft.registerCatalog({
       "icon": 17,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 17
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 17
       }
     },
     {
@@ -875,10 +891,10 @@ AxeGraft.registerCatalog({
       "icon": 18,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 18
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 18
       }
     },
     {
@@ -888,10 +904,10 @@ AxeGraft.registerCatalog({
       "icon": 19,
       "original": {
         "button_set": 19,
-        "equivalent_entry": 2,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 19
+        "connected_unit": 2,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 19
       }
     },
     {
@@ -901,10 +917,10 @@ AxeGraft.registerCatalog({
       "icon": 20,
       "original": {
         "button_set": 0,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 20
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 20
       }
     },
     {
@@ -914,10 +930,10 @@ AxeGraft.registerCatalog({
       "icon": 21,
       "original": {
         "button_set": 8,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 21
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 21
       }
     },
     {
@@ -927,10 +943,10 @@ AxeGraft.registerCatalog({
       "icon": 22,
       "original": {
         "button_set": 9,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 22
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 22
       }
     },
     {
@@ -940,10 +956,10 @@ AxeGraft.registerCatalog({
       "icon": 23,
       "original": {
         "button_set": 5,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 23
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 23
       }
     },
     {
@@ -953,10 +969,10 @@ AxeGraft.registerCatalog({
       "icon": 24,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 24
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 24
       }
     },
     {
@@ -966,10 +982,10 @@ AxeGraft.registerCatalog({
       "icon": 25,
       "original": {
         "button_set": 5,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 25
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 25
       }
     },
     {
@@ -979,10 +995,10 @@ AxeGraft.registerCatalog({
       "icon": 26,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 26
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 26
       }
     },
     {
@@ -992,10 +1008,10 @@ AxeGraft.registerCatalog({
       "icon": 27,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 27
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 27
       }
     },
     {
@@ -1005,10 +1021,10 @@ AxeGraft.registerCatalog({
       "icon": 28,
       "original": {
         "button_set": 12,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 28
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 28
       }
     },
     {
@@ -1018,10 +1034,10 @@ AxeGraft.registerCatalog({
       "icon": 29,
       "original": {
         "button_set": 12,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 29
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 29
       }
     },
     {
@@ -1031,10 +1047,10 @@ AxeGraft.registerCatalog({
       "icon": 30,
       "original": {
         "button_set": 5,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 30
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 30
       }
     },
     {
@@ -1044,10 +1060,10 @@ AxeGraft.registerCatalog({
       "icon": 31,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 31
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 31
       }
     },
     {
@@ -1057,10 +1073,10 @@ AxeGraft.registerCatalog({
       "icon": 32,
       "original": {
         "button_set": 0,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 32
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 32
       }
     },
     {
@@ -1070,10 +1086,10 @@ AxeGraft.registerCatalog({
       "icon": 33,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 33
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 33
       }
     },
     {
@@ -1083,10 +1099,10 @@ AxeGraft.registerCatalog({
       "icon": 34,
       "original": {
         "button_set": 34,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 34
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 34
       }
     },
     {
@@ -1096,10 +1112,10 @@ AxeGraft.registerCatalog({
       "icon": 35,
       "original": {
         "button_set": 35,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 35
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 35
       }
     },
     {
@@ -1109,10 +1125,10 @@ AxeGraft.registerCatalog({
       "icon": 36,
       "original": {
         "button_set": 36,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_egg",
-        "status_update": "statdraw_draw_egg",
-        "status_unit_type": 36
+        "connected_unit": null,
+        "status_changed": "changed_morph",
+        "display_function": "draw_morph",
+        "debug_id": 36
       }
     },
     {
@@ -1122,10 +1138,10 @@ AxeGraft.registerCatalog({
       "icon": 37,
       "original": {
         "button_set": 37,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 37
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 37
       }
     },
     {
@@ -1135,10 +1151,10 @@ AxeGraft.registerCatalog({
       "icon": 38,
       "original": {
         "button_set": 38,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 38
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 38
       }
     },
     {
@@ -1148,10 +1164,10 @@ AxeGraft.registerCatalog({
       "icon": 39,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 39
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 39
       }
     },
     {
@@ -1161,10 +1177,10 @@ AxeGraft.registerCatalog({
       "icon": 40,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 40
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 40
       }
     },
     {
@@ -1174,10 +1190,10 @@ AxeGraft.registerCatalog({
       "icon": 41,
       "original": {
         "button_set": 41,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 41
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 41
       }
     },
     {
@@ -1187,10 +1203,10 @@ AxeGraft.registerCatalog({
       "icon": 42,
       "original": {
         "button_set": 11,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_overlord",
-        "status_update": "statdraw_draw_overlord",
-        "status_unit_type": 42
+        "connected_unit": null,
+        "status_changed": "changed_supply_transport",
+        "display_function": "draw_supply_transport",
+        "debug_id": 42
       }
     },
     {
@@ -1200,10 +1216,10 @@ AxeGraft.registerCatalog({
       "icon": 43,
       "original": {
         "button_set": 43,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 43
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 43
       }
     },
     {
@@ -1213,10 +1229,10 @@ AxeGraft.registerCatalog({
       "icon": 44,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 44
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 44
       }
     },
     {
@@ -1226,10 +1242,10 @@ AxeGraft.registerCatalog({
       "icon": 45,
       "original": {
         "button_set": 45,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 45
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 45
       }
     },
     {
@@ -1239,10 +1255,10 @@ AxeGraft.registerCatalog({
       "icon": 46,
       "original": {
         "button_set": 46,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 46
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 46
       }
     },
     {
@@ -1252,10 +1268,10 @@ AxeGraft.registerCatalog({
       "icon": 47,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 47
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 47
       }
     },
     {
@@ -1265,10 +1281,10 @@ AxeGraft.registerCatalog({
       "icon": 48,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 48
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 48
       }
     },
     {
@@ -1278,10 +1294,10 @@ AxeGraft.registerCatalog({
       "icon": 49,
       "original": {
         "button_set": 45,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 49
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 49
       }
     },
     {
@@ -1291,10 +1307,10 @@ AxeGraft.registerCatalog({
       "icon": 50,
       "original": {
         "button_set": 50,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 50
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 50
       }
     },
     {
@@ -1304,10 +1320,10 @@ AxeGraft.registerCatalog({
       "icon": 51,
       "original": {
         "button_set": 51,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 51
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 51
       }
     },
     {
@@ -1317,10 +1333,10 @@ AxeGraft.registerCatalog({
       "icon": 52,
       "original": {
         "button_set": 46,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 52
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 52
       }
     },
     {
@@ -1330,10 +1346,10 @@ AxeGraft.registerCatalog({
       "icon": 53,
       "original": {
         "button_set": 37,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 53
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 53
       }
     },
     {
@@ -1343,10 +1359,10 @@ AxeGraft.registerCatalog({
       "icon": 54,
       "original": {
         "button_set": 37,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 54
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 54
       }
     },
     {
@@ -1356,10 +1372,10 @@ AxeGraft.registerCatalog({
       "icon": 55,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 55
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 55
       }
     },
     {
@@ -1369,10 +1385,10 @@ AxeGraft.registerCatalog({
       "icon": 56,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 56
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 56
       }
     },
     {
@@ -1382,10 +1398,10 @@ AxeGraft.registerCatalog({
       "icon": 57,
       "original": {
         "button_set": 11,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_overlord",
-        "status_update": "statdraw_draw_overlord",
-        "status_unit_type": 57
+        "connected_unit": null,
+        "status_changed": "changed_supply_transport",
+        "display_function": "draw_supply_transport",
+        "debug_id": 57
       }
     },
     {
@@ -1395,10 +1411,10 @@ AxeGraft.registerCatalog({
       "icon": 58,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 58
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 58
       }
     },
     {
@@ -1408,10 +1424,10 @@ AxeGraft.registerCatalog({
       "icon": 59,
       "original": {
         "button_set": 36,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_egg",
-        "status_update": "statdraw_draw_egg",
-        "status_unit_type": 59
+        "connected_unit": null,
+        "status_changed": "changed_morph",
+        "display_function": "draw_morph",
+        "debug_id": 59
       }
     },
     {
@@ -1421,10 +1437,10 @@ AxeGraft.registerCatalog({
       "icon": 60,
       "original": {
         "button_set": 60,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 60
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 60
       }
     },
     {
@@ -1434,10 +1450,10 @@ AxeGraft.registerCatalog({
       "icon": 61,
       "original": {
         "button_set": 61,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 61
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 61
       }
     },
     {
@@ -1447,10 +1463,10 @@ AxeGraft.registerCatalog({
       "icon": 62,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 62
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 62
       }
     },
     {
@@ -1460,10 +1476,10 @@ AxeGraft.registerCatalog({
       "icon": 63,
       "original": {
         "button_set": 63,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_archon",
-        "status_update": "statdraw_draw_archon",
-        "status_unit_type": 63
+        "connected_unit": null,
+        "status_changed": "changed_summon",
+        "display_function": "draw_summon",
+        "debug_id": 63
       }
     },
     {
@@ -1473,10 +1489,10 @@ AxeGraft.registerCatalog({
       "icon": 64,
       "original": {
         "button_set": 64,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 64
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 64
       }
     },
     {
@@ -1486,10 +1502,10 @@ AxeGraft.registerCatalog({
       "icon": 65,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 65
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 65
       }
     },
     {
@@ -1499,10 +1515,10 @@ AxeGraft.registerCatalog({
       "icon": 66,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 66
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 66
       }
     },
     {
@@ -1512,10 +1528,10 @@ AxeGraft.registerCatalog({
       "icon": 67,
       "original": {
         "button_set": 67,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 67
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 67
       }
     },
     {
@@ -1525,10 +1541,10 @@ AxeGraft.registerCatalog({
       "icon": 68,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_archon",
-        "status_update": "statdraw_draw_archon",
-        "status_unit_type": 68
+        "connected_unit": null,
+        "status_changed": "changed_summon",
+        "display_function": "draw_summon",
+        "debug_id": 68
       }
     },
     {
@@ -1538,10 +1554,10 @@ AxeGraft.registerCatalog({
       "icon": 69,
       "original": {
         "button_set": 11,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_transport",
-        "status_update": "statdraw_draw_transport",
-        "status_unit_type": 69
+        "connected_unit": null,
+        "status_changed": "changed_transport",
+        "display_function": "draw_transport",
+        "debug_id": 69
       }
     },
     {
@@ -1551,10 +1567,10 @@ AxeGraft.registerCatalog({
       "icon": 70,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 70
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 70
       }
     },
     {
@@ -1564,10 +1580,10 @@ AxeGraft.registerCatalog({
       "icon": 71,
       "original": {
         "button_set": 71,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 71
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 71
       }
     },
     {
@@ -1577,10 +1593,10 @@ AxeGraft.registerCatalog({
       "icon": 72,
       "original": {
         "button_set": 72,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_carrier",
-        "status_update": "statdraw_draw_carrier",
-        "status_unit_type": 72
+        "connected_unit": null,
+        "status_changed": "changed_hangar",
+        "display_function": "draw_hangar",
+        "debug_id": 72
       }
     },
     {
@@ -1590,10 +1606,10 @@ AxeGraft.registerCatalog({
       "icon": 73,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 73
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 73
       }
     },
     {
@@ -1603,10 +1619,10 @@ AxeGraft.registerCatalog({
       "icon": 74,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 74
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 74
       }
     },
     {
@@ -1616,10 +1632,10 @@ AxeGraft.registerCatalog({
       "icon": 75,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 75
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 75
       }
     },
     {
@@ -1629,10 +1645,10 @@ AxeGraft.registerCatalog({
       "icon": 76,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 76
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 76
       }
     },
     {
@@ -1642,10 +1658,10 @@ AxeGraft.registerCatalog({
       "icon": 77,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 77
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 77
       }
     },
     {
@@ -1655,10 +1671,10 @@ AxeGraft.registerCatalog({
       "icon": 78,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 78
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 78
       }
     },
     {
@@ -1668,10 +1684,10 @@ AxeGraft.registerCatalog({
       "icon": 79,
       "original": {
         "button_set": 79,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 79
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 79
       }
     },
     {
@@ -1681,10 +1697,10 @@ AxeGraft.registerCatalog({
       "icon": 80,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 80
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 80
       }
     },
     {
@@ -1694,10 +1710,10 @@ AxeGraft.registerCatalog({
       "icon": 81,
       "original": {
         "button_set": 81,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_carrier",
-        "status_update": "statdraw_draw_carrier",
-        "status_unit_type": 81
+        "connected_unit": null,
+        "status_changed": "changed_hangar",
+        "display_function": "draw_hangar",
+        "debug_id": 81
       }
     },
     {
@@ -1707,10 +1723,10 @@ AxeGraft.registerCatalog({
       "icon": 82,
       "original": {
         "button_set": 72,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_carrier",
-        "status_update": "statdraw_draw_carrier",
-        "status_unit_type": 82
+        "connected_unit": null,
+        "status_changed": "changed_hangar",
+        "display_function": "draw_hangar",
+        "debug_id": 82
       }
     },
     {
@@ -1720,10 +1736,10 @@ AxeGraft.registerCatalog({
       "icon": 83,
       "original": {
         "button_set": 81,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_carrier",
-        "status_update": "statdraw_draw_carrier",
-        "status_unit_type": 83
+        "connected_unit": null,
+        "status_changed": "changed_hangar",
+        "display_function": "draw_hangar",
+        "debug_id": 83
       }
     },
     {
@@ -1733,10 +1749,10 @@ AxeGraft.registerCatalog({
       "icon": 84,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 84
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 84
       }
     },
     {
@@ -1746,10 +1762,10 @@ AxeGraft.registerCatalog({
       "icon": 85,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 85
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_none",
+        "debug_id": 85
       }
     },
     {
@@ -1759,10 +1775,10 @@ AxeGraft.registerCatalog({
       "icon": 86,
       "original": {
         "button_set": 71,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 86
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 86
       }
     },
     {
@@ -1772,10 +1788,10 @@ AxeGraft.registerCatalog({
       "icon": 87,
       "original": {
         "button_set": 79,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 87
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 87
       }
     },
     {
@@ -1785,10 +1801,10 @@ AxeGraft.registerCatalog({
       "icon": 88,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 88
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 88
       }
     },
     {
@@ -1798,10 +1814,10 @@ AxeGraft.registerCatalog({
       "icon": 89,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 89
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 89
       }
     },
     {
@@ -1811,10 +1827,10 @@ AxeGraft.registerCatalog({
       "icon": 90,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 90
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 90
       }
     },
     {
@@ -1824,10 +1840,10 @@ AxeGraft.registerCatalog({
       "icon": 91,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 0
       }
     },
     {
@@ -1837,10 +1853,10 @@ AxeGraft.registerCatalog({
       "icon": 92,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 0
       }
     },
     {
@@ -1850,10 +1866,10 @@ AxeGraft.registerCatalog({
       "icon": 93,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 93
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 93
       }
     },
     {
@@ -1863,10 +1879,10 @@ AxeGraft.registerCatalog({
       "icon": 94,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 94
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 94
       }
     },
     {
@@ -1876,10 +1892,10 @@ AxeGraft.registerCatalog({
       "icon": 95,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 95
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 95
       }
     },
     {
@@ -1889,10 +1905,10 @@ AxeGraft.registerCatalog({
       "icon": 96,
       "original": {
         "button_set": 3,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 96
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 96
       }
     },
     {
@@ -1902,10 +1918,10 @@ AxeGraft.registerCatalog({
       "icon": 97,
       "original": {
         "button_set": 36,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_egg",
-        "status_update": "statdraw_draw_egg",
-        "status_unit_type": 97
+        "connected_unit": null,
+        "status_changed": "changed_morph",
+        "display_function": "draw_morph",
+        "debug_id": 97
       }
     },
     {
@@ -1915,10 +1931,10 @@ AxeGraft.registerCatalog({
       "icon": 98,
       "original": {
         "button_set": 60,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 98
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 98
       }
     },
     {
@@ -1928,10 +1944,10 @@ AxeGraft.registerCatalog({
       "icon": 99,
       "original": {
         "button_set": 16,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 99
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 99
       }
     },
     {
@@ -1941,10 +1957,10 @@ AxeGraft.registerCatalog({
       "icon": 100,
       "original": {
         "button_set": 16,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 100
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 100
       }
     },
     {
@@ -1954,10 +1970,10 @@ AxeGraft.registerCatalog({
       "icon": 101,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 101
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_none",
+        "debug_id": 101
       }
     },
     {
@@ -1967,10 +1983,10 @@ AxeGraft.registerCatalog({
       "icon": 102,
       "original": {
         "button_set": 12,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 102
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 102
       }
     },
     {
@@ -1980,10 +1996,10 @@ AxeGraft.registerCatalog({
       "icon": 103,
       "original": {
         "button_set": 103,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 103
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 103
       }
     },
     {
@@ -1993,10 +2009,10 @@ AxeGraft.registerCatalog({
       "icon": 104,
       "original": {
         "button_set": 104,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_unit",
-        "status_unit_type": 104
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_unit",
+        "debug_id": 104
       }
     },
     {
@@ -2006,10 +2022,10 @@ AxeGraft.registerCatalog({
       "icon": 105,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 105
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 105
       }
     },
     {
@@ -2019,10 +2035,10 @@ AxeGraft.registerCatalog({
       "icon": 106,
       "original": {
         "button_set": 106,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 106
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 106
       }
     },
     {
@@ -2032,10 +2048,10 @@ AxeGraft.registerCatalog({
       "icon": 107,
       "original": {
         "button_set": 107,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 107
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 107
       }
     },
     {
@@ -2045,10 +2061,10 @@ AxeGraft.registerCatalog({
       "icon": 108,
       "original": {
         "button_set": 108,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 108
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 108
       }
     },
     {
@@ -2058,10 +2074,10 @@ AxeGraft.registerCatalog({
       "icon": 109,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 109
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 109
       }
     },
     {
@@ -2071,10 +2087,10 @@ AxeGraft.registerCatalog({
       "icon": 110,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 110
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 110
       }
     },
     {
@@ -2084,10 +2100,10 @@ AxeGraft.registerCatalog({
       "icon": 111,
       "original": {
         "button_set": 111,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 111
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 111
       }
     },
     {
@@ -2097,10 +2113,10 @@ AxeGraft.registerCatalog({
       "icon": 112,
       "original": {
         "button_set": 112,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 112
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 112
       }
     },
     {
@@ -2110,10 +2126,10 @@ AxeGraft.registerCatalog({
       "icon": 113,
       "original": {
         "button_set": 113,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 113
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 113
       }
     },
     {
@@ -2123,10 +2139,10 @@ AxeGraft.registerCatalog({
       "icon": 114,
       "original": {
         "button_set": 114,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 114
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 114
       }
     },
     {
@@ -2136,10 +2152,10 @@ AxeGraft.registerCatalog({
       "icon": 115,
       "original": {
         "button_set": 115,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 115
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 115
       }
     },
     {
@@ -2149,10 +2165,10 @@ AxeGraft.registerCatalog({
       "icon": 116,
       "original": {
         "button_set": 116,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 116
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 116
       }
     },
     {
@@ -2162,10 +2178,10 @@ AxeGraft.registerCatalog({
       "icon": 117,
       "original": {
         "button_set": 117,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 117
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 117
       }
     },
     {
@@ -2175,10 +2191,10 @@ AxeGraft.registerCatalog({
       "icon": 118,
       "original": {
         "button_set": 118,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 118
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 118
       }
     },
     {
@@ -2188,10 +2204,10 @@ AxeGraft.registerCatalog({
       "icon": 119,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 119
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_none",
+        "debug_id": 119
       }
     },
     {
@@ -2201,10 +2217,10 @@ AxeGraft.registerCatalog({
       "icon": 120,
       "original": {
         "button_set": 120,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 120
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 120
       }
     },
     {
@@ -2214,10 +2230,10 @@ AxeGraft.registerCatalog({
       "icon": 121,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 121
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 121
       }
     },
     {
@@ -2227,10 +2243,10 @@ AxeGraft.registerCatalog({
       "icon": 122,
       "original": {
         "button_set": 122,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 122
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 122
       }
     },
     {
@@ -2240,10 +2256,10 @@ AxeGraft.registerCatalog({
       "icon": 123,
       "original": {
         "button_set": 123,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 123
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 123
       }
     },
     {
@@ -2253,10 +2269,10 @@ AxeGraft.registerCatalog({
       "icon": 124,
       "original": {
         "button_set": 124,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 124
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 124
       }
     },
     {
@@ -2266,10 +2282,10 @@ AxeGraft.registerCatalog({
       "icon": 125,
       "original": {
         "button_set": 125,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_transport",
-        "status_update": "statdraw_draw_transport",
-        "status_unit_type": 125
+        "connected_unit": null,
+        "status_changed": "changed_transport",
+        "display_function": "draw_transport",
+        "debug_id": 125
       }
     },
     {
@@ -2279,10 +2295,10 @@ AxeGraft.registerCatalog({
       "icon": 126,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 126
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 126
       }
     },
     {
@@ -2292,10 +2308,10 @@ AxeGraft.registerCatalog({
       "icon": 127,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 127
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 127
       }
     },
     {
@@ -2305,10 +2321,10 @@ AxeGraft.registerCatalog({
       "icon": 128,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 128
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 128
       }
     },
     {
@@ -2318,10 +2334,10 @@ AxeGraft.registerCatalog({
       "icon": 129,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 129
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 129
       }
     },
     {
@@ -2331,10 +2347,10 @@ AxeGraft.registerCatalog({
       "icon": 130,
       "original": {
         "button_set": 130,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 130
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 130
       }
     },
     {
@@ -2344,10 +2360,10 @@ AxeGraft.registerCatalog({
       "icon": 131,
       "original": {
         "button_set": 131,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 131
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 131
       }
     },
     {
@@ -2357,10 +2373,10 @@ AxeGraft.registerCatalog({
       "icon": 132,
       "original": {
         "button_set": 132,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 132
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 132
       }
     },
     {
@@ -2370,10 +2386,10 @@ AxeGraft.registerCatalog({
       "icon": 133,
       "original": {
         "button_set": 133,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 133
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 133
       }
     },
     {
@@ -2383,10 +2399,10 @@ AxeGraft.registerCatalog({
       "icon": 134,
       "original": {
         "button_set": 134,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 134
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 134
       }
     },
     {
@@ -2396,10 +2412,10 @@ AxeGraft.registerCatalog({
       "icon": 135,
       "original": {
         "button_set": 135,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 135
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 135
       }
     },
     {
@@ -2409,10 +2425,10 @@ AxeGraft.registerCatalog({
       "icon": 136,
       "original": {
         "button_set": 136,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 136
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 136
       }
     },
     {
@@ -2422,10 +2438,10 @@ AxeGraft.registerCatalog({
       "icon": 137,
       "original": {
         "button_set": 137,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 137
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 137
       }
     },
     {
@@ -2435,10 +2451,10 @@ AxeGraft.registerCatalog({
       "icon": 138,
       "original": {
         "button_set": 138,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 138
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 138
       }
     },
     {
@@ -2448,10 +2464,10 @@ AxeGraft.registerCatalog({
       "icon": 139,
       "original": {
         "button_set": 139,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 139
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 139
       }
     },
     {
@@ -2461,10 +2477,10 @@ AxeGraft.registerCatalog({
       "icon": 140,
       "original": {
         "button_set": 140,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 140
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 140
       }
     },
     {
@@ -2474,10 +2490,10 @@ AxeGraft.registerCatalog({
       "icon": 141,
       "original": {
         "button_set": 141,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 141
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 141
       }
     },
     {
@@ -2487,10 +2503,10 @@ AxeGraft.registerCatalog({
       "icon": 142,
       "original": {
         "button_set": 142,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 142
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 142
       }
     },
     {
@@ -2500,10 +2516,10 @@ AxeGraft.registerCatalog({
       "icon": 143,
       "original": {
         "button_set": 143,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 143
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 143
       }
     },
     {
@@ -2513,10 +2529,10 @@ AxeGraft.registerCatalog({
       "icon": 144,
       "original": {
         "button_set": 124,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 144
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 144
       }
     },
     {
@@ -2526,10 +2542,10 @@ AxeGraft.registerCatalog({
       "icon": 145,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 145
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 145
       }
     },
     {
@@ -2539,10 +2555,10 @@ AxeGraft.registerCatalog({
       "icon": 146,
       "original": {
         "button_set": 124,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 146
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 146
       }
     },
     {
@@ -2552,10 +2568,10 @@ AxeGraft.registerCatalog({
       "icon": 147,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 147
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 147
       }
     },
     {
@@ -2565,10 +2581,10 @@ AxeGraft.registerCatalog({
       "icon": 148,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 148
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 148
       }
     },
     {
@@ -2578,10 +2594,10 @@ AxeGraft.registerCatalog({
       "icon": 149,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 149
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 149
       }
     },
     {
@@ -2591,10 +2607,10 @@ AxeGraft.registerCatalog({
       "icon": 150,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 150
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 150
       }
     },
     {
@@ -2604,10 +2620,10 @@ AxeGraft.registerCatalog({
       "icon": 151,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 151
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 151
       }
     },
     {
@@ -2617,10 +2633,10 @@ AxeGraft.registerCatalog({
       "icon": 152,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 152
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 152
       }
     },
     {
@@ -2630,10 +2646,10 @@ AxeGraft.registerCatalog({
       "icon": 153,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_unit",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 153
+        "connected_unit": null,
+        "status_changed": "changed_unit",
+        "display_function": "draw_none",
+        "debug_id": 153
       }
     },
     {
@@ -2643,10 +2659,10 @@ AxeGraft.registerCatalog({
       "icon": 154,
       "original": {
         "button_set": 154,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 154
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 154
       }
     },
     {
@@ -2656,10 +2672,10 @@ AxeGraft.registerCatalog({
       "icon": 155,
       "original": {
         "button_set": 155,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 155
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 155
       }
     },
     {
@@ -2669,10 +2685,10 @@ AxeGraft.registerCatalog({
       "icon": 156,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 156
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 156
       }
     },
     {
@@ -2682,10 +2698,10 @@ AxeGraft.registerCatalog({
       "icon": 157,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 157
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 157
       }
     },
     {
@@ -2695,10 +2711,10 @@ AxeGraft.registerCatalog({
       "icon": 158,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 158
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_none",
+        "debug_id": 158
       }
     },
     {
@@ -2708,10 +2724,10 @@ AxeGraft.registerCatalog({
       "icon": 159,
       "original": {
         "button_set": 159,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 159
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 159
       }
     },
     {
@@ -2721,10 +2737,10 @@ AxeGraft.registerCatalog({
       "icon": 160,
       "original": {
         "button_set": 160,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 160
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 160
       }
     },
     {
@@ -2734,10 +2750,10 @@ AxeGraft.registerCatalog({
       "icon": 161,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 0
       }
     },
     {
@@ -2747,10 +2763,10 @@ AxeGraft.registerCatalog({
       "icon": 162,
       "original": {
         "button_set": 124,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 162
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 162
       }
     },
     {
@@ -2760,10 +2776,10 @@ AxeGraft.registerCatalog({
       "icon": 163,
       "original": {
         "button_set": 163,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 163
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 163
       }
     },
     {
@@ -2773,10 +2789,10 @@ AxeGraft.registerCatalog({
       "icon": 164,
       "original": {
         "button_set": 164,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 164
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 164
       }
     },
     {
@@ -2786,10 +2802,10 @@ AxeGraft.registerCatalog({
       "icon": 165,
       "original": {
         "button_set": 165,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 165
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 165
       }
     },
     {
@@ -2799,10 +2815,10 @@ AxeGraft.registerCatalog({
       "icon": 166,
       "original": {
         "button_set": 166,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 166
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 166
       }
     },
     {
@@ -2812,10 +2828,10 @@ AxeGraft.registerCatalog({
       "icon": 167,
       "original": {
         "button_set": 167,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 167
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 167
       }
     },
     {
@@ -2825,10 +2841,10 @@ AxeGraft.registerCatalog({
       "icon": 168,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 168
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 168
       }
     },
     {
@@ -2838,10 +2854,10 @@ AxeGraft.registerCatalog({
       "icon": 169,
       "original": {
         "button_set": 169,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 169
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 169
       }
     },
     {
@@ -2851,10 +2867,10 @@ AxeGraft.registerCatalog({
       "icon": 170,
       "original": {
         "button_set": 170,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 170
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 170
       }
     },
     {
@@ -2864,10 +2880,10 @@ AxeGraft.registerCatalog({
       "icon": 171,
       "original": {
         "button_set": 171,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 171
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 171
       }
     },
     {
@@ -2877,10 +2893,10 @@ AxeGraft.registerCatalog({
       "icon": 172,
       "original": {
         "button_set": 172,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 172
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 172
       }
     },
     {
@@ -2890,10 +2906,10 @@ AxeGraft.registerCatalog({
       "icon": 173,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 173
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 173
       }
     },
     {
@@ -2903,10 +2919,10 @@ AxeGraft.registerCatalog({
       "icon": 174,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 174
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 174
       }
     },
     {
@@ -2916,10 +2932,10 @@ AxeGraft.registerCatalog({
       "icon": 175,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 175
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 175
       }
     },
     {
@@ -2929,10 +2945,10 @@ AxeGraft.registerCatalog({
       "icon": 176,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 176
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 176
       }
     },
     {
@@ -2942,10 +2958,10 @@ AxeGraft.registerCatalog({
       "icon": 177,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 177
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 177
       }
     },
     {
@@ -2955,10 +2971,10 @@ AxeGraft.registerCatalog({
       "icon": 178,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 178
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 178
       }
     },
     {
@@ -2968,10 +2984,10 @@ AxeGraft.registerCatalog({
       "icon": 179,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 179
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 179
       }
     },
     {
@@ -2981,10 +2997,10 @@ AxeGraft.registerCatalog({
       "icon": 180,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 180
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 180
       }
     },
     {
@@ -2994,10 +3010,10 @@ AxeGraft.registerCatalog({
       "icon": 181,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 181
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 181
       }
     },
     {
@@ -3007,10 +3023,10 @@ AxeGraft.registerCatalog({
       "icon": 182,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 182
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 182
       }
     },
     {
@@ -3020,10 +3036,10 @@ AxeGraft.registerCatalog({
       "icon": 183,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 183
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 183
       }
     },
     {
@@ -3033,10 +3049,10 @@ AxeGraft.registerCatalog({
       "icon": 184,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 184
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 184
       }
     },
     {
@@ -3046,10 +3062,10 @@ AxeGraft.registerCatalog({
       "icon": 185,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 185
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 185
       }
     },
     {
@@ -3059,10 +3075,10 @@ AxeGraft.registerCatalog({
       "icon": 186,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 186
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 186
       }
     },
     {
@@ -3072,10 +3088,10 @@ AxeGraft.registerCatalog({
       "icon": 187,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 187
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 187
       }
     },
     {
@@ -3085,10 +3101,10 @@ AxeGraft.registerCatalog({
       "icon": 188,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 188
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 188
       }
     },
     {
@@ -3098,10 +3114,10 @@ AxeGraft.registerCatalog({
       "icon": 189,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 189
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 189
       }
     },
     {
@@ -3111,10 +3127,10 @@ AxeGraft.registerCatalog({
       "icon": 190,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 190
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 190
       }
     },
     {
@@ -3124,10 +3140,10 @@ AxeGraft.registerCatalog({
       "icon": 191,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 0
       }
     },
     {
@@ -3137,10 +3153,10 @@ AxeGraft.registerCatalog({
       "icon": 192,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 0
       }
     },
     {
@@ -3150,10 +3166,10 @@ AxeGraft.registerCatalog({
       "icon": 193,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 0
       }
     },
     {
@@ -3163,10 +3179,10 @@ AxeGraft.registerCatalog({
       "icon": 194,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 194
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 194
       }
     },
     {
@@ -3176,10 +3192,10 @@ AxeGraft.registerCatalog({
       "icon": 195,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 195
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 195
       }
     },
     {
@@ -3189,10 +3205,10 @@ AxeGraft.registerCatalog({
       "icon": 196,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 196
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 196
       }
     },
     {
@@ -3202,10 +3218,10 @@ AxeGraft.registerCatalog({
       "icon": 197,
       "original": {
         "button_set": 197,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 197
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 197
       }
     },
     {
@@ -3215,10 +3231,10 @@ AxeGraft.registerCatalog({
       "icon": 198,
       "original": {
         "button_set": 197,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 198
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 198
       }
     },
     {
@@ -3228,10 +3244,10 @@ AxeGraft.registerCatalog({
       "icon": 199,
       "original": {
         "button_set": 197,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 199
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 199
       }
     },
     {
@@ -3241,10 +3257,10 @@ AxeGraft.registerCatalog({
       "icon": 200,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 200
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 200
       }
     },
     {
@@ -3254,10 +3270,10 @@ AxeGraft.registerCatalog({
       "icon": 201,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 201
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 201
       }
     },
     {
@@ -3267,10 +3283,10 @@ AxeGraft.registerCatalog({
       "icon": 202,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 0
       }
     },
     {
@@ -3280,10 +3296,10 @@ AxeGraft.registerCatalog({
       "icon": 203,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 203
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 203
       }
     },
     {
@@ -3293,10 +3309,10 @@ AxeGraft.registerCatalog({
       "icon": 204,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 204
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 204
       }
     },
     {
@@ -3306,10 +3322,10 @@ AxeGraft.registerCatalog({
       "icon": 205,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 205
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 205
       }
     },
     {
@@ -3319,10 +3335,10 @@ AxeGraft.registerCatalog({
       "icon": 206,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 206
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 206
       }
     },
     {
@@ -3332,10 +3348,10 @@ AxeGraft.registerCatalog({
       "icon": 207,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 207
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 207
       }
     },
     {
@@ -3345,10 +3361,10 @@ AxeGraft.registerCatalog({
       "icon": 208,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_never",
-        "status_update": "statdraw_draw_none",
-        "status_unit_type": 208
+        "connected_unit": null,
+        "status_changed": "changed_never",
+        "display_function": "draw_none",
+        "debug_id": 208
       }
     },
     {
@@ -3358,10 +3374,10 @@ AxeGraft.registerCatalog({
       "icon": 209,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 209
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 209
       }
     },
     {
@@ -3371,10 +3387,10 @@ AxeGraft.registerCatalog({
       "icon": 210,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 210
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 210
       }
     },
     {
@@ -3384,10 +3400,10 @@ AxeGraft.registerCatalog({
       "icon": 211,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 211
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 211
       }
     },
     {
@@ -3397,10 +3413,10 @@ AxeGraft.registerCatalog({
       "icon": 212,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 212
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 212
       }
     },
     {
@@ -3410,10 +3426,10 @@ AxeGraft.registerCatalog({
       "icon": 213,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 213
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 213
       }
     },
     {
@@ -3423,10 +3439,10 @@ AxeGraft.registerCatalog({
       "icon": 214,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_bldg",
-        "status_update": "statdraw_draw_bldg",
-        "status_unit_type": 0
+        "connected_unit": null,
+        "status_changed": "changed_building",
+        "display_function": "draw_building",
+        "debug_id": 0
       }
     },
     {
@@ -3436,10 +3452,10 @@ AxeGraft.registerCatalog({
       "icon": 215,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 215
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 215
       }
     },
     {
@@ -3449,10 +3465,10 @@ AxeGraft.registerCatalog({
       "icon": 216,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 216
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 216
       }
     },
     {
@@ -3462,10 +3478,10 @@ AxeGraft.registerCatalog({
       "icon": 217,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 217
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 217
       }
     },
     {
@@ -3475,10 +3491,10 @@ AxeGraft.registerCatalog({
       "icon": 218,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 218
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 218
       }
     },
     {
@@ -3488,10 +3504,10 @@ AxeGraft.registerCatalog({
       "icon": 219,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 219
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 219
       }
     },
     {
@@ -3501,10 +3517,10 @@ AxeGraft.registerCatalog({
       "icon": 220,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 220
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 220
       }
     },
     {
@@ -3514,10 +3530,10 @@ AxeGraft.registerCatalog({
       "icon": 221,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 221
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 221
       }
     },
     {
@@ -3527,10 +3543,10 @@ AxeGraft.registerCatalog({
       "icon": 222,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 222
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 222
       }
     },
     {
@@ -3540,10 +3556,10 @@ AxeGraft.registerCatalog({
       "icon": 223,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 223
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 223
       }
     },
     {
@@ -3553,10 +3569,10 @@ AxeGraft.registerCatalog({
       "icon": 224,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 224
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 224
       }
     },
     {
@@ -3566,10 +3582,10 @@ AxeGraft.registerCatalog({
       "icon": 225,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 225
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 225
       }
     },
     {
@@ -3579,10 +3595,10 @@ AxeGraft.registerCatalog({
       "icon": 226,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 226
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 226
       }
     },
     {
@@ -3592,10 +3608,10 @@ AxeGraft.registerCatalog({
       "icon": 227,
       "original": {
         "button_set": null,
-        "equivalent_entry": null,
-        "status_changed": "statdraw_query_powerup",
-        "status_update": "statdraw_draw_powerup",
-        "status_unit_type": 227
+        "connected_unit": null,
+        "status_changed": "changed_powerup",
+        "display_function": "draw_powerup",
+        "debug_id": 227
       }
     },
     {"id": 228, "name": "No buttons", "tree": ["Other", "No Buttons"], "original": {"button_set": null}},
@@ -3710,49 +3726,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 237,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 0,
-          "action": "order_stim",
+          "action": "stim",
           "enabled_string": 334,
           "disabled_string": 346
         }
@@ -3767,49 +3783,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak",
+          "condition": "can_cloak",
           "condition_variable": 10,
-          "action": "order_cloak",
+          "action": "cloak",
           "action_variable": 10,
           "enabled_string": 344,
           "disabled_string": 355
@@ -3817,18 +3833,18 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_cloaked",
+          "condition": "can_decloak",
           "condition_variable": 10,
-          "action": "order_decloak",
+          "action": "decloak",
           "enabled_string": 345,
           "disabled_string": 0
         },
         {
           "position": 8,
           "icon": 240,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 1,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 1,
           "enabled_string": 335,
           "disabled_string": 347
@@ -3836,8 +3852,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 311,
-          "condition": "bf_has_nuke",
-          "action": "order_nuke_paint",
+          "condition": "is_player_nuke_ready",
+          "action": "nuke",
           "enabled_string": 685,
           "disabled_string": 761
         }
@@ -3852,49 +3868,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 243,
-          "condition": "bf_has_mines",
+          "condition": "can_units_use_tech",
           "condition_variable": 3,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 3,
           "enabled_string": 336,
           "disabled_string": 348
@@ -3942,40 +3958,40 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         }
@@ -3990,49 +4006,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_tank_move",
-          "action": "order_move",
+          "condition": "is_not_sieged",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_tank_move",
-          "action": "order_patrol",
+          "condition": "is_not_sieged",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_tank_move",
-          "action": "order_hold_pos",
+          "condition": "is_not_sieged",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 245,
-          "condition": "bf_can_siege",
+          "condition": "can_siege",
           "condition_variable": 5,
-          "action": "order_siege",
+          "action": "siege",
           "action_variable": 5,
           "enabled_string": 338,
           "disabled_string": 349
@@ -4040,9 +4056,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 246,
-          "condition": "bf_is_sieged",
+          "condition": "can_unsiege",
           "condition_variable": 5,
-          "action": "order_tank_mode",
+          "action": "unsiege",
           "enabled_string": 339,
           "disabled_string": 0
         }
@@ -4057,56 +4073,56 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_scv_can_move",
-          "action": "order_move",
+          "condition": "is_not_constructing_move",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_scv_can_move_stop",
-          "action": "order_stop",
+          "condition": "is_not_constructing_stop",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_scv_can_attack",
-          "action": "order_attack",
+          "condition": "is_not_constructing_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 232,
-          "condition": "bf_scv_can_repair",
-          "action": "order_repair",
+          "condition": "is_not_constructing_repair",
+          "action": "repair",
           "enabled_string": 677,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 231,
-          "condition": "bf_no_load_scv",
-          "action": "order_harvest",
+          "condition": "is_not_carrying_harvest_and_not_constructing",
+          "action": "harvest",
           "enabled_string": 675,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 233,
-          "condition": "bf_load_scv",
-          "action": "order_return",
+          "condition": "is_carrying_harvest_and_not_constructing",
+          "action": "return_harvest",
           "enabled_string": 676,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 234,
-          "condition": "bf_terran_build_basic",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_terran_basic",
+          "action": "show_button_card",
           "action_variable": 239,
           "enabled_string": 678,
           "disabled_string": 0
@@ -4114,8 +4130,8 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 235,
-          "condition": "bf_terran_build_advanced",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_terran_advanced",
+          "action": "show_button_card",
           "action_variable": 242,
           "enabled_string": 679,
           "disabled_string": 0
@@ -4123,8 +4139,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_build",
-          "action": "order_stop",
+          "condition": "is_constructing",
+          "action": "stop",
           "enabled_string": 700,
           "disabled_string": 0
         }
@@ -4139,49 +4155,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak",
+          "condition": "can_cloak",
           "condition_variable": 9,
-          "action": "order_cloak",
+          "action": "cloak",
           "action_variable": 9,
           "enabled_string": 344,
           "disabled_string": 354
@@ -4189,9 +4205,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_cloaked",
+          "condition": "can_decloak",
           "condition_variable": 9,
-          "action": "order_decloak",
+          "action": "decloak",
           "enabled_string": 345,
           "disabled_string": 0
         }
@@ -4206,49 +4222,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 247,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 6,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 6,
           "enabled_string": 340,
           "disabled_string": 350
@@ -4256,9 +4272,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 241,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 2,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 2,
           "enabled_string": 341,
           "disabled_string": 351
@@ -4266,9 +4282,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 242,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 7,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 7,
           "enabled_string": 342,
           "disabled_string": 352
@@ -4284,56 +4300,56 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 8,
           "icon": 309,
-          "condition": "bf_trans",
-          "action": "order_pickup",
+          "condition": "can_load",
+          "action": "load",
           "enabled_string": 683,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 312,
-          "condition": "bf_trans_has_passenger",
-          "action": "order_unload",
+          "condition": "can_unload",
+          "action": "unload",
           "enabled_string": 684,
           "disabled_string": 0
         }
@@ -4348,49 +4364,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 251,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 8,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 8,
           "enabled_string": 343,
           "disabled_string": 353
@@ -4406,49 +4422,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak",
+          "condition": "can_cloak",
           "condition_variable": 10,
-          "action": "order_cloak",
+          "action": "cloak",
           "action_variable": 10,
           "enabled_string": 344,
           "disabled_string": 355
@@ -4456,18 +4472,18 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_cloaked",
+          "condition": "can_decloak",
           "condition_variable": 10,
-          "action": "order_decloak",
+          "action": "decloak",
           "enabled_string": 345,
           "disabled_string": 0
         },
         {
           "position": 8,
           "icon": 240,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 1,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 1,
           "enabled_string": 335,
           "disabled_string": 347
@@ -4483,49 +4499,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 243,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 3,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 3,
           "enabled_string": 336,
           "disabled_string": 348
@@ -4541,41 +4557,41 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 365,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 34,
-          "action": "order_heal",
+          "action": "heal",
           "action_variable": 34,
           "enabled_string": 1247,
           "disabled_string": 0
@@ -4583,9 +4599,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 367,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 24,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 24,
           "enabled_string": 1248,
           "disabled_string": 1250
@@ -4593,9 +4609,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 373,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 30,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 30,
           "enabled_string": 1249,
           "disabled_string": 1251
@@ -4611,9 +4627,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 41,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 41,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 41,
           "enabled_string": 578,
           "disabled_string": 0
@@ -4621,9 +4637,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 37,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 37,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 37,
           "enabled_string": 575,
           "disabled_string": 738
@@ -4631,9 +4647,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 42,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 42,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 42,
           "enabled_string": 579,
           "disabled_string": 0
@@ -4641,9 +4657,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 38,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 38,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 38,
           "enabled_string": 576,
           "disabled_string": 739
@@ -4651,9 +4667,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 43,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 43,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 43,
           "enabled_string": 580,
           "disabled_string": 741
@@ -4661,9 +4677,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 47,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 47,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 47,
           "enabled_string": 584,
           "disabled_string": 745
@@ -4671,9 +4687,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 45,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 45,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 45,
           "enabled_string": 582,
           "disabled_string": 743
@@ -4681,9 +4697,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 39,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 39,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 39,
           "enabled_string": 577,
           "disabled_string": 740
@@ -4691,9 +4707,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 46,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 46,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 46,
           "enabled_string": 583,
           "disabled_string": 744
@@ -4709,8 +4725,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "order_kill_egg",
+          "condition": "always",
+          "action": "cancel_morph",
           "enabled_string": 695,
           "disabled_string": 0
         }
@@ -4725,49 +4741,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_stop",
+          "condition": "is_not_burrowed",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack_unburrowed",
-          "action": "order_attack",
+          "condition": "can_attack_and_not_burrowed",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_patrol",
+          "condition": "is_not_burrowed",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_hold_pos",
+          "condition": "is_not_burrowed",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -4775,9 +4791,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -4792,49 +4808,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_stop",
+          "condition": "is_not_burrowed",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack_unburrowed",
-          "action": "order_attack",
+          "condition": "can_attack_and_not_burrowed",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_patrol",
+          "condition": "is_not_burrowed",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_hold_pos",
+          "condition": "is_not_burrowed",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 103,
-          "condition": "bf_make_lurker",
+          "condition": "can_morph_lurker",
           "condition_variable": 103,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 103,
           "enabled_string": 1289,
           "disabled_string": 1298
@@ -4842,9 +4858,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -4852,9 +4868,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -4869,48 +4885,48 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_stop",
+          "condition": "is_not_burrowed",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack_unburrowed",
-          "action": "order_attack",
+          "condition": "can_attack_and_not_burrowed",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 231,
-          "condition": "bf_no_load_drone",
-          "action": "order_harvest",
+          "condition": "is_not_carrying_harvest_and_not_burrowed",
+          "action": "harvest",
           "enabled_string": 675,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 233,
-          "condition": "bf_load_drone",
-          "action": "order_return",
+          "condition": "is_carrying_harvest_and_not_burrowed",
+          "action": "return_harvest",
           "enabled_string": 676,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 257,
-          "condition": "bf_zerg_build_basic",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_zerg_basic",
+          "action": "show_button_card",
           "action_variable": 238,
           "enabled_string": 680,
           "disabled_string": 0
@@ -4918,8 +4934,8 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 258,
-          "condition": "bf_zerg_build_advanced",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_zerg_advanced",
+          "action": "show_button_card",
           "action_variable": 241,
           "enabled_string": 681,
           "disabled_string": 0
@@ -4927,9 +4943,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -4937,9 +4953,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -4954,49 +4970,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 44,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 44,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 44,
           "enabled_string": 581,
           "disabled_string": 742
@@ -5004,9 +5020,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 62,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 62,
-          "action": "order_morph",
+          "action": "morph_unit",
           "action_variable": 62,
           "enabled_string": 1288,
           "disabled_string": 1297
@@ -5022,49 +5038,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 313,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 12,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 12,
           "enabled_string": 374,
           "disabled_string": 0
@@ -5072,9 +5088,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 271,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 18,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 18,
           "enabled_string": 377,
           "disabled_string": 386
@@ -5082,9 +5098,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 40,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 13,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 13,
           "enabled_string": 375,
           "disabled_string": 384
@@ -5092,9 +5108,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 267,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 17,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 17,
           "enabled_string": 381,
           "disabled_string": 389
@@ -5110,41 +5126,41 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_stop",
+          "condition": "is_not_burrowed",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_patrol",
+          "condition": "is_not_burrowed",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_hold_pos",
+          "condition": "is_not_burrowed",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 302,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 16,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 16,
           "enabled_string": 379,
           "disabled_string": 388
@@ -5152,9 +5168,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 270,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 14,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 14,
           "enabled_string": 376,
           "disabled_string": 385
@@ -5162,9 +5178,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 265,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 15,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 15,
           "enabled_string": 378,
           "disabled_string": 387
@@ -5172,9 +5188,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -5182,9 +5198,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -5199,49 +5215,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_stop",
+          "condition": "is_not_burrowed",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack_unburrowed",
-          "action": "order_attack_unit",
+          "condition": "can_attack_and_not_burrowed",
+          "action": "attack_direct",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_patrol",
+          "condition": "is_not_burrowed",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_hold_pos",
+          "condition": "is_not_burrowed",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -5249,9 +5265,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -5266,49 +5282,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 302,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 16,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 16,
           "enabled_string": 380,
           "disabled_string": 0
@@ -5316,9 +5332,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak_hero",
+          "condition": "can_cloak_mixed",
           "condition_variable": 10,
-          "action": "order_cloak",
+          "action": "cloak",
           "action_variable": 10,
           "enabled_string": 344,
           "disabled_string": 0
@@ -5326,9 +5342,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_hero_cloaked",
+          "condition": "can_decloak_mixed",
           "condition_variable": 10,
-          "action": "order_decloak",
+          "action": "decloak",
           "action_variable": 10,
           "enabled_string": 345,
           "disabled_string": 0
@@ -5336,9 +5352,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 267,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 17,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 17,
           "enabled_string": 381,
           "disabled_string": 0
@@ -5346,9 +5362,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 275,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 19,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 19,
           "enabled_string": 400,
           "disabled_string": 0
@@ -5364,49 +5380,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 369,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 25,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 25,
           "enabled_string": 1265,
           "disabled_string": 1269
@@ -5422,49 +5438,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 68,
-          "condition": "bf_can_make_darchon_need2",
+          "condition": "is_tech_unusable_b",
           "condition_variable": 28,
-          "action": "order_stop",
+          "action": "stop",
           "action_variable": 28,
           "enabled_string": 1264,
           "disabled_string": 1271
@@ -5472,9 +5488,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 63,
-          "condition": "bf_can_make_darchon",
+          "condition": "can_dark_archon_meld",
           "condition_variable": 63,
-          "action": "order_summon_darchon",
+          "action": "dark_archon_meld",
           "action_variable": 63,
           "enabled_string": 1264,
           "disabled_string": 1272
@@ -5490,41 +5506,41 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 372,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 29,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 29,
           "enabled_string": 1267,
           "disabled_string": 1273
@@ -5532,9 +5548,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 371,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 27,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 27,
           "enabled_string": 1266,
           "disabled_string": 1270
@@ -5542,9 +5558,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 381,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 31,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 31,
           "enabled_string": 1268,
           "disabled_string": 1274
@@ -5560,48 +5576,48 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 231,
-          "condition": "bf_no_load",
-          "action": "order_harvest",
+          "condition": "is_not_carrying_harvest",
+          "action": "harvest",
           "enabled_string": 675,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 233,
-          "condition": "bf_load",
-          "action": "order_return",
+          "condition": "is_carrying_harvest",
+          "action": "return_harvest",
           "enabled_string": 676,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 272,
-          "condition": "bf_protoss_build_basic",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_protoss_basic",
+          "action": "show_button_card",
           "action_variable": 240,
           "enabled_string": 678,
           "disabled_string": 0
@@ -5609,8 +5625,8 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 273,
-          "condition": "bf_protoss_build_advanced",
-          "action": "statcmd_set_ctrl",
+          "condition": "can_build_protoss_advanced",
+          "action": "show_button_card",
           "action_variable": 243,
           "enabled_string": 679,
           "disabled_string": 0
@@ -5626,41 +5642,41 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 275,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 19,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 19,
           "enabled_string": 400,
           "disabled_string": 405
@@ -5668,9 +5684,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 277,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 20,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 20,
           "enabled_string": 401,
           "disabled_string": 406
@@ -5678,9 +5694,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 68,
-          "condition": "bf_can_make_archon_need2",
+          "condition": "is_tech_unusable",
           "condition_variable": 23,
-          "action": "order_stop",
+          "action": "stop",
           "action_variable": 23,
           "enabled_string": 404,
           "disabled_string": 409
@@ -5688,9 +5704,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 68,
-          "condition": "bf_can_make_archon",
+          "condition": "can_archon_warp",
           "condition_variable": 68,
-          "action": "order_summon_archon",
+          "action": "archon_warp",
           "action_variable": 68,
           "enabled_string": 404,
           "disabled_string": 410
@@ -5706,49 +5722,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 280,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 21,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 21,
           "enabled_string": 402,
           "disabled_string": 407
@@ -5756,9 +5772,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 278,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 22,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 22,
           "enabled_string": 403,
           "disabled_string": 408
@@ -5774,49 +5790,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_carrier_move",
+          "condition": "always",
+          "action": "move_carrier_reaver",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_carrier_stop",
+          "condition": "always",
+          "action": "stop_carrier",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_has_interceptor",
-          "action": "order_carrier_attack",
+          "condition": "has_interceptors",
+          "action": "attack_carrier",
           "enabled_string": 666,
           "disabled_string": 759
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 73,
-          "condition": "bf_build_fighter_ok",
+          "condition": "can_build_subunit",
           "condition_variable": 73,
-          "action": "order_build_fighter",
+          "action": "build_subunit",
           "action_variable": 73,
           "enabled_string": 607,
           "disabled_string": 0
@@ -5824,8 +5840,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -5841,49 +5857,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 275,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 19,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 19,
           "enabled_string": 400,
           "disabled_string": 405
@@ -5891,9 +5907,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 277,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 20,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 20,
           "enabled_string": 401,
           "disabled_string": 406
@@ -5909,49 +5925,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_carrier_move",
+          "condition": "always",
+          "action": "move_carrier_reaver",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_trilobyte_stop",
+          "condition": "always",
+          "action": "stop_reaver",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_has_scarab",
-          "action": "order_reaver_attack",
+          "condition": "has_scarabs",
+          "action": "attack_reaver",
           "enabled_string": 666,
           "disabled_string": 760
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 85,
-          "condition": "bf_build_fighter_ok",
+          "condition": "can_build_subunit",
           "condition_variable": 85,
-          "action": "order_build_fighter",
+          "action": "build_subunit",
           "action_variable": 85,
           "enabled_string": 609,
           "disabled_string": 0
@@ -5959,8 +5975,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -5976,50 +5992,50 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_move",
+          "condition": "is_not_burrowed",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_stop_unburrowed",
-          "action": "order_stop",
+          "condition": "has_same_burrow_state",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_patrol",
+          "condition": "is_not_burrowed",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol_unburrowed",
-          "action": "order_hold_pos",
+          "condition": "is_not_burrowed",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 259,
-          "condition": "bf_can_burrow",
+          "condition": "can_burrow",
           "condition_variable": 11,
-          "action": "order_burrow",
+          "action": "burrow",
           "action_variable": 11,
           "enabled_string": 372,
           "disabled_string": 382
@@ -6027,9 +6043,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 260,
-          "condition": "bf_burrowed",
+          "condition": "can_unburrow",
           "condition_variable": 11,
-          "action": "order_deburrow",
+          "action": "unburrow",
           "enabled_string": 373,
           "disabled_string": 0
         }
@@ -6044,49 +6060,49 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak_hero",
+          "condition": "can_cloak_mixed",
           "condition_variable": 10,
-          "action": "order_cloak",
+          "action": "cloak",
           "action_variable": 10,
           "enabled_string": 344,
           "disabled_string": 0
@@ -6094,9 +6110,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_hero_cloaked",
+          "condition": "can_decloak_mixed",
           "condition_variable": 10,
-          "action": "order_decloak",
+          "action": "decloak",
           "action_variable": 10,
           "enabled_string": 345,
           "disabled_string": 0
@@ -6104,9 +6120,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 240,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 1,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 1,
           "enabled_string": 335,
           "disabled_string": 347
@@ -6114,9 +6130,9 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 302,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 16,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 16,
           "enabled_string": 380,
           "disabled_string": 0
@@ -6132,17 +6148,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 7,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 7,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 7,
           "enabled_string": 592,
           "disabled_string": 0
@@ -6150,25 +6166,25 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 107,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 107,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 107,
           "enabled_string": 658,
           "disabled_string": 708
@@ -6176,9 +6192,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 108,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 108,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 108,
           "enabled_string": 659,
           "disabled_string": 709
@@ -6186,8 +6202,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 106,
           "enabled_string": 670,
           "disabled_string": 0
@@ -6195,16 +6211,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -6212,8 +6228,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_addon",
-          "action": "order_cancel_addon",
+          "condition": "is_constructing_addon",
+          "action": "cancel_addon",
           "enabled_string": 694,
           "disabled_string": 0
         }
@@ -6228,9 +6244,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 250,
-          "condition": "bf_has_spell",
+          "condition": "can_player_use_tech",
           "condition_variable": 4,
-          "action": "order_tech",
+          "action": "use_tech",
           "action_variable": 4,
           "enabled_string": 337,
           "disabled_string": 0
@@ -6246,9 +6262,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 14,
-          "condition": "bf_empty_silo",
+          "condition": "can_create_single",
           "condition_variable": 14,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 14,
           "enabled_string": 597,
           "disabled_string": 0
@@ -6256,8 +6272,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -6273,17 +6289,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 0,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 0,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 0,
           "enabled_string": 586,
           "disabled_string": 0
@@ -6291,17 +6307,17 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 32,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 32,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 32,
           "enabled_string": 588,
           "disabled_string": 702
@@ -6309,9 +6325,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 1,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 1,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 1,
           "enabled_string": 587,
           "disabled_string": 701
@@ -6319,9 +6335,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 34,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 34,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 34,
           "enabled_string": 1290,
           "disabled_string": 1294
@@ -6329,16 +6345,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 111,
           "enabled_string": 670,
           "disabled_string": 0
@@ -6346,16 +6362,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -6363,8 +6379,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_addon",
-          "action": "order_cancel_addon",
+          "condition": "is_constructing_addon",
+          "action": "cancel_addon",
           "enabled_string": 694,
           "disabled_string": 0
         }
@@ -6379,9 +6395,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 238,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 16,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 16,
           "enabled_string": 472,
           "disabled_string": 0
@@ -6389,9 +6405,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 237,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 0,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 0,
           "enabled_string": 324,
           "disabled_string": 0
@@ -6399,9 +6415,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 366,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 24,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 24,
           "enabled_string": 1245,
           "disabled_string": 0
@@ -6409,9 +6425,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 373,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 30,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 30,
           "enabled_string": 1246,
           "disabled_string": 0
@@ -6419,9 +6435,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 384,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 51,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 51,
           "enabled_string": 1281,
           "disabled_string": 0
@@ -6429,16 +6445,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -6453,17 +6469,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 2,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 2,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 2,
           "enabled_string": 589,
           "disabled_string": 0
@@ -6471,17 +6487,17 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 5,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 5,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 5,
           "enabled_string": 591,
           "disabled_string": 704
@@ -6489,9 +6505,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 3,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 3,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 3,
           "enabled_string": 590,
           "disabled_string": 703
@@ -6499,17 +6515,17 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 120,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 120,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 120,
           "enabled_string": 663,
           "disabled_string": 0
@@ -6517,8 +6533,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 113,
           "enabled_string": 670,
           "disabled_string": 0
@@ -6526,16 +6542,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -6543,16 +6559,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_addon",
-          "action": "order_cancel_addon",
+          "condition": "is_constructing_addon",
+          "action": "cancel_addon",
           "enabled_string": 694,
           "disabled_string": 0
         }
@@ -6567,17 +6583,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 8,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 8,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 8,
           "enabled_string": 593,
           "disabled_string": 0
@@ -6585,17 +6601,17 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 11,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 11,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 11,
           "enabled_string": 595,
           "disabled_string": 706
@@ -6603,9 +6619,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 9,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 9,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 9,
           "enabled_string": 594,
           "disabled_string": 705
@@ -6613,9 +6629,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 12,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 12,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 12,
           "enabled_string": 596,
           "disabled_string": 707
@@ -6623,9 +6639,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 58,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 58,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 58,
           "enabled_string": 1291,
           "disabled_string": 1295
@@ -6633,17 +6649,17 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 115,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 115,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 115,
           "enabled_string": 660,
           "disabled_string": 0
@@ -6651,8 +6667,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 114,
           "enabled_string": 670,
           "disabled_string": 0
@@ -6660,16 +6676,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -6677,8 +6693,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_addon",
-          "action": "order_cancel_addon",
+          "condition": "is_constructing_addon",
+          "action": "cancel_addon",
           "enabled_string": 694,
           "disabled_string": 0
         }
@@ -6693,9 +6709,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 252,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 9,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 9,
           "enabled_string": 332,
           "disabled_string": 0
@@ -6703,9 +6719,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 284,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 22,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 22,
           "enabled_string": 478,
           "disabled_string": 0
@@ -6713,16 +6729,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -6737,17 +6753,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 241,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 2,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 2,
           "enabled_string": 326,
           "disabled_string": 0
@@ -6755,17 +6771,17 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 242,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 7,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 7,
           "enabled_string": 330,
           "disabled_string": 0
@@ -6773,9 +6789,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 248,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 19,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 19,
           "enabled_string": 475,
           "disabled_string": 0
@@ -6783,9 +6799,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 117,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 117,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 117,
           "enabled_string": 661,
           "disabled_string": 0
@@ -6793,9 +6809,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 118,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 118,
-          "action": "order_place_addon",
+          "action": "build_addon",
           "action_variable": 118,
           "enabled_string": 662,
           "disabled_string": 0
@@ -6803,8 +6819,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 116,
           "enabled_string": 670,
           "disabled_string": 0
@@ -6812,32 +6828,32 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_addon",
-          "action": "order_cancel_addon",
+          "condition": "is_constructing_addon",
+          "action": "cancel_addon",
           "enabled_string": 694,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -6852,9 +6868,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 240,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 1,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 1,
           "enabled_string": 325,
           "disabled_string": 0
@@ -6862,9 +6878,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 252,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 10,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 10,
           "enabled_string": 333,
           "disabled_string": 0
@@ -6872,9 +6888,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 249,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 20,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 20,
           "enabled_string": 476,
           "disabled_string": 0
@@ -6882,9 +6898,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 256,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 21,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 21,
           "enabled_string": 477,
           "disabled_string": 0
@@ -6892,16 +6908,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -6916,9 +6932,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 251,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 8,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 8,
           "enabled_string": 331,
           "disabled_string": 0
@@ -6926,9 +6942,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 285,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 23,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 23,
           "enabled_string": 479,
           "disabled_string": 0
@@ -6936,16 +6952,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -6960,9 +6976,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 287,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 17,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 17,
           "enabled_string": 473,
           "disabled_string": 0
@@ -6970,9 +6986,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 243,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 3,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 3,
           "enabled_string": 327,
           "disabled_string": 0
@@ -6980,9 +6996,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 245,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 5,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 5,
           "enabled_string": 328,
           "disabled_string": 0
@@ -6990,9 +7006,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 380,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 54,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 54,
           "enabled_string": 1282,
           "disabled_string": 1287
@@ -7000,16 +7016,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7024,17 +7040,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 288,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 7,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 7,
           "enabled_string": 463,
           "disabled_string": 504
@@ -7042,17 +7058,17 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 292,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 0,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 0,
           "enabled_string": 456,
           "disabled_string": 501
@@ -7060,8 +7076,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 122,
           "enabled_string": 670,
           "disabled_string": 0
@@ -7069,16 +7085,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7093,9 +7109,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 289,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 8,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 8,
           "enabled_string": 464,
           "disabled_string": 507
@@ -7103,9 +7119,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 290,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 9,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 9,
           "enabled_string": 465,
           "disabled_string": 513
@@ -7113,9 +7129,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 293,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 1,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 1,
           "enabled_string": 457,
           "disabled_string": 510
@@ -7123,9 +7139,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 291,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 2,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 2,
           "enabled_string": 458,
           "disabled_string": 516
@@ -7133,8 +7149,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7149,16 +7165,16 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_tower",
-          "action": "order_stop",
+          "condition": "can_attack_in_place",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_tower",
-          "action": "order_tower_attack",
+          "condition": "can_attack_in_place",
+          "action": "attack_tower",
           "enabled_string": 666,
           "disabled_string": 0
         }
@@ -7173,16 +7189,16 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 309,
-          "condition": "bf_trans",
-          "action": "order_pickup",
+          "condition": "can_load",
+          "action": "load",
           "enabled_string": 683,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 312,
-          "condition": "bf_trans_has_passenger",
-          "action": "order_unload",
+          "condition": "can_unload",
+          "action": "unload",
           "enabled_string": 684,
           "disabled_string": 0
         }
@@ -7197,17 +7213,17 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_is_ship",
-          "action": "order_move",
+          "condition": "is_lifted_off",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 1,
           "icon": 50,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 50,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 50,
           "enabled_string": 585,
           "disabled_string": 0
@@ -7215,24 +7231,24 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_is_ship",
-          "action": "order_stop",
+          "condition": "is_lifted_off",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 283,
-          "condition": "bf_lifted",
-          "action": "order_land",
+          "condition": "can_land",
+          "action": "land",
           "action_variable": 130,
           "enabled_string": 670,
           "disabled_string": 0
@@ -7240,16 +7256,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 282,
-          "condition": "bf_liftoff_ok",
-          "action": "order_bldg_liftoff",
+          "condition": "can_lift_off",
+          "action": "lift_off",
           "enabled_string": 671,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -7265,25 +7281,25 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 35,
-          "condition": "bf_always",
-          "action": "order_select_larva",
+          "condition": "always",
+          "action": "select_larva",
           "enabled_string": 674,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 259,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 11,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 11,
           "enabled_string": 364,
           "disabled_string": 0
@@ -7291,9 +7307,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 132,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 132,
-          "action": "order_upgrade_bldg",
+          "action": "morph_building",
           "action_variable": 132,
           "enabled_string": 624,
           "disabled_string": 746
@@ -7301,8 +7317,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         }
@@ -7317,25 +7333,25 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 35,
-          "condition": "bf_always",
-          "action": "order_select_larva",
+          "condition": "always",
+          "action": "select_larva",
           "enabled_string": 674,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 259,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 11,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 11,
           "enabled_string": 364,
           "disabled_string": 0
@@ -7343,9 +7359,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 261,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 24,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 24,
           "enabled_string": 480,
           "disabled_string": 0
@@ -7353,9 +7369,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 262,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 25,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 25,
           "enabled_string": 481,
           "disabled_string": 0
@@ -7363,9 +7379,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 296,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 26,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 26,
           "enabled_string": 482,
           "disabled_string": 0
@@ -7373,9 +7389,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 133,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 133,
-          "action": "order_upgrade_bldg",
+          "action": "morph_building",
           "action_variable": 133,
           "enabled_string": 625,
           "disabled_string": 747
@@ -7383,16 +7399,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7407,25 +7423,25 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 35,
-          "condition": "bf_always",
-          "action": "order_select_larva",
+          "condition": "always",
+          "action": "select_larva",
           "enabled_string": 674,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 259,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 11,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 11,
           "enabled_string": 364,
           "disabled_string": 0
@@ -7433,9 +7449,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 261,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 24,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 24,
           "enabled_string": 480,
           "disabled_string": 0
@@ -7443,9 +7459,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 262,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 25,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 25,
           "enabled_string": 481,
           "disabled_string": 0
@@ -7453,9 +7469,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 296,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 26,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 26,
           "enabled_string": 482,
           "disabled_string": 0
@@ -7463,16 +7479,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7487,9 +7503,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 134,
-          "condition": "bf_no_exit",
+          "condition": "does_not_have_exit",
           "condition_variable": 134,
-          "action": "order_nydus_exit",
+          "action": "place_nydus_exit",
           "action_variable": 134,
           "enabled_string": 629,
           "disabled_string": 0
@@ -7505,9 +7521,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 266,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 29,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 29,
           "enabled_string": 485,
           "disabled_string": 0
@@ -7515,9 +7531,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 268,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 30,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 30,
           "enabled_string": 486,
           "disabled_string": 0
@@ -7525,9 +7541,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 103,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 32,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 32,
           "enabled_string": 1253,
           "disabled_string": 1254
@@ -7535,16 +7551,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         }
@@ -7559,9 +7575,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 265,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 15,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 15,
           "enabled_string": 369,
           "disabled_string": 0
@@ -7569,9 +7585,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 302,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 16,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 16,
           "enabled_string": 371,
           "disabled_string": 0
@@ -7579,9 +7595,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 295,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 32,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 32,
           "enabled_string": 488,
           "disabled_string": 0
@@ -7589,16 +7605,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7613,9 +7629,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 301,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 12,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 12,
           "enabled_string": 468,
           "disabled_string": 528
@@ -7623,9 +7639,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 298,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 4,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 4,
           "enabled_string": 460,
           "disabled_string": 531
@@ -7633,8 +7649,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7649,9 +7665,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 40,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 13,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 13,
           "enabled_string": 366,
           "disabled_string": 0
@@ -7659,9 +7675,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 267,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 17,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 17,
           "enabled_string": 370,
           "disabled_string": 0
@@ -7669,9 +7685,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 294,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 31,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 31,
           "enabled_string": 487,
           "disabled_string": 0
@@ -7679,16 +7695,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7703,9 +7719,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 299,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 10,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 10,
           "enabled_string": 466,
           "disabled_string": 519
@@ -7713,9 +7729,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 300,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 11,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 11,
           "enabled_string": 467,
           "disabled_string": 522
@@ -7723,9 +7739,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 297,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 3,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 3,
           "enabled_string": 459,
           "disabled_string": 525
@@ -7733,8 +7749,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7749,9 +7765,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 378,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 53,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 53,
           "enabled_string": 1283,
           "disabled_string": 0
@@ -7759,9 +7775,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 379,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 52,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 52,
           "enabled_string": 1284,
           "disabled_string": 0
@@ -7769,8 +7785,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7785,9 +7801,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 301,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 12,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 12,
           "enabled_string": 468,
           "disabled_string": 528
@@ -7795,9 +7811,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 298,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 4,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 4,
           "enabled_string": 460,
           "disabled_string": 531
@@ -7805,9 +7821,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 137,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 137,
-          "action": "order_upgrade_bldg",
+          "action": "morph_building",
           "action_variable": 137,
           "enabled_string": 626,
           "disabled_string": 751
@@ -7815,8 +7831,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7831,9 +7847,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 263,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 27,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 27,
           "enabled_string": 483,
           "disabled_string": 0
@@ -7841,9 +7857,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 264,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 28,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 28,
           "enabled_string": 484,
           "disabled_string": 534
@@ -7851,8 +7867,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -7867,9 +7883,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 144,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 144,
-          "action": "order_upgrade_bldg",
+          "action": "morph_building",
           "action_variable": 144,
           "enabled_string": 627,
           "disabled_string": 757
@@ -7877,9 +7893,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 146,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 146,
-          "action": "order_upgrade_bldg",
+          "action": "morph_building",
           "action_variable": 146,
           "enabled_string": 628,
           "disabled_string": 758
@@ -7895,9 +7911,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 64,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 64,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 64,
           "enabled_string": 599,
           "disabled_string": 0
@@ -7905,16 +7921,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -7930,9 +7946,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 69,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 69,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 69,
           "enabled_string": 603,
           "disabled_string": 0
@@ -7940,9 +7956,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 83,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 83,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 83,
           "enabled_string": 608,
           "disabled_string": 723
@@ -7950,9 +7966,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 84,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 84,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 84,
           "enabled_string": 598,
           "disabled_string": 724
@@ -7960,16 +7976,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -7985,9 +8001,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 276,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 39,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 39,
           "enabled_string": 495,
           "disabled_string": 0
@@ -7995,9 +8011,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 317,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 38,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 38,
           "enabled_string": 494,
           "disabled_string": 0
@@ -8005,8 +8021,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8021,9 +8037,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 65,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 65,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 65,
           "enabled_string": 600,
           "disabled_string": 0
@@ -8031,9 +8047,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 66,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 66,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 66,
           "enabled_string": 601,
           "disabled_string": 719
@@ -8041,9 +8057,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 67,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 67,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 67,
           "enabled_string": 602,
           "disabled_string": 720
@@ -8051,9 +8067,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 61,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 61,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 61,
           "enabled_string": 1293,
           "disabled_string": 1296
@@ -8061,16 +8077,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -8086,9 +8102,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 307,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 34,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 34,
           "enabled_string": 490,
           "disabled_string": 0
@@ -8096,8 +8112,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8112,9 +8128,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 306,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 14,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 14,
           "enabled_string": 470,
           "disabled_string": 538
@@ -8122,9 +8138,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 304,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 6,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 6,
           "enabled_string": 462,
           "disabled_string": 544
@@ -8132,9 +8148,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 281,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 33,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 33,
           "enabled_string": 489,
           "disabled_string": 0
@@ -8142,8 +8158,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8158,9 +8174,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 275,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 19,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 19,
           "enabled_string": 395,
           "disabled_string": 0
@@ -8168,9 +8184,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 277,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 20,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 20,
           "enabled_string": 396,
           "disabled_string": 0
@@ -8178,9 +8194,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 318,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 40,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 40,
           "enabled_string": 496,
           "disabled_string": 0
@@ -8188,9 +8204,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 371,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 27,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 27,
           "enabled_string": 1261,
           "disabled_string": 0
@@ -8198,9 +8214,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 381,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 31,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 31,
           "enabled_string": 1263,
           "disabled_string": 0
@@ -8208,9 +8224,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 385,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 49,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 49,
           "enabled_string": 1286,
           "disabled_string": 0
@@ -8218,16 +8234,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8242,9 +8258,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 305,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 13,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 13,
           "enabled_string": 469,
           "disabled_string": 535
@@ -8252,9 +8268,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 303,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 5,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 5,
           "enabled_string": 461,
           "disabled_string": 541
@@ -8262,9 +8278,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 310,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 15,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 15,
           "enabled_string": 471,
           "disabled_string": 547
@@ -8272,8 +8288,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8288,9 +8304,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 70,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 70,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 70,
           "enabled_string": 604,
           "disabled_string": 0
@@ -8298,9 +8314,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 72,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 72,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 72,
           "enabled_string": 606,
           "disabled_string": 722
@@ -8308,9 +8324,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 71,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 71,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 71,
           "enabled_string": 605,
           "disabled_string": 721
@@ -8318,9 +8334,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 60,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 60,
-          "action": "order_build",
+          "action": "train",
           "action_variable": 60,
           "enabled_string": 1292,
           "disabled_string": 0
@@ -8328,16 +8344,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_unit",
-          "action": "order_stop_build",
+          "condition": "is_training",
+          "action": "cancel_train",
           "action_variable": 254,
           "enabled_string": 693,
           "disabled_string": 0
@@ -8353,9 +8369,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 319,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 41,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 41,
           "enabled_string": 497,
           "disabled_string": 0
@@ -8363,9 +8379,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 320,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 42,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 42,
           "enabled_string": 498,
           "disabled_string": 0
@@ -8373,9 +8389,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 321,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 43,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 43,
           "enabled_string": 499,
           "disabled_string": 0
@@ -8383,9 +8399,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 368,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 25,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 25,
           "enabled_string": 1260,
           "disabled_string": 0
@@ -8393,9 +8409,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 383,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 47,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 47,
           "enabled_string": 1285,
           "disabled_string": 0
@@ -8403,16 +8419,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         }
@@ -8427,9 +8443,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 280,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 21,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 21,
           "enabled_string": 397,
           "disabled_string": 0
@@ -8437,9 +8453,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 278,
-          "condition": "bf_research",
+          "condition": "can_research_tech",
           "condition_variable": 22,
-          "action": "order_research",
+          "action": "research_tech",
           "action_variable": 22,
           "enabled_string": 398,
           "disabled_string": 0
@@ -8447,9 +8463,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 322,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 44,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 44,
           "enabled_string": 500,
           "disabled_string": 0
@@ -8457,16 +8473,16 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_research",
-          "action": "order_cancel_research",
+          "condition": "is_researching_tech",
+          "action": "cancel_research_tech",
           "enabled_string": 692,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8481,9 +8497,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 314,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 35,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 35,
           "enabled_string": 491,
           "disabled_string": 0
@@ -8491,9 +8507,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 315,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 36,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 36,
           "enabled_string": 492,
           "disabled_string": 0
@@ -8501,9 +8517,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 316,
-          "condition": "bf_upgrade",
+          "condition": "can_upgrade",
           "condition_variable": 37,
-          "action": "order_upgrade",
+          "action": "upgrade",
           "action_variable": 37,
           "enabled_string": 493,
           "disabled_string": 0
@@ -8511,8 +8527,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_stop_upgrade",
-          "action": "order_cancel_upgrade",
+          "condition": "is_researching_upgrade",
+          "action": "cancel_upgrade",
           "enabled_string": 691,
           "disabled_string": 0
         }
@@ -8527,8 +8543,8 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 308,
-          "condition": "bf_battery",
-          "action": "order_recharge",
+          "condition": "is_not_disabled",
+          "action": "recharge_shields",
           "enabled_string": 673,
           "disabled_string": 0
         }
@@ -8543,8 +8559,8 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 283,
-          "condition": "bf_always",
-          "action": "order_place_cop",
+          "condition": "always",
+          "action": "place_cop",
           "enabled_string": 686,
           "disabled_string": 0
         }
@@ -8559,8 +8575,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "order_target_off",
+          "condition": "always",
+          "action": "cancel_targeting",
           "enabled_string": 688,
           "disabled_string": 0
         }
@@ -8575,8 +8591,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "order_cancel_land",
+          "condition": "always",
+          "action": "cancel_placement",
           "enabled_string": 688,
           "disabled_string": 0
         }
@@ -8591,8 +8607,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_kill",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_construction",
           "enabled_string": 689,
           "disabled_string": 0
         }
@@ -8608,16 +8624,16 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_kill",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_construction",
           "enabled_string": 689,
           "disabled_string": 0
         }
@@ -8632,8 +8648,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_kill",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_construction",
           "enabled_string": 696,
           "disabled_string": 0
         }
@@ -8649,16 +8665,16 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 286,
-          "condition": "bf_rally",
-          "action": "order_rally",
+          "condition": "can_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_kill",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_construction",
           "enabled_string": 696,
           "disabled_string": 0
         }
@@ -8673,8 +8689,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_none",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_infestation",
           "enabled_string": 697,
           "disabled_string": 0
         }
@@ -8689,24 +8705,24 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 35,
-          "condition": "bf_larva_sel",
-          "action": "order_select_larva",
+          "condition": "is_zerg_town_hall",
+          "action": "select_larva",
           "enabled_string": 674,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 286,
-          "condition": "bf_hatch_rally",
-          "action": "order_rally",
+          "condition": "can_zerg_town_hall_set_rally_point",
+          "action": "rally",
           "enabled_string": 672,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_not_comp",
-          "action": "order_kill",
+          "condition": "is_constructing_or_mutating",
+          "action": "cancel_construction",
           "enabled_string": 698,
           "disabled_string": 0
         }
@@ -8721,8 +8737,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "order_cancel_nuke",
+          "condition": "always",
+          "action": "cancel_nuke",
           "enabled_string": 699,
           "disabled_string": 0
         }
@@ -8737,9 +8753,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 131,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 131,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 131,
           "enabled_string": 613,
           "disabled_string": 0
@@ -8747,9 +8763,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 143,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 143,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 143,
           "enabled_string": 614,
           "disabled_string": 0
@@ -8757,9 +8773,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 149,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 149,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 149,
           "enabled_string": 615,
           "disabled_string": 0
@@ -8767,9 +8783,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 142,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 142,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 142,
           "enabled_string": 616,
           "disabled_string": 756
@@ -8777,9 +8793,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 139,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 139,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 139,
           "enabled_string": 617,
           "disabled_string": 753
@@ -8787,9 +8803,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 135,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 135,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 135,
           "enabled_string": 618,
           "disabled_string": 749
@@ -8797,8 +8813,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -8814,9 +8830,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 106,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 106,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 106,
           "enabled_string": 646,
           "disabled_string": 0
@@ -8824,9 +8840,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 109,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 109,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 109,
           "enabled_string": 647,
           "disabled_string": 0
@@ -8834,9 +8850,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 110,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 110,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 110,
           "enabled_string": 648,
           "disabled_string": 0
@@ -8844,9 +8860,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 111,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 111,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 111,
           "enabled_string": 649,
           "disabled_string": 710
@@ -8854,9 +8870,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 122,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 122,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 122,
           "enabled_string": 650,
           "disabled_string": 715
@@ -8864,9 +8880,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 124,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 124,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 124,
           "enabled_string": 651,
           "disabled_string": 717
@@ -8874,9 +8890,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 112,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 112,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 112,
           "enabled_string": 652,
           "disabled_string": 711
@@ -8884,9 +8900,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 125,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 125,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 125,
           "enabled_string": 653,
           "disabled_string": 718
@@ -8894,8 +8910,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -8911,9 +8927,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 154,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 154,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 154,
           "enabled_string": 630,
           "disabled_string": 0
@@ -8921,9 +8937,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 156,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 156,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 156,
           "enabled_string": 631,
           "disabled_string": 0
@@ -8931,9 +8947,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 157,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 157,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 157,
           "enabled_string": 632,
           "disabled_string": 0
@@ -8941,9 +8957,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 160,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 160,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 160,
           "enabled_string": 633,
           "disabled_string": 725
@@ -8951,9 +8967,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 166,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 166,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 166,
           "enabled_string": 634,
           "disabled_string": 726
@@ -8961,9 +8977,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 162,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 162,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 162,
           "enabled_string": 635,
           "disabled_string": 727
@@ -8971,9 +8987,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 164,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 164,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 164,
           "enabled_string": 636,
           "disabled_string": 729
@@ -8981,9 +8997,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 172,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 172,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 172,
           "enabled_string": 637,
           "disabled_string": 728
@@ -8991,8 +9007,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -9008,9 +9024,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 141,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 141,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 141,
           "enabled_string": 620,
           "disabled_string": 750
@@ -9018,9 +9034,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 138,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 138,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 138,
           "enabled_string": 621,
           "disabled_string": 752
@@ -9028,9 +9044,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 134,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 134,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 134,
           "enabled_string": 619,
           "disabled_string": 748
@@ -9038,9 +9054,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 140,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 140,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 140,
           "enabled_string": 622,
           "disabled_string": 754
@@ -9048,9 +9064,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 136,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 136,
-          "action": "order_zerg_place",
+          "action": "build_zerg",
           "action_variable": 136,
           "enabled_string": 623,
           "disabled_string": 755
@@ -9058,8 +9074,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -9075,9 +9091,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 113,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 113,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 113,
           "enabled_string": 654,
           "disabled_string": 712
@@ -9085,9 +9101,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 114,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 114,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 114,
           "enabled_string": 655,
           "disabled_string": 713
@@ -9095,9 +9111,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 116,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 116,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 116,
           "enabled_string": 656,
           "disabled_string": 714
@@ -9105,9 +9121,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 123,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 123,
-          "action": "order_place",
+          "action": "build_terran",
           "action_variable": 123,
           "enabled_string": 657,
           "disabled_string": 716
@@ -9115,8 +9131,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -9132,9 +9148,9 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 155,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 155,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 155,
           "enabled_string": 638,
           "disabled_string": 730
@@ -9142,9 +9158,9 @@ AxeGraft.registerCatalog({
         {
           "position": 2,
           "icon": 167,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 167,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 167,
           "enabled_string": 642,
           "disabled_string": 731
@@ -9152,9 +9168,9 @@ AxeGraft.registerCatalog({
         {
           "position": 3,
           "icon": 163,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 163,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 163,
           "enabled_string": 640,
           "disabled_string": 732
@@ -9162,9 +9178,9 @@ AxeGraft.registerCatalog({
         {
           "position": 4,
           "icon": 171,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 171,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 171,
           "enabled_string": 645,
           "disabled_string": 734
@@ -9172,9 +9188,9 @@ AxeGraft.registerCatalog({
         {
           "position": 5,
           "icon": 169,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 169,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 169,
           "enabled_string": 643,
           "disabled_string": 735
@@ -9182,9 +9198,9 @@ AxeGraft.registerCatalog({
         {
           "position": 6,
           "icon": 165,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 165,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 165,
           "enabled_string": 641,
           "disabled_string": 736
@@ -9192,9 +9208,9 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 159,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 159,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 159,
           "enabled_string": 639,
           "disabled_string": 733
@@ -9202,9 +9218,9 @@ AxeGraft.registerCatalog({
         {
           "position": 8,
           "icon": 170,
-          "condition": "bf_building_ok",
+          "condition": "can_create_or_morph",
           "condition_variable": 170,
-          "action": "order_place_protoss",
+          "action": "build_protoss",
           "action_variable": 170,
           "enabled_string": 644,
           "disabled_string": 737
@@ -9212,8 +9228,8 @@ AxeGraft.registerCatalog({
         {
           "position": 9,
           "icon": 236,
-          "condition": "bf_always",
-          "action": "statcmd_set_ctrl",
+          "condition": "always",
+          "action": "show_button_card",
           "action_variable": 228,
           "enabled_string": 688,
           "disabled_string": 0
@@ -9229,40 +9245,40 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_can_move_patrol",
-          "action": "order_move",
+          "condition": "can_move",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_can_move_stop",
-          "action": "order_stop",
+          "condition": "can_stop",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_can_move_patrol",
-          "action": "order_patrol",
+          "condition": "can_move",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_can_move_patrol",
-          "action": "order_hold_pos",
+          "condition": "can_move",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         }
@@ -9277,40 +9293,40 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 231,
-          "condition": "bf_no_load",
-          "action": "order_harvest",
+          "condition": "is_not_carrying_harvest",
+          "action": "harvest",
           "enabled_string": 675,
           "disabled_string": 0
         },
         {
           "position": 6,
           "icon": 233,
-          "condition": "bf_load",
-          "action": "order_return",
+          "condition": "is_carrying_harvest",
+          "action": "return_harvest",
           "enabled_string": 676,
           "disabled_string": 0
         }
@@ -9325,56 +9341,56 @@ AxeGraft.registerCatalog({
         {
           "position": 1,
           "icon": 228,
-          "condition": "bf_always",
-          "action": "order_move",
+          "condition": "always",
+          "action": "move",
           "enabled_string": 664,
           "disabled_string": 0
         },
         {
           "position": 2,
           "icon": 229,
-          "condition": "bf_always",
-          "action": "order_stop",
+          "condition": "always",
+          "action": "stop",
           "enabled_string": 665,
           "disabled_string": 0
         },
         {
           "position": 3,
           "icon": 230,
-          "condition": "bf_can_attack",
-          "action": "order_attack",
+          "condition": "can_attack",
+          "action": "attack",
           "enabled_string": 666,
           "disabled_string": 0
         },
         {
           "position": 4,
           "icon": 254,
-          "condition": "bf_always",
-          "action": "order_patrol",
+          "condition": "always",
+          "action": "patrol",
           "enabled_string": 667,
           "disabled_string": 0
         },
         {
           "position": 5,
           "icon": 255,
-          "condition": "bf_always",
-          "action": "order_hold_pos",
+          "condition": "always",
+          "action": "hold_position",
           "enabled_string": 668,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 252,
-          "condition": "bf_can_cloak_hero",
-          "action": "order_cloak",
+          "condition": "can_cloak_mixed",
+          "action": "cloak",
           "enabled_string": 344,
           "disabled_string": 0
         },
         {
           "position": 7,
           "icon": 253,
-          "condition": "bf_is_hero_cloaked",
-          "action": "order_decloak",
+          "condition": "can_decloak_mixed",
+          "action": "decloak",
           "enabled_string": 345,
           "disabled_string": 0
         }
@@ -9390,24 +9406,24 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 386,
-          "condition": "bf_replay_play",
-          "action": "order_replay_play",
+          "condition": "is_watching_replay",
+          "action": "play_pause_replay",
           "enabled_string": 1542,
           "disabled_string": 0
         },
         {
           "position": 8,
           "icon": 389,
-          "condition": "bf_replay_slowdown",
-          "action": "order_replay_slowdown",
+          "condition": "can_slow_down_replay",
+          "action": "slow_down_replay",
           "enabled_string": 1544,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 388,
-          "condition": "bf_replay_speedup",
-          "action": "order_replay_speedup",
+          "condition": "can_speed_up_replay",
+          "action": "speed_up_replay",
           "enabled_string": 1541,
           "disabled_string": 0
         }
@@ -9423,24 +9439,24 @@ AxeGraft.registerCatalog({
         {
           "position": 7,
           "icon": 387,
-          "condition": "bf_replay_play",
-          "action": "order_replay_play",
+          "condition": "is_watching_replay",
+          "action": "play_pause_replay",
           "enabled_string": 1543,
           "disabled_string": 0
         },
         {
           "position": 8,
           "icon": 389,
-          "condition": "bf_replay_slowdown",
-          "action": "order_replay_slowdown",
+          "condition": "can_slow_down_replay",
+          "action": "slow_down_replay",
           "enabled_string": 1544,
           "disabled_string": 0
         },
         {
           "position": 9,
           "icon": 388,
-          "condition": "bf_replay_speedup",
-          "action": "order_replay_speedup",
+          "condition": "can_speed_up_replay",
+          "action": "speed_up_replay",
           "enabled_string": 1541,
           "disabled_string": 0
         }
@@ -9751,76 +9767,92 @@ AxeGraft.registerCatalog({
     {
       "type": "unit",
       "id": 0,
-      "original": {"default": ["current_unit_is", 111, "not_constructing_addon", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 111, "is_not_constructing_addon", "is_not_lifted_off"]}
     },
     {
       "type": "unit",
       "id": 1,
-      "original": {"default": ["current_unit_is", 111, "not_constructing_addon", "not_lifted_off", 117, 112]}
+      "original": {"default": ["current_unit_is", 111, "is_not_constructing_addon", "is_not_lifted_off", 117, 112]}
     },
     {
       "type": "unit",
       "id": 2,
-      "original": {"default": ["current_unit_is", 113, "not_lifted_off", "not_constructing_addon"]}
+      "original": {"default": ["current_unit_is", 113, "is_not_lifted_off", "is_not_constructing_addon"]}
     },
     {
       "type": "unit",
       "id": 3,
-      "original": {"default": ["current_unit_is", 113, "not_lifted_off", "not_constructing_addon", 123]}
+      "original": {"default": ["current_unit_is", 113, "is_not_lifted_off", "is_not_constructing_addon", 123]}
     },
     {
       "type": "unit",
       "id": 5,
       "original": {
-        "default": ["current_unit_is", 113, "not_lifted_off", "not_constructing_addon", "must_have_addon", 120]
+        "default": ["current_unit_is", 113, "is_not_lifted_off", "is_not_constructing_addon", "must_have_addon", 120]
       }
     },
     {
       "type": "unit",
       "id": 7,
-      "original": {"default": ["current_unit_is", 106, "not_constructing_addon", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 106, "is_not_constructing_addon", "is_not_lifted_off"]}
     },
     {
       "type": "unit",
       "id": 8,
-      "original": {"default": ["current_unit_is", 114, "not_constructing_addon", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 114, "is_not_constructing_addon", "is_not_lifted_off"]}
     },
     {
       "type": "unit",
       "id": 9,
       "original": {
-        "default": ["current_unit_is", 114, "not_constructing_addon", "not_lifted_off", "must_have_addon", 115, 116]
+        "default": [
+          "current_unit_is",
+          114,
+          "is_not_constructing_addon",
+          "is_not_lifted_off",
+          "must_have_addon",
+          115,
+          116
+        ]
       }
     },
     {
       "type": "unit",
       "id": 11,
       "original": {
-        "default": ["current_unit_is", 114, "not_constructing_addon", "not_lifted_off", "must_have_addon", 115]
+        "default": ["current_unit_is", 114, "is_not_constructing_addon", "is_not_lifted_off", "must_have_addon", 115]
       }
     },
     {
       "type": "unit",
       "id": 12,
       "original": {
-        "default": ["current_unit_is", 114, "not_constructing_addon", "not_lifted_off", "must_have_addon", 115, 118]
+        "default": [
+          "current_unit_is",
+          114,
+          "is_not_constructing_addon",
+          "is_not_lifted_off",
+          "must_have_addon",
+          115,
+          118
+        ]
       }
     },
     {
       "type": "unit",
       "id": 32,
-      "original": {"default": ["current_unit_is", 111, "not_constructing_addon", "not_lifted_off", 112]}
+      "original": {"default": ["current_unit_is", 111, "is_not_constructing_addon", "is_not_lifted_off", 112]}
     },
     {
       "type": "unit",
       "id": 14,
-      "original": {"default": ["current_unit_is", 108, "does_not_have_nuke", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 108, "does_not_have_nuke", "is_not_training_or_morphing"]}
     },
     {
       "type": "unit",
       "id": 34,
       "original": {
-        "default": ["must_be_brood_war", "current_unit_is", 111, "not_constructing_addon", "not_lifted_off", 112]
+        "default": ["must_be_brood_war", "current_unit_is", 111, "is_not_constructing_addon", "is_not_lifted_off", 112]
       }
     },
     {
@@ -9831,8 +9863,8 @@ AxeGraft.registerCatalog({
           "must_be_brood_war",
           "current_unit_is",
           114,
-          "not_constructing_addon",
-          "not_lifted_off",
+          "is_not_constructing_addon",
+          "is_not_lifted_off",
           "must_have_addon",
           115,
           123
@@ -9849,14 +9881,14 @@ AxeGraft.registerCatalog({
     {"type": "unit", "id": 45, "original": {"default": ["current_unit_is", 35, 138]}},
     {"type": "unit", "id": 46, "original": {"default": ["current_unit_is", 35, 136]}},
     {"type": "unit", "id": 47, "original": {"default": ["current_unit_is", 35, 141, "or", "must_have", 137]}},
-    {"type": "unit", "id": 50, "original": {"default": ["current_unit_is", 130, "not_lifted_off"]}},
+    {"type": "unit", "id": 50, "original": {"default": ["current_unit_is", 130, "is_not_lifted_off"]}},
     {"type": "unit", "id": 62, "original": {"default": ["must_be_brood_war", "current_unit_is", 43, 137]}},
     {
       "type": "unit",
       "id": 103,
       "original": {"default": ["must_be_brood_war", "current_unit_is", 38, "is_researched", 32]}
     },
-    {"type": "unit", "id": 64, "original": {"default": ["current_unit_is", 154, "not_constructing_addon"]}},
+    {"type": "unit", "id": 64, "original": {"default": ["current_unit_is", 154, "is_not_constructing_addon"]}},
     {"type": "unit", "id": 65, "original": {"default": ["current_unit_is", 160]}},
     {"type": "unit", "id": 66, "original": {"default": ["current_unit_is", 160, 164]}},
     {"type": "unit", "id": 67, "original": {"default": ["current_unit_is", 160, 165]}},
@@ -9878,93 +9910,93 @@ AxeGraft.registerCatalog({
     {"type": "unit", "id": 84, "original": {"default": ["current_unit_is", 155, 159]}},
     {"type": "unit", "id": 60, "original": {"default": ["must_be_brood_war", "current_unit_is", 167]}},
     {"type": "unit", "id": 61, "original": {"default": ["must_be_brood_war", "current_unit_is", 160, 165]}},
-    {"type": "unit", "id": 106, "original": {"default": ["current_unit_is", 7, "not_constructing"]}},
+    {"type": "unit", "id": 106, "original": {"default": ["current_unit_is", 7, "is_not_constructing"]}},
     {
       "type": "unit",
       "id": 107,
-      "original": {"default": ["current_unit_is", 106, "does_not_have_addon", "not_training_or_morphing", 112]}
+      "original": {"default": ["current_unit_is", 106, "does_not_have_addon", "is_not_training_or_morphing", 112]}
     },
     {
       "type": "unit",
       "id": 108,
-      "original": {"default": ["current_unit_is", 106, "does_not_have_addon", "not_training_or_morphing", 117]}
+      "original": {"default": ["current_unit_is", 106, "does_not_have_addon", "is_not_training_or_morphing", 117]}
     },
-    {"type": "unit", "id": 109, "original": {"default": ["current_unit_is", 7, "not_constructing"]}},
-    {"type": "unit", "id": 110, "original": {"default": ["current_unit_is", 7, "not_constructing"]}},
-    {"type": "unit", "id": 111, "original": {"default": ["current_unit_is", 7, "not_constructing", 106]}},
-    {"type": "unit", "id": 112, "original": {"default": ["current_unit_is", 7, "not_constructing", 111]}},
-    {"type": "unit", "id": 113, "original": {"default": ["current_unit_is", 7, "not_constructing", 111]}},
-    {"type": "unit", "id": 114, "original": {"default": ["current_unit_is", 7, "not_constructing", 113]}},
+    {"type": "unit", "id": 109, "original": {"default": ["current_unit_is", 7, "is_not_constructing"]}},
+    {"type": "unit", "id": 110, "original": {"default": ["current_unit_is", 7, "is_not_constructing"]}},
+    {"type": "unit", "id": 111, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 106]}},
+    {"type": "unit", "id": 112, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 111]}},
+    {"type": "unit", "id": 113, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 111]}},
+    {"type": "unit", "id": 114, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 113]}},
     {
       "type": "unit",
       "id": 115,
-      "original": {"default": ["current_unit_is", 114, "does_not_have_addon", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 114, "does_not_have_addon", "is_not_training_or_morphing"]}
     },
-    {"type": "unit", "id": 116, "original": {"default": ["current_unit_is", 7, "not_constructing", 114]}},
+    {"type": "unit", "id": 116, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 114]}},
     {
       "type": "unit",
       "id": 117,
-      "original": {"default": ["current_unit_is", 116, "does_not_have_addon", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 116, "does_not_have_addon", "is_not_training_or_morphing"]}
     },
     {
       "type": "unit",
       "id": 118,
-      "original": {"default": ["current_unit_is", 116, "does_not_have_addon", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 116, "does_not_have_addon", "is_not_training_or_morphing"]}
     },
     {
       "type": "unit",
       "id": 120,
-      "original": {"default": ["current_unit_is", 113, "does_not_have_addon", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 113, "does_not_have_addon", "is_not_training_or_morphing"]}
     },
-    {"type": "unit", "id": 122, "original": {"default": ["current_unit_is", 7, "not_constructing", 106]}},
-    {"type": "unit", "id": 123, "original": {"default": ["current_unit_is", 7, "not_constructing", 113]}},
-    {"type": "unit", "id": 124, "original": {"default": ["current_unit_is", 7, "not_constructing", 122]}},
-    {"type": "unit", "id": 125, "original": {"default": ["current_unit_is", 7, "not_constructing", 111]}},
-    {"type": "unit", "id": 131, "original": {"default": ["current_unit_is", 41, "not_burrowed"]}},
+    {"type": "unit", "id": 122, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 106]}},
+    {"type": "unit", "id": 123, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 113]}},
+    {"type": "unit", "id": 124, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 122]}},
+    {"type": "unit", "id": 125, "original": {"default": ["current_unit_is", 7, "is_not_constructing", 111]}},
+    {"type": "unit", "id": 131, "original": {"default": ["current_unit_is", 41, "is_not_burrowed"]}},
     {
       "type": "unit",
       "id": 132,
-      "original": {"default": ["current_unit_is", 131, 142, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 131, 142, "is_not_training_or_morphing"]}
     },
     {
       "type": "unit",
       "id": 133,
-      "original": {"default": ["current_unit_is", 132, 138, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 132, 138, "is_not_training_or_morphing"]}
     },
     {
       "type": "unit",
       "id": 142,
       "original": {
-        "default": ["current_unit_is", 41, "not_burrowed", 131, "or", "must_have", 132, "or", "must_have", 133]
+        "default": ["current_unit_is", 41, "is_not_burrowed", 131, "or", "must_have", 132, "or", "must_have", 133]
       }
     },
-    {"type": "unit", "id": 135, "original": {"default": ["current_unit_is", 41, "not_burrowed", 142]}},
-    {"type": "unit", "id": 136, "original": {"default": ["current_unit_is", 41, "not_burrowed", 133]}},
+    {"type": "unit", "id": 135, "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 142]}},
+    {"type": "unit", "id": 136, "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 133]}},
     {
       "type": "unit",
       "id": 137,
-      "original": {"default": ["current_unit_is", 141, "not_training_or_morphing", 133]}
+      "original": {"default": ["current_unit_is", 141, "is_not_training_or_morphing", 133]}
     },
     {
       "type": "unit",
       "id": 138,
-      "original": {"default": ["current_unit_is", 41, "not_burrowed", 132, "or", "must_have", 133]}
+      "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 132, "or", "must_have", 133]}
     },
     {
       "type": "unit",
       "id": 139,
       "original": {
-        "default": ["current_unit_is", 41, "not_burrowed", 131, "or", "must_have", 132, "or", "must_have", 133]
+        "default": ["current_unit_is", 41, "is_not_burrowed", 131, "or", "must_have", 132, "or", "must_have", 133]
       }
     },
-    {"type": "unit", "id": 140, "original": {"default": ["current_unit_is", 41, "not_burrowed", 133]}},
+    {"type": "unit", "id": 140, "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 133]}},
     {
       "type": "unit",
       "id": 141,
-      "original": {"default": ["current_unit_is", 41, "not_burrowed", 132, "or", "must_have", 133]}
+      "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 132, "or", "must_have", 133]}
     },
-    {"type": "unit", "id": 134, "original": {"default": ["current_unit_is", 41, "not_burrowed", 133]}},
-    {"type": "unit", "id": 143, "original": {"default": ["current_unit_is", 41, "not_burrowed"]}},
+    {"type": "unit", "id": 134, "original": {"default": ["current_unit_is", 41, "is_not_burrowed", 133]}},
+    {"type": "unit", "id": 143, "original": {"default": ["current_unit_is", 41, "is_not_burrowed"]}},
     {"type": "unit", "id": 144, "original": {"default": ["current_unit_is", 143, 139]}},
     {"type": "unit", "id": 146, "original": {"default": ["current_unit_is", 143, 142]}},
     {"type": "unit", "id": 149, "original": {"default": ["current_unit_is", 41]}},
@@ -9991,8 +10023,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           122,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10010,8 +10042,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           123,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10029,8 +10061,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           123,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10048,7 +10080,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           139,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10072,7 +10104,7 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           137,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10093,7 +10125,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           166,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10111,7 +10143,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           164,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10129,8 +10161,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           122,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10148,8 +10180,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           123,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10167,8 +10199,8 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           123,
-          "not_lifted_off",
-          "not_training_or_morphing",
+          "is_not_lifted_off",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10186,7 +10218,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           139,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10207,7 +10239,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           139,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10231,7 +10263,7 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           137,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10252,7 +10284,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           166,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10270,7 +10302,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           164,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10288,7 +10320,7 @@ AxeGraft.registerCatalog({
         "default": [
           "current_unit_is",
           166,
-          "not_training_or_morphing",
+          "is_not_training_or_morphing",
           "upgrade_level_1",
           "end_sublist",
           "upgrade_level_2",
@@ -10302,228 +10334,234 @@ AxeGraft.registerCatalog({
     {
       "type": "upgrade",
       "id": 16,
-      "original": {"default": ["current_unit_is", 112, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 112, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 17,
-      "original": {"default": ["current_unit_is", 120, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 120, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 19,
-      "original": {"default": ["current_unit_is", 116, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 116, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 20,
-      "original": {"default": ["current_unit_is", 117, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 117, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 21,
-      "original": {"default": ["current_unit_is", 117, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 117, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 22,
-      "original": {"default": ["current_unit_is", 115, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 115, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 23,
-      "original": {"default": ["current_unit_is", 118, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 118, "is_not_lifted_off", "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 24,
-      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 25,
-      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 26,
-      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 132, "or", "current_unit_is", 133, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 27,
-      "original": {"default": ["current_unit_is", 142, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 142, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 28,
-      "original": {"default": ["current_unit_is", 142, "not_training_or_morphing", 133]}
+      "original": {"default": ["current_unit_is", 142, "is_not_training_or_morphing", 133]}
     },
     {
       "type": "upgrade",
       "id": 29,
-      "original": {"default": ["current_unit_is", 135, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 135, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 30,
-      "original": {"default": ["current_unit_is", 135, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 135, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 31,
-      "original": {"default": ["current_unit_is", 138, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 138, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 32,
-      "original": {"default": ["current_unit_is", 136, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 136, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 33,
-      "original": {"default": ["current_unit_is", 164, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 164, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 34,
-      "original": {"default": ["current_unit_is", 163, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 163, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 35,
-      "original": {"default": ["current_unit_is", 171, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 171, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 36,
-      "original": {"default": ["current_unit_is", 171, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 171, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 37,
-      "original": {"default": ["current_unit_is", 171, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 171, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 38,
-      "original": {"default": ["current_unit_is", 159, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 159, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 39,
-      "original": {"default": ["current_unit_is", 159, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 159, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 40,
-      "original": {"default": ["current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 41,
-      "original": {"default": ["current_unit_is", 169, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 169, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 42,
-      "original": {"default": ["current_unit_is", 169, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 169, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 43,
-      "original": {"default": ["current_unit_is", 169, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 169, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 44,
-      "original": {"default": ["current_unit_is", 170, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 170, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 47,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 169, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 169, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 51,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 112, "not_lifted_off", "not_training_or_morphing"]}
+      "original": {
+        "default": ["must_be_brood_war", "current_unit_is", 112, "is_not_lifted_off", "is_not_training_or_morphing"]
+      }
     },
     {
       "type": "upgrade",
       "id": 49,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 52,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 140, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 140, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 53,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 140, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 140, "is_not_training_or_morphing"]}
     },
     {
       "type": "upgrade",
       "id": 54,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 120, "not_training_or_morphing", 123]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 120, "is_not_training_or_morphing", 123]}
     },
     {"type": "upgrade", "id": 60, "original": {"default": ["return_blank"]}},
     {
       "type": "tech_research",
       "id": 0,
-      "original": {"default": ["current_unit_is", 112, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 112, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 1,
-      "original": {"default": ["current_unit_is", 117, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 117, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 3,
-      "original": {"default": ["current_unit_is", 120, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 120, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 5,
-      "original": {"default": ["current_unit_is", 120, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 120, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 2,
-      "original": {"default": ["current_unit_is", 116, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 116, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 7,
-      "original": {"default": ["current_unit_is", 116, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 116, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 8,
-      "original": {"default": ["current_unit_is", 118, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 118, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 9,
-      "original": {"default": ["current_unit_is", 115, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 115, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 10,
-      "original": {"default": ["current_unit_is", 117, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {"default": ["current_unit_is", 117, "is_not_training_or_morphing", "is_not_lifted_off"]}
     },
     {
       "type": "tech_research",
       "id": 24,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 112, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {
+        "default": ["must_be_brood_war", "current_unit_is", 112, "is_not_training_or_morphing", "is_not_lifted_off"]
+      }
     },
     {
       "type": "tech_research",
       "id": 30,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 112, "not_training_or_morphing", "not_lifted_off"]}
+      "original": {
+        "default": ["must_be_brood_war", "current_unit_is", 112, "is_not_training_or_morphing", "is_not_lifted_off"]
+      }
     },
     {
       "type": "tech_research",
@@ -10538,79 +10576,81 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           133,
-          "not_training_or_morphing"
+          "is_not_training_or_morphing"
         ]
       }
     },
     {
       "type": "tech_research",
       "id": 13,
-      "original": {"default": ["current_unit_is", 138, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 138, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 18,
-      "original": {"default": ["current_unit_is", 138, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 138, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 15,
-      "original": {"default": ["current_unit_is", 136, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 136, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 16,
-      "original": {"default": ["current_unit_is", 136, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 136, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 17,
-      "original": {"default": ["current_unit_is", 138, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 138, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 32,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 135, 132, "or", 133, "not_training_or_morphing"]}
+      "original": {
+        "default": ["must_be_brood_war", "current_unit_is", 135, 132, "or", 133, "is_not_training_or_morphing"]
+      }
     },
     {
       "type": "tech_research",
       "id": 19,
-      "original": {"default": ["current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 20,
-      "original": {"default": ["current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 21,
-      "original": {"default": ["current_unit_is", 170, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 170, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 22,
-      "original": {"default": ["current_unit_is", 170, "not_training_or_morphing"]}
+      "original": {"default": ["current_unit_is", 170, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 25,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 169, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 169, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 27,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 29,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_research",
       "id": 31,
-      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "not_training_or_morphing"]}
+      "original": {"default": ["must_be_brood_war", "current_unit_is", 165, "is_not_training_or_morphing"]}
     },
     {
       "type": "tech_use",
@@ -10826,7 +10866,7 @@ AxeGraft.registerCatalog({
     {
       "type": "tech_use",
       "id": 14,
-      "original": {"default": ["current_unit_is", 52, "or", "current_unit_is", 46, "not_burrowed"]}
+      "original": {"default": ["current_unit_is", 52, "or", "current_unit_is", 46, "is_not_burrowed"]}
     },
     {
       "type": "tech_use",
@@ -10841,7 +10881,7 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           46,
-          "not_burrowed"
+          "is_not_burrowed"
         ]
       }
     },
@@ -10864,7 +10904,7 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           51,
-          "not_burrowed"
+          "is_not_burrowed"
         ]
       }
     },
@@ -10884,7 +10924,7 @@ AxeGraft.registerCatalog({
           "or",
           "current_unit_is",
           51,
-          "not_burrowed"
+          "is_not_burrowed"
         ]
       }
     },
@@ -11143,7 +11183,7 @@ AxeGraft.registerCatalog({
     {"type": "order", "id": 49, "original": {"default": ["can_move", "allow_on_hallucinations"]}},
     {"type": "order", "id": 69, "original": {"default": ["is_worker"]}},
     {"type": "order", "id": 71, "original": {"default": ["is_flying_building", "is_lifted_off"]}},
-    {"type": "order", "id": 72, "original": {"default": ["is_flying_building", "not_lifted_off"]}},
+    {"type": "order", "id": 72, "original": {"default": ["is_flying_building", "is_not_lifted_off"]}},
     {"type": "order", "id": 74, "original": {"default": ["is_flying_building"]}},
     {
       "type": "order",
@@ -12451,7 +12491,7 @@ AxeGraft.registerCatalog({
       "group": ["Units", "Training and building"],
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Show"}],
-      "help": "bf_building_ok no longer hides its button when more than one unit is selected. In the original game only Larvae, Mutalisks and Hydralisks are exempt.",
+      "help": "can_create_or_morph no longer hides its button when more than one unit is selected. In the original game only Larvae, Mutalisks and Hydralisks are exempt.",
       "availability": {
         "1.05": "original",
         "1.06": "original",
@@ -15348,7 +15388,7 @@ AxeGraft.registerCatalog({
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Any unit"}],
       "note": "On 1.05–1.13f and 1.17 the same place also holds All units launch nuke, whose effect isn't established, so this isn't offered there.",
-      "help": "bf_has_nuke no longer tests that the unit is a Nuclear Silo: any of the player's units holding a non-zero value where the silo keeps its nuke counts. It only decides how the button is shown: no other unit can launch.",
+      "help": "is_player_nuke_ready no longer tests that the unit is a Nuclear Silo: any of the player's units holding a non-zero value where the silo keeps its nuke counts. It only decides how the button is shown: no other unit can launch.",
       "availability": {
         "1.05": "unknown",
         "1.06": "unknown",
@@ -16428,7 +16468,7 @@ AxeGraft.registerCatalog({
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Use"}],
       "note": "On 1.05–1.13f and 1.17 it is stored in the same place as Hero Cloak button: Cloaking Field and Cloaking tech: Cloaking Field, so changing one changes them all.",
-      "help": "bf_is_hero_cloaked uses the Cloaking Field tech instead of none.",
+      "help": "can_decloak_mixed uses the Cloaking Field tech instead of none.",
       "availability": {
         "1.05": "original",
         "1.06": "original",
@@ -16465,7 +16505,7 @@ AxeGraft.registerCatalog({
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Use"}],
       "note": "On 1.05–1.13f and 1.17 it is stored in the same place as Hero Decloak button: Cloaking Field and Cloaking tech: Cloaking Field, so changing one changes them all.",
-      "help": "bf_can_cloak_hero uses the Cloaking Field tech instead of none.",
+      "help": "can_cloak_mixed uses the Cloaking Field tech instead of none.",
       "availability": {
         "1.05": "original",
         "1.06": "original",
@@ -16502,7 +16542,7 @@ AxeGraft.registerCatalog({
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Use"}],
       "note": "On 1.05–1.13f and 1.17 it is stored in the same place as Hero Cloak button: Personnel Cloaking and Cloaking tech: Personnel Cloaking, so changing one changes them all.",
-      "help": "bf_is_hero_cloaked uses the Personnel Cloaking tech instead of none.",
+      "help": "can_decloak_mixed uses the Personnel Cloaking tech instead of none.",
       "availability": {
         "1.05": "original",
         "1.06": "original",
@@ -16539,7 +16579,7 @@ AxeGraft.registerCatalog({
       "kind": "option",
       "options": [{"name": "original", "label": "Original"}, {"name": "changed", "label": "Use"}],
       "note": "On 1.05–1.13f and 1.17 it is stored in the same place as Hero Decloak button: Personnel Cloaking and Cloaking tech: Personnel Cloaking, so changing one changes them all.",
-      "help": "bf_can_cloak_hero uses the Personnel Cloaking tech instead of none.",
+      "help": "can_cloak_mixed uses the Personnel Cloaking tech instead of none.",
       "availability": {
         "1.05": "original",
         "1.06": "original",

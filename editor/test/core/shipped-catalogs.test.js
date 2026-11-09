@@ -17,8 +17,8 @@
   T.test("StarCraft catalog: passes the catalog check and is complete", function () {
     var raw = registered("starcraft");
     T.equal(C.check(raw, "starcraft.js"), []);
-    T.equal(raw.sample, undefined, "not a sample, so every table entry is listed");
-    T.equal(raw.units.length, 250, "every table entry from 0 to 249");
+    T.equal(raw.sample, undefined, "not a sample, so every button card is listed");
+    T.equal(raw.units.length, 250, "every button card from 0 to 249");
     T.equal(raw.versions.length, 26, "every version from 1.05 to 1.17");
   });
 
@@ -26,7 +26,7 @@
     var cat = C.index(JSON.parse(JSON.stringify(registered("starcraft"))));
     // A set several units share.
     T.equal(cat.sets.get(0).entries, [0, 10, 20, 32]);
-    // A unit with no buttons, and a table entry that isn't a unit.
+    // A unit with no buttons, and a button card that isn't a unit.
     T.equal(cat.units.get(4).original.button_set, null);
     T.equal(Object.keys(cat.units.get(238).original), ["button_set"]);
     // A set absent on older versions.
@@ -52,7 +52,7 @@
     T.ok(cat.constants.get("disruption_web_duration").availability["1.07"] === 900, "an original value that differs by version");
     // The record from the mod format's example.
     T.equal(cat.requirements.get("upgrade:3").original["default"], [
-      "current_unit_is", 139, "not_training_or_morphing", "upgrade_level_1", "end_sublist",
+      "current_unit_is", 139, "is_not_training_or_morphing", "upgrade_level_1", "end_sublist",
       "upgrade_level_2", 132, "or", "must_have", 133, "end_sublist", "upgrade_level_3", 133
     ]);
   });
@@ -60,7 +60,7 @@
   T.test("Warcraft II catalog: passes the catalog check, is complete, with no requirements", function () {
     var raw = registered("warcraft2");
     T.equal(C.check(raw, "warcraft2.js"), []);
-    T.equal(raw.sample, undefined, "not a sample, so every table entry is listed");
+    T.equal(raw.sample, undefined, "not a sample, so every button card is listed");
     T.equal(raw.parts, ["units", "button_sets", "constants"]);
     T.equal(raw.requirements, undefined);
     T.equal(raw.opcodes, undefined);
@@ -85,7 +85,7 @@
       }),
       [0, 1, 2, 4, 8, 16, 32, 64, 128, 256]
     );
-    T.ok(!cat.unitField.has("status_unit_type"), "Warcraft II units have no status unit type");
+    T.ok(!cat.unitField.has("debug_id"), "Warcraft II units have no debug ID");
     T.equal(cat.unitKind.icon.name, "icon", "Warcraft II units have an icon");
     T.equal(cat.units.get(0).original.icon, 2, "the Footman's icon");
     // The Peasant opens entries 111 and 112, and the build menu's Cancel opens 110.
@@ -105,8 +105,8 @@
 
   T.test("Warcraft II catalog: uses the reference's function names", function () {
     var cat = C.index(JSON.parse(JSON.stringify(registered("warcraft2"))));
-    T.equal(cat.units.get(0).original, { button_set: 0, icon: 2, stats_frame: 1, name_string: 2, status_changed: "statdraw_query_unit", status_update: "statdraw_draw_grunt" });
-    T.equal(cat.units.get(2).original, { button_set: 2, icon: 0, stats_frame: 1, name_string: 4, status_changed: "statdraw_query_peon", status_update: "statdraw_draw_peon" });
+    T.equal(cat.units.get(0).original, { button_set: 0, icon: 2, stats_frame: 1, name_string: 2, status_changed: "statdraw_query_unit", display_function: "statdraw_draw_grunt" });
+    T.equal(cat.units.get(2).original, { button_set: 2, icon: 0, stats_frame: 1, name_string: 4, status_changed: "statdraw_query_peon", display_function: "statdraw_draw_peon" });
     T.equal(cat.sets.get(0).original[1], { position: 1, icon: 164, condition: "bf_has_Shields", condition_variable: 0, action: "order_guard", string: 393, highlighted: 1 });
     T.equal(cat.sets.get(111).original[0], { position: 0, icon: 38, condition: "bf_farm_ok", action: "order_place", action_variable: 58, string: 306, highlighted: 0 });
     T.equal(cat.functions.conditions.get("bf_enhanced_mode").absentOn, ["1.3", "1.33", "1.5"], "a function only 2.00 and 2.02 have");

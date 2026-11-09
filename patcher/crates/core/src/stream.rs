@@ -132,7 +132,7 @@ mod tests {
             op("or", 0xFF01, None, OpcodeRole::Or),
             op("current_unit_is", 0xFF02, Some(VarKind::Unit), OpcodeRole::Condition),
             op("must_have", 0xFF03, Some(VarKind::Unit), OpcodeRole::Condition),
-            op("not_training_or_morphing", 0xFF07, None, OpcodeRole::Condition),
+            op("is_not_training_or_morphing", 0xFF07, None, OpcodeRole::Condition),
             op("upgrade_level_1", 0xFF1F, None, OpcodeRole::Level),
             op("upgrade_level_2", 0xFF20, None, OpcodeRole::Level),
             op("upgrade_level_3", 0xFF21, None, OpcodeRole::Level),

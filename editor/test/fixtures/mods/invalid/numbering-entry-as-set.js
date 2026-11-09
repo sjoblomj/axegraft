@@ -1,5 +1,5 @@
 AxeGraft.registerModFixture({
-  "scenario": "Button set numbering: Table entry used as a set ID",
+  "scenario": "Button set numbering: Button card used as a set ID",
   "mod": {
     "patcher": "AxeGraft",
     "format": 1,

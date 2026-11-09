@@ -336,7 +336,7 @@
         return startEditor(ctx, svc).then(function (app) {
           function editAndSave() {
             app.edit(function (d) {
-              return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 50, condition: "bf_always", action: "order_move", enabled_string: 900, disabled_string: 0 }]);
+              return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 50, condition: "always", action: "move", enabled_string: 900, disabled_string: 0 }]);
             });
             return app.serialized();
           }
@@ -374,7 +374,7 @@
         })
         .then(function () {
           app.edit(function (d) {
-            return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 3, condition: "bf_always", action: "order_move", enabled_string: 664, disabled_string: 0 }]);
+            return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 3, condition: "always", action: "move", enabled_string: 664, disabled_string: 0 }]);
           });
           var img = T.ui.q(app, '.slot[data-position="1"] img');
           T.ok(/^blob:/.test(img.src), "the preview shows the imported image");
@@ -520,7 +520,7 @@
     var svc = service(AG.core.storage.memory(), { shipped: { starcraft: { game: "starcraft", strings: strings } } });
     return startEditor(ctx, svc).then(function (app) {
       app.edit(function (d) {
-        return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 2, disabled_string: 9 }]);
+        return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 1, condition: "always", action: "move", enabled_string: 2, disabled_string: 9 }]);
       });
       app.select("button_sets", "set:0");
       var sel = T.ui.q(app, '[data-field="set:0:0:enabled_string"] select');
@@ -541,7 +541,7 @@
     var svc = service(AG.core.storage.memory(), { shipped: shipped, shippedBase: "fixtures/shipped/" });
     return startEditor(ctx, svc).then(function (app) {
       app.edit(function (d) {
-        return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 1, condition: "bf_always", action: "order_move", enabled_string: 2, disabled_string: 0 }]);
+        return D.setButtons(d, app.cat(), 0, [{ position: 1, icon: 1, condition: "always", action: "move", enabled_string: 2, disabled_string: 0 }]);
       });
       app.select("button_sets", "set:0");
       var img = T.ui.q(app, '.slot[data-position="1"] img');

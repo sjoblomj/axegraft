@@ -9,8 +9,8 @@ source of everything here, as it is for AxeGraft Editor's catalogs:
 - catalogs/<game>.js, which the Rootstock builds, gives each game's
   vocabulary: its limits, functions with their variables, opcodes and
   constants with their ranges, options and availability.
-- data/<game>/*.json gives the tables: button sets, table entries, units,
-  function addresses, the numbering of table entries across builds, constants'
+- data/<game>/*.json gives the tables: button sets, button cards, units,
+  function addresses, the numbering of button cards across builds, constants'
   offsets, how each is stored and the bytes of each code site.
 - starcraft.md and w2_exe.md give what's only in their tables: each version's
   identity, and StarCraft's section mapping, table and stream locations and
@@ -35,7 +35,7 @@ WARCRAFT2_VERSIONS = ["2.00", "2.02"]
 
 BASE = 0x400000
 ALL_TYPES = ["unit", "upgrade", "tech_research", "tech_use", "order"]
-VARIABLES = {"unit": "unit", "tech": "tech", "upgrade": "upgrade", "order": "order", "number": "number", "tableEntry": "table_entry"}
+VARIABLES = {"unit": "unit", "tech": "tech", "upgrade": "upgrade", "order": "order", "number": "number", "buttonCard": "button_card"}
 STREAMS = {"sgTree": "unit", "sgUpgradeTree": "upgrade", "sgResearchTree": "tech_research", "sgTechUseTree": "tech_use", "sgOrderTree": "order"}
 
 
@@ -109,7 +109,7 @@ def vocabulary(cat):
 
     limits = {
         "unit": rng("unit"),
-        "table_entries": lim["tableEntry"]["max"] + 1,
+        "button_cards": lim["buttonCard"]["max"] + 1,
         "max_set_id": lim["buttonSet"]["max"],
         "tech": rng("tech"),
         "upgrade": rng("upgrade"),
@@ -125,7 +125,7 @@ def vocabulary(cat):
         return [{"name": f["name"], "variable": VARIABLES[f["variable"]] if f["variable"] else None} for f in cat["functions"][key]]
 
     status = [{"name": f["name"], "kind": "status_changed"} for f in cat["functions"]["statusChanged"]]
-    status += [{"name": f["name"], "kind": "status_update"} for f in cat["functions"]["statusUpdate"]]
+    status += [{"name": f["name"], "kind": "display_function"} for f in cat["functions"]["displayFunction"]]
     return limits, fns("conditions"), fns("actions"), status
 
 
@@ -183,7 +183,7 @@ class StarCraft:
         self.versions = [x["id"] for x in self.cat["versions"]]
         self.entries = load_json(os.path.join(self.d, "entries.json"))
         self.set_ids = load_json(os.path.join(self.d, "set_ids.json"))
-        self.entry_variables = {f["name"] for fs in self.cat["functions"].values() for f in fs if f["variable"] == "tableEntry"}
+        self.entry_variables = {f["name"] for fs in self.cat["functions"].values() for f in fs if f["variable"] == "buttonCard"}
         self.builds = {r["Version"]: r for r in table_rows(md_tables(self.md, "### 1.1 Builds")[0])}
         self.sections = {}
         for row in md_tables(self.md, "### 1.2 Section mapping")[0][1:]:
@@ -215,7 +215,7 @@ class StarCraft:
         return self.versions[self.versions.index(a):self.versions.index(b) + 1]
 
     def numbering(self, v):
-        """{table entry above the units, in the game's numbering: its number on v, or None}."""
+        """{button card above the units, in the game's numbering: its number on v, or None}."""
         out = {}
         for s in self.set_ids:
             out[s["id"]] = s["id"]
@@ -247,6 +247,8 @@ class StarCraft:
         entries_count = int(t["Entries"])
         entries = self.entries
         numbers = self.numbering(v)
+        # The Rootstock's data uses the StarSource symbols, and mods use the catalog's names.
+        name_of = load_json(os.path.join(self.d, "catalog.json"))["functionNames"]
 
         def number(entry):
             return numbers.get(entry, entry)
@@ -254,16 +256,16 @@ class StarCraft:
         def here(entry, what):
             n = number(entry)
             if n is None:
-                fail("starcraft %s: %s uses table entry %d, which this version lacks" % (v, what, entry))
+                fail("starcraft %s: %s uses button card %d, which this version lacks" % (v, what, entry))
             return n
 
         out_entries = {}
         for e in entries:
             n = number(e["id"])
-            out_entries[str(e["id"])] = None if n is None else {"number": n, "equivalent": None if e["secondary"] is None else here(e["secondary"], "entry %d" % e["id"])}
+            out_entries[str(e["id"])] = None if n is None else {"number": n, "connected_unit": None if e["secondary"] is None else here(e["secondary"], "entry %d" % e["id"])}
         present = sum(1 for e in out_entries.values() if e)
         if present != entries_count:
-            fail("starcraft %s: %d table entries are present, but its table has %d" % (v, present, entries_count))
+            fail("starcraft %s: %d button cards are present, but its table has %d" % (v, present, entries_count))
 
         sets = {}
         for s in load_json(os.path.join(self.d, "button_sets.json")):
@@ -277,25 +279,25 @@ class StarCraft:
                 fail("starcraft %s: set %d is present without its lowest entry" % (v, sid))
 
             def variable(x, field, function):
-                return here(x[field], "set %d" % sid) if x[function] in self.entry_variables else x[field]
+                return here(x[field], "set %d" % sid) if name_of[x[function]] in self.entry_variables else x[field]
 
             buttons = [{
-                "position": x["position"], "icon": x["icon"], "condition": x["condition"], "condition_variable": variable(x, "condition_variable", "condition"),
-                "action": x["action"], "action_variable": variable(x, "action_variable", "action"), "enabled_string": x["string"], "disabled_string": x["disabled_string"],
+                "position": x["position"], "icon": x["icon"], "condition": name_of[x["condition"]], "condition_variable": variable(x, "condition_variable", "condition"),
+                "action": name_of[x["action"]], "action_variable": variable(x, "action_variable", "action"), "enabled_string": x["string"], "disabled_string": x["disabled_string"],
             } for x in s["buttons"]]
             for e in used_by:
                 if entries[e]["buttons"] != len(buttons):
                     fail("starcraft %s: entry %d has %d buttons, but its set has %d" % (v, e, entries[e]["buttons"], len(buttons)))
             sets[str(sid)] = {"array": self.rva(v, off), "entries": used_by, "buttons": buttons}
-        units = [{"status_changed": e["status_changed"], "status_update": e["status_update"], "status_unit_type": e["status_unit_type"]} for e in entries[:228]]
+        units = [{"status_changed": name_of[e["status_changed"]], "display_function": name_of[e["status_update"]], "debug_id": e["status_unit_type"]} for e in entries[:228]]
 
         functions = {}
         for group in ("conditions", "actions", "status_changed", "status_update"):
             for f in load_json(os.path.join(self.d, "functions.json"))[group]:
                 va = f["va"].get(v)
-                functions[f["name"]] = hexint(va) - BASE if va else None
+                functions[name_of[f["name"]]] = hexint(va) - BASE if va else None
         used = {x[k] for s in sets.values() if s for x in s["buttons"] for k in ("condition", "action")}
-        used |= {u[k] for u in units for k in ("status_changed", "status_update")}
+        used |= {u[k] for u in units for k in ("status_changed", "display_function")}
         resolve_shared_addresses(functions, used, "starcraft " + v)
 
         streams = {}
@@ -450,7 +452,7 @@ class Warcraft2:
                 "action": b["act"], "action_variable": b["act_var"], "string": b["string"], "highlighted": b["order"],
             } for b in self.versioned_buttons(cl, v)]
             sets[str(sid)] = {"array": off, "entries": sorted(cl["used_by"]), "buttons": buttons}
-        units = [{"status_changed": u["status_changed"], "status_update": u["status_update"], "icon": u["icon"], "stats_frame": u["stats_frame"], "name_string": u["name_string"]}
+        units = [{"status_changed": u["status_changed"], "display_function": u["status_update"], "icon": u["icon"], "stats_frame": u["stats_frame"], "name_string": u["name_string"]}
                  for u in load_json(os.path.join(self.d, "units.json"))[:110]]
         functions = {}
         fdata = load_json(os.path.join(self.d, "functions.json"))
@@ -459,13 +461,13 @@ class Warcraft2:
                 off = f["offsets"].get(v)
                 functions[f["name"]] = None if off in (None, "N/A") else off
         used = {x[k] for s in sets.values() if s for x in s["buttons"] for k in ("condition", "action")}
-        used |= {u[k] for u in units for k in ("status_changed", "status_update")}
+        used |= {u[k] for u in units for k in ("status_changed", "display_function")}
         resolve_shared_addresses(functions, used, "warcraft2 " + v)
         return {
             "id": v, "identity": identity,
             "button_table": {"rva": self.offset("### Command Lists", v), "entries": 120, "card": "warcraft2_bne", "button": "warcraft2_bne"},
             "status_table": {"rva": self.offset("### Unit Data", v), "layout": "warcraft2_bne"},
-            "entries": {str(i): {"number": i, "equivalent": None} for i in range(120)},
+            "entries": {str(i): {"number": i, "connected_unit": None} for i in range(120)},
             "sets": sets, "units": units, "functions": functions,
         }
 

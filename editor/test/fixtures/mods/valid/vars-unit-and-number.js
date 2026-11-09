@@ -11,8 +11,8 @@ AxeGraft.registerModFixture({
           {
             "position": 1,
             "icon": 228,
-            "condition": "bf_building_ok",
-            "action": "order_stop_build",
+            "condition": "can_create_or_morph",
+            "action": "cancel_train",
             "enabled_string": 664,
             "disabled_string": 0,
             "condition_variable": 227,

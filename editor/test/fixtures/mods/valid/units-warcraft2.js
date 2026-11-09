@@ -11,7 +11,7 @@ AxeGraft.registerModFixture({
       },
       {
         "id": 2,
-        "status_update": "w2_stats_update_unit"
+        "display_function": "w2_stats_update_unit"
       },
       {
         "id": 111,
