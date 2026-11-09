@@ -143,7 +143,7 @@
         d = D.setUnitField(d, app.cat(), 32, "button_set", 232);
         return D.setUnitField(d, app.cat(), 7, "status_update", "statdraw_draw_none");
       });
-      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Show only warnings", "Search"]);
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show the open item in the list", "Expand all", "Collapse all", "Show only changes", "Show only warnings", "Search"]);
       U.q(app, '.sidebar [data-focus="only-warnings"]').click();
       T.equal(rows(app).filter(function (r) {
         return /^\d/.test(r);
@@ -160,11 +160,11 @@
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 0, "button_set", 5);
       });
-      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Search"]);
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show the open item in the list", "Expand all", "Collapse all", "Show only changes", "Search"]);
       app.edit(function (d) {
         return D.setUnitField(d, app.cat(), 0, "button_set", 999);
       });
-      T.equal(toolTitles(app), ["Tree view", "List view", "Show only changes", "Show only errors", "Search"]);
+      T.equal(toolTitles(app), ["Tree view", "List view", "Show the open item in the list", "Expand all", "Collapse all", "Show only changes", "Show only errors", "Search"]);
     });
   }, { dom: true });
 

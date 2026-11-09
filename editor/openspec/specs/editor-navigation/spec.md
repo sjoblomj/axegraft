@@ -116,7 +116,7 @@ A requirement record SHALL be named by its item, so renaming a unit's record ren
 - **THEN** a tooltip says the unit was relabelled inside the mod, that relabelling it to the empty string gives it back its original name, and that its original name is 'Terran SCV'
 
 ### Requirement: Item list toolbar
-Above the item list SHALL be a row of small icon buttons, each named by its tooltip. On the left: `Tree view` and `List view`, of which exactly one is pressed; then the `Show only changes` toggle. On the right: `Search`. The list view SHALL show every item without its groups, in ID order (requirements by type, then ID). The chosen view SHALL be remembered in the browser. `Show only changes` SHALL work in either view, and SHALL be disabled, with the tooltip `There are no changes to show`, while the tab has no changes.
+Above the item list SHALL be a row of small icon buttons, each named by its tooltip. On the left: `Tree view` and `List view`, of which exactly one is pressed; then `Show the open item in the list`; then, in the tree view only, `Expand all` and `Collapse all`; then the `Show only changes` toggle. On the right: `Search`. The list view SHALL show every item without its groups, in ID order (requirements by type, then ID). The chosen view SHALL be remembered in the browser. `Show only changes` SHALL work in either view, and SHALL be disabled, with the tooltip `There are no changes to show`, while the tab has no changes. `Expand all` SHALL open every group of the tab, at any depth, and `Collapse all` SHALL close them all and keep the selection. Both SHALL be disabled, with a tooltip saying why, in a tab without groups and while the list is filtered. `Show the open item in the list` SHALL work in either view, opening the groups that hold the tab's open item, moving the cursor to it and scrolling it into view. It SHALL be disabled, with a tooltip saying why, while nothing is open or a filter hides the open item.
 
 #### Scenario: Switching views
 - **WHEN** a user presses `List view`
@@ -125,6 +125,18 @@ Above the item list SHALL be a row of small icon buttons, each named by its tool
 #### Scenario: Nothing changed
 - **WHEN** the current tab has no changes
 - **THEN** `Show only changes` is disabled and its tooltip says `There are no changes to show`
+
+#### Scenario: Collapsing every group
+- **WHEN** a user presses `Collapse all`
+- **THEN** only the top-level groups are shown, and the selected item stays selected
+
+#### Scenario: Finding the open item
+- **WHEN** the open item's group is collapsed and a user presses `Show the open item in the list`
+- **THEN** its groups open and the cursor is on it
+
+#### Scenario: Expanding while filtered
+- **WHEN** the search box has text
+- **THEN** `Expand all` and `Collapse all` are disabled and their tooltips say groups stay open while the list is filtered
 
 ### Requirement: Copying between mods
 What a user copies, in any tab, SHALL be kept by the editor, not on the system clipboard, for the rest of the session. It SHALL be kept per game, so it can be pasted into another mod of the same game, including one opened or created after copying, and SHALL NOT be offered for pasting into a mod of the other game.

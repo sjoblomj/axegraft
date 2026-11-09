@@ -916,8 +916,13 @@
 
     // Icons for the item list's toolbar, drawn in the text colour.
     var ICONS = {
-      tree: '<circle cx="8" cy="3.5" r="2"/><circle cx="3.5" cy="12.5" r="2"/><circle cx="12.5" cy="12.5" r="2"/><path d="M8 5.5v2.5M3.5 10.5V8h9v2.5" fill="none" stroke="currentColor" stroke-width="1.3"/>',
+      tree: '<circle cx="4" cy="2.75" r="2"/><circle cx="12" cy="8" r="2"/><circle cx="12" cy="13.25" r="2"/><path d="M4 4.75v8.5h6M4 8h6" fill="none" stroke="currentColor" stroke-width="1.3"/>',
       list: '<circle cx="8" cy="2.75" r="2"/><circle cx="8" cy="8" r="2"/><circle cx="8" cy="13.25" r="2"/>',
+      // Chevrons apart and together, as in the JetBrains IDEs.
+      expandAll: '<path d="M4.5 5.5L8 2l3.5 3.5M4.5 10.5L8 14l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+      collapseAll: '<path d="M4.5 2.5L8 6l3.5-3.5M4.5 13.5L8 10l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+      // A crosshair, as in the JetBrains IDEs' Select Opened File.
+      locate: '<circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75V5M8 11v3.25M1.75 8H5M11 8h3.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
       changes: '<circle cx="8" cy="8" r="3"/>',
       search: '<circle cx="6.5" cy="6.5" r="4.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.7 9.7L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
     };
@@ -984,6 +989,15 @@
         focusIn(focusSel);
       }
 
+      var selected = app.selected(tab);
+      var only = [f.changed ? "changed" : null, f.problem || null];
+      var nodes = tree.filter(app.nodes(tab), text, only);
+      var groupKeys = tree.groupKeys(app.nodes(tab));
+      var cantToggleGroups = !groupKeys.length ? "This list has no groups" :
+        text.trim() || f.changed || f.problem ? "Groups stay open while the list is filtered" : null;
+      var cantLocate = !tree.groupsOf(app.nodes(tab), selected) ? "Nothing is open" :
+        !tree.groupsOf(nodes, selected) ? "The open item is hidden by the filter" : null;
+
       var tools = [
         h("span", { class: "tool-group", role: "group", "aria-label": "View" }, [
           iconButton({ icon: "tree", title: "Tree view", pressed: S.itemView === "tree", focus: "view-tree", onclick: function () {
@@ -991,6 +1005,22 @@
           } }),
           iconButton({ icon: "list", title: "List view", pressed: S.itemView === "list", focus: "view-list", onclick: function () {
             app.setItemView("list");
+          } })
+        ]),
+        iconButton({ icon: "locate", title: cantLocate || "Show the open item in the list", disabled: !!cantLocate, focus: "locate", onclick: function () {
+          app.select(tab, selected);
+        } }),
+        S.itemView === "list" ? null : h("span", { class: "tool-group", role: "group", "aria-label": "Groups" }, [
+          iconButton({ icon: "expandAll", title: cantToggleGroups || "Expand all", disabled: !!cantToggleGroups, focus: "expand-all", onclick: function () {
+            var exp = S.expanded[tab] || (S.expanded[tab] = {});
+            groupKeys.forEach(function (g) {
+              exp[g] = true;
+            });
+            app.render();
+          } }),
+          iconButton({ icon: "collapseAll", title: cantToggleGroups || "Collapse all", disabled: !!cantToggleGroups, focus: "collapse-all", onclick: function () {
+            S.expanded[tab] = {};
+            app.render();
           } })
         ]),
         iconButton({
@@ -1041,9 +1071,6 @@
         else openSearch();
       } }));
 
-      var selected = app.selected(tab);
-      var only = [f.changed ? "changed" : null, f.problem || null];
-      var nodes = tree.filter(app.nodes(tab), text, only);
       if (S.itemView === "list") nodes = tree.flatten(nodes);
       var treeEl = AG.ui.treeView.render({
         nodes: nodes,

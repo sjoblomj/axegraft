@@ -368,6 +368,19 @@
     return found;
   }
 
+  // The keys of every group, at any depth.
+  function groupKeys(nodes) {
+    var keys = [];
+    (function walk(list) {
+      list.forEach(function (n) {
+        if (n.type !== "group") return;
+        keys.push(n.key);
+        walk(n.children);
+      });
+    })(nodes);
+    return keys;
+  }
+
   function firstItem(nodes) {
     var found = null;
     (function walk(list) {
@@ -394,6 +407,7 @@
     flatten: flatten,
     visible: visible,
     groupsOf: groupsOf,
+    groupKeys: groupKeys,
     firstItem: firstItem,
     idLabel: idLabel
   };

@@ -88,6 +88,86 @@
     });
   }, { dom: true });
 
+  T.test("toolbar: expand all opens every group at any depth, and collapse all closes them and keeps the selection", function (ctx) {
+    function groups(app) {
+      return Array.prototype.slice.call(app.root.querySelectorAll('.tree [role="treeitem"][aria-expanded]'));
+    }
+    return startWith(ctx, T.catalogWithUnits()).then(function (app) {
+      var selected = app.selected("units");
+      T.equal(tool(app, "expand-all").title, "Expand all");
+      T.equal(tool(app, "collapse-all").title, "Collapse all");
+      tool(app, "expand-all").click();
+      T.equal(U.q(app, '[data-key="group:/Terran/Ground Units"]').getAttribute("aria-expanded"), "true", "nested groups open too");
+      T.ok(groups(app).every(function (g) {
+        return g.getAttribute("aria-expanded") === "true";
+      }));
+      T.ok(rows(app).indexOf("51 Infested Kerrigan") >= 0, rows(app).join(", "));
+      T.equal(document.activeElement, tool(app, "expand-all"), "the button keeps focus");
+      tool(app, "collapse-all").click();
+      T.ok(!app.root.querySelector('[data-key="group:/Terran/Ground Units"]'), "nested groups are hidden");
+      T.ok(groups(app).every(function (g) {
+        return g.getAttribute("aria-expanded") === "false";
+      }));
+      T.equal(rows(app).filter(function (r) {
+        return /^\d/.test(r);
+      }), [], "no items are showing");
+      T.equal(app.selected("units"), selected);
+      T.equal(U.q(app, ".tree").getAttribute("aria-activedescendant"), U.q(app, '.tree [role="treeitem"]').id, "the cursor is on a row that's showing");
+    });
+  }, { dom: true });
+
+  T.test("toolbar: expand and collapse all are hidden in the list view, and disabled while filtering, saying why", function (ctx) {
+    return startWith(ctx, T.catalogWithUnits()).then(function (app) {
+      var before = rows(app);
+      ["expand-all", "collapse-all"].forEach(function (b) {
+        tool(app, "view-list").click();
+        T.ok(!app.root.querySelector('.tree-toolbar [data-focus="' + b + '"]'), b + " is hidden in the list view");
+        tool(app, "view-tree").click();
+        search(app, "kerrigan");
+        T.equal(tool(app, b).getAttribute("aria-disabled"), "true");
+        T.equal(tool(app, b).title, "Groups stay open while the list is filtered");
+        tool(app, b).click();
+        T.equal(rows(app), ["Heroes", "16 Sarah Kerrigan", "51 Infested Kerrigan"], "pressing it does nothing");
+        search(app, "");
+        T.equal(tool(app, b).getAttribute("aria-disabled"), null);
+        T.equal(rows(app), before, "the groups are as they were");
+      });
+    });
+  }, { dom: true });
+
+  T.test("toolbar: showing the open item opens its groups and puts the cursor on it, in either view", function (ctx) {
+    return startWith(ctx, T.catalogWithUnits()).then(function (app) {
+      search(app, "kerrigan");
+      U.q(app, '[data-key="unit:51"] > .row').click();
+      search(app, "");
+      tool(app, "collapse-all").click();
+      T.ok(!app.root.querySelector('.tree [data-key="unit:51"]'), "the open item is out of sight");
+      T.equal(tool(app, "locate").title, "Show the open item in the list");
+      tool(app, "locate").click();
+      var row = U.q(app, '.tree [data-key="unit:51"]');
+      T.equal(row.getAttribute("aria-selected"), "true");
+      T.equal(U.q(app, ".tree").getAttribute("aria-activedescendant"), row.id);
+      T.equal(app.state.selection.units, "unit:51", "the open item stays open");
+      T.equal(document.activeElement, tool(app, "locate"), "the button keeps focus");
+      tool(app, "view-list").click();
+      tool(app, "locate").click();
+      T.equal(U.q(app, ".tree").getAttribute("aria-activedescendant"), U.q(app, '.tree [data-key="unit:51"]').id);
+    });
+  }, { dom: true });
+
+  T.test("toolbar: showing the open item is disabled while a filter hides it, and says why", function (ctx) {
+    return startWith(ctx, T.catalogWithUnits()).then(function (app) {
+      search(app, "kerrigan");
+      U.q(app, '[data-key="unit:51"] > .row').click();
+      T.equal(tool(app, "locate").getAttribute("aria-disabled"), null, "a filter that keeps the item doesn't disable it");
+      search(app, "marine");
+      T.equal(tool(app, "locate").getAttribute("aria-disabled"), "true");
+      T.equal(tool(app, "locate").title, "The open item is hidden by the filter");
+      search(app, "");
+      T.equal(tool(app, "locate").getAttribute("aria-disabled"), null);
+    });
+  }, { dom: true });
+
   T.test("toolbar: the list view shows every item without groups, in ID order", function (ctx) {
     return startWith(ctx, T.catalogWithUnits()).then(function (app) {
       tool(app, "view-list").click();
