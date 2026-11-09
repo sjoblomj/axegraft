@@ -1,0 +1,59 @@
+name: Build patcher
+
+on:
+  push:
+    tags:
+      - '**'
+
+permissions:
+  contents: write # to publish the release
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: patcher
+    env:
+      RUSTUP_TOOLCHAIN: '1.90'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Keeps the write token out of reach of the build.
+          persist-credentials: false
+
+      - name: Install MinGW-w64
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-mingw-w64-i686
+
+      - name: Install Rust
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --target i686-pc-windows-gnu
+
+      - name: Build plugin
+        id: build
+        run: |
+          cargo build --locked --release --target i686-pc-windows-gnu -p axegraft-patcher-plugin
+          # A tag can contain slashes, which a file name can't.
+          file="AxeGraftPatcher-${GITHUB_REF_NAME//\//-}.qdp"
+          cp target/i686-pc-windows-gnu/release/AxeGraftPatcher.dll "$file"
+          echo "file=$file" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          path: patcher/${{ steps.build.outputs.file }}
+          archive: false
+          if-no-files-found: error
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          FILE: ${{ steps.build.outputs.file }}
+        run: |
+          # When the workflow is re-run, the release already exists.
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$FILE" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "$FILE" --verify-tag --generate-notes
+          fi
