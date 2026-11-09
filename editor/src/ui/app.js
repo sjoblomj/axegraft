@@ -925,6 +925,7 @@
 
     // Icons for the item list's toolbar, drawn in the text colour.
     var ICONS = {
+      open: '<path d="M1 3.5C1 2.7 1.7 2 2.5 2h3.4l1.6 1.7h4.9c.8 0 1.5.7 1.5 1.5V6H4.2c-.8 0-1.4.4-1.7 1.1L1 11.2z"/><path d="M3.4 7.6c.2-.4.5-.6.9-.6h10.8c.6 0 1 .6.8 1.2l-1.6 4.7c-.2.6-.7 1.1-1.4 1.1H1.2z"/>',
       tree: '<circle cx="4" cy="2.75" r="2"/><circle cx="12" cy="8" r="2"/><circle cx="12" cy="13.25" r="2"/><path d="M4 4.75v8.5h6M4 8h6" fill="none" stroke="currentColor" stroke-width="1.3"/>',
       list: '<circle cx="8" cy="2.75" r="2"/><circle cx="8" cy="8" r="2"/><circle cx="8" cy="13.25" r="2"/>',
       // Chevrons apart and together, as in the JetBrains IDEs.

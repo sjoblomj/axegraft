@@ -325,8 +325,10 @@ button, input, select, textarea { font: inherit; }
 .welcome .logo { width: min(480px, 80vw); height: auto; }
 .welcome .actions { align-items: center; }
 .welcome .new-mod { justify-self: center; margin: 0; padding: 10px 16px 14px; display: grid; gap: 10px; }
-.welcome .logo-button { padding: 8px 14px; height: 88px; display: inline-flex; align-items: center; justify-content: center; }
-.welcome .logo-button img { display: block; max-height: 70px; max-width: 240px; width: auto; height: auto; }
+.welcome .logo-button { padding: 8px 14px; height: 104px; display: inline-flex; align-items: center; justify-content: center; }
+.welcome .logo-button img { display: block; width: 220px; height: auto; }
+.welcome .open-mod { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 18px; }
+.welcome .open-mod svg { display: block; width: 36px; height: 36px; }
 .welcome .actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .welcome .mod-info { text-align: left; justify-self: center; }
 .welcome .new-mod legend { text-align: left; }
