@@ -35,7 +35,7 @@
   ];
   var VENDOR_DIRS = ["node_modules", "bower_components", "vendor", "jspm_packages"];
   // Links the user can choose to follow. They load nothing by themselves.
-  var ALLOWED_LINKS = ["https://jorsys.org"];
+  var ALLOWED_LINKS = ["https://jorsys.org", "https://github.com/sjoblomj/axegraft/releases", "https://www.jorsys.org/common/software/mpqdraft.html"];
 
   function base(p) {
     return p.split("/").pop();

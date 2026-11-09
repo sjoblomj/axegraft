@@ -78,7 +78,9 @@ function sourceTree() {
   const byPath = new Map(files.map((f) => [f.rel, f.full]));
   return {
     paths: files.map((f) => f.rel).sort(),
-    read: (p) => (byPath.has(p) ? Promise.resolve(fs.readFileSync(byPath.get(p), "utf8")) : Promise.reject(new Error("no file " + p)))
+    read: (p) => (byPath.has(p) ? Promise.resolve(fs.readFileSync(byPath.get(p), "utf8")) : Promise.reject(new Error("no file " + p))),
+    // Outside the editor's folder, so a browser given that folder can't read it.
+    guideMarkdown: () => fs.readFileSync(path.join(root, "..", "docs", "making-a-mod.md"), "utf8")
   };
 }
 

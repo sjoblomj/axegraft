@@ -31,6 +31,10 @@ The server marks each browser's copy of `index.html` with an ETag holding the da
 
 The server's tests run with `node --test hosting/server.test.js`.
 
+## The guide
+
+**Help > How to make a mod** shows `../docs/making-a-mod.md`. A page opened from disk can't read that file, so `src/ui/guide-text.js` holds a copy. After changing the guide, run `node tools/build-guide.js`. A test fails if the two differ.
+
 ## Running the tests
 
 **In a browser.** Open `test/index.html`. Every test runs, and the page lists passes, failures and tests that weren't checked.
@@ -63,6 +67,7 @@ images/           The editor's own images, such as the logo
 test/             Test page, Node runner, tests and fixtures
 docs/             Catalog format and architecture notes
 hosting/          Server for public hosting, which counts visitors. Not part of the editor
+tools/            Copies the guide into the editor
 ```
 
 Scripts are classic `<script>` tags that each add to one global, `AxeGraft`, because browsers load neither ES modules nor local data with `fetch` from `file://`. When you add a script, list it in `index.html` and in the same place in `test/index.html`. A test checks this.

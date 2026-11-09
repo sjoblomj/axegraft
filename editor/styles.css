@@ -331,6 +331,19 @@ button, input, select, textarea { font: inherit; }
 .welcome .mod-info { text-align: left; justify-self: center; }
 .welcome .new-mod legend { text-align: left; }
 
+/* Guide dialog */
+dialog.guide .body { width: min(700px, 86vw); line-height: 1.45; }
+dialog.guide .body:focus { outline: none; }
+dialog.guide h2 { font-size: 16px; margin: 18px 0 6px; }
+dialog.guide h3 { font-size: 14px; margin: 14px 0 4px; }
+dialog.guide p { margin: 6px 0; }
+dialog.guide ol, dialog.guide ul { margin: 6px 0; padding-left: 24px; }
+dialog.guide li { margin: 3px 0; }
+dialog.guide table { border-collapse: collapse; margin: 8px 0; }
+dialog.guide th, dialog.guide td { border: 1px solid var(--line); padding: 3px 8px; text-align: left; vertical-align: top; }
+dialog.guide code { font-family: var(--mono, monospace); }
+dialog.guide a { color: var(--link); }
+
 /* About dialog */
 dialog.about .body { display: grid; justify-items: center; gap: 10px; text-align: center; }
 dialog.about p { margin: 0; }

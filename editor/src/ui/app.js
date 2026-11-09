@@ -681,7 +681,11 @@
       return AG.ui.report ? AG.ui.report.show(app) : null;
     };
 
-    // ---- About
+    // ---- Help
+
+    app.showGuide = function () {
+      return AG.ui.guide.show(app);
+    };
 
     var JORSYS_URL = "https://jorsys.org";
     var THANKS = [
@@ -785,7 +789,7 @@
           item.setAttribute("aria-checked", String(S.theme === t));
           return item;
         }))),
-        menuDetails("about", "About", [menuItem("About AxeGraft...", "about")])
+        menuDetails("help", "Help", [menuItem("How to make a mod...", "guide"), menuItem("About AxeGraft...", "about")])
       ]);
     }
 
@@ -815,6 +819,8 @@
           return AG.ui.importDialog ? AG.ui.importDialog.show(app) : null;
         case "deleteAssets":
           return AG.ui.importDialog ? AG.ui.importDialog.deleteAssets(app) : null;
+        case "guide":
+          return app.showGuide();
         case "about":
           return app.showAbout();
       }
@@ -887,9 +893,12 @@
         games.length
           ? h("fieldset", { class: "new-mod" }, [h("legend", { text: "New mod" }), infoFields(S.newInfo), h("div", { class: "actions" }, games.map(newModButton))])
           : h("p", { text: "No game catalog could be loaded, so there's nothing to edit." }),
-        h("div", { class: "actions" }, [h("button", { type: "button", dataset: { command: "open" }, onclick: function () {
+        h("div", { class: "actions" }, [h("button", { type: "button", class: "open-mod", dataset: { command: "open" }, onclick: function () {
           app.open();
-        } }, "Open a mod..."), h("button", { type: "button", dataset: { command: "about" }, onclick: function () {
+        } }, [icon("open"), "Open a mod..."])]),
+        h("div", { class: "actions" }, [h("button", { type: "button", dataset: { command: "guide" }, onclick: function () {
+          app.showGuide();
+        } }, "How to make a mod"), h("button", { type: "button", dataset: { command: "about" }, onclick: function () {
           app.showAbout();
         } }, "About")])
       ]);
