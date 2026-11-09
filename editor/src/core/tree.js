@@ -134,11 +134,12 @@
   }
 
   // Inserts an item under the groups in `tree`, creating them as needed.
-  function placer(root) {
+  // `base` is the path of `root`, which keeps group keys unique in the tab.
+  function placer(root, base) {
     var groups = {};
     return function (tree, item) {
       var parent = root;
-      var path = "";
+      var path = base || "";
       (tree || []).forEach(function (name) {
         path += "/" + name;
         var g = groups[path];
@@ -216,7 +217,7 @@
       REQ_GROUPS.forEach(function (g) {
         var group = { type: "group", key: "group:/" + g.label, label: g.label, children: [] };
         root.children.push(group);
-        var gplace = placer(group);
+        var gplace = placer(group, "/" + g.label);
         var ids = {};
         var named = { unit: cat.raw.units, upgrade: cat.raw.upgrades, tech: cat.raw.techs, order: cat.raw.orders }[g.kind] || [];
         named.forEach(function (x) {

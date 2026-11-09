@@ -242,6 +242,14 @@ Every feature SHALL be usable from the keyboard, and the item list SHALL support
 - **WHEN** a unit is selected, and the user presses Up onto the group above it
 - **THEN** the group is shown as where the cursor is, and the unit stays selected
 
+#### Scenario: Groups with the same name
+- **WHEN** the user moves through groups with the same name, such as Orders inside Orders in the Requirements tab
+- **THEN** only the group at the cursor is shown as the cursor, and the arrow keys move past it
+
+#### Scenario: The cursor stays in view
+- **WHEN** the arrow keys move the cursor onto a row outside the visible part of the list, whether an item or a group
+- **THEN** the list scrolls to show that row
+
 ### Requirement: Status bar
 The status bar SHALL show the current file name, whether there are unsaved changes, the number of errors and warnings and the version compatibility summary.
 

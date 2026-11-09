@@ -93,6 +93,21 @@
     T.ok(labels([nodes[0]]).indexOf("228 No unit") < 0, "button cards that aren't units have no requirement record");
   });
 
+  T.test("item list: every row of a tab has its own key, even under groups with the same name", function () {
+    var cat = T.catalog("starcraft");
+    Tr.TABS.forEach(function (t) {
+      var nodes = Tr.build(t.id, D.create("starcraft"), cat);
+      var seen = {};
+      Tr.groupKeys(nodes).forEach(function (k) {
+        T.ok(!seen[k], t.id + ": " + k + " is used once");
+        seen[k] = true;
+      });
+    });
+    var nodes = Tr.build("requirements", D.create("starcraft"), cat);
+    T.equal(groupOf(nodes, ["Orders", "Orders"]).key, "group:/Orders/Orders");
+    T.equal(groupOf(nodes, ["Units", "Terran"]).key, "group:/Units/Terran");
+  });
+
   T.test("item list: new sets and unnamed IDs the mod uses are listed", function () {
     var cat = T.catalog("starcraft");
     var doc = D.addSet(D.create("starcraft"), cat).doc;

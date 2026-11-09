@@ -1255,8 +1255,9 @@
         if (el) el.scrollTop = scroll[c];
       });
       restoreFocus(fk);
-      var sel = root.querySelector(".tree [aria-selected=true]");
-      if (sel && sel.scrollIntoView && !app._noScroll) sel.scrollIntoView({ block: "nearest" });
+      // The row, not its list item, since an open group's item holds its children.
+      var cur = root.querySelector(".tree .cursor > .row");
+      if (cur && cur.scrollIntoView && !app._noScroll) cur.scrollIntoView({ block: "nearest" });
     };
 
     // The games in start-page order: Warcraft 2 before StarCraft.

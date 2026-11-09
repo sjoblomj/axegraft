@@ -187,6 +187,45 @@
     });
   }, { dom: true });
 
+  T.test("tree navigation: groups with the same name are separate rows", function (ctx) {
+    return sc(ctx).then(function (app) {
+      app.setTab("requirements");
+      app.select("requirements", "req:order:7");
+      function cursors() {
+        return Array.prototype.map.call(app.root.querySelectorAll(".tree .cursor"), function (e) {
+          return e.dataset.key;
+        });
+      }
+      U.key(U.q(app, ".tree"), "ArrowUp");
+      T.equal(cursors(), ["group:/Orders/Orders"], "only the inner group is the cursor");
+      U.key(U.q(app, ".tree"), "ArrowUp");
+      T.equal(cursors(), ["group:/Orders"], "Up leaves the inner group");
+      U.key(U.q(app, ".tree"), "ArrowUp");
+      T.equal(cursors(), ["group:/Tech use"], "and goes on past the outer one");
+      // Closing the inner group leaves the outer one open.
+      U.key(U.q(app, ".tree"), "ArrowDown");
+      U.key(U.q(app, ".tree"), "ArrowDown");
+      U.key(U.q(app, ".tree"), "ArrowLeft");
+      T.equal(row(app, "group:/Orders/Orders").getAttribute("aria-expanded"), "false");
+      T.equal(row(app, "group:/Orders").getAttribute("aria-expanded"), "true");
+    });
+  }, { dom: true });
+
+  T.test("tree navigation: moving onto a group scrolls that group into view", function (ctx) {
+    return sc(ctx).then(function (app) {
+      var style = document.createElement("style");
+      style.textContent = ".tree { flex: none; height: 19px; }";
+      app.root.appendChild(style);
+      app.select("units", "unit:0");
+      U.key(U.q(app, ".tree"), "ArrowUp");
+      T.equal(app.state.cursor.units, "group:/Terran/Ground Units");
+      T.equal(app.state.selection.units, "unit:0", "the item stays selected");
+      var view = U.q(app, ".tree").getBoundingClientRect();
+      var top = row(app, "group:/Terran/Ground Units").querySelector(".row").getBoundingClientRect().top;
+      T.ok(top >= view.top - 1 && top < view.bottom, "the group's own row is in view: " + top + " in " + view.top + "-" + view.bottom);
+    });
+  }, { dom: true });
+
   T.test("tree navigation: the arrow keys move the selection through visible items, and Left and Right close and open groups", function (ctx) {
     return sc(ctx).then(function (app) {
       var treeEl = U.q(app, ".tree");
