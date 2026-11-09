@@ -89,6 +89,25 @@ The tab SHALL be able to show the item's original record alongside the edited on
 - **WHEN** a user has edited a record and asks to see the original
 - **THEN** both are visible, and the original differs by version where the catalog says so
 
+### Requirement: Who uses an upgrade or tech
+The panel of an upgrade, tech research or tech use record SHALL list the button sets with a button whose action or condition reads that upgrade or tech, by the kind the catalog gives for the function, each with what its buttons do with the item and the button cards that show the set. The list SHALL follow the mod's button sets and unit assignments. Each set and button card SHALL link to its own panel. A set's link SHALL select the first button that the listed action or condition reads the item on.
+
+#### Scenario: Following a set's link
+- **WHEN** a user follows the link to a set whose second button reads the tech
+- **THEN** the Button Sets tab shows that set with its second button selected
+
+#### Scenario: A researched tech
+- **WHEN** a user selects a tech whose research button is in a set that one unit shows
+- **THEN** the panel lists that set, the button's action and that unit
+
+#### Scenario: A mod moves the button
+- **WHEN** a mod's set gains a button that researches an upgrade
+- **THEN** that upgrade's panel lists the set
+
+#### Scenario: No button reads the item
+- **WHEN** no button set reads an upgrade
+- **THEN** the panel says that no button set uses it
+
 ### Requirement: Copying a record
 The Requirements tab SHALL have Copy and Paste buttons under the item list. Copy SHALL copy the chosen record, and Paste SHALL replace the chosen record with it, whatever the two records' types. Paste SHALL be disabled until a record has been copied. Ctrl+C and Ctrl+V (Cmd+C and Cmd+V on a Mac) SHALL do the same, except in a text field, and for Ctrl+C, with text selected.
 

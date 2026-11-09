@@ -398,6 +398,58 @@
     };
   }
 
+  // The button sets with a button that reads the upgrade or tech `id`, as
+  // [{ set, labels }] by set ID. They're the mod's buttons where it defines
+  // the set, otherwise the originals on any version. `labels` names what the
+  // set's buttons do with the item: the actions that read it, or, with none,
+  // the conditions that do. `button` is the index, in the buttons the editor
+  // shows for the set, of the first button those labels describe, or null
+  // when only another version's original has one.
+  function setsReading(doc, cat, kind, id) {
+    var ids = {};
+    cat.sets.forEach(function (_, setId) {
+      ids[setId] = true;
+    });
+    entries(doc, "button_sets").forEach(function (e) {
+      if (isObject(e) && util.isInt(e.id)) ids[e.id] = true;
+    });
+    function reader(b, list, fnKind, varKind) {
+      var fn = cat.functions[list].get(b[cat.buttonKind[fnKind].name]);
+      return fn && fn.variable === kind && b[cat.buttonKind[varKind].name] === id ? fn : null;
+    }
+    function addLabel(labels, fn) {
+      if (fn && labels.indexOf(fn.label) < 0) labels.push(fn.label);
+    }
+    function firstReader(buttons, list, fnKind, varKind) {
+      for (var i = 0; i < buttons.length; i++) {
+        if (isObject(buttons[i]) && reader(buttons[i], list, fnKind, varKind)) return i;
+      }
+      return -1;
+    }
+    var out = [];
+    Object.keys(ids)
+      .map(Number)
+      .sort(util.byNumber)
+      .forEach(function (setId) {
+        var eff = effectiveButtons(doc, cat, setId);
+        var lists = eff.defined ? [eff.buttons] : Object.keys(eff.originals).map(function (v) {
+          return eff.originals[v];
+        });
+        var actions = [];
+        var conditions = [];
+        lists.forEach(function (buttons) {
+          buttons.filter(isObject).forEach(function (b) {
+            addLabel(actions, reader(b, "actions", "action", "actionVariable"));
+            addLabel(conditions, reader(b, "conditions", "condition", "conditionVariable"));
+          });
+        });
+        if (!actions.length && !conditions.length) return;
+        var at = actions.length ? firstReader(eff.buttons, "actions", "action", "actionVariable") : firstReader(eff.buttons, "conditions", "condition", "conditionVariable");
+        out.push({ set: setId, labels: actions.length ? actions : conditions, button: at < 0 ? null : at });
+      });
+    return out;
+  }
+
   function sameButtons(cat, a, b) {
     return util.equal(withoutLabels(a.map(function (x) {
       return tidyButton(cat, x);
@@ -991,6 +1043,7 @@
     originalButtons: originalButtons,
     originalButtonsByVersion: originalButtonsByVersion,
     effectiveButtons: effectiveButtons,
+    setsReading: setsReading,
     setButtons: setButtons,
     sortButtons: sortButtons,
     placeButton: placeButton,

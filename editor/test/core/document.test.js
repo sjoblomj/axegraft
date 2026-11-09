@@ -26,6 +26,40 @@
     T.equal(next.units, [{ id: 0, label: "Terran Marine", button_set: 5, display_function: "draw_none" }]);
   });
 
+  T.test("sets reading an item: an action names what the set does, and a condition does when no action reads the item", function () {
+    var cat = sc();
+    var doc = D.create("starcraft");
+    T.equal(D.setsReading(doc, cat, "tech", 5), [{ set: 5, labels: ["Research"], button: 0 }]);
+    var cond = cat.functions.conditions.get("can_research_tech").label;
+    T.equal(D.setsReading(doc, cat, "tech", 0), [{ set: 0, labels: [cond], button: 1 }]);
+    T.equal(D.setsReading(doc, cat, "upgrade", 3), []);
+  });
+
+  T.test("sets reading an item: the mod's buttons replace the original's, and a new set counts", function () {
+    var cat = sc();
+    var upgrade = { position: 1, icon: 228, condition: "always", action: "upgrade", action_variable: 3, enabled_string: 664, disabled_string: 0 };
+    var doc = D.setButtons(D.create("starcraft"), cat, 5, [upgrade]);
+    T.equal(D.setsReading(doc, cat, "tech", 5), []);
+    T.equal(D.setsReading(doc, cat, "upgrade", 3), [{ set: 5, labels: ["Upgrade"], button: 0 }]);
+    var added = D.addSet(doc, cat, 250, [upgrade]).doc;
+    T.equal(D.setsReading(added, cat, "upgrade", 3), [{ set: 5, labels: ["Upgrade"], button: 0 }, { set: 250, labels: ["Upgrade"], button: 0 }]);
+  });
+
+  T.test("sets reading an item: the button named is the first one an action reads it on, past buttons that only check it", function () {
+    var cat = sc();
+    var check = { position: 1, icon: 228, condition: "can_research_tech", condition_variable: 5, action: "move", enabled_string: 664, disabled_string: 0 };
+    var research = { position: 2, icon: 228, condition: "always", action: "research_tech", action_variable: 5, enabled_string: 664, disabled_string: 0 };
+    var doc = D.setButtons(D.create("starcraft"), cat, 5, [check, research]);
+    T.equal(D.setsReading(doc, cat, "tech", 5), [{ set: 5, labels: ["Research"], button: 1 }]);
+  });
+
+  T.test("sets reading an item: a variable of the same number on a function of another kind doesn't count", function () {
+    var cat = sc();
+    var build = { position: 1, icon: 228, condition: "always", action: "train", action_variable: 3, enabled_string: 664, disabled_string: 0 };
+    var doc = D.setButtons(D.create("starcraft"), cat, 5, [build]);
+    T.equal(D.setsReading(doc, cat, "upgrade", 3), []);
+  });
+
   T.test("only differences are saved: changing one button defines that whole set and no other", function () {
     var cat = sc();
     var buttons = D.effectiveButtons(D.create("starcraft"), cat, 5).buttons.slice();

@@ -31,6 +31,44 @@
     return D.effectiveRequirement(app.doc(), app.cat(), type, id).list;
   }
 
+  T.test("who uses an item: a tech's panels list its button sets and their units, as links that follow the mod", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:tech_research:5");
+      T.equal(U.texts(app, "[data-item-uses] li"), ["5 Siege Tank (Research): 5 Terran Siege Tank"]);
+      app.select("requirements", "req:tech_use:5");
+      T.equal(U.texts(app, "[data-item-uses] li"), ["5 Siege Tank (Research): 5 Terran Siege Tank"]);
+      app.edit(function (d) {
+        return D.setUnitField(d, app.cat(), 0, "button_set", 5);
+      });
+      T.equal(U.texts(app, "[data-item-uses] li"), ["5 Siege Tank (Research): 0 Terran Marine, 5 Terran Siege Tank"]);
+      U.q(app, '[data-item-uses] [data-unit="0"]').click();
+      T.equal(app.state.tab, "units");
+      T.equal(app.selected("units"), "unit:0");
+      app.select("requirements", "req:tech_use:5");
+      U.q(app, '[data-item-uses] [data-set="5"]').click();
+      T.equal(app.state.tab, "button_sets");
+      T.equal(app.selected("button_sets"), "set:5");
+    });
+  }, { dom: true });
+
+  T.test("who uses an item: a set's link selects the button that reads the item", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:tech_use:0");
+      U.q(app, '[data-item-uses] [data-set="0"]').click();
+      T.equal(app.selected("button_sets"), "set:0");
+      T.equal(U.q(app, ".button-form legend").textContent, "Button 2");
+    });
+  }, { dom: true });
+
+  T.test("who uses an item: an upgrade no button reads says so, and a unit's panel has no list", function (ctx) {
+    return start(ctx).then(function (app) {
+      app.select("requirements", "req:upgrade:3");
+      T.ok(/No button set uses this upgrade/.test(U.q(app, "[data-item-uses]").textContent));
+      app.select("requirements", "req:unit:0");
+      T.ok(!app.root.querySelector("[data-item-uses]"));
+    });
+  }, { dom: true });
+
   // ---- 7.2
 
   T.test("copying a record: Copy and Paste under the item list, and Ctrl+C and Ctrl+V, replace the chosen record, of any type", function (ctx) {

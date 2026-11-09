@@ -102,6 +102,48 @@
     );
   }
 
+  // The button sets that read an upgrade or tech, and who shows each set.
+  function itemUses(app, kind, id) {
+    var cat = app.cat();
+    var doc = app.doc();
+    var uses = D.setsReading(doc, cat, kind, id);
+
+    function link(text, data, tab, key, before) {
+      return h("button", { type: "button", class: "link", dataset: data, onclick: function () {
+        if (before) before();
+        app.select(tab, key);
+      } }, text);
+    }
+    function useEl(use) {
+      var setKey = tree.key.set(use.set);
+      var parts = [link(D.setText(cat, use.set, doc), { set: use.set }, "button_sets", setKey, function () {
+        if (use.button !== null) app.state.button[setKey] = use.button;
+      }), " (" + use.labels.join(", ") + "): "];
+      var users = AG.ui.buttonSets.usedBy(app, use.set);
+      users.forEach(function (u, i) {
+        var name = D.itemName(cat, "unit", u, doc);
+        if (i) parts.push(", ");
+        parts.push(link(u + (name ? " " + name : ""), { unit: u }, "units", tree.key.unit(u)));
+      });
+      if (!users.length) parts.push("no button card shows this set");
+      return h("li", null, parts);
+    }
+
+    var el = h("div", { class: "used-by", dataset: { itemUses: "" } }, [
+      h("div", null, [
+        h("strong", { text: uses.length ? "Used by " + uses.length + (uses.length === 1 ? " button set" : " button sets") : "No button set uses this " + kind + "." }),
+        " ",
+        help.button(help.text("itemUses", kind))
+      ]),
+      uses.length ? h("ul", null, uses.map(useEl)) : null
+    ]);
+    var describedBy = el.querySelector(".help").getAttribute("aria-describedby");
+    Array.prototype.forEach.call(el.querySelectorAll("button.link"), function (b) {
+      b.setAttribute("aria-describedby", describedBy);
+    });
+    return el;
+  }
+
   function panel(app, key) {
     var cat = app.cat();
     var k = tree.parseKey(key);
@@ -278,7 +320,8 @@
             h("fieldset", null, [h("legend", { text: eff.defined ? "Edited" : "Record" }), edited]),
             h("fieldset", null, [h("legend", { text: "Original" }), originalView(cat, type, id, doc)])
           ])
-        : h("fieldset", null, [h("legend", { text: "Rows" }), edited])
+        : h("fieldset", null, [h("legend", { text: "Rows" }), edited]),
+      KIND_OF_TYPE[type] === "upgrade" || KIND_OF_TYPE[type] === "tech" ? itemUses(app, KIND_OF_TYPE[type], id) : null
     ]);
   }
 
