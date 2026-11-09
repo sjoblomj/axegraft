@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Generates AxeGraft Patcher's library data from the knowledge base.
+"""Generates AxeGraft Patcher's library data from the Rootstock.
 
-    python3 tools/import_kb.py [--kb DIR] [--out DIR]
+    python3 tools/import_rootstock.py [--rootstock DIR] [--out DIR]
 
-The knowledge base (default ~/axegraft/knowledge_base) is the source of
-everything here, as it is for AxeGraft Editor's catalogs:
+The Rootstock (default: rootstock/ in the root of this repository) is the
+source of everything here, as it is for AxeGraft Editor's catalogs:
 
-- catalogs/<game>.js, which the knowledge base builds, gives each game's
+- catalogs/<game>.js, which the Rootstock builds, gives each game's
   vocabulary: its limits, functions with their variables, opcodes and
   constants with their ranges, options and availability.
 - data/<game>/*.json gives the tables: button sets, table entries, units,
@@ -47,7 +47,7 @@ def fail(msg):
     raise ImportError_(msg)
 
 
-# -- Reading the knowledge base
+# -- Reading the Rootstock
 
 
 def load_json(path):
@@ -55,8 +55,8 @@ def load_json(path):
         return json.load(f)
 
 
-def load_catalog(kb, game):
-    with open(os.path.join(kb, "catalogs", game + ".js"), encoding="utf-8") as f:
+def load_catalog(rootstock, game):
+    with open(os.path.join(rootstock, "catalogs", game + ".js"), encoding="utf-8") as f:
         text = f.read()
     return json.loads(text[text.index("(") + 1:text.rindex(")")])
 
@@ -174,12 +174,12 @@ def stored_encoding(storage):
 
 
 class StarCraft:
-    def __init__(self, kb):
-        self.kb = kb
-        self.d = os.path.join(kb, "data", "starcraft")
-        with open(os.path.join(kb, "starcraft.md"), encoding="utf-8") as f:
+    def __init__(self, rootstock):
+        self.rootstock = rootstock
+        self.d = os.path.join(rootstock, "data", "starcraft")
+        with open(os.path.join(rootstock, "starcraft.md"), encoding="utf-8") as f:
             self.md = f.read()
-        self.cat = load_catalog(kb, "starcraft")
+        self.cat = load_catalog(rootstock, "starcraft")
         self.versions = [x["id"] for x in self.cat["versions"]]
         self.entries = load_json(os.path.join(self.d, "entries.json"))
         self.set_ids = load_json(os.path.join(self.d, "set_ids.json"))
@@ -404,12 +404,12 @@ class StarCraft:
 
 
 class Warcraft2:
-    def __init__(self, kb):
-        self.kb = kb
-        self.d = os.path.join(kb, "data", "warcraft2")
-        with open(os.path.join(kb, "w2_exe.md"), encoding="utf-8") as f:
+    def __init__(self, rootstock):
+        self.rootstock = rootstock
+        self.d = os.path.join(rootstock, "data", "warcraft2")
+        with open(os.path.join(rootstock, "w2_exe.md"), encoding="utf-8") as f:
             self.md = f.read()
-        self.cat = load_catalog(kb, "warcraft2")
+        self.cat = load_catalog(rootstock, "warcraft2")
         self.columns = ["1.3", "1.33", "1.5", "2.00", "2.02"]
         self.versions = WARCRAFT2_VERSIONS
         self.identities = {r["Version"]: r for r in table_rows(md_tables(self.md, "### Version Info")[0])}
@@ -534,18 +534,18 @@ def write(path, value):
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("--kb", default=os.path.expanduser("~/axegraft/knowledge_base"))
+    ap.add_argument("--rootstock", default=os.path.join(here, "..", "..", "rootstock"))
     ap.add_argument("--out", default=os.path.join(here, "..", "crates", "library", "data"))
     a = ap.parse_args()
     try:
-        games = {"starcraft": StarCraft(a.kb), "warcraft2": Warcraft2(a.kb)}
+        games = {"starcraft": StarCraft(a.rootstock), "warcraft2": Warcraft2(a.rootstock)}
         for name, g in games.items():
             write(os.path.join(a.out, name, "game.json"), g.game())
             for v in g.versions:
                 write(os.path.join(a.out, name, v + ".json"), g.version(v))
                 print("wrote %s %s" % (name, v))
     except ImportError_ as e:
-        sys.exit("import_kb: " + str(e))
+        sys.exit("import_rootstock: " + str(e))
 
 
 if __name__ == "__main__":

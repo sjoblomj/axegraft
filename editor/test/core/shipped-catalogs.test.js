@@ -1,5 +1,5 @@
 // The shipped catalogs pass the catalog check. Both are the complete catalogs
-// built from the knowledge base.
+// built from the Rootstock.
 "use strict";
 
 (function (AG) {

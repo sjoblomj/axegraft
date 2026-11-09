@@ -6,7 +6,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 
 - **Repository:** `editor/` holds only OpenSpec files. The patcher in `../patcher` is also only specs so far, so there's no code or library data to reuse.
 - **Mod format:** `../patcher/openspec/changes/add-axegraft-patcher/specs/mod-format/spec.md` is the source of the format rules. It isn't archived yet and may still change.
-- **Reference data:** `~/axegraft/starcraft.md` has every button (Appendix A) and requirement record (Appendix B). `~/Downloads/war2/w2_exe.md` covers Warcraft II. Turning these into catalogs is a separate change.
+- **Reference data:** the StarCraft data file has every button (Appendix A) and requirement record (Appendix B). The Warcraft II data file covers Warcraft II. Turning these into catalogs is a separate change.
 - **Game files:** StarCraft uses `StarDat.mpq`, `BrooDat.mpq` and `Patch_rt.mpq`, with `unit\cmdbtns\cmdicons.grp` and `rez\stat_txt.tbl`. Warcraft II uses `War2Dat.mpq` and `War2Patch.mpq`, with `Art\unit\Portrait\*.grp` per terrain and `rez\stat_txt.tbl`.
 - **Tools available:** Node 22 is installed but isn't required by the app. Real game files are available locally for checking the asset code.
 

@@ -48,10 +48,10 @@ cargo tree -p axegraft-patcher-core -e normal --depth 1
 
 ## The game library
 
-The library's data, in `crates/library/data`, is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs come from. Don't edit it by hand. Generate it again with:
+The library's data, in `crates/library/data`, is generated from the Rootstock in `../rootstock`, the same data AxeGraft Editor's catalogs come from. Don't edit it by hand. Generate it again with:
 
 ```sh
-python3 tools/import_kb.py
+python3 tools/import_rootstock.py
 ```
 
 `build.rs` checks the data whenever the library is built, and fails the build if any of the library's guarantees is broken. See [docs/library-schema.md](docs/library-schema.md).

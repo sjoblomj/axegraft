@@ -1,6 +1,6 @@
 # Tasks
 
-Work test-first: for each task, write the failing tests, then the code. Everything here was built with sample catalogs. The complete catalogs, generated from the knowledge base, have since replaced them, and the fixtures in `test/fixtures/catalog-*.js` keep the samples' role in tests.
+Work test-first: for each task, write the failing tests, then the code. Everything here was built with sample catalogs. The complete catalogs, generated from the Rootstock, have since replaced them, and the fixtures in `test/fixtures/catalog-*.js` keep the samples' role in tests.
 
 ## 1. Skeleton and test harness
 
@@ -14,8 +14,8 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 
 - [x] 2.1 Implement `registerCatalog` and the catalog check, covering contents, internal references, per-version coverage, help texts and format versions, and verify a deliberately bad fixture fails each rule with a message naming the catalog and the problem, and that a missing `application` is accepted
 - [x] 2.2 Handle bad or missing catalogs at startup, and verify the "Bad catalog" scenario, with the valid game still editable
-- [x] 2.3 (Since replaced by the generated `catalog/starcraft.js`.) Write `catalog/sample-starcraft.js` by hand from `starcraft.md`, including a few units, a set several units share, a unit with no buttons, a table entry that isn't a unit, a set absent on older versions, every requirement type and one constant of each kind, and verify it passes the catalog check and its values match the reference document
-- [x] 2.4 (Since replaced by the generated `catalog/warcraft2.js`.) Write `catalog/sample-warcraft2.js` by hand from `w2_exe.md`, with no requirements and with the `string` and `highlighted` button fields, and verify it passes the catalog check and its values match the reference document
+- [x] 2.3 (Since replaced by the generated `catalog/starcraft.js`.) Write `catalog/sample-starcraft.js` by hand from the StarCraft data file, including a few units, a set several units share, a unit with no buttons, a table entry that isn't a unit, a set absent on older versions, every requirement type and one constant of each kind, and verify it passes the catalog check and its values match the reference document
+- [x] 2.4 (Since replaced by the generated `catalog/warcraft2.js`.) Write `catalog/sample-warcraft2.js` by hand from the Warcraft II data file, with no requirements and with the `string` and `highlighted` button fields, and verify it passes the catalog check and its values match the reference document
 - [x] 2.5 Document the format in `docs/catalog-format.md`, and verify in a test that its example passes the catalog check
 
 ## 3. Mod validation
@@ -95,7 +95,7 @@ Work test-first: for each task, write the failing tests, then the code. Everythi
 
 ## Workflow follow-up
 
-- Propose the separate change converting `starcraft.md` and `w2_exe.md` into complete catalogs and library data, using one set of names for both.
+- Propose the separate change converting the StarCraft data file and the Warcraft II data file into complete catalogs and library data, using one set of names for both.
 - Have the patcher run the shared mod fixtures once its validation exists.
 - Show a breakdown under a string field's raw text: hotkey, cost type and lines.
 - Consider a native wrapper once the browser version is in use.

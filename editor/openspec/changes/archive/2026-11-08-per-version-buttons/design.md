@@ -28,12 +28,12 @@ Button sets read `set.original` directly in three places in `document.js`: `effe
 
 **Ascending order applies to every game.** Both StarCraft and Warcraft II fill the command panel by walking a set's list together with the panel's positions, so the rule isn't a catalog setting. An earlier draft made it a `panel.ascending` flag; it was removed once the StarCraft executables showed the same fill loop. The check is a validation error, not a warning, because a list out of order makes the game's panel fill wrongly: its fill loop walks the list together with the panel's buttons. The sort is stable, so buttons sharing a position, such as the shield icons for each level, keep their order. The catalog check rejects original lists out of order, which catches extraction mistakes.
 
-**The Warcraft II catalog shows both.** The catalog generated from the knowledge base lists the five versions with 2.02's lists as the default, and gives the sets that differ their DOS lists. It replaced the hand-written sample catalog this change first updated; the test fixture `test/fixtures/catalog-warcraft2.js` keeps that role in tests.
+**The Warcraft II catalog shows both.** The catalog generated from the Rootstock lists the five versions with 2.02's lists as the default, and gives the sets that differ their DOS lists. It replaced the hand-written sample catalog this change first updated; the test fixture `test/fixtures/catalog-warcraft2.js` keeps that role in tests.
 
 ## Risks / Trade-offs
 
 - [A mod made for the BNE only is shown as changed on DOS versions] → The tab names the versions where the set differs, and the compatibility report is unchanged, so the user can see that the difference is only on versions they may not care about.
-- [Existing catalogs with an unsorted list fail once the order is checked] → Both generated catalogs are sorted, and the knowledge base's build runs the editor's catalog check.
+- [Existing catalogs with an unsorted list fail once the order is checked] → Both generated catalogs are sorted, and the Rootstock's build runs the editor's catalog check.
 
 ## Migration Plan
 

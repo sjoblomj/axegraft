@@ -2,7 +2,7 @@
 
 The game library is what AxeGraft Patcher knows about each supported game version: how to recognise it, where each table and function is, how each value is stored, and which bytes should be there. A mod never contains any of this. It names things, and the library says where they are on the running version.
 
-The library's data is JSON, in `crates/library/data`. `build.rs` reads it, checks every guarantee below, and compiles it into the plugin as Rust code. Data that breaks a guarantee fails the build, so it never reaches a game, and nothing is parsed when the game starts. The data is generated from the knowledge base, so don't edit it by hand.
+The library's data is JSON, in `crates/library/data`. `build.rs` reads it, checks every guarantee below, and compiles it into the plugin as Rust code. Data that breaks a guarantee fails the build, so it never reaches a game, and nothing is parsed when the game starts. The data is generated from the Rootstock, so don't edit it by hand.
 
 ## Files
 

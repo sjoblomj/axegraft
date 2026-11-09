@@ -5,9 +5,9 @@
 See `proposal.md` for motivation and the specs for required behaviour.
 
 - **Repository:** `patcher/` holds no code yet. Rust 1.90 stable, the `i686-pc-windows-gnu` target, MinGW and Wine are installed. There's no Windows machine and no git remote.
-- **Reference data:** `~/axegraft/starcraft.md` and `~/Downloads/war2/w2_exe.md` hold the data for all 28 versions. Both are static analysis, and neither has been fully checked in a running game.
+- **Reference data:** the StarCraft data file and the Warcraft II data file hold the data for all 28 versions. Both are static analysis, and neither has been fully checked in a running game.
 - **Prior work:** an earlier prototype and `patcher.md` exist in `~/axegraft`. They are deliberately not inputs to this design.
-- **MPQDraft:** the plugin uses MPQDraft's existing plugin interface (`src/core/MPQDraftPlugin.h`). The interface changes listed in `~/code/MPQDraft/TODO.md` don't exist yet, and this first version doesn't need them.
+- **MPQDraft:** the plugin uses MPQDraft's existing plugin interface (`src/core/MPQDraftPlugin.h`).
 
 ## Goals / Non-Goals
 
@@ -18,7 +18,7 @@ See `proposal.md` for motivation and the specs for required behaviour.
 - Build the first version with the real library schema, so importing all the data later doesn't change the engine.
 
 **Non-Goals:**
-- Importing all data from the reference documents. The knowledge base that the data comes from is separate work.
+- Importing all data from the reference documents. The Rootstock that the data comes from is separate work.
 - Warcraft II levels and victory conditions, file names and other tables beyond the four parts.
 - New game behaviour, including plugin functions behind game pointers.
 - Patches inside maps, which needs detecting map starts, undoing changes and patching a running game.
@@ -89,7 +89,7 @@ Encodings are a closed enum: `u8`, `u16`, `u32`, `i8`, `i16`, `i32`, `neg8`, `ne
 
 The data is JSON, because it's easy to generate, and whatever eventually converts the documents can target it. `build.rs` validates it and generates static Rust, so bad data fails the version and nothing is parsed at game startup. *Alternative considered:* parsing embedded JSON at startup, which is simpler but delays data errors to run time.
 
-**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which `w2_exe.md` also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, a name that version's original buttons don't use is absent there; a name they use is kept, so two names may share an address.
+**Function names.** StarCraft's functions are named as in StarSource (`bf_*`, `order_*`, `statdraw_*`). Warcraft II's are named as in the PlayStation source's `statbtn.c`, which the Warcraft II data file also uses. Functions that source lacks get a name in the same style, such as `bf_enhanced_mode` for the condition that 2.00 and 2.02 add for Enhanced mode. Where two names are one function on a version, a name that version's original buttons don't use is absent there; a name they use is kept, so two names may share an address.
 
 **Constants follow the game's freedom.** A value the game lets differ is its own constant, copies it needs to agree are one constant, and code sites that only work together are one option constant whose options write several locations. This gives a modder every independent choice and none that the game can't handle.
 
@@ -171,11 +171,11 @@ Paths come from `AXEGRAFT_PATCHER_MPQDRAFT_DIR` and a per-version executable lis
 
 ### 13. Starter data set
 
-The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding the real data uses. `i16` and `byte_of` have no real location yet, so only the toy library covers them. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the knowledge base in `~/axegraft/knowledge_base`, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
+The first version ships complete structural data for StarCraft 1.16.1, StarCraft 1.17 and Warcraft II BNE 2.02, plus a small set of constants that exercises every encoding the real data uses. `i16` and `byte_of` have no real location yet, so only the toy library covers them. StarCraft 1.17 is included because it's the version most unlike the others, with relocations and non-zero file offset deltas. The data is generated from the Rootstock, the same data AxeGraft Editor's catalogs are generated from, then checked against the real executables. Until the full import, other versions are unsupported.
 
 ## Risks / Trade-offs
 
-- **Reference data lists rows sharing an offset** → `starcraft.md` has rows that share a location on some versions, such as maximum and minimum supply. The full import keeps them as separate constants, as the knowledge base and AxeGraft Editor's catalog do, with a note that changing one changes the other. So constants may share a location when it's exactly the same bytes on that version. A mod that sets them to different values there is refused.
+- **Reference data lists rows sharing an offset** → the StarCraft data file has rows that share a location on some versions, such as maximum and minimum supply. The full import keeps them as separate constants, as the Rootstock and AxeGraft Editor's catalog do, with a note that changing one changes the other. So constants may share a location when it's exactly the same bytes on that version. A mod that sets them to different values there is refused.
 - **Limits of the existing interface** → the user sees MPQDraft's generic error after AxeGraft Patcher's own, chooses the mod file again in each MPQDraft session, and can't use MPQDraft's CLI. These go away with the new-style interface, which the later version reading patch MPQs needs anyway. The `abi` module stays small, so moving to it stays contained.
 - **The game may overwrite an edit** → patching before game code runs means a table the game fills during startup would lose the edit. Task 10.4 reads values back in a running game.
 - **Rearranging may need more than data** → some game rules may have no data form. Named options in Constants cover code-site checks. Rules needing a plugin function are out of scope, and would be added as named, fixed features.

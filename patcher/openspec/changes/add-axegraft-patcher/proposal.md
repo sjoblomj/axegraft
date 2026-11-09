@@ -36,7 +36,7 @@ None. This is the project's first functionality.
 
 - **New code:** a Rust workspace in `patcher/`, targeting `i686-pc-windows-gnu`, with most logic testable natively on Linux. No code exists yet.
 - **New dependencies:** `serde` and `serde_json`, plus `proptest` for tests.
-- **MPQDraft:** the plugin uses MPQDraft's current plugin interface, and needs none of the changes in `~/code/MPQDraft/TODO.md`. Reading patch MPQs later will need them.
-- **Reference data:** `~/axegraft/starcraft.md` and `~/Downloads/war2/w2_exe.md`. Both are still being written.
+- **MPQDraft:** the plugin uses MPQDraft's current plugin interface. Reading patch MPQs later will need an MPQDraft update.
+- **Reference data:** the StarCraft data file and the Warcraft II data file. Both are still being written.
 - **Users:** AxeGraft Patcher works with current MPQDraft, from its GUI and from SEMPQs. MPQDraft's CLI can't configure old-style plugins, so it can't be used there yet.
 - **Platform:** the default build officially needs Windows 10 or later. Windows 7 support is best effort, and there's no real Windows machine to test on, only Wine.
